@@ -1,3 +1,5 @@
+import { FiCheckCircle, FiSettings, FiUsers } from 'react-icons/fi';
+
 const projectCards = [
   {
     title: 'Description',
@@ -16,6 +18,52 @@ const projectCards = [
   }
 ];
 
+const chooseData = [
+  {
+    icon: <FiUsers />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  }, {
+    icon: <FiSettings />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  }, {
+    icon: <FiCheckCircle />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  },
+  {
+    icon: <FiCheckCircle />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  }
+  , {
+    icon: <FiCheckCircle />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  }
+  , {
+    icon: <FiCheckCircle />,
+    title: 'Longevity Catalyst',
+    desc: 'Understand what matters to our employees. Give them what they need to do their best work.',
+  },
+];
+const socialIcons = [
+  
+]
+const membersData = [
+  {
+    icon: <FiUsers />,
+    title: 'Mark Hamalainen',
+    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    socailIcons: socialIcons,
+  },
+];
+
+
+
 export const data = {
-  projectCards
+  projectCards,
+  chooseData,
+  membersData
 }
