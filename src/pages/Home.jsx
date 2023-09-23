@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/common/Header';
 import trustImages from '../data/images';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
@@ -8,7 +7,6 @@ import { baseUrl } from '../globals';
 const Home = () => {
   return (
     <>
-      <Header></Header>
       {/* ST:- Banner section */}
       <section className="full_width_banner_section section_padding">
         <div className="container">
