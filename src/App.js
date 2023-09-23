@@ -1,12 +1,15 @@
 import React from 'react';
-import Routes from './Routes';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './assets/styles/global.css';
+import Home from './pages/Home';
 
 const App = () => {
   return (
-    <div>
-      Hello
-      <Routes/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
