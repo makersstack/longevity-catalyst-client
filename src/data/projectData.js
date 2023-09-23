@@ -49,10 +49,20 @@ const chooseData = [
   },
 ];
 const socialIcons = [
-  
+
 ]
 const membersData = [
   {
+    icon: <FiUsers />,
+    title: 'Mark Hamalainen',
+    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    socailIcons: socialIcons,
+  }, {
+    icon: <FiUsers />,
+    title: 'Mark Hamalainen',
+    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    socailIcons: socialIcons,
+  }, {
     icon: <FiUsers />,
     title: 'Mark Hamalainen',
     desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
