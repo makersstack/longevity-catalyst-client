@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { data } from '../data/projectData';
+import { baseUrl } from '../globals';
 
 const AboutUs = () => {
   return (
@@ -66,6 +67,50 @@ const AboutUs = () => {
         </div>
       </section>
       {/* ED:- Why choice us section */}
+      {/* <!-- ST:- Team member section  --> */}
+    <section class="full_width_team_member_section section_padding">
+      <div class="container">
+        <div class="team_member_wrapper">
+          {/* section header  */}
+          <div class="section_header">
+            <h2>Meet the team Member</h2>
+            <p>
+              On Ed-Circle, instructors from all over the world instruct
+              millions of students. We offer the knowledge and abilities.
+            </p>
+          </div>
+          <div class="team_member_box">
+            {/* single team member  */}
+           {
+            data.membersData.map((item, index) => (
+              <div class="single_team_member" key={index}>
+              <div class="team_member_img">
+               <img src={`${baseUrl}${item.icon}`} alt="avater" />
+              </div>
+              <h6 class="team_member_title">{item.title}</h6>
+              <span class="team_member_designation">
+                {item.subTitle}
+              </span>
+              <p>
+                {item.desc}
+              </p>
+              <div class="team_socail_contact">
+                {
+                  item.socailIcons.map((icon, index) => (
+                    <Link to='/about' key={index}>{icon}</Link>
+                  ))
+                }
+              </div>
+            </div>
+            ))
+           }
+            
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  {/* ED:- Team member section */}
     </>
   )
 }

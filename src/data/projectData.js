@@ -1,4 +1,4 @@
-import { FiCheckCircle, FiSettings, FiUsers } from 'react-icons/fi';
+import { FiCheckCircle, FiFacebook, FiSettings, FiTwitter, FiUsers } from 'react-icons/fi';
 
 const projectCards = [
   {
@@ -49,23 +49,27 @@ const chooseData = [
   },
 ];
 const socialIcons = [
-
+  <FiTwitter key="twitter" />,
+  <FiFacebook key="facebook" />,
 ]
 const membersData = [
   {
-    icon: <FiUsers />,
+    icon: 'assets/img/team-member-1.jpeg',
     title: 'Mark Hamalainen',
-    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    subTitle: 'Co-Executive Director',
+    desc: "Mark's career has progressed from manual bench work in academia",
     socailIcons: socialIcons,
   }, {
-    icon: <FiUsers />,
+    icon: 'assets/img/team-member-1.jpeg',
     title: 'Mark Hamalainen',
-    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    subTitle: 'Co-Executive Director',
+    desc: "Mark's career has progressed from manual bench work in academia",
     socailIcons: socialIcons,
   }, {
-    icon: <FiUsers />,
+    icon: 'assets/img/team-member-1.jpeg',
     title: 'Mark Hamalainen',
-    desc: 'Co-Executive Director Mark’s career has progressed from manual bench work in academia',
+    subTitle: 'Co-Executive Director',
+    desc: "Mark's career has progressed from manual bench work in academia",
     socailIcons: socialIcons,
   },
 ];
