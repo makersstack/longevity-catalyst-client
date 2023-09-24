@@ -74,8 +74,6 @@ const membersData = [
   },
 ];
 
-
-
 export const data = {
   projectCards,
   chooseData,
