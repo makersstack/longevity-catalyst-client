@@ -398,6 +398,16 @@ input[type="radio"] {
   color: #fff;
   background-color: #000;
 }
+.btn-gray {
+  border-radius: 8px;
+  background: rgba(53, 53, 53, 0.1);
+  color: #353535;
+}
+.btn-gray:hover {
+  border-radius: 8px;
+  background: #eee;
+  color: #000;
+}
 .btn-over-dark {
   border-radius: 0.8rem;
   border: 0.1rem solid #5a5a5a;
@@ -418,10 +428,17 @@ input[type="radio"] {
 .no-shadow {
   box-shadow: none;
 }
+.no-border {
+  border: none;
+}
 
 .btn-lg {
   padding: 16px 28px;
   font-size: 18px;
+}
+.btn-sm {
+  padding: 6px 16px;
+  font-size: 12px;
 }
 .section_header {
   text-align: center;
@@ -439,7 +456,15 @@ input[type="radio"] {
   margin: 0 auto;
   padding-top: 10px;
 }
-
+.divider {
+  display: inline-block;
+  border-radius: 10px;
+  background: #eee;
+  /* box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.10); */
+  width: 100%;
+  height: 1px;
+  margin: 14px 0;
+}
 /* ------------------------------------------------------------------------------- */
 /* --- Custom Modal CSS --- */
 /* ------------------------------------------------------------------------------- */
@@ -1418,6 +1443,321 @@ header {
 .add_comment_btn {
   padding: 14px 25px;
 }
+/* ------------------------------------------------------------------------------- */
+/* --- FAQ's CSS --- */
+/* ------------------------------------------------------------------------------- */
+.faq_head {
+  text-align: center;
+  padding: 90px 0 64px 0;
+}
+.faq_questions {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+/* Style for the accordion container */
+.accordion {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Style for each FAQ item */
+.accordion-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+/* Style for the header of each FAQ item */
+.accordion-header {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.accordion-item h3 {
+  color: #101828;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+/* Style for the toggle icon */
+.toggle-icon {
+  font-weight: bold;
+}
+
+.accordion-icon-design {
+  color: #9d9d9d;
+  border: 1px solid #9d9d9d;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+}
+
+/* Style for the active (expanded) FAQ item */
+
+/* CSS for the transition animation */
+.accordion-content {
+  padding: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  display: none;
+  margin-bottom: 20px;
+}
+
+/* Style for the active (expanded) FAQ item */
+.accordion-content.active {
+  max-height: 1000px; /* Adjust this value based on your content's maximum height */
+  transition: max-height 0.3s ease-in-out;
+}
+.accordion .active {
+  display: block;
+}
+
+/* stil have question css  */
+.full_width_have_question_contact {
+  padding: 64px 0 90px 0;
+}
+.have_question_wrapper {
+  text-align: center;
+  border-radius: 16px;
+  background: #f3f3f3;
+  padding: 32px;
+}
+.user_image_box img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50px;
+  border: 2px solid #fff;
+  margin: 0 10px;
+}
+.user_image_box {
+  position: relative;
+}
+
+.user_image_box .middle-img {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 0;
+  transform: scale(1.1);
+}
+.have_question_content {
+  padding: 32px 0;
+}
+.get_touch_btn {
+  box-shadow: none;
+}
+/* ------------------------------------------------------------------------------- */
+/* --- Contributer page css --- */
+/* ------------------------------------------------------------------------------- */
+.full_width_contributer_section {
+  padding: 70px 0;
+}
+.contributer_page_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+.contributer_page_wrapper .project_side_ber_container {
+  flex: 0 0 40%;
+  padding: 20px;
+}
+.contributer_page_wrapper .project_show_container {
+  flex: 0 0 60%;
+  padding: 20px;
+}
+.side_bar_card {
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.contributer_page_wrapper .project_side_bar {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 50px 31px;
+}
+.side_bar_card {
+  margin-bottom: 25px;
+}
+
+.side_bar_card:last-child {
+  margin-bottom: 0;
+}
+
+.profile_user_info {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  gap: 20px;
+}
+.profile_user_info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  object-fit: cover;
+}
+
+.profile_user_info h3 {
+  color: #101828;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+.user_title {
+  color: #7e7e7e;
+}
+.follow_st a {
+  color: #667085;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  transition: 0.3s;
+}
+
+.follow_st {
+  margin: 6px 0;
+  display: inline-block;
+}
+.follow_st a:hover {
+  color: #333;
+  text-decoration: underline;
+}
+.profile_buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.btn_more_bar {
+  color: #333333;
+  cursor: pointer;
+  padding: 10px 5px;
+  transition: 0.3s;
+}
+.btn_more_bar:hover {
+  color: #7e7e7e;
+}
+.side_bar_card_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  padding-bottom: 20px;
+}
+.head_title {
+  color: #999;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 23px;
+}
+.side_bar_card_body ul li {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.side_bar_card_body ul li:last-child {
+  margin-bottom: 0;
+}
+.side_bar_card_body ul li p {
+  color: #777;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 26px;
+}
+.side_bar_card_body ul li p b {
+  color: #333;
+}
+.icon_box {
+  width: 100%;
+  max-width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.side_bar_card label {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+.side_bar_card input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+.side_sertification {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.side_sertification:last-child {
+  margin-bottom: 0px;
+}
+.side_sertification img {
+  border-radius: 30.297px;
+  border: 1px solid #c5c5c5;
+  width: 100%;
+  max-width: 40px;
+  height: 40px;
+}
+.sertificaton_title {
+  color: #101828;
+  font-size: 13.634px;
+  font-weight: 500;
+  line-height: 21.208px;
+}
+.sertification_info span {
+  color: #7e7e7e;
+  font-size: 12.119px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18.178px;
+}
+.profile_user_info.other_profile {
+  width: 100%;
+  max-width: 384px;
+  margin-bottom: 30px;
+}
+
+.rating {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.rating .star {
+  color: #c0c0c0;
+  transition: color 0.2s; /* Add a smooth transition for the color change */
+}
+
+.rating .star.checked {
+  color: #464646;
+}
+
 /* ------------------------------------------------------------------------------- */
 /* --- FOOTER CSS --- */
 /* ------------------------------------------------------------------------------- */
