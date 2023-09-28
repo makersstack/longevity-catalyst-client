@@ -11,7 +11,7 @@ const Home = () => {
       <section className="full_width_banner_section section_padding">
         <div className="container">
           <div className="banner_wrapper">
-            <h1>Longevity Catalyst: An Open Science Platform</h1>
+            <h1>Longevity Catalyst: An Open Science Platform s</h1>
             <p>
               Longevity Catalyst is an open science platform that connects
               researchers, engineers, mentors, and funders in the longevity field.
