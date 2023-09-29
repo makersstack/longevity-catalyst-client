@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import Newsletter from '../components/Newsletter';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
+import ScrollToTop from '../utils/RouteChange';
 
 const AboutUs = () => {
+  ScrollToTop();
   return (
     <>
       {/* ST:- About Banner section */}

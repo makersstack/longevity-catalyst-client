@@ -33,7 +33,7 @@ const Header = () => {
             </form>
           </div>
           <div className="header_buttons">
-            <Link to='/' className='btn btn-dark'>
+            <Link to='/login' className='btn btn-dark'>
               Login
             </Link>
             <div className="custom-dropdown">

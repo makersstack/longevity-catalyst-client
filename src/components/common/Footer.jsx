@@ -25,6 +25,7 @@ const Footer = () => {
                 <li> <Link to='/'>Careers</Link></li>
                 <li> <Link to='/'>Help</Link></li>
                 <li> <Link to='/'>Privacy</Link></li>
+                <li> <Link to='/faqs'>FAQ's</Link></li>
               </ul>
             </div>
             {/* top right */}
@@ -64,6 +65,7 @@ const Footer = () => {
                   Cookies
                 </Link>
               </li>
+             
             </ul>
           </div>
 
