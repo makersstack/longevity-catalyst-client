@@ -73,7 +73,7 @@ const FAQ = () => {
                                                 <div className='accordion-header '
                                                     onClick={() => toggleAccordion(data.id)}>
                                                     <h3>{data.title}</h3>
-                                                    <span className="toggle-icon accordion-icon-design">+</span>
+                                                    <span className="toggle-icon accordion-icon-design"> {activeItem === data.id ? '-' : '+'}  </span>
                                                 </div>
                                                 <div className={`accordion-content ${activeItem === data.id ? 'active' : ''}`} >
                                                     <p>{data.desc}</p>
