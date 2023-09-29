@@ -1,51 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { data } from '../data/projectData';
+import { baseUrl } from '../globals';
 
 const FAQ = () => {
 
-    const accrodionData = [
-        {
-            id: 1,
-            title: 'Is there a free trial available?',
-            desc: "Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible."
-        },
-        {
-            id: 2,
-            title: 'Can I change my plan later?',
-            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi iste doloribus ducimus architecto deserunt reprehenderit"
-        },
-        {
-            id: 3,
-            title: 'What is your cancellation policy?',
-            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi iste doloribus ducimus architecto deserunt reprehenderit"
-        },
-        {
-            id: 4,
-            title: 'Can other info be added to an invoice?',
-            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi iste doloribus ducimus architecto deserunt reprehenderit"
-        },
-        {
-            id: 5,
-            title: 'How does billing work?',
-            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi iste doloribus ducimus architecto deserunt reprehenderit"
-        },
-        {
-            id: 6,
-            title: 'How do I change my account email?',
-            desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi iste doloribus ducimus architecto deserunt reprehenderit"
-        }
-    ]
-
+  
+   
 
     const [accordionData, setAccordionData] = useState([]);
     const [activeItem, setActiveItem] = useState(null);
 
     useEffect(() => {
-        // fetch('products.json')
+        // fetch('')
         // .then(res => res.json())
         // .then(data => setAccordionData(data))
 
-        setAccordionData(accrodionData);
+        setAccordionData(data.faqsData);
     }, []);
 
     const toggleAccordion = (itemId) => {
@@ -96,9 +67,9 @@ const FAQ = () => {
                 <div className="container">
                     <div className="have_question_wrapper">
                         <div className="user_image_box">
-                            <img src="assets/img/user-1.png" alt="" />
-                            <img className="middle-img" src="assets/img/user-2.png" alt="" />
-                            <img src="assets/img/user-3.png" alt="" />
+                            <img src={`${baseUrl}assets/img/demo-user-1.png`} alt="" />
+                            <img className="middle-img" src={`${baseUrl}assets/img/demo-user-2.png`} alt="" />
+                            <img src={`${baseUrl}assets/img/demo-user-3.png`} alt=" " />
                         </div>
                         <div className="have_question_content">
                             <h5>Still have questions?</h5>
