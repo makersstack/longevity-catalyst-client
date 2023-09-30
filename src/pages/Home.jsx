@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ProjectFeed from '../components/ProjectFeed';
 import trustImages from '../data/images';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
@@ -55,7 +56,7 @@ const Home = () => {
             <div class="trading_project_box">
               {
                 data.projectCards.map((item, index) => (
-                  <div class="trading_project_single" key={index} style={{background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat`}} >
+                  <div class="trading_project_single" key={index} style={{ background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat` }} >
                     <h3>{item.title}</h3>
                     <p>
                       {
@@ -70,6 +71,14 @@ const Home = () => {
         </div>
       </section>
       {/* ED:- trust by area */}
+      
+      {/* ST:- Project show area */}
+      <section class="project_show_section">
+        <div class="container">
+          <ProjectFeed />
+        </div>
+      </section>
+      {/* ST:- Project show area */}
     </>
   );
 };

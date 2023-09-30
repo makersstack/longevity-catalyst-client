@@ -23,10 +23,9 @@ function RadioButton({ options }) {
             </span>
             {option.label}
           </label>
+          <p>{selectedValue}</p>
         </div>
       ))}
-      {/* Ayta hide thakbe aytar valo dhore amra muloto page redirect korbo */}
-      <p>Selected value: {selectedValue}</p>
     </>
   );
 }

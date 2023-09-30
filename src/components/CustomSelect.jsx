@@ -11,12 +11,12 @@ const customStyles = {
     justifyContent: 'space-between',
     cursor: 'pointer',
     maxWidth: '200px',
-    padding: '5px 10px',
     backgroundColor: '#F1F1F1',
-
+    padding: '5px 0px 5px 0px',
   }),
-  dropdownIndicator: (provided) => ({
+  indicatorsContainer: (provided, state) => ({
     ...provided,
+    padding: state.isFocused ? '0px' : '0px',
   }),
   indicatorSeparator: () => ({}),
   menu: (provided) => ({
