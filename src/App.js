@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-responsive-modal/styles.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';

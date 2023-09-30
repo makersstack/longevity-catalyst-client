@@ -173,7 +173,11 @@ input[type="radio"] {
   position: relative;
   margin-right: 10px;
 }
-
+/* form_radio */
+.form_radio {
+  display: block;
+  margin-bottom: 10px;
+}
 /* Customize the radio button when checked */
 input[type="radio"]:checked + .radio-control {
   border-color: #2d2d2d;
@@ -468,18 +472,18 @@ input[type="radio"] {
 /* ------------------------------------------------------------------------------- */
 /* --- Custom Modal CSS --- */
 /* ------------------------------------------------------------------------------- */
-.custom-modal {
-  position: fixed;
+/* .custom-modal { */
+/* position: fixed;
   left: 0;
-  right: 0;
-  width: 100%;
+  right: 0; */
+/* width: 100%;
   top: 0;
-  height: 100%;
-  background: #0606069e;
-  z-index: 99;
-  display: none;
-}
-.modal-wrapper {
+  height: 100%; */
+/* background: #0606069e;
+  z-index: 99; */
+/* display: none; */
+/* } */
+/* .modal-wrapper {
   width: 100%;
   max-width: 512px;
   margin: 0 auto;
@@ -493,9 +497,9 @@ input[type="radio"] {
     0px 20px 24px -4px rgba(16, 24, 40, 0.08);
   transition: 0.4s;
   text-align: center;
-}
+} */
 .modal_close_button {
-  position: absolute;
+  /* position: absolute; */
   top: -15px;
   right: -15px;
   border-radius: 32px;
@@ -549,9 +553,9 @@ input[type="radio"] {
   margin: 0 auto;
   margin-bottom: 2rem;
 }
-.toggle_top {
+/* .toggle_top {
   transform: translateY(-300px);
-}
+} */
 .modal-show {
   display: block;
 }
@@ -590,14 +594,24 @@ header {
 .header_search input {
   border: none;
   box-shadow: none;
-  padding: 0.5rem 1.4rem;
+  padding: 5px 10px;
 }
-.header_search i {
+.header_search_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 30px;
+  width: 100%;
+}
+.header_search_icon svg {
   color: rgba(152, 162, 179, 1);
-  font-size: 1.8rem;
+  font-size: 24px;
 }
 .search_category {
   position: relative;
+  max-width: 120px;
+  width: 100%;
 }
 .search_category select {
   border-radius: 0.8rem;
@@ -615,7 +629,7 @@ header {
   padding-right: 3rem;
   width: unset;
 }
-.search_category::after {
+/* .search_category::after {
   content: "\f078";
   position: absolute;
   font-family: "Font Awesome 5 Free";
@@ -626,7 +640,7 @@ header {
   font-size: 15px;
   color: #595959;
   pointer-events: none;
-}
+} */
 
 /* Style the custom dropdown container */
 .custom-dropdown {
@@ -1989,3 +2003,6 @@ footer ul li a:hover {
 }
 /* Add Project Page */
 /* Maker Shihab */
+.css-1xc3v61-indicatorContainer {
+  padding: 0px !important;
+}
