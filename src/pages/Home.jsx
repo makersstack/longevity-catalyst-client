@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import trustImages from '../data/images';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
+import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
+  ScrollToTop();
   return (
     <>
       {/* ST:- Banner section */}

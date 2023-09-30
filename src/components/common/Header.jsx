@@ -43,8 +43,9 @@ const Header = () => {
               </div>
             </form>
           </div>
-          <div className="header_buttons" >
-            <Link to='/' className='btn btn-dark'>
+          <div className="header_buttons">
+            <Link to='/login' className='btn btn-dark'>
+
               Login
             </Link>
             <div className="custom-dropdown">

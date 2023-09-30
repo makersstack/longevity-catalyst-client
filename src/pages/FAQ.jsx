@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { data } from '../data/projectData';
+import { baseUrl } from '../globals';
+import ScrollToTop from '../utils/RouteChange';
 
 const FAQ = () => {
+    ScrollToTop();
+
 
     const accrodionData = [
         {
@@ -36,16 +41,15 @@ const FAQ = () => {
         }
     ];
 
-
     const [accordionData, setAccordionData] = useState([]);
     const [activeItem, setActiveItem] = useState(null);
 
     useEffect(() => {
-        // fetch('products.json')
+        // fetch('')
         // .then(res => res.json())
         // .then(data => setAccordionData(data))
 
-        setAccordionData(accrodionData);
+        setAccordionData(data.faqsData);
     }, []);
 
     const toggleAccordion = (itemId) => {
@@ -96,9 +100,9 @@ const FAQ = () => {
                 <div className="container">
                     <div className="have_question_wrapper">
                         <div className="user_image_box">
-                            <img src="assets/img/user-1.png" alt="" />
-                            <img className="middle-img" src="assets/img/user-2.png" alt="" />
-                            <img src="assets/img/user-3.png" alt="" />
+                            <img src={`${baseUrl}assets/img/demo-user-1.png`} alt="" />
+                            <img className="middle-img" src={`${baseUrl}assets/img/demo-user-2.png`} alt="" />
+                            <img src={`${baseUrl}assets/img/demo-user-3.png`} alt=" " />
                         </div>
                         <div className="have_question_content">
                             <h5>Still have questions?</h5>
