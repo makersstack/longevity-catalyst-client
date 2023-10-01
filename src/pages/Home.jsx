@@ -49,14 +49,14 @@ const Home = () => {
       {/* ED:- trust by area */}
 
       {/* ST:- Trading Project area */}
-      <section class="full_width_trading_project_section section_padding">
-        <div class="container">
-          <div class="trading_project_wrapper">
+      <section className="full_width_trading_project_section section_padding">
+        <div className="container">
+          <div className="trading_project_wrapper">
             <h6>Trending Project</h6>
-            <div class="trading_project_box">
+            <div className="trading_project_box">
               {
                 data.projectCards.map((item, index) => (
-                  <div class="trading_project_single" key={index} style={{ background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat` }} >
+                  <div className="trading_project_single" key={index} style={{ background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat` }} >
                     <h3>{item.title}</h3>
                     <p>
                       {
@@ -73,8 +73,8 @@ const Home = () => {
       {/* ED:- trust by area */}
       
       {/* ST:- Project show area */}
-      <section class="project_show_section">
-        <div class="container">
+      <section className="project_show_section">
+        <div className="container">
           <ProjectFeed />
         </div>
       </section>
