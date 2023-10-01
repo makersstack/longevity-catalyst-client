@@ -1189,13 +1189,17 @@ header {
 }
 .drag_imge_input {
   border-radius: 8px;
-  border: 1px solid var(--gray-200, #eaecf0);
-  background: var(--White, #fff);
+  border: 1px solid #eaecf0;
+  background: #fff;
   text-align: center;
   padding: 16px 24px;
   margin: 30px 0;
   cursor: pointer;
-  display: block;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
 }
 .drag_imge_input input {
   display: none;
@@ -1203,6 +1207,26 @@ header {
 
 .drag_imge_input img {
   margin-bottom: 12px;
+}
+.dargedImage {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.al_icon_upadiong {
+  border: 15px solid #f9fafb;
+  background: #f2f4f7;
+  font-size: 30px;
+  padding: 10px;
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+.dragging {
+  border-color: #007bff;
+  background-color: #f0f0f0;
+  border-style: dashed;
+  border-width: 2px;
 }
 .drag_imge_input p {
   color: var(--gray-500, #667085);
