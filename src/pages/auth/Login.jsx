@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AuthHeader from '../../components/auth/AuthHeader';
 import ScrollToTop from '../../utils/RouteChange';
 
 const Login = () => {
@@ -12,22 +13,8 @@ const Login = () => {
     return (
         <>
             {/* <!-- ST:- Auth header menu  --> */}
-            <section className="full_with_other_menu">
-                <div className="container">
-                    <div className="others_menu">
-                        <ul>
-                            <li>
-                                <Link to='/'> [i] Home</Link>
-                            </li>
-                            <li>
-                               
-                                <Link to='/about'> [i] About</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            {/* <!-- ED:- Auth header menu  --> */}
+           <AuthHeader />
+          
 
             {/* <!-- ST:- login form  --> */}
             <section className="full_widht_auth_section">

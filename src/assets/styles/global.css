@@ -368,6 +368,12 @@ input[type="radio"] {
   color: #fff;
 }
 
+.plan-checked-icon .check_icon svg {
+  display: inherit;
+}
+.check_icon {
+  font-size: 14px;
+}
 /* ED global input css  */
 
 /* custom golbal css  */
