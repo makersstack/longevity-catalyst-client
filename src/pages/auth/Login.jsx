@@ -1,20 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SignupModal from '../../components/SignupModal';
 import AuthHeader from '../../components/auth/AuthHeader';
 import ScrollToTop from '../../utils/RouteChange';
 
 const Login = () => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
+  
+    const openModal = () => {
+      setModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+  
+    const handleCreateAccountClick = (selectedRole) => {
+      if (selectedRole === 'researcher') {
+        navigate('/sign-up/researcher');
+      } else if (selectedRole === 'contributor') {
+        navigate('/sign-up/contributor');
+      } else if (selectedRole === 'user') {
+        navigate('/sign-up/user');
+      }
+      closeModal();
+    };
+  
+
     ScrollToTop();
 
     const handalSubmitLogin = (e) => {
         e.preventDefault();
-        alert("Need to Work on It ");
     }
     return (
         <>
             {/* <!-- ST:- Auth header menu  --> */}
-           <AuthHeader />
-          
+            <AuthHeader />
+
 
             {/* <!-- ST:- login form  --> */}
             <section className="full_widht_auth_section">
@@ -47,7 +70,8 @@ const Login = () => {
                             </button>
                             <p className="have_auth_msg">
                                 Not a Member?
-                                <Link to="/sign-up/user"> &nbsp; Sign Up</Link>
+                                <button onClick={openModal}> &nbsp; Sign Up</button>
+                                <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
                             </p>
                         </form>
                     </div>
