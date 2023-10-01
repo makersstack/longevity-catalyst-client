@@ -1843,6 +1843,13 @@ footer ul li a:hover {
   font-weight: 400;
   line-height: 24px;
 }
+.copyright_text a {
+  color: #aaa;
+}
+.copyright_text a:hover {
+  color: #aaa;
+  text-decoration: underline;
+}
 .auto-fit {
   height: calc(100vh - 40.8rem);
 }
