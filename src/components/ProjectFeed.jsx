@@ -8,8 +8,19 @@ import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import UserProfile from '../assets/images/user-1.png';
+import CheckBoxButton from './common/CheckBoxButton';
 
 const ProjectFeed = () => {
+
+  const requirdSkillCheckData = [
+    
+    { id: 1, inputName: 'python', labelText: 'Python' },
+    { id: 2, inputName: 'machine-learning', labelText: 'Machine learning' , },
+    { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
+    { id: 4, inputName: 'Cheminformatics', labelText: 'Cheminformatics' },
+    { id: 5, inputName: 'Pharmacology', labelText: 'Pharmacology' },
+  ];
+
   return (
     <>
       <div className="project_show_wrapper">
@@ -19,12 +30,12 @@ const ProjectFeed = () => {
             <form action="/" method="post">
               {/* Project Name  */}
               <div className="input_box">
-                <label for="se-p">Search Project</label>
+                <label htmlFor="se-p">Search Project</label>
                 <input id="se-p" type="text" placeholder="Project Name" />
               </div>
               {/* Categories */}
               <div className="input_box">
-                <label for="p-categories">Categories</label>
+                <label htmlFor="p-categories">Categories</label>
                 <select name="p-categories" id="p-categories">
                   <option value="">Select Categories</option>
                   <option value="">project 1</option>
@@ -36,8 +47,8 @@ const ProjectFeed = () => {
               <div className="input_box">
                 <label> Topic </label>
 
-                <label className="plan basic-plan" for="opt1">
-                  <input checked="" type="radio" name="plan" id="opt1" />
+                <label className="plan basic-plan" htmlFor="opt1">
+                  <input defaultChecked type="radio" name="plan" id="opt1" />
                   <div className="plan-content">
                     <div className="plan-details">
                       <p>1-25</p>
@@ -45,7 +56,7 @@ const ProjectFeed = () => {
                   </div>
                 </label>
 
-                <label className="plan basic-plan" for="opt2">
+                <label className="plan basic-plan" htmlFor="opt2">
                   <input type="radio" name="plan" id="opt2" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -54,7 +65,7 @@ const ProjectFeed = () => {
                   </div>
                 </label>
 
-                <label className="plan basic-plan" for="opt3">
+                <label className="plan basic-plan" htmlFor="opt3">
                   <input type="radio" name="plan" id="opt3" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -62,7 +73,7 @@ const ProjectFeed = () => {
                     </div>
                   </div>
                 </label>
-                <label className="plan basic-plan" for="opt4">
+                <label className="plan basic-plan" htmlFor="opt4">
                   <input type="radio" name="plan" id="opt4" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -73,7 +84,7 @@ const ProjectFeed = () => {
               </div>
               {/* Duration  */}
               <div className="input_box">
-                <label for="p-categories">Duration</label>
+                <label htmlFor="p-categories">Duration</label>
                 <select name="p-dura" id="p-dura">
                   <option value="">Select Role</option>
                   <option value="">option 1</option>
@@ -85,70 +96,17 @@ const ProjectFeed = () => {
               <div className="input_box required_skills">
                 <label> Required Skills </label>
 
-                <label className="plan basic-plan" for="sk-opt1">
-                  <input type="checkbox" name="skill" id="sk-opt1" />
-                  <div className="plan-content">
-                    <div className="plan-details">
-                      <div className="plan-checked-icon">
-                        <i className="check_icon fas fa-check"></i>
-                      </div>
-                      <p>Python</p>
-                    </div>
-                  </div>
-                </label>
-
-                <label className="plan basic-plan" for="sk-opt2">
-                  <input type="checkbox" checked name="skill" id="sk-opt2" />
-                  <div className="plan-content">
-                    <div className="plan-details">
-                      <div className="plan-checked-icon">
-                        <i className="check_icon fas fa-check"></i>
-                      </div>
-                      <p>Machine learning</p>
-                    </div>
-                  </div>
-                </label>
-
-                <label className="plan basic-plan" for="sk-opt3">
-                  <input type="checkbox" name="skill" id="sk-opt3" />
-                  <div className="plan-content">
-                    <div className="plan-details">
-                      <div className="plan-checked-icon">
-                        <i className="check_icon fas fa-check"></i>
-                      </div>
-                      <p>Molecular modeling</p>
-                    </div>
-                  </div>
-                </label>
-                <label className="plan basic-plan" for="sk-opt4">
-                  <input type="checkbox" name="skill" id="sk-opt4" />
-                  <div className="plan-content">
-                    <div className="plan-details">
-                      <div className="plan-checked-icon">
-                        <i className="check_icon fas fa-check"></i>
-                      </div>
-                      <p>Cheminformatics</p>
-                    </div>
-                  </div>
-                </label>
-                <label className="plan basic-plan" for="sk-opt5">
-                  <input type="checkbox" name="skill" id="sk-opt5" />
-                  <div className="plan-content">
-                    <div className="plan-details">
-                      <div className="plan-checked-icon">
-                        <i className="check_icon fas fa-check"></i>
-                      </div>
-                      <p>Pharmacology</p>
-                    </div>
-                  </div>
-                </label>
+                {
+                  requirdSkillCheckData.map(checkData => <CheckBoxButton key={checkData.id} checkData={checkData}/>)
+                }
+                
               </div>
               {/* Funding Status */}
               <div className="input_box">
                 <label> Funding Status </label>
 
-                <label className="plan basic-plan" for="st-opt1">
-                  <input checked="" type="radio" name="status" id="st-opt1" />
+                <label className="plan basic-plan" htmlFor="st-opt1">
+                  <input defaultChecked type="radio" name="status" id="st-opt1" />
                   <div className="plan-content">
                     <div className="plan-details">
                       <p>30 days</p>
@@ -156,7 +114,7 @@ const ProjectFeed = () => {
                   </div>
                 </label>
 
-                <label className="plan basic-plan" for="st-opt2">
+                <label className="plan basic-plan" htmlFor="st-opt2">
                   <input type="radio" name="status" id="st-opt2" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -165,7 +123,7 @@ const ProjectFeed = () => {
                   </div>
                 </label>
 
-                <label className="plan basic-plan" for="st-opt3">
+                <label className="plan basic-plan" htmlFor="st-opt3">
                   <input type="radio" name="status" id="st-opt3" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -173,7 +131,7 @@ const ProjectFeed = () => {
                     </div>
                   </div>
                 </label>
-                <label className="plan basic-plan" for="st-opt4">
+                <label className="plan basic-plan" htmlFor="st-opt4">
                   <input type="radio" name="status" id="st-opt4" />
                   <div className="plan-content">
                     <div className="plan-details">
@@ -184,7 +142,7 @@ const ProjectFeed = () => {
               </div>
               {/* Language */}
               <div className="input_box">
-                <label for="Language">Language</label>
+                <label htmlFor="Language">Language</label>
                 <select name="Language" id="Language">
                   <option value="">Language</option>
                   <option value="">Language 1</option>
@@ -390,7 +348,7 @@ const ProjectFeed = () => {
               </div>
 
             </div>
-            
+
             {/* single project card */}
             <div className="card">
               {/* card header */}

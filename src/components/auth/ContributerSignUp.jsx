@@ -1,7 +1,15 @@
 import React from 'react';
-import { HiCheck } from 'react-icons/hi2';
+import CheckBoxButton from '../common/CheckBoxButton';
 
 const ContributerSignUp = () => {
+
+    const SkillCheckBox = [
+        { id:1, inputName: 'python', labelText: 'Python' },
+        { id:2, inputName: 'machine-learning', labelText: 'Machine learning' },
+        { id:3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
+       
+      ];
+
     return (
         <>
 
@@ -30,46 +38,12 @@ const ContributerSignUp = () => {
 
             <div className="auth_box">
                 <label>Skills</label>
-                <label className="plan basic-plan" htmlFor="sk-opt1">
-                    <input type="checkbox" name="skill" id="sk-opt1" />
-                    <div className="plan-content">
-                        <div className="plan-details">
-                            <div className="plan-checked-icon">
-                                <span className=' check_icon '>
-                                    < HiCheck />
-                                </span>
-                            </div>
-                            <p>Python</p>
-                        </div>
-                    </div>
-                </label>
-                <label className="plan basic-plan" htmlFor="sk-opt2">
-                    <input type="checkbox" defaultChecked={true} name="skill" id="sk-opt2" />
-                    <div className="plan-content">
-                        <div className="plan-details">
-                            <div className="plan-checked-icon">
-                                <span className=' check_icon '>
-                                    < HiCheck />
-                                </span>
+           
 
-                            </div>
-                            <p>Machine learning</p>
-                        </div>
-                    </div>
-                </label>
-                <label className="plan basic-plan" htmlFor="sk-opt3">
-                    <input type="checkbox" name="skill" id="sk-opt3" />
-                    <div className="plan-content">
-                        <div className="plan-details">
-                            <div className="plan-checked-icon">
-                                <span className=' check_icon '>
-                                    < HiCheck />
-                                </span>
-                            </div>
-                            <p>Molecular modeling</p>
-                        </div>
-                    </div>
-                </label>
+                {
+                    SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk}/>)
+                }
+                
             </div>
 
             <div className="auth_box">
