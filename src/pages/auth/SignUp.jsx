@@ -30,7 +30,7 @@ const SignUp = () => {
 
         alert("Need to Work on It ");
     }
-    if (type === 'user' || type === 'contributer' || type === 'researcher') {
+    if (type === 'user' || type === 'contributor' || type === 'researcher') {
 
         return (
             <>
@@ -46,7 +46,7 @@ const SignUp = () => {
                                     type === 'user' && <UserSignUp />
                                 }
                                 {
-                                    type === 'contributer' && <ContributerSignUp />
+                                    type === 'contributor' && <ContributerSignUp />
                                 }
                                 {
                                     type === 'researcher' && <ResearcherSignUp />

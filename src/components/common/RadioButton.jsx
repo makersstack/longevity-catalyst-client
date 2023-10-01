@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function RadioButton({ options }) {
-  const [selectedValue, setSelectedValue] = useState('');
+function RadioButton({ options, onRadioChange, selectedValue }) {
 
   const handleRadioChange = (event) => {
-    setSelectedValue(event.target.value);
+    const newValue = event.target.value;
+
+
+    onRadioChange(newValue);
   };
 
   return (
     <>
       {options.map((option) => (
-        <div className='form_radio'>
-          <label key={option.value} className='custom-radio'>
+        <div className='form_radio' key={option.value}>
+          <label className='custom-radio'>
             <input
               type="radio"
               value={option.value}
-              checked={selectedValue === option.value}
+              checked={option.value === selectedValue}
               onChange={handleRadioChange}
             />
             <span className='radio-control'>
@@ -23,7 +25,6 @@ function RadioButton({ options }) {
             </span>
             {option.label}
           </label>
-          <p>{selectedValue}</p>
         </div>
       ))}
     </>
