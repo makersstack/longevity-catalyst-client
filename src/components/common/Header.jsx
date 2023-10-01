@@ -55,7 +55,6 @@ const Header = () => {
               </button>
 
 
-
               <Modal open={open} onClose={onCloseModal} center>
                 <div className="custom-modal" id="signup_references">
                   <div className="modal-wrapper">
