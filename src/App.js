@@ -8,10 +8,8 @@ import AboutUs from './pages/AboutUs';
 import FAQ from './pages/FAQ';
 import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
-import ContributerSignUp from './pages/auth/ContributerSignUp';
 import Login from './pages/auth/Login';
-import ResearcherSignUp from './pages/auth/ResearcherSignUp';
-import UserSignUp from './pages/auth/UserSignUp';
+import SignUp from './pages/auth/SignUp';
 
 const App = () => {
   return (
@@ -22,11 +20,7 @@ const App = () => {
         <Route path='/about' element={<AboutUs />} />
         <Route path='/faqs' element={<FAQ />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/sign-up' >
-          <Route path='researcher' element={<ResearcherSignUp />} />
-          <Route path='contributer' element={<ContributerSignUp />} />
-          <Route path='user' element={<UserSignUp />} />
-        </Route>
+        <Route path='/sign-up/:type' element={<SignUp />}></Route>
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
       <Footer/>
