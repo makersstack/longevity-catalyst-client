@@ -74,7 +74,7 @@ const Header = () => {
                     </div>
                     <div className="modal_footer">
                       <div className="have_account">
-                        <p>Already have an account? <a href="login.html">Log in</a></p>
+                        <p>Already have an account? <Link to="/login">Log in</Link></p>
                       </div>
                     </div>
                   </div>
