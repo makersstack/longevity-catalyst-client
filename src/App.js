@@ -8,6 +8,7 @@ import AboutUs from './pages/AboutUs';
 import FAQ from './pages/FAQ';
 import Home from './pages/Home';
 import PageNotFound from './pages/PageNotFound';
+import ProjectDetails from './pages/ProjectDetails';
 import ContributerSignUp from './pages/auth/ContributerSignUp';
 import Login from './pages/auth/Login';
 import ResearcherSignUp from './pages/auth/ResearcherSignUp';
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='researcher' element={<ResearcherSignUp />} />
           <Route path='contributer' element={<ContributerSignUp />} />
           <Route path='user' element={<UserSignUp />} />
+          <Route path='single-project' element={<ProjectDetails />} />
         </Route>
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
