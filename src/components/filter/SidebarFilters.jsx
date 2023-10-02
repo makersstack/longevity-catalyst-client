@@ -1,142 +1,221 @@
-import React from 'react';
+// SidebarFilters.js
+
+import React, { useState } from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
 
-const SidebarFilters = () => {
-  const requirdSkillCheckData = [
-    { id: 1, inputName: 'python', labelText: 'Python' },
-    { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', },
-    { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
-    { id: 4, inputName: 'Cheminformatics', labelText: 'Cheminformatics' },
-    { id: 5, inputName: 'Pharmacology', labelText: 'Pharmacology' },
-  ];
+// Search field component
+function SearchField({ onSearchChange, defaultValue }) {
+  const [value, setValue] = useState(defaultValue);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    onSearchChange(e.target.value);
+  };
+
+  return (
+    <div className="input_box">
+      <label htmlFor="se-p">Search Project</label>
+      <input
+        id="se-p"
+        type="search"
+        placeholder="Project Name"
+        onChange={handleChange}
+        value={value}
+      />
+    </div>
+  );
+}
+
+// Categories component
+function Categories({ categoryOptions, onCategoryChange, value }) {
+  return (
+    <div className="input_box">
+      <label htmlFor="p-categories">Categories</label>
+      <select
+        name="p-categories"
+        id="p-categories"
+        onChange={(e) => onCategoryChange(e.target.value)}
+        value={value}
+      >
+        {categoryOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+// Topic component
+function Topic({ topicOptions, onTopicChange, value }) {
+  return (
+    <div className="input_box">
+      <label>Topic</label>
+      <div className="topic_options">
+        {topicOptions.map((option, index) => (
+          <label className="plan basic-plan" htmlFor={`opt${index}`} key={option.value}>
+            <input
+              defaultChecked={value === option.value}
+              type="radio"
+              name="topic"
+              id={`opt${index}`}
+              onChange={() => onTopicChange(option.value)}
+            />
+            <div className="plan-content">
+              <div className="plan-details">
+                <p>{option.label}</p>
+              </div>
+            </div>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Duration component
+function Duration({ durationOptions, onDurationChange, value }) {
+  return (
+    <div className="input_box">
+      <label htmlFor="p-dura">Duration</label>
+      <select
+        name="p-dura"
+        id="p-dura"
+        onChange={(e) => onDurationChange(e.target.value)}
+        value={value}
+      >
+        {durationOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+// Required Skills component 
+
+function RequiredSkills({ onSkillsChange, requirdSkillCheckData }) {
+  return (
+    <div className="input_box required_skills">
+      <label>Required Skills</label>
+      {requirdSkillCheckData.map((checkData) => (
+        <CheckBoxButton key={checkData.id} checkData={checkData} onCheckChange={onSkillsChange} />
+      ))}
+    </div>
+  );
+}
+
+// Funding Status component
+function FundingStatus({ onFundingStatusChange, fundingStatusOptions, value }) {
+  return (
+    <div className="input_box">
+      <label>Funding Status</label>
+      <div className="funding_status">
+        {fundingStatusOptions.map((status, index) => (
+          <label className="plan basic-plan" htmlFor={`st-opt${index}`} key={index}>
+            <input
+              defaultChecked={value === status.value}
+              type="radio"
+              name="fundingStatus"
+              id={`st-opt${index}`}
+              onChange={() => onFundingStatusChange(status.value)}
+            />
+            <div className="plan-content">
+              <div className="plan-details">
+                <p>{status.label}</p>
+              </div>
+            </div>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Language component
+function Language({ languageOptions, onLanguageChange, value }) {
+  return (
+    <div className="input_box">
+      <label htmlFor="Language">Language</label>
+      <select
+        name="Language"
+        id="Language"
+        onChange={(e) => onLanguageChange(e.target.value)}
+        value={value}
+      >
+        {languageOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+const SidebarFilters = ({
+  search,
+  categories,
+  topic,
+  duration,
+  requiredSkills,
+  fundingStatus,
+  language,
+  onPageChange,
+  requirdSkillCheckData,
+  filters,
+}) => {
   return (
     <>
-      {/* project side bar filter */}
+      {/* Project sidebar filter */}
       <div className="project_side_ber_container">
         <div className="project_side_bar">
           <form action="/" method="post">
-            {/* Project Name  */}
-            <div className="input_box">
-              <label htmlFor="se-p">Search Project</label>
-              <input id="se-p" type="text" placeholder="Project Name" />
-            </div>
-            {/* Categories */}
-            <div className="input_box">
-              <label htmlFor="p-categories">Categories</label>
-              <select name="p-categories" id="p-categories">
-                <option value="">Select Categories</option>
-                <option value="">project 1</option>
-                <option value="">project 2</option>
-                <option value="">project 3</option>
-              </select>
-            </div>
-            {/* Topic */}
-            <div className="input_box">
-              <label> Topic </label>
-
-              <label className="plan basic-plan" htmlFor="opt1">
-                <input defaultChecked type="radio" name="plan" id="opt1" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>1-25</p>
-                  </div>
-                </div>
-              </label>
-
-              <label className="plan basic-plan" htmlFor="opt2">
-                <input type="radio" name="plan" id="opt2" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>1-25</p>
-                  </div>
-                </div>
-              </label>
-
-              <label className="plan basic-plan" htmlFor="opt3">
-                <input type="radio" name="plan" id="opt3" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>51-100</p>
-                  </div>
-                </div>
-              </label>
-              <label className="plan basic-plan" htmlFor="opt4">
-                <input type="radio" name="plan" id="opt4" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>College Students</p>
-                  </div>
-                </div>
-              </label>
-            </div>
-            {/* Duration  */}
-            <div className="input_box">
-              <label htmlFor="p-categories">Duration</label>
-              <select name="p-dura" id="p-dura">
-                <option value="">Select Role</option>
-                <option value="">option 1</option>
-                <option value="">option 2</option>
-                <option value="">option 3</option>
-              </select>
-            </div>
-            {/* Required Skills */}
-            <div className="input_box required_skills">
-              <label> Required Skills </label>
-              {
-                requirdSkillCheckData.map(checkData => <CheckBoxButton key={checkData.id} checkData={checkData} />)
-              }
-
-            </div>
-            {/* Funding Status */}
-            <div className="input_box">
-              <label> Funding Status </label>
-
-              <label className="plan basic-plan" htmlFor="st-opt1">
-                <input defaultChecked type="radio" name="status" id="st-opt1" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>30 days</p>
-                  </div>
-                </div>
-              </label>
-
-              <label className="plan basic-plan" htmlFor="st-opt2">
-                <input type="radio" name="status" id="st-opt2" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>60 days</p>
-                  </div>
-                </div>
-              </label>
-
-              <label className="plan basic-plan" htmlFor="st-opt3">
-                <input type="radio" name="status" id="st-opt3" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>90 days</p>
-                  </div>
-                </div>
-              </label>
-              <label className="plan basic-plan" htmlFor="st-opt4">
-                <input type="radio" name="status" id="st-opt4" />
-                <div className="plan-content">
-                  <div className="plan-details">
-                    <p>No Contract</p>
-                  </div>
-                </div>
-              </label>
-            </div>
-            {/* Language */}
-            <div className="input_box">
-              <label htmlFor="Language">Language</label>
-              <select name="Language" id="Language">
-                <option value="">Language</option>
-                <option value="">Language 1</option>
-                <option value="">Language 2</option>
-                <option value="">Language 3</option>
-              </select>
-            </div>
-
+            {search && <SearchField onSearchChange={onPageChange} value={filters.search} />}
+            {categories && (
+              <Categories
+                categoryOptions={categories}
+                onCategoryChange={(value) => onPageChange('selectedCategory', value)}
+                value={filters.selectedCategory}
+              />
+            )}
+            {topic && (
+              <Topic
+                topicOptions={topic}
+                onTopicChange={(value) => onPageChange('selectedTopic', value)}
+                value={filters.selectedTopic}
+              />
+            )}
+            {duration && (
+              <Duration
+                durationOptions={duration}
+                onDurationChange={(value) => onPageChange('selectedDuration', value)}
+                value={filters.selectedDuration}
+              />
+            )}
+            {requiredSkills && (
+              <RequiredSkills
+                onSkillsChange={(value) => onPageChange('selectedRequiredSkills', value)}
+                requirdSkillCheckData={requirdSkillCheckData}
+              />
+            )}
+            {fundingStatus && (
+              <FundingStatus
+                fundingStatusOptions={fundingStatus}
+                onFundingStatusChange={(value) => onPageChange('selectedFundingStatus', value)}
+                value={filters.selectedFundingStatus}
+              />
+            )}
+            {language && (
+              <Language
+                languageOptions={language}
+                onLanguageChange={(value) => onPageChange('selectedLanguage', value)}
+                value={filters.selectedLanguage}
+              />
+            )}
           </form>
         </div>
       </div>
