@@ -22,6 +22,12 @@ body {
   background: #fff;
   color: #646464;
 }
+accordion-header h3,
+accordion-header span,
+svg,
+img {
+  user-select: none;
+}
 
 h1,
 h2,
@@ -179,23 +185,23 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 /* Customize the radio button when checked */
+.radio-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 input[type="radio"]:checked + .radio-control {
   border-color: #2d2d2d;
-
-  overflow: hidden;
 }
 
 input[type="radio"]:checked + .radio-control span {
   background-color: #2d2d2d;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   display: block;
   border-radius: 50px;
-  /* margin-right: 1.1px; */
-  max-width: 6px;
-  max-height: 6px;
-  margin: 0 auto;
-  margin-top: 28%;
+  margin-right: 1.1px;
 }
 
 /* Hide the default radio button */
@@ -205,14 +211,17 @@ input[type="radio"] {
 
 /* Style the radio label */
 .custom-radio {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   cursor: pointer;
   font-size: 16px;
   color: #333;
+  user-select: none;
   margin: 0;
 }
-
+.custom-radio:hover {
+  color: #000;
+}
 /* Style the custom radio control */
 .radio-control {
   width: 16px;
@@ -506,10 +515,10 @@ input[type="radio"] {
   transition: 0.4s;
   text-align: center;
 } */
-.modal_close_button {
-  /* position: absolute; */
-  top: -15px;
-  right: -15px;
+.react-responsive-modal-closeButton {
+  position: absolute;
+  top: 15px;
+  right: 15px;
   border-radius: 32px;
   background: #000;
   box-shadow: 0px 8px 16px -8px rgba(15, 15, 15, 0.2);
@@ -519,14 +528,33 @@ input[type="radio"] {
   font-size: 20px;
   width: 35px;
   height: 35px;
+  z-index: 99;
   transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.modal_close_button:hover {
+.react-responsive-modal-closeButton svg {
+  color: #fff;
+  fill: #fff;
+  font-size: 14px;
+  height: 20px;
+  width: 20px;
+}
+.react-responsive-modal-closeButton:hover {
   transform: scale(0.9);
+}
+.modal_head {
+  padding-top: 10px;
+}
+.modal_head img {
+  height: 40px;
+  width: 100%;
+  object-fit: contain;
 }
 .modal_title {
   color: var(--gray-900, #101828);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 28px;
   padding: 20px 0;
@@ -1153,15 +1181,18 @@ header {
   text-align: center;
   font-size: 14px;
 }
-.have_auth_msg a {
+.have_auth_msg a,
+.have_auth_msg button {
   color: #1b1b1b;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 20px;
   transition: 0.3s;
+  cursor: pointer;
 }
-.have_auth_msg a:hover {
+.have_auth_msg a:hover,
+.have_auth_msg button:hover {
   color: #667085;
   text-decoration: underline;
 }
@@ -2051,6 +2082,26 @@ footer ul li a:hover {
 }
 /* Add Project Page */
 /* Maker Shihab */
-.custom-radio {
-  display: inline-flex !important;
+/* For modal */
+.react-responsive-modal-modal {
+  max-width: 520px;
+  width: 100%;
+  border-radius: 20px;
+  background: #fff;
+  padding: 20px 16px 16px 16px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.03),
+    0px 20px 24px -4px rgba(16, 24, 40, 0.08);
+  transition: 0.4s;
+  text-align: center;
 }
+.sign_up_preference .form_radio {
+  text-align: left;
+  max-width: 250px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.sign_up_preference button {
+  margin-top: 25px;
+}
+/* For modal */
