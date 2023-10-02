@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-responsive-modal';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
@@ -6,7 +6,6 @@ import RadioButton from './common/RadioButton';
 
 function SignupModal({ open, onClose, onSignUp }) {
   const [selectedValue, setSelectedValue] = useState('researcher');
-  // const navigate = useNavigate();
   const radioOptions = [
     { value: 'researcher', label: 'Researcher sign-up' },
     { value: 'contributor', label: 'Contributor sign-up' },
@@ -20,6 +19,11 @@ function SignupModal({ open, onClose, onSignUp }) {
   const handleCreateAccountClick = () => {
     onSignUp(selectedValue);
   };
+  useEffect(() => {
+    if (!open) {
+      setSelectedValue('');
+    }
+  }, [open]);
 
   return (
     <Modal open={open} onClose={onClose} center>
