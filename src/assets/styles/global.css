@@ -1970,6 +1970,7 @@ footer ul li a:hover {
 .dashboard_nav ul li {
   padding-top: 10px;
 }
+.dashboard_nav ul li button,
 .dashboard_nav ul li a {
   padding: 8px 15px;
   display: flex;
@@ -1979,9 +1980,17 @@ footer ul li a:hover {
   align-items: center;
   column-gap: 10px;
 }
+.dropdown_menu button {
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  font-size: 16px;
+  justify-content: space-between;
+}
 .dashboard_nav ul li a i {
   font-size: 15px;
 }
+.dropdown_menu button:hover,
 .dashboard_nav ul li a:hover,
 .dashboard_nav ul li a.active {
   background: #f2f4f7;

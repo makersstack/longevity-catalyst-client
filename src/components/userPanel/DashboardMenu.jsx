@@ -1,0 +1,138 @@
+import React, { useState } from 'react';
+import { LuBarChart2 } from 'react-icons/lu';
+import { RxLayers } from 'react-icons/rx';
+import { Link } from 'react-router-dom';
+import { baseUrl } from '../../globals';
+import RanderNav from './RanderNav';
+
+const DashboardMenu = () => {
+
+
+    // Your menu data (you can replace this with your actual data)
+    const menuData = [
+        {
+            id: 1,
+            title: 'Dashboard',
+            icon: <LuBarChart2 />,
+            route: '/'
+        },
+        {
+            id: 2,
+            title: 'Projects',
+            icon: <RxLayers />,
+            submenu: [
+                {
+                    id: 2.1,
+                    title: 'Add Project',
+                    route: '/add-project',
+                },
+                {
+                    id: 2.2,
+                    title: 'All Project',
+                    route: '/all-project',
+                },
+            ],
+        },
+        {
+            id: 3,
+            title: 'Profile',
+            icon: <LuBarChart2 />,
+            route: '/user/profile/update'
+        },
+        {
+            id: 4,
+            title: 'fd',
+            icon: <RxLayers />,
+            submenu: [
+                {
+                    id: 4.1,
+                    title: 'Add Projectd',
+                    route: '/add-sproject',
+                },
+                {
+                    id: 4.2,
+                    title: 'All Projectd',
+                    route: '/all-psroject',
+                },
+            ],
+        }
+        ,
+        {
+            id: 5,
+            title: 'Profile',
+            icon: <LuBarChart2 />,
+            route: '/user/profile/update'
+        },
+        {
+            id: 6,
+            title: 'fd',
+            icon: <RxLayers />,
+            submenu: [
+                {
+                    id: 6.1,
+                    title: 'Add Projectd',
+                    route: '/add-sproject',
+                },
+                {
+                    id: 6.2,
+                    title: 'All Projectd',
+                    route: '/all-psroject',
+                },
+            ],
+        }
+    ];
+
+  
+
+    // Initialize isOpenState with an array of the same length as menuData
+    const [isOpenState, setIsOpenState] = useState(new Array(menuData.length).fill(false));
+
+    // Function to toggle the menu item's open/close state
+    const toggleDropdown = (itemId) => {
+        setIsOpenState((prevState) => ({
+            ...prevState,
+            [itemId]: !prevState[itemId],
+        }));
+    };
+
+
+
+
+
+    return (
+        <div className="dashboard_menu">
+            {/* <!-- Menu Profile --> */}
+            <div className="dashboard_menu_profile">
+                <div className="profile_img">
+                    <img src={`${baseUrl}assets/img/demo-user-3.png`} alt="profile_img" />
+                </div>
+                <div className="profile_text">
+                    <Link to='/user/username'> Annette Black </Link>
+                    <p>debra.holt@example.com</p>
+                </div>
+            </div>
+            {/* <!-- Navigation --> */}
+            <div className="dashboard_nav">
+                <ul>
+
+                    {menuData.map(item => (
+                        <RanderNav
+                            key={item.id}
+                            item={item}
+                            isOpenState={isOpenState} // Pass isOpenState to RanderNav
+                            setIsOpenState={setIsOpenState} // Pass setIsOpenState to RanderNav
+                            toggleDropdown={() => toggleDropdown(item.id)}
+                        />
+                    ))}
+
+
+
+
+
+                </ul>
+            </div>
+        </div>
+    );
+};
+
+export default DashboardMenu;
