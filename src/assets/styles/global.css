@@ -185,12 +185,14 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 /* Customize the radio button when checked */
-input[type="radio"]:checked + .radio-control {
-  border-color: #2d2d2d;
+.radio-control {
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+input[type="radio"]:checked + .radio-control {
+  border-color: #2d2d2d;
 }
 
 input[type="radio"]:checked + .radio-control span {
@@ -209,14 +211,17 @@ input[type="radio"] {
 
 /* Style the radio label */
 .custom-radio {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   cursor: pointer;
   font-size: 16px;
   color: #333;
+  user-select: none;
   margin: 0;
 }
-
+.custom-radio:hover {
+  color: #000;
+}
 /* Style the custom radio control */
 .radio-control {
   width: 16px;
@@ -539,9 +544,17 @@ input[type="radio"] {
 .react-responsive-modal-closeButton:hover {
   transform: scale(0.9);
 }
+.modal_head {
+  padding-top: 10px;
+}
+.modal_head img {
+  height: 40px;
+  width: 100%;
+  object-fit: contain;
+}
 .modal_title {
   color: var(--gray-900, #101828);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 28px;
   padding: 20px 0;

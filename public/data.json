@@ -1,14 +1,17 @@
 [
   {
-    "userName": "Esther Howard",
-    "profileImage": "../src/assets/images/user-1.png",
-    "post": "AI-driven Drug Discovery for Neurodegenerative Diseases",
-    "content": "Developing an AI-driven platform to screen and identify potential drug candidates for the treatment of neurodegenerative diseases."
+    "id": 1,
+    "title": "First Blog Post",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
-    "user": "user 2",
-    "likes": 312,
-    "comments": 927,
-    "shares": 20
+    "id": 2,
+    "title": "Second Blog Post",
+    "content": "Praesent ac erat in tellus feugiat tristique."
+  },
+  {
+    "id": 3,
+    "title": "Third Blog Post",
+    "content": "Duis vehicula libero nec faucibus. Nulla facilisi."
   }
 ]
