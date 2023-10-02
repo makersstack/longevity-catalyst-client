@@ -3,7 +3,6 @@ import React from 'react';
 const TopFilterButtons = ({ options = [], selectedOption, onOptionChange }) => {
   return (
     <>
-      {/* project short filter */}
       <div className="project_short_filter">
         {
           options.map((option) => (
