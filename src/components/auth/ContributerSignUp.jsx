@@ -1,5 +1,6 @@
 import React from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
+import DargFileAttech from '../common/DargFileAttech';
 
 const ContributerSignUp = () => {
 
@@ -68,13 +69,8 @@ const ContributerSignUp = () => {
             </div>
 
             <div className="auth_box">
-                <label htmlFor="propic">Profile Picture</label>
-                <label htmlFor="img_up" className="drag_imge_input">
-                    <input type="file" name='profile_pic' id="img_up" />
-                    <img src="assets/img/Featured-icon.svg" alt="" />
-                    <p><span>Click to upload</span> or drag and drop</p>
-                    <p>SVG, PNG, JPG or GIF (max. 800x400px)</p>
-                </label>
+                <label htmlFor="propic">Profile Picture </label>
+                <DargFileAttech />
             </div>
 
             <div className="auth_box">
