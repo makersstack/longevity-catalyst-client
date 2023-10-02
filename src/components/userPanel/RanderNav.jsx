@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HiChevronDown } from 'react-icons/hi2';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
     // const adtoggleDropdown = () => {
@@ -11,10 +11,10 @@ const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
     //     console.log(isOpenState);
     //     toggleDropdown();
     // };
-    const [isOpenDrop,setOpenDrop] = useState(false); 
+    // const [isOpenDrop,setOpenDrop] = useState(false); 
 
-    const location = useLocation();
-    console.log(location.pathname);
+    // const location = useLocation();
+    // console.log(location.pathname);
 
     return (
         <>

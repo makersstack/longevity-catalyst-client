@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 
@@ -14,6 +14,11 @@ const AddProject = () => {
             label: 'off'
         }
     ];
+    const [selectedValue, setSelectedValue] = useState('');
+    const handleRadioChange = (value) =>{
+        setSelectedValue(value);
+        console.log(value);
+    }
     return (
         <section className="full_widht_auth_section">
             <div className="container">
@@ -104,7 +109,7 @@ const AddProject = () => {
                                     <div className="onsite_check">
 
                                         {
-                                             <RadioButton options={onsiteOption} />
+                                             <RadioButton options={onsiteOption}  onRadioChange={handleRadioChange} selectedValue={selectedValue}/>
                                         }
 
                                         <div className="radio_control">
