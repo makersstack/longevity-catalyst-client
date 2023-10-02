@@ -23,7 +23,7 @@ function RadioButton({ options }) {
             </span>
             {option.label}
           </label>
-          <p>{selectedValue}</p>
+          {/* <p>{selectedValue}</p> */}
         </div>
       ))}
     </>

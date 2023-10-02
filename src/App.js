@@ -12,6 +12,8 @@ import ProfileShow from './pages/ProfileShow';
 import ProjectDetails from './pages/ProjectDetails';
 import Login from './pages/auth/Login';
 import SignUp from './pages/auth/SignUp';
+import AddProject from './pages/userPanel/AddProject';
+import EditUserProfile from './pages/userPanel/EditUserProfile';
 
 const App = () => {
   return (
@@ -25,6 +27,8 @@ const App = () => {
         <Route path='/sign-up/:type' element={<SignUp />}></Route>
         <Route path='/single-project' element={<ProjectDetails />} />
         <Route path='/user/:profile' element={<ProfileShow/>} />
+        <Route path='/user/profile/update' element={<EditUserProfile/>} />
+        <Route path='/add-project' element={<AddProject/>} />
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
       <Footer/>

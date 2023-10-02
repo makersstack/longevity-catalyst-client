@@ -181,19 +181,21 @@ input[type="radio"] {
 /* Customize the radio button when checked */
 input[type="radio"]:checked + .radio-control {
   border-color: #2d2d2d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   overflow: hidden;
 }
 
 input[type="radio"]:checked + .radio-control span {
   background-color: #2d2d2d;
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   display: block;
   border-radius: 50px;
-  margin-right: 1.1px;
+  /* margin-right: 1.1px; */
+  max-width: 6px;
+  max-height: 6px;
+  margin: 0 auto;
+  margin-top: 28%;
 }
 
 /* Hide the default radio button */
@@ -1937,6 +1939,7 @@ footer ul li a:hover {
 .dashboard_nav ul li {
   padding-top: 10px;
 }
+.dashboard_nav ul li button,
 .dashboard_nav ul li a {
   padding: 8px 15px;
   display: flex;
@@ -1946,9 +1949,17 @@ footer ul li a:hover {
   align-items: center;
   column-gap: 10px;
 }
+.dropdown_menu button {
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  font-size: 16px;
+  justify-content: space-between;
+}
 .dashboard_nav ul li a i {
   font-size: 15px;
 }
+.dropdown_menu button:hover,
 .dashboard_nav ul li a:hover,
 .dashboard_nav ul li a.active {
   background: #f2f4f7;
@@ -2040,3 +2051,6 @@ footer ul li a:hover {
 }
 /* Add Project Page */
 /* Maker Shihab */
+.custom-radio {
+  display: inline-flex !important;
+}
