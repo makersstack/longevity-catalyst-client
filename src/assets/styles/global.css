@@ -220,6 +220,10 @@ input[type="radio"] {
   user-select: none;
   margin: 0;
 }
+.custom-radio {
+  display: block flex !important;
+  align-items: center;
+}
 .custom-radio:hover {
   color: #000;
 }
@@ -2109,3 +2113,13 @@ footer ul li a:hover {
   margin-top: 25px;
 }
 /* For modal */
+.al_submit_button {
+  text-align: right;
+}
+.al_submit_button .btn {
+  width: 100%;
+  max-width: 200px;
+}
+.al_menu_icon {
+  margin-bottom: -3px;
+}

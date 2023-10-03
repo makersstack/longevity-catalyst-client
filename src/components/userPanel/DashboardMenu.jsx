@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { LuBarChart2 } from 'react-icons/lu';
+import { LuBarChart2, LuLock, LuUsers } from 'react-icons/lu';
+import { PiSignOut } from 'react-icons/pi';
 import { RxLayers } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../globals';
@@ -23,62 +24,33 @@ const DashboardMenu = () => {
             submenu: [
                 {
                     id: 2.1,
-                    title: 'Add Project',
-                    route: '/add-project',
+                    title: 'All Project',
+                    route: '/all-project',
                 },
                 {
                     id: 2.2,
-                    title: 'All Project',
-                    route: '/all-project',
+                    title: 'Add Project',
+                    route: '/add-project',
                 },
             ],
         },
         {
             id: 3,
             title: 'Profile',
-            icon: <LuBarChart2 />,
+            icon: <LuUsers />,
             route: '/user/profile/update'
         },
         {
             id: 4,
-            title: 'fd',
-            icon: <RxLayers />,
-            submenu: [
-                {
-                    id: 4.1,
-                    title: 'Add Projectd',
-                    route: '/add-sproject',
-                },
-                {
-                    id: 4.2,
-                    title: 'All Projectd',
-                    route: '/all-psroject',
-                },
-            ],
-        }
-        ,
-        {
-            id: 5,
-            title: 'Profile',
-            icon: <LuBarChart2 />,
-            route: '/user/profile/update'
+            title: 'Change Password',
+            icon: <LuLock />,
+            route: '/user/password/change'
         },
         {
-            id: 6,
-            title: 'fd',
-            icon: <RxLayers />,
-            submenu: [
-                {
-                    id: 6.1,
-                    title: 'Add Projectd',
-                    route: '/add-sproject',
-                },
-                {
-                    id: 6.2,
-                    title: 'All Projectd',
-                    route: '/all-psroject',
-                },
-            ],
+            id: 5,
+            title: 'Logout',
+            icon: <PiSignOut />,
+            route: '/logout'
         }
     ];
 
