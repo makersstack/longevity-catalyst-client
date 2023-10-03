@@ -56,7 +56,6 @@ const Header = () => {
           </div>
           <div className="header_buttons">
             <Link to='/login' className='btn btn-dark'>
-
               Login
             </Link>
             <div className="custom-dropdown">

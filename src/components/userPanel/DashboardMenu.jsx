@@ -50,7 +50,7 @@ const DashboardMenu = () => {
             id: 5,
             title: 'Logout',
             icon: <PiSignOut />,
-            route: '/logout'
+            route: '/login'
         }
     ];
 

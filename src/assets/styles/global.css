@@ -625,6 +625,11 @@ header {
   width: 100%;
   padding: 5px 9px;
 }
+.header_search:focus-within,
+.header_search:focus,
+.header_search:hover {
+  border-color: #383838;
+}
 .header_search form {
   width: 100%;
   display: flex;
@@ -636,7 +641,9 @@ header {
   border: none;
   box-shadow: none;
   padding: 5px 10px;
+  color: #383838;
 }
+
 .header_search_icon {
   display: flex;
   justify-content: center;
@@ -766,6 +773,11 @@ header {
 .single_trust_by img {
   width: 100%;
   height: auto;
+  filter: opacity(70%);
+  transition: 0.3s all ease linear;
+}
+.single_trust_by:hover img {
+  filter: opacity(100%);
 }
 .trust_by_wrapper h6 {
   text-align: center;
@@ -785,11 +797,25 @@ header {
   gap: 20px;
 }
 .trading_project_single {
-  border-radius: 11.141px;
+  border-radius: 12px;
   border: 3px solid #edefff;
-  box-shadow: 0px 4.45638px 44.56376px 0px rgba(220, 228, 255, 0.08);
-  padding: 45.738px;
+  padding: 45px;
   background-position: center !important;
+  position: relative;
+  z-index: 1;
+}
+.trading_project_single::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #0000009a;
+  content: "";
+  border-radius: 12px;
+  box-shadow: 0px 5px 45px 0px #dce4ff14;
+  z-index: -1;
 }
 .trading_project_single h3 {
   color: #fff;
@@ -1350,11 +1376,10 @@ header {
   justify-content: center;
   align-content: center;
   align-items: center;
-  grid-column-gap: 40px;
-  grid-row-gap: 64px;
 }
 .signle_choice_us {
   text-align: center;
+  padding: 30px;
 }
 .signle_choice_us h5 {
   padding-bottom: 10px;
@@ -1364,10 +1389,10 @@ header {
   color: var(--gray-500, #667085);
 }
 .choice_icon {
-  border-radius: 24px;
+  border-radius: 50%;
   background: #eaeaea;
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 68px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -1375,10 +1400,14 @@ header {
   align-content: center;
   margin-bottom: 20px;
 }
+.choice_icon svg {
+  height: 28px;
+  width: 28px;
+}
 /* team members  */
 .team_member_box {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -1388,8 +1417,9 @@ header {
 .single_team_member {
   background: #fff;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-  padding: 24px;
+  padding: 25px;
   text-align: center;
+  height: 100%;
 }
 .team_member_img {
   width: 80px;
@@ -1419,10 +1449,15 @@ header {
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  display: block;
 }
 .single_team_member p {
   color: #667085;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
 }
 .team_socail_contact {
   margin-top: 16px;
@@ -1431,6 +1466,11 @@ header {
   align-items: center;
   align-content: center;
   gap: 16px;
+}
+.team_socail_contact a svg {
+  fill: #98a2b3;
+  height: 20px;
+  width: 20px;
 }
 /* newsletter area  */
 .full_width_newsletter_section {

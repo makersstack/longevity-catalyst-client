@@ -1,6 +1,6 @@
 import React from 'react';
 import 'react-responsive-modal/styles.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
@@ -17,7 +17,7 @@ import EditUserProfile from './pages/userPanel/EditUserProfile';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
     <Header/>
     <Routes>
         <Route path='/' element={<Home />} />
@@ -32,7 +32,7 @@ const App = () => {
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
       <Footer/>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
