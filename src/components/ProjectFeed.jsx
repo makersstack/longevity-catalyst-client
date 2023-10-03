@@ -1,299 +1,202 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
-import { BiDownvote, BiSolidBadge, BiUpvote } from 'react-icons/bi';
-import { BsEye } from 'react-icons/bs';
-import { FaAward, FaRegCommentDots } from 'react-icons/fa';
-import { FaArrowTrendUp } from 'react-icons/fa6';
+import { BiDownvote, BiUpvote } from 'react-icons/bi';
+import { FaRegCommentDots } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-import UserProfile from '../assets/images/user-1.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
+
 import SidebarFilters from './filter/SidebarFilters';
 import TopFilterButtons from './filter/TopFilterButtons';
 
-const topFilterOptionsPage1 = [
-  { label: 'Latest', icon: <BiSolidBadge />, value: 'latest' },
-  { label: 'Most View', icon: <BsEye />, value: 'mostView' },
-  { label: 'Top', icon: <FaAward />, value: 'top' },
-  { label: 'Rising', icon: <FaArrowTrendUp />, value: 'rising' },
-];
-
 const ProjectFeed = () => {
+  const navigation = useNavigate();
+
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetch('/data.json')
+      .then((response) => response.json())
+      .then((data) => {
+        setProjects(data);
+        setFilteredProjects(data); 
+      })
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
+
+  // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
 
   const handleTopOptionChange = (value) => {
     setSelectedTopOption(value);
   };
+  // Sidebar Content
+  function filterProjects(filters, projects) {
+    const {
+      search,
+      selectedCategory,
+      selectedTopic,
+      selectedDuration,
+      selectedRequiredSkills,
+      selectedFundingStatus,
+      selectedLanguage,
+    } = filters;
+  
+    return projects.filter((project) => {
+      // Debug statements to check values
+      // console.log('Search:', search);
+      // console.log('Project Name:', project.projectName.toLowerCase());
+      // Apply your filter logic here based on the filter criteria
+      // For example, you can use if statements to check each filter
+      if (search && !project.projectName.toLowerCase().includes(search.toLowerCase())) {
+        return false;
+      }
+  
+      if (selectedCategory && project.category !== selectedCategory) {
+        return false;
+      }
+  
+      return true; 
+    });
+  }
+  const [filters, setFilters] = useState({
+    search: '',
+    selectedCategory: '',
+    selectedTopic: '',
+    selectedDuration: '',
+    selectedRequiredSkills: [],
+    selectedFundingStatus: '',
+    selectedLanguage: '',
+  });
+  
+  useEffect(() => {
+   
+    const filtered = filterProjects(filters, projects);
+    setFilteredProjects(filtered);
+  
+  }, [filters, projects]);
+  
+  const handlePageChange = (filterType, value) => {
+    console.log('onPageChange called with:', filterType, value);
+  
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  
+    setFilteredProjects((prevFilteredProjects) => {
+      return filterProjects(
+        {
+          ...prevFilteredProjects, 
+          [filterType]: value,
+        },
+        prevFilteredProjects
+      );
+    });
+  };
+  
 
   return (
     <>
       <div className="project_show_wrapper">
-        <SidebarFilters  />
+        <SidebarFilters
+          search={true}
+          categories={categoryOptions}
+          topic={topicOptions}
+          duration={durationOptions}
+          requiredSkills={true}
+          fundingStatus={statusOptions}
+          language={languageOptions}
+          onPageChange={handlePageChange}
+          requirdSkillCheckData={requirdSkillCheckData}
+          filters={filters}
+        />
         {/* project show container */}
         <div className="project_show_container">
           <TopFilterButtons options={topFilterOptionsPage1}
-          selectedOption={selectedTopOption}
-          onOptionChange={handleTopOptionChange} />
-          {/* project show area  */}
+            selectedOption={selectedTopOption}
+            onOptionChange={handleTopOptionChange} />
+          {/* project show container */}
           <div className="project_show_cash">
-            {/* single project card */}
-            <div className="card">
-              {/* card header */}
-              <div className="card_header">
+            {/* Render project cards */}
+            {filteredProjects.map((project) => (
+              <div className="card" key={project.id}>
+                {/* card header */}
+                <div className="card_header">
                 <div className="post_auth_info">
-                  <div className="profile_image">
-                    <Link to='/profile-contributer'>
-                      <img src={UserProfile} alt="userProfile" />
-                    </Link>
+                    <div className="profile_image">
+                      <button onClick={() => navigation(`/user/${project.author}`)}>
+                        <img src={project.profileImageUrl} alt="userProfile" />
+                      </button>
+                    </div>
+                    <div className="post_user_fet">
+                      <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
+                        {project.author}
+                      </button>
+                      <div className="post-features">
+                        <i className="fas fa-user"></i> Friends <span></span> 5 hours ago
+                      </div>
+                    </div>
                   </div>
-                  <div className="post_user_fet">
-                    <Link to="/profile-contributer" className="user_name">
-                      Esther Howard
-                    </Link>
+                  <div className="post_arrow">
+                    <button type="button">
+                      <BiUpvote />
+                    </button>
+                    <button>
+                      <BiDownvote />
+                    </button>
+                  </div>
+                </div>
+                {/* card body */}
+                <div className="card_body">
+                  <h4 className="card_title">{project.projectName}</h4>
+                  <p className="card_text">{project.projectDescription}</p>
+                  <Link to="single-project">
+                    Learn more <HiArrowNarrowRight />
+                  </Link>
+                </div>
+                {/* card footer */}
+                <div className="card_footer">
+                  {/* project resource */}
+                  <div className="project_resourse">
+                    <button className="project_effective_button">
+                      <AiOutlineLike /> Like
+                    </button>
+                    <div className="project_reso_details">
+                      <div className="likded_users">
+                        <Link to="/">
+                          <img src={project.profileImageUrl} alt={`userImage`} />
+                        </Link>
+                        <Link to="/">
+                          <img src={project.profileImageUrl} alt={`userImage`} />
+                        </Link>
+                        <Link to="/">
+                          <img src={project.profileImageUrl} alt={`userImage`} />
+                        </Link>
+                      </div>
+                      <p>and {project.likesCount} people liked this post.</p>
+                    </div>
+                    <button className="project_effective_button">
+                      <RiShareForwardFill /> Share
+                    </button>
+                  </div>
+                  {/* comment features */}
+                  <div className="project_comment_features">
+                    <button className="project_effective_button">
+                      <FaRegCommentDots /> Comment
+                    </button>
                     <div className="post-features">
-                      <i className="fas fa-user"></i> Friends <span></span> 5
-                      hours ago
+                      <Link to="/">{project.commentsCount} Comments</Link> <span></span>
+                      <Link to="/">{project.sharesCount} Shares</Link>
                     </div>
                   </div>
                 </div>
-                <div className="post_arrow">
-                  <button type='button'>
-                    <BiUpvote />
-                  </button>
-                  <button>
-                    <BiDownvote />
-                  </button>
-                </div>
               </div>
-              {/* card body */}
-              <div className="card_body">
-                <h4 className="card_title">
-                  AI-driven Drug Discovery for Neurodegenerative Diseases
-                </h4>
-                <p className="card_text">
-                  Developing an AI-driven platform to screen and identify
-                  potential drug candidates for the treatment of
-                  neurodegenerative diseases.
-                </p>
-                <Link to="single-project">
-                  Learn more <HiArrowNarrowRight />
-                </Link>
-              </div>
-              {/* card footer  */}
-              <div className="card_footer">
-                {/* project resourse   */}
-                <div className="project_resourse">
-                  <button className="project_effective_button">
-                    <AiOutlineLike /> Like
-                  </button>
-                  <div className="project_reso_details">
-                    <div className="likded_users">
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                    </div>
-                    <p>and 312 peoples liked this post.</p>
-                  </div>
-                  <button className="project_effective_button">
-                    <RiShareForwardFill /> Share
-                  </button>
-                </div>
-                {/* comment features   */}
-                <div className="project_comment_features">
-                  <button className="project_effective_button">
-                    <FaRegCommentDots /> Comment
-                  </button>
-                  <div className="post-features">
-                    <Link to='/'>927 Comments</Link> <span></span>
-                    <Link to='/'>20 Shares</Link>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* single project card */}
-            <div className="card">
-              {/* card header */}
-              <div className="card_header">
-                <div className="post_auth_info">
-                  <div className="profile_image">
-                    <Link to='/profile-contributer'>
-                      <img src={UserProfile} alt="userProfile" />
-                    </Link>
-                  </div>
-                  <div className="post_user_fet">
-                    <Link to="/profile-contributer" className="user_name">
-                      Esther Howard
-                    </Link>
-                    <div className="post-features">
-                      <i className="fas fa-user"></i> Friends <span></span> 5
-                      hours ago
-                    </div>
-                  </div>
-                </div>
-                <div className="post_arrow">
-                  <button type='button'>
-                    <BiUpvote />
-                  </button>
-                  <button>
-                    <BiDownvote />
-                  </button>
-                </div>
-              </div>
-              {/* card body */}
-              <div className="card_body">
-                <h4 className="card_title">
-                  AI-driven Drug Discovery for Neurodegenerative Diseases
-                </h4>
-                <p className="card_text">
-                  Developing an AI-driven platform to screen and identify
-                  potential drug candidates for the treatment of
-                  neurodegenerative diseases.
-                </p>
-                <Link to="single-project">
-                  Learn more <HiArrowNarrowRight />
-                </Link>
-              </div>
-              {/* card footer  */}
-              <div className="card_footer">
-                {/* project resourse   */}
-                <div className="project_resourse">
-                  <button className="project_effective_button">
-                    <AiOutlineLike /> Like
-                  </button>
-                  <div className="project_reso_details">
-                    <div className="likded_users">
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                    </div>
-                    <p>and 312 peoples liked this post.</p>
-                  </div>
-                  <button className="project_effective_button">
-                    <RiShareForwardFill /> Share
-                  </button>
-                </div>
-                {/* comment features   */}
-                <div className="project_comment_features">
-                  <button className="project_effective_button">
-                    <FaRegCommentDots /> Comment
-                  </button>
-                  <div className="post-features">
-                    <Link to='/'>927 Comments</Link> <span></span>
-                    <Link to='/'>20 Shares</Link>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* single project card */}
-            <div className="card">
-              {/* card header */}
-              <div className="card_header">
-                <div className="post_auth_info">
-                  <div className="profile_image">
-                    <Link to='/profile-contributer'>
-                      <img src={UserProfile} alt="userProfile" />
-                    </Link>
-                  </div>
-                  <div className="post_user_fet">
-                    <Link to="/profile-contributer" className="user_name">
-                      Esther Howard
-                    </Link>
-                    <div className="post-features">
-                      <i className="fas fa-user"></i> Friends <span></span> 5
-                      hours ago
-                    </div>
-                  </div>
-                </div>
-                <div className="post_arrow">
-                  <button type='button'>
-                    <BiUpvote />
-                  </button>
-                  <button>
-                    <BiDownvote />
-                  </button>
-                </div>
-              </div>
-              {/* card body */}
-              <div className="card_body">
-                <h4 className="card_title">
-                  AI-driven Drug Discovery for Neurodegenerative Diseases
-                </h4>
-                <p className="card_text">
-                  Developing an AI-driven platform to screen and identify
-                  potential drug candidates for the treatment of
-                  neurodegenerative diseases.
-                </p>
-                <Link to="single-project">
-                  Learn more <HiArrowNarrowRight />
-                </Link>
-              </div>
-              {/* card footer  */}
-              <div className="card_footer">
-                {/* project resourse   */}
-                <div className="project_resourse">
-                  <button className="project_effective_button">
-                    <AiOutlineLike /> Like
-                  </button>
-                  <div className="project_reso_details">
-                    <div className="likded_users">
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                      <Link to="/">
-                        <img src={UserProfile} alt="user2"
-                        />
-                      </Link>
-                    </div>
-                    <p>and 312 peoples liked this post.</p>
-                  </div>
-                  <button className="project_effective_button">
-                    <RiShareForwardFill /> Share
-                  </button>
-                </div>
-                {/* comment features   */}
-                <div className="project_comment_features">
-                  <button className="project_effective_button">
-                    <FaRegCommentDots /> Comment
-                  </button>
-                  <div className="post-features">
-                    <Link to='/'>927 Comments</Link> <span></span>
-                    <Link to='/'>20 Shares</Link>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
+            ))}
           </div>
 
         </div>

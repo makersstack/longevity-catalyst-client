@@ -27,7 +27,7 @@ function SignupModal({ open, onClose, onSignUp }) {
 
   return (
     <Modal open={open} onClose={onClose} center>
-      <div class="modal-wrapper">
+      <div className="modal-wrapper">
         <div className="custom-modal" id="signup_references">
           <div className="modal-wrapper">
             <div className="modal_head">
