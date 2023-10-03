@@ -15,7 +15,7 @@ const DashboardMenu = () => {
             id: 1,
             title: 'Dashboard',
             icon: <LuBarChart2 />,
-            route: '/'
+            route: '/user/dashboard'
         },
         {
             id: 2,
@@ -25,12 +25,12 @@ const DashboardMenu = () => {
                 {
                     id: 2.1,
                     title: 'All Project',
-                    route: '/all-project',
+                    route: '/user/project/all',
                 },
                 {
                     id: 2.2,
                     title: 'Add Project',
-                    route: '/add-project',
+                    route: '/user/project/add',
                 },
             ],
         },
