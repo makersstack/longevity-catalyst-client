@@ -14,8 +14,137 @@ const AddProject = () => {
             label: 'off'
         }
     ];
+    const ProjectHardDeadlineOption = [
+        {
+            value: 'on',
+            label: 'on'
+        },
+        {
+            value: 'off',
+            label: 'off'
+        }
+    ];
+    const projectTypeOption = [
+        {
+            value: 'Individual',
+            label: 'Individual'
+        },
+        {
+            value: 'Team',
+            label: 'Team'
+        },
+        {
+            value: 'Other',
+            label: 'Other'
+        }
+    ];
+    const projectNatureOption = [
+        {
+            value: 'General Programming',
+            label: 'General Programming'
+        },
+        {
+            value: 'Data Analysis',
+            label: 'Data Analysis'
+        },
+        {
+            value: 'Wet Lab',
+            label: 'Wet Lab'
+        },
+        {
+            value: 'Other',
+            label: 'Other'
+        }
+    ];
+
+    const projectExperienceOption = [
+        {
+            value: 'Novice',
+            label: 'Novice'
+        },
+        {
+            value: 'Intermediate',
+            label: 'Intermediate'
+        },
+        {
+            value: 'Proficient',
+            label: 'Proficient'
+        },
+        {
+            value: 'Advanced',
+            label: 'Advanced'
+        },
+        {
+            value: 'Expert',
+            label: 'Expert'
+        }
+    ];
+
+    const expectedTimeProjectOption = [
+        {
+            value: 'Less than 1 week',
+            label: 'Less than 1 week'
+        },
+        {
+            value: 'Less than 1 month',
+            label: 'Less than 1 month'
+        },
+        {
+            value: 'Less than 3 months',
+            label: 'Less than 3 months'
+        },
+        {
+            value: 'Greater than 3 months',
+            label: 'Greater than 3 months'
+        },
+        {
+            value: 'Other',
+            label: 'Other'
+        }
+    ];
+
+    const haveProjectBudgetOption = [
+        {
+            value: 'I have a budget',
+            label: 'I-have-a-budget'
+        },
+        {
+            value: 'I will require a volunteer / sponsorship',
+            label: 'I will require a volunteer sponsorship'
+        }
+    ];
+
+
+    const readyToStartOption = [
+        {
+            value: 'Immediately',
+            label: 'Immediately'
+        },
+        {
+            value: 'Within 1 week',
+            label: 'Within 1 week'
+        },
+        {
+            value: 'Within 2 week',
+            label: 'Within 2 week'
+        },
+        {
+            value: 'Other',
+            label: 'Other'
+        }
+
+    ];
+
+
+
+
+
+
+
+
+
     const [selectedValue, setSelectedValue] = useState('');
-    const handleRadioChange = (value) =>{
+    const handleRadioChange = (value) => {
         setSelectedValue(value);
         console.log(value);
     }
@@ -109,17 +238,10 @@ const AddProject = () => {
                                     <div className="onsite_check">
 
                                         {
-                                             <RadioButton options={onsiteOption}  onRadioChange={handleRadioChange} selectedValue={selectedValue}/>
+                                            <RadioButton options={onsiteOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
                                         }
 
-                                        <div className="radio_control">
-                                            <label htmlFor="radioYes">Yes</label>
-                                            <input type="radio" name="radio" id="radioYes" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioNo">No</label>
-                                            <input type="radio" name="radio" id="radioNo" />
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -200,196 +322,181 @@ const AddProject = () => {
                                         Is this an individual or team project?
                                         <span>*</span>
                                     </label>
-                                    <div className="onsite_check">
-                                        <div className="radio_control">
-                                            <label htmlFor="radioIndividual">Individual</label>
-                                            <input type="radio" name="radio" id="radioIndividual" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioTeam">Team</label>
-                                            <input type="radio" name="radio" id="radioTeam" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioOther">Other</label>
-                                            <input type="radio" name="radio" id="radioOther" />
-                                        </div>
-                                    </div>
+
+
+                                    {
+                                        <RadioButton options={projectTypeOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+
+
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="#"> Describe the nature of your project. </label>
-                                    <div className="onsite_check">
-                                        <div className="radio_control">
-                                            <label htmlFor="radioProg">General Programming</label>
-                                            <input type="radio" name="radio" id="radioProg" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioData">Data Analysis</label>
-                                            <input type="radio" name="radio" id="radioData" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioLab">Wet Lab</label>
-                                            <input type="radio" name="radio" id="radioLab" />
-                                        </div>
-                                        <div className="radio_control">
-                                            <label htmlFor="radioEOther">Other</label>
-                                            <input type="radio" name="radio" id="radioEOther" />
-                                        </div>
-                                    </div>
+
+                                    {
+                                        <RadioButton options={projectNatureOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+
                                 </div>
                             </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    Is there a hard deadline for this project ? <span>*</span>
-                                </label>
-                                <div className="onsite_check">
-                                    <div className="radio_control">
-                                        <label htmlFor="radioYes">Yes</label>
-                                        <input type="radio" name="radio" id="radioYes" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">No</label>
-                                        <input type="radio" name="radio" id="radioNo" />
+
+                            <div className="two_columns">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Is there a hard deadline for this project ? <span>*</span>
+                                    </label>
+                                    {
+                                        <RadioButton options={projectExperienceOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+
+                                </div>
+
+
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="answerad"
+                                    >List the skills that this project will require.
+                                    </label>
+                                    <textarea
+                                        name="answerad"
+                                        id="answerad"
+                                        rows="2"
+                                        placeholder="Answer here.."
+                                    >
+                                    </textarea>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div className="two_columns">
+
+
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#"> What is your project deadline? </label>
+                                    <div className="date_picker">
+                                        <input type="text" placeholder='Date picker will appear here ' />
+                                        <button>Data Picker</button>
                                     </div>
                                 </div>
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#"> What is your project deadline? </label>
-                                <div className="date_picker">
-                                    <input type="text" />
-                                    <button>Data Picker</button>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Is there a hard deadline for this project ? <span>*</span>
+                                    </label>
+                                    {
+                                        <RadioButton options={ProjectHardDeadlineOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+
                                 </div>
                             </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    How long do you expect this project to take ?
-                                </label>
-                                <div className="onsite_check">
-                                    <div className="radio_control">
-                                        <label htmlFor="radioYes">Less than 1 week</label>
-                                        <input type="radio" name="radio" id="radioYes" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">Less than 1 month</label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">Less than 3 months</label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">Greater than 3 months</label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">Other</label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
+
+
+                            <div className="two_columns">
+
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        How long do you expect this project to take ?
+                                    </label>
+                                    {
+                                        <RadioButton options={expectedTimeProjectOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+                                </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Do you have a budget for this project or will it rely on
+                                        volunteer work / platform sponsorship?<span>*</span>
+                                    </label>
+                                    {
+                                        <RadioButton options={haveProjectBudgetOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
+                                </div>
+
+                            </div>
+
+                            <div className="two_columns">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#"
+                                    >What is your budget or the expected cost of this project ?
+                                    </label>
+                                    <textarea
+                                        name="answer"
+                                        id="answer"
+                                        rows="2"
+                                        placeholder="Answer here.."
+                                    >
+                                    </textarea>
+                                </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        What will you be ready to start this project?
+                                    </label>
+                                    {
+                                        <RadioButton options={readyToStartOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                    }
                                 </div>
                             </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    Do you have a budget for this project or will it rely on
-                                    volunteer work / platform sponsorship?<span>*</span>
-                                </label>
-                                <div className="onsite_check">
-                                    <div className="radio_control">
-                                        <label htmlFor="radioYes">I have a budget</label>
-                                        <input type="radio" name="radio" id="radioYes" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">
-                                            I will require a volunteer / sponsorship
-                                        </label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
+                            <div className="two_columns">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Please describe the final deliverable in as much detail as
+                                        possible.
+                                    </label>
+                                    <textarea
+                                        name="answer"
+                                        id="answer"
+                                        rows="2"
+                                        placeholder="Answer here.."
+                                    >
+                                    </textarea>
+                                </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#"> Provide a link to any relevant data. </label>
+                                    <input name="answer" id="answer" placeholder="https://" />
                                 </div>
                             </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#"
-                                >What is your budget or the expected cost of this project ?
-                                </label>
-                                <textarea
-                                    name="answer"
-                                    id="answer"
-                                    rows="2"
-                                    placeholder="Answer here.."
-                                >
-                                </textarea>
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    What will you be ready to start this project?
-                                </label>
-                                <div className="onsite_check">
-                                    <div className="radio_control">
-                                        <label htmlFor="radioYes">Immediately</label>
-                                        <input type="radio" name="radio" id="radioYes" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo"> Within 1 week </label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
-                                    <div className="radio_control">
-                                        <label htmlFor="radioNo">Other</label>
-                                        <input type="radio" name="radio" id="radioNo" />
-                                    </div>
+                            <div className="two_columns">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Provide links to any relevant literature that may help your
+                                        project match.
+                                    </label>
+                                    <textarea
+                                        name="answer"
+                                        id="answer"
+                                        rows="2"
+                                        placeholder="Answer here.."
+                                    >
+                                    </textarea>
+                                </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="#">
+                                        Anything else that should be included with your project’s
+                                        description?
+                                    </label>
+                                    <textarea
+                                        name="answer"
+                                        id="answer"
+                                        rows="2"
+                                        placeholder="Answer here.."
+                                    >
+                                    </textarea>
                                 </div>
                             </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    Please describe the final deliverable in as much detail as
-                                    possible.
-                                </label>
-                                <textarea
-                                    name="answer"
-                                    id="answer"
-                                    rows="2"
-                                    placeholder="Answer here.."
-                                >
-                                </textarea>
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#"> Provide a link to any relevant data. </label>
-                                <input name="answer" id="answer" placeholder="https://" />
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    Provide links to any relevant literature that may help your
-                                    project match.
-                                </label>
-                                <textarea
-                                    name="answer"
-                                    id="answer"
-                                    rows="2"
-                                    placeholder="Answer here.."
-                                >
-                                </textarea>
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="#">
-                                    Anything else that should be included with your project’s
-                                    description?
-                                </label>
-                                <textarea
-                                    name="answer"
-                                    id="answer"
-                                    rows="2"
-                                    placeholder="Answer here.."
-                                >
-                                </textarea>
-                            </div>
-                            <div className="form_submit">
+                            <div className="form_submit al_submit_button">
                                 <button type="submit" className="btn btn-submit btn-dark">
                                     Submit
                                 </button>
