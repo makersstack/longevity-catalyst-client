@@ -1,4 +1,5 @@
-import { FiCheckCircle, FiFacebook, FiSettings, FiTwitter, FiUsers } from 'react-icons/fi';
+import { BsLinkedin, BsTwitter } from 'react-icons/bs';
+import { FiCheckCircle, FiSettings, FiUsers } from 'react-icons/fi';
 
 const projectCards = [
   {
@@ -49,8 +50,8 @@ const chooseData = [
   },
 ];
 const socialIcons = [
-  <FiTwitter key="twitter" />,
-  <FiFacebook key="facebook" />,
+  <BsTwitter key="twitter" />,
+  <BsLinkedin key="facebook" />,
 ]
 const membersData = [
   {
@@ -60,16 +61,22 @@ const membersData = [
     desc: "Mark's career has progressed from manual bench work in academia",
     socailIcons: socialIcons,
   }, {
-    icon: 'assets/img/team-member-1.jpeg',
-    title: 'Mark Hamalainen',
+    icon: 'assets/img/demo-user-4.png',
+    title: 'Nathan Cheng',
     subTitle: 'Co-Executive Director',
-    desc: "Mark's career has progressed from manual bench work in academia",
+    desc: "Nathan is a physics PhD dropout who made the jump to longevity,",
     socailIcons: socialIcons,
   }, {
-    icon: 'assets/img/team-member-1.jpeg',
-    title: 'Mark Hamalainen',
-    subTitle: 'Co-Executive Director',
-    desc: "Mark's career has progressed from manual bench work in academia",
+    icon: 'assets/img/demo-user-5.png',
+    title: 'Jun Axup',
+    subTitle: 'Director',
+    desc: "Experienced as a scientist, entrepreneur and VC Partner at IndieBio.",
+    socailIcons: socialIcons,
+  }, {
+    icon: 'assets/img/demo-user-6.png',
+    title: "Matthew O'Connor",
+    subTitle: 'Director',
+    desc: "Dr. O'Connor was awarded his master's degree in neuroscience.",
     socailIcons: socialIcons,
   },
 ];
