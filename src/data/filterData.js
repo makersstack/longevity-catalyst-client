@@ -1,7 +1,10 @@
+import { AiOutlineHeart } from "react-icons/ai";
 import { BiSolidBadge } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import { FaAward } from "react-icons/fa";
 import { FaArrowTrendUp } from "react-icons/fa6";
+import { MdOutlineLightMode } from "react-icons/md";
+import { VscWorkspaceTrusted } from "react-icons/vsc";
 
 // Sidebar filter
 export const requirdSkillCheckData = [
@@ -46,11 +49,16 @@ export const categoryOptions = [
   { label: 'Project 3', value: 'project3' },
 ];
 
-  // Top Filter
- export const topFilterOptionsPage1 = [
-    { label: 'Latest', icon: <BiSolidBadge />, value: 'latest' },
-    { label: 'Most View', icon: <BsEye />, value: 'mostView' },
-    { label: 'Top', icon: <FaAward />, value: 'top' },
-    { label: 'Rising', icon: <FaArrowTrendUp />, value: 'rising' },
-  ];
-  
+// Top Filter
+export const topFilterOptionsPage1 = [
+  { label: 'Latest', icon: <BiSolidBadge />, value: 'latest' },
+  { label: 'Most View', icon: <BsEye />, value: 'mostView' },
+  { label: 'Top', icon: <FaAward />, value: 'top' },
+  { label: 'Rising', icon: <FaArrowTrendUp />, value: 'rising' },
+];
+export const topFilterOptionsByUser = [
+  { label: 'Activity', icon: <MdOutlineLightMode />, value: 'latest' },
+  { label: 'Badge', icon: <BiSolidBadge />, value: 'mostView' },
+  { label: 'Trust', icon: <VscWorkspaceTrusted />, value: 'top' },
+  { label: 'Appreciated', icon: <AiOutlineHeart />, value: 'rising' },
+];

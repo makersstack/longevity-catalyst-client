@@ -5,27 +5,28 @@ import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
+
 import SidebarFilters from './filter/SidebarFilters';
 import TopFilterButtons from './filter/TopFilterButtons';
 
 const ProjectFeed = () => {
-  const [projects, setProjects] = useState([]);
-  
+  const navigation = useNavigate();
+
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     fetch('/data.json')
       .then((response) => response.json())
       .then((data) => {
         setProjects(data);
-        console.log(data);
         setFilteredProjects(data); 
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
+
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -33,8 +34,35 @@ const ProjectFeed = () => {
   const handleTopOptionChange = (value) => {
     setSelectedTopOption(value);
   };
-
   // Sidebar Content
+  function filterProjects(filters, projects) {
+    const {
+      search,
+      selectedCategory,
+      selectedTopic,
+      selectedDuration,
+      selectedRequiredSkills,
+      selectedFundingStatus,
+      selectedLanguage,
+    } = filters;
+  
+    return projects.filter((project) => {
+      // Debug statements to check values
+      // console.log('Search:', search);
+      // console.log('Project Name:', project.projectName.toLowerCase());
+      // Apply your filter logic here based on the filter criteria
+      // For example, you can use if statements to check each filter
+      if (search && !project.projectName.toLowerCase().includes(search.toLowerCase())) {
+        return false;
+      }
+  
+      if (selectedCategory && project.category !== selectedCategory) {
+        return false;
+      }
+  
+      return true; 
+    });
+  }
   const [filters, setFilters] = useState({
     search: '',
     selectedCategory: '',
@@ -44,13 +72,33 @@ const ProjectFeed = () => {
     selectedFundingStatus: '',
     selectedLanguage: '',
   });
-
+  
+  useEffect(() => {
+   
+    const filtered = filterProjects(filters, projects);
+    setFilteredProjects(filtered);
+  
+  }, [filters, projects]);
+  
   const handlePageChange = (filterType, value) => {
+    console.log('onPageChange called with:', filterType, value);
+  
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
+  
+    setFilteredProjects((prevFilteredProjects) => {
+      return filterProjects(
+        {
+          ...prevFilteredProjects, 
+          [filterType]: value,
+        },
+        prevFilteredProjects
+      );
+    });
   };
+  
 
   return (
     <>
@@ -79,16 +127,16 @@ const ProjectFeed = () => {
               <div className="card" key={project.id}>
                 {/* card header */}
                 <div className="card_header">
-                  <div className="post_auth_info">
+                <div className="post_auth_info">
                     <div className="profile_image">
-                      <Link to="/profile-contributer">
+                      <button onClick={() => navigation(`/user/${project.author}`)}>
                         <img src={project.profileImageUrl} alt="userProfile" />
-                      </Link>
+                      </button>
                     </div>
                     <div className="post_user_fet">
-                      <Link to="/profile-contributer" className="user_name">
+                      <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
                         {project.author}
-                      </Link>
+                      </button>
                       <div className="post-features">
                         <i className="fas fa-user"></i> Friends <span></span> 5 hours ago
                       </div>

@@ -4,12 +4,13 @@ import React, { useState } from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
 
 // Search field component
-function SearchField({ onSearchChange, defaultValue }) {
-  const [value, setValue] = useState(defaultValue);
+function SearchField({ onSearchChange, value }) {
+  const [localValue, setLocalValue] = useState(value || '');
 
   const handleChange = (e) => {
-    setValue(e.target.value);
-    onSearchChange(e.target.value);
+    const newValue = e.target.value;
+    setLocalValue(newValue);
+    onSearchChange(newValue);
   };
 
   return (
@@ -20,11 +21,12 @@ function SearchField({ onSearchChange, defaultValue }) {
         type="search"
         placeholder="Project Name"
         onChange={handleChange}
-        value={value}
+        value={localValue}
       />
     </div>
   );
 }
+
 
 // Categories component
 function Categories({ categoryOptions, onCategoryChange, value }) {
@@ -173,7 +175,7 @@ const SidebarFilters = ({
       {/* Project sidebar filter */}
       <div className="project_side_ber_container">
         <div className="project_side_bar">
-          <form action="/" method="post">
+          <div>
             {search && <SearchField onSearchChange={onPageChange} value={filters.search} />}
             {categories && (
               <Categories
@@ -216,7 +218,7 @@ const SidebarFilters = ({
                 value={filters.selectedLanguage}
               />
             )}
-          </form>
+          </div>
         </div>
       </div>
     </>

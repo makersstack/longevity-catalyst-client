@@ -59,6 +59,7 @@ button {
   outline: none;
   background: transparent;
   font-family: inherit;
+  cursor: pointer;
 }
 input,
 textarea {
@@ -933,11 +934,11 @@ header {
   justify-content: center;
   align-content: center;
   align-items: center;
-  color: #000;
+  color: #959595;
   font-family: "Noto Sans", sans-serif;
   font-size: 14px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: normal;
   gap: 10px;
   width: 100%;
@@ -947,10 +948,13 @@ header {
 }
 .short_filter_button svg {
   fill: #959595;
+  height: 24px;
+  width: 24px;
 }
 .short_filter_button.active,
 .short_filter_button:hover {
   background: rgba(77, 77, 77, 0.1);
+  color: #000;
 }
 .short_filter_button.active svg,
 .short_filter_button:hover svg {
@@ -988,7 +992,7 @@ header {
   object-fit: cover;
   border-radius: 50%;
 }
-.post_user_fet a {
+.post_user_fet button {
   color: #333;
   font-family: "Noto Sans", sans-serif;
   font-size: 16px;
@@ -996,7 +1000,7 @@ header {
   font-weight: 600;
   line-height: normal;
 }
-.post_user_fet a:hover {
+.post_user_fet button:hover {
   text-decoration: underline;
 }
 .post-features {
