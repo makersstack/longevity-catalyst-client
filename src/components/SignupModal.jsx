@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-responsive-modal';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
-import RadioButton from './common/RadioButton';
+import SignUpRadio from './common/SignUpRadio';
 
 function SignupModal({ open, onClose, onSignUp }) {
   const [selectedValue, setSelectedValue] = useState('researcher');
@@ -36,7 +36,7 @@ function SignupModal({ open, onClose, onSignUp }) {
             <div className="modal_body">
               <h2 className="modal_title">Choose Your Preferences.</h2>
               <form className="sign_up_preference" action="#" method="post">
-                <RadioButton options={radioOptions} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                <SignUpRadio options={radioOptions} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
                 <button type="button" onClick={handleCreateAccountClick} className="btn btn-dark btn-full">
                   Create Account
                 </button>

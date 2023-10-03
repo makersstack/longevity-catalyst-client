@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 
@@ -6,148 +6,204 @@ const AddProject = () => {
 
     const onsiteOption = [
         {
+            key: 'onsite-1',
             value: 'on',
-            label: 'on'
+            label: 'on',
+            inputName: 'onsite-work',
         },
         {
+            key: 'onsite-2',
             value: 'off',
-            label: 'off'
+            label: 'off',
+            inputName: 'onsite-work',
+            checked: true
         }
     ];
     const ProjectHardDeadlineOption = [
         {
+            key: 'hardDeadline-1',
             value: 'on',
-            label: 'on'
+            label: 'on',
+            inputName: 'hardDeadline',
         },
         {
+            key: 'hardDeadline-2',
             value: 'off',
-            label: 'off'
+            label: 'off',
+            inputName: 'hardDeadline',
+            checked: true
         }
     ];
     const projectTypeOption = [
         {
+            key: 'projectType-1',
             value: 'Individual',
-            label: 'Individual'
+            label: 'Individual',
+            inputName: 'projecType',
         },
         {
+            key: 'projectType-2',
             value: 'Team',
-            label: 'Team'
+            label: 'Team',
+            inputName: 'projecType',
+            checked: true
         },
         {
+            key: 'projectType-3',
             value: 'Other',
-            label: 'Other'
+            label: 'Other',
+            inputName: 'projecType',
         }
     ];
     const projectNatureOption = [
         {
+            key: 'projectNature-1',
             value: 'General Programming',
-            label: 'General Programming'
+            label: 'General Programming',
+            inputName: 'projectNature',
         },
         {
+            key: 'projectNature-2',
             value: 'Data Analysis',
-            label: 'Data Analysis'
+            label: 'Data Analysis',
+            inputName: 'projectNature',
         },
         {
+            key: 'projectNature-3',
             value: 'Wet Lab',
-            label: 'Wet Lab'
+            label: 'Wet Lab',
+            inputName: 'projectNature',
         },
         {
+            key: 'projectNature-4',
             value: 'Other',
-            label: 'Other'
+            label: 'Other',
+            inputName: 'projectNature',
+            checked: true
         }
     ];
 
     const projectExperienceOption = [
         {
+            key: 'projectExperience-1',
             value: 'Novice',
-            label: 'Novice'
+            label: 'Novice',
+            inputName: 'projectExperience',
         },
         {
+            key: 'projectExperience-2',
             value: 'Intermediate',
-            label: 'Intermediate'
+            label: 'Intermediate',
+            inputName: 'projectExperience',
         },
         {
+            key: 'projectExperience-3',
             value: 'Proficient',
-            label: 'Proficient'
+            label: 'Proficient',
+            inputName: 'projectExperience',
+            checked: true
         },
         {
+            key: 'projectExperience-4',
             value: 'Advanced',
-            label: 'Advanced'
+            label: 'Advanced',
+            inputName: 'projectExperience',
         },
         {
+            key: 'projectExperience-5',
             value: 'Expert',
-            label: 'Expert'
+            label: 'Expert',
+            inputName: 'projectExperience',
         }
     ];
 
     const expectedTimeProjectOption = [
         {
+            key: 'expectedTimeProject-1',
             value: 'Less than 1 week',
-            label: 'Less than 1 week'
+            label: 'Less than 1 week',
+            inputName: 'expectedTimeProject',
         },
         {
+            key: 'expectedTimeProject-2',
             value: 'Less than 1 month',
-            label: 'Less than 1 month'
+            label: 'Less than 1 month',
+            inputName: 'expectedTimeProject',
+            checked: true
         },
         {
+            key: 'expectedTimeProject-3',
             value: 'Less than 3 months',
-            label: 'Less than 3 months'
+            label: 'Less than 3 months',
+            inputName: 'expectedTimeProject',
         },
         {
+            key: 'expectedTimeProject-4',
             value: 'Greater than 3 months',
-            label: 'Greater than 3 months'
+            label: 'Greater than 3 months',
+            inputName: 'expectedTimeProject',
         },
         {
+            key: 'expectedTimeProject-5',
             value: 'Other',
-            label: 'Other'
+            label: 'Other',
+            inputName: 'expectedTimeProject',
         }
     ];
 
     const haveProjectBudgetOption = [
         {
+            key: 'haveProjectBudget-1',
             value: 'I have a budget',
-            label: 'I-have-a-budget'
+            label: 'I have a budget',
+            inputName: 'haveProjectBudget',
         },
         {
+            key: 'haveProjectBudget-2',
             value: 'I will require a volunteer / sponsorship',
-            label: 'I will require a volunteer sponsorship'
+            label: 'I will require a volunteer sponsorship',
+            inputName: 'haveProjectBudget',
         }
     ];
 
 
     const readyToStartOption = [
         {
+            key: 'readyToStart-1',
             value: 'Immediately',
-            label: 'Immediately'
+            label: 'Immediately',
+            inputName: 'readyToStart',
+            checked: true
         },
         {
+            key: 'readyToStart-2',
             value: 'Within 1 week',
-            label: 'Within 1 week'
+            label: 'Within 1 week',
+            inputName: 'readyToStart',
         },
         {
+            key: 'readyToStart-3',
             value: 'Within 2 week',
-            label: 'Within 2 week'
+            label: 'Within 2 week',
+            inputName: 'readyToStart',
         },
         {
+            key: 'readyToStart-4',
             value: 'Other',
-            label: 'Other'
+            label: 'Other',
+            inputName: 'readyToStart',
         }
 
     ];
 
-
-
-
-
-
-
-
-
-    const [selectedValue, setSelectedValue] = useState('');
-    const handleRadioChange = (value) => {
-        setSelectedValue(value);
-        console.log(value);
+    const handelProjectSubmit = (event) =>{
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        console.log(formData);
+        alert('browser console to see the sumited value ! need to work more on submit');
     }
+
+
     return (
         <section className="full_widht_auth_section">
             <div className="container">
@@ -160,58 +216,58 @@ const AddProject = () => {
                         <div className="add_project_head">
                             <h3 className="title">Add Project</h3>
                         </div>
-                        <form action="#" className="add_project_form">
+                        <form onSubmit={handelProjectSubmit} className="add_project_form">
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="project_name">
                                         What is the name of your project?<span>*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="project_name"
+                                        id="project_name"
                                         placeholder="Project Name"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"> What is your name?<span>*</span> </label>
-                                    <input type="text" name="text" id="text" placeholder="Name" />
+                                    <label htmlFor="user_name"> What is your name?<span>*</span> </label>
+                                    <input type="text" name="user_name" id="user_name" placeholder="Name" />
                                 </div>
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"> What is your email?<span>*</span> </label>
+                                    <label htmlFor="user_email"> What is your email?<span>*</span> </label>
                                     <input
                                         type="email"
-                                        name="text"
-                                        id="text"
+                                        name="user_email"
+                                        id="user_email"
                                         placeholder="Email"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="affiliation">
                                         What is your affiliation?<span>*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="affiliation"
+                                        id="affiliation"
                                         placeholder="Affiliation"
                                     />
                                 </div>
                             </div>
                             {/* <!-- Single Input --> */}
                             <div className="form_control">
-                                <label htmlFor="#">
+                                <label htmlFor="project_desc">
                                     Provide a brief description of your project.<span>*</span>
                                 </label>
                                 <textarea
-                                    name="desc"
-                                    id="desc"
+                                    name="project_desc"
+                                    id="project_desc"
                                     rows="2"
                                     placeholder="Description"
                                 ></textarea>
@@ -219,26 +275,26 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="project_keywords">
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="project_keywords"
+                                        id="project_keywords"
                                         placeholder="keywords"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label>
                                         Will this project require any onsite work?
                                     </label>
                                     <div className="onsite_check">
 
                                         {
-                                            <RadioButton options={onsiteOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                            onsiteOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                         }
 
 
@@ -252,21 +308,21 @@ const AddProject = () => {
                             {/* <!-- Single Input --> */}
                             <div className="two_columns">
                                 <div className="form_control">
-                                    <label htmlFor="#"> Address </label>
+                                    <label htmlFor="address"> Address </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="address"
+                                        id="address"
                                         placeholder="65 Hansen Way"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">Address Line 2 </label>
+                                    <label htmlFor="address_line">Address Line 2 </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="address_line"
+                                        id="address_line"
                                         placeholder="Apartment 4"
                                     />
                                 </div>
@@ -274,21 +330,21 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">City / Town </label>
+                                    <label htmlFor="city_town">City / Town </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="city_town"
+                                        id="city_town"
                                         placeholder="Palo Alto"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">State / Region / Province </label>
+                                    <label htmlFor="state_region_province">State / Region / Province </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="state_region_province"
+                                        id="testate_region_provincext"
                                         placeholder="California"
                                     />
                                 </div>
@@ -296,21 +352,21 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">Zip / Post Code </label>
+                                    <label htmlFor="zip_code">Zip / Post Code </label>
                                     <input
                                         type="number"
-                                        name="text"
-                                        id="text"
+                                        name="zip_code"
+                                        id="zip_code"
                                         placeholder="94304"
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">Country </label>
+                                    <label htmlFor="country">Country </label>
                                     <input
                                         type="text"
-                                        name="text"
-                                        id="text"
+                                        name="country"
+                                        id="country"
                                         placeholder="United States"
                                     />
                                 </div>
@@ -318,25 +374,31 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label >
                                         Is this an individual or team project?
                                         <span>*</span>
                                     </label>
 
 
                                     {
-                                        <RadioButton options={projectTypeOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        projectTypeOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+
+
+                                  
 
 
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"> Describe the nature of your project. </label>
+                                    <label > Describe the nature of your project. </label>
 
                                     {
-                                        <RadioButton options={projectNatureOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        projectNatureOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+
+
+                                   
 
                                 </div>
                             </div>
@@ -344,24 +406,26 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label >
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
+
                                     {
-                                        <RadioButton options={projectExperienceOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+
 
                                 </div>
 
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="answerad"
+                                    <label htmlFor="required_skill_list"
                                     >List the skills that this project will require.
                                     </label>
                                     <textarea
-                                        name="answerad"
-                                        id="answerad"
+                                        name="required_skill_list"
+                                        id="required_skill_list"
                                         rows="2"
                                         placeholder="Answer here.."
                                     >
@@ -378,20 +442,23 @@ const AddProject = () => {
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"> What is your project deadline? </label>
+                                    <label htmlFor="p_deadline"> What is your project deadline? </label>
                                     <div className="date_picker">
-                                        <input type="text" placeholder='Date picker will appear here ' />
+                                        <input id='p_deadline' type="p_deadline" placeholder='Date picker will appear here ' />
                                         <button>Data Picker</button>
                                     </div>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label>
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
+
+
                                     {
-                                        <RadioButton options={ProjectHardDeadlineOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+                                  
 
                                 </div>
                             </div>
@@ -401,22 +468,27 @@ const AddProject = () => {
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label >
                                         How long do you expect this project to take ?
                                     </label>
                                     {
-                                        <RadioButton options={expectedTimeProjectOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        expectedTimeProjectOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+                                   
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label >
                                         Do you have a budget for this project or will it rely on
                                         volunteer work / platform sponsorship?<span>*</span>
                                     </label>
+
                                     {
-                                        <RadioButton options={haveProjectBudgetOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+
+
+                                  
                                 </div>
 
                             </div>
@@ -424,12 +496,12 @@ const AddProject = () => {
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"
+                                    <label htmlFor="expected_cost"
                                     >What is your budget or the expected cost of this project ?
                                     </label>
                                     <textarea
                                         name="answer"
-                                        id="answer"
+                                        id="expected_cost"
                                         rows="2"
                                         placeholder="Answer here.."
                                     >
@@ -437,24 +509,25 @@ const AddProject = () => {
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label >
                                         What will you be ready to start this project?
                                     </label>
                                     {
-                                        <RadioButton options={readyToStartOption} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
+                                        readyToStartOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
+
                                 </div>
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="final_deliverable_details">
                                         Please describe the final deliverable in as much detail as
                                         possible.
                                     </label>
                                     <textarea
-                                        name="answer"
-                                        id="answer"
+                                        name="final_deliverable_details"
+                                        id="final_deliverable_details"
                                         rows="2"
                                         placeholder="Answer here.."
                                     >
@@ -462,20 +535,20 @@ const AddProject = () => {
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#"> Provide a link to any relevant data. </label>
-                                    <input name="answer" id="answer" placeholder="https://" />
+                                    <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
+                                    <input name="relevant_link" id="relevant_link" placeholder="https://" />
                                 </div>
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="relevant_literature_link">
                                         Provide links to any relevant literature that may help your
                                         project match.
                                     </label>
                                     <textarea
-                                        name="answer"
-                                        id="answer"
+                                        name="relevant_literature_link"
+                                        id="relevant_literature_link"
                                         rows="2"
                                         placeholder="Answer here.."
                                     >
@@ -483,13 +556,13 @@ const AddProject = () => {
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="#">
+                                    <label htmlFor="other_included">
                                         Anything else that should be included with your project’s
                                         description?
                                     </label>
                                     <textarea
-                                        name="answer"
-                                        id="answer"
+                                        name="other_included"
+                                        id="other_included"
                                         rows="2"
                                         placeholder="Answer here.."
                                     >
