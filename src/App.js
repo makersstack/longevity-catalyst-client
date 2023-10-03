@@ -13,7 +13,10 @@ import ProjectDetails from './pages/ProjectDetails';
 import Login from './pages/auth/Login';
 import SignUp from './pages/auth/SignUp';
 import AddProject from './pages/userPanel/AddProject';
+import AllProject from './pages/userPanel/AllProject';
+import Dashboard from './pages/userPanel/Dashboard';
 import EditUserProfile from './pages/userPanel/EditUserProfile';
+import PasswordChange from './pages/userPanel/PasswordChange';
 
 const App = () => {
   return (
@@ -28,7 +31,10 @@ const App = () => {
         <Route path='/single-project' element={<ProjectDetails />} />
         <Route path='/user/:profile' element={<ProfileShow/>} />
         <Route path='/user/profile/update' element={<EditUserProfile/>} />
-        <Route path='/add-project' element={<AddProject/>} />
+        <Route path='/user/dashboard' element={<Dashboard/>} />
+        <Route path='/user/project/all' element={<AllProject/>} />
+        <Route path='/user/project/add' element={<AddProject/>} />
+        <Route path='/user/password/change' element={<PasswordChange/>} />
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
       <Footer/>

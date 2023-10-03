@@ -1,32 +1,33 @@
 import React from 'react';
 
-function RadioButton({ options, onRadioChange, selectedValue }) {
+function RadioButton({ radionData }) {
 
-  const handleRadioChange = (event) => {
-    const newValue = event.target.value;
+  // if(onRadioChange){
+  //   const handleRadioChange = (event) => {
+  //     const newValue = event.target.value;
 
 
-    onRadioChange(newValue);
-  };
+  //     onRadioChange(newValue);
+  //   };
+  // }
+
 
   return (
     <>
-      {options.map((option) => (
-        <div className='form_radio' key={option.value}>
-          <label className='custom-radio'>
-            <input
-              type="radio"
-              value={option.value}
-              checked={option.value === selectedValue}
-              onChange={handleRadioChange}
-            />
-            <span className='radio-control'>
-              <span></span>
-            </span>
-            {option.label}
-          </label>
-        </div>
-      ))}
+      <div className='form_radio' >
+        <label className='custom-radio'>
+          <input
+            type="radio"
+            value={radionData.value}
+            name={radionData.inputName}
+            defaultChecked={radionData?.checked}
+          />
+          <span className='radio-control'>
+            <span></span>
+          </span>
+          {radionData.label}
+        </label>
+      </div>
     </>
   );
 }

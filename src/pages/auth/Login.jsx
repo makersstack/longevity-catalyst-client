@@ -32,6 +32,10 @@ const Login = () => {
 
     const handalSubmitLogin = (e) => {
         e.preventDefault();
+        const formData = new FormData(e.target);
+        console.log(formData);
+        navigate('/user/dashboard');
+        
     }
     return (
         <>
@@ -53,6 +57,7 @@ const Login = () => {
                                     name="username"
                                     id="username"
                                     placeholder="Username"
+                                    required
                                 />
                             </div>
                             <div className="auth_box">
@@ -62,6 +67,7 @@ const Login = () => {
                                     name="password"
                                     id="password"
                                     placeholder="Type Your password"
+                                    required
                                 />
                             </div>
                             <p>Must be at least 8 characters.</p>
