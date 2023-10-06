@@ -5,8 +5,12 @@ function ScrollToTop() {
   const location = useLocation();
 
   useEffect(() => {
-    // Scroll to the top of the page when the route changes
-    window.scrollTo(0, 0);
+    // Scroll to the top of the page with smooth scrolling when the route changes
+    const scrollOptions = {
+      top: 0,
+      behavior: 'smooth', // Add smooth scrolling behavior
+    };
+    window.scrollTo(scrollOptions);
   }, [location]);
 
   return null;

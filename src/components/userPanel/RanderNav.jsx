@@ -30,7 +30,7 @@ const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
                     {isOpenState[item.id] && (
                         <ul className="submenu">
                             {item.submenu.map(subLink => (
-                                <li key={subLink.id}>
+                                <li key={subLink.id} >
                                     <NavLink to={subLink.route}>{subLink.title}</NavLink>
                                 </li>
                             ))}
@@ -40,7 +40,7 @@ const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
                 </li>
             ) : (
                 <li>
-                    <NavLink to={item.route}>
+                    <NavLink to={item.route} onClick={item.clickHandel ? item.clickHandel : undefined}>
                         <span className='al_menu_icon'>{item.icon}</span>
                         {item.title}
                     </NavLink>

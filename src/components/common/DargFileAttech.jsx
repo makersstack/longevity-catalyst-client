@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { FiUploadCloud } from 'react-icons/fi';
 
 const DargFileAttech = () => {
-
     const [dragging, setDragging] = useState(false);
     const [filePreview, setFilePreview] = useState(null);
+
     const handleDragEnter = (e) => {
         e.preventDefault();
         setDragging(true);
@@ -14,18 +14,18 @@ const DargFileAttech = () => {
         setDragging(false);
     };
 
-    const handleDragOver = (e) => {
+    const handleDragOver = (e) => { 
         e.preventDefault();
-        console.log(e);
     };
 
     const handleDrop = (e) => {
         e.preventDefault();
         setDragging(false);
+        processDroppedFiles(e.dataTransfer.files);
+    };
 
-        const files = Array.from(e.dataTransfer.files);
-
-        // Process the dropped files (e.g., upload or display them)
+    // Function to process dropped files (used for both drop and input change)
+    const processDroppedFiles = (files) => {
         if (files.length > 0) {
             const file = files[0]; // Assuming only one file is dropped
             const reader = new FileReader();
@@ -39,6 +39,10 @@ const DargFileAttech = () => {
         }
     };
 
+    // Handle the file input change
+    const handleFileInputChange = (e) => {
+        processDroppedFiles(e.target.files);
+    };
 
     return (
         <>
@@ -46,7 +50,7 @@ const DargFileAttech = () => {
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-                <input type="file" name='profile_pic' id="img_up" />
+                <input type="file" name='profile_pic' id="img_up" onChange={handleFileInputChange} />
                 {filePreview ? (
                     <img className='dargedImage' src={filePreview} alt="Uploaded" />
                 ) : (
@@ -58,11 +62,7 @@ const DargFileAttech = () => {
                 <p><span>Click to upload</span> or drag and drop</p>
                 <p>SVG, PNG, JPG or GIF (max. 800x400px)</p>
             </label>
-
-
-
         </>
-
     );
 };
 

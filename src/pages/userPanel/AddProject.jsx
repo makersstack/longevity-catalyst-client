@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import ScrollToTop from '../../utils/RouteChange';
+import { checkAuth } from '../../utils/fakeAuth';
 
 const AddProject = () => {
+    ScrollToTop();
+    const navigate = useNavigate();
+    const [getAuthF, setAuthF] = useState(checkAuth());
+    
+    useEffect(()=>{
+        if (!getAuthF) {
+            navigate('/login');
+        }
+    },[getAuthF]);
+
 
     const onsiteOption = [
         {
