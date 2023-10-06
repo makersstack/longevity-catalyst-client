@@ -10,12 +10,12 @@ const Login = () => {
     const navigate = useNavigate();
 
     const [getAuthF, setAuthF] = useState(checkAuth());
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
-    },[getAuthF]);
+    }, [getAuthF]);
 
 
 
@@ -83,23 +83,23 @@ const Login = () => {
             if (response.status) {
                 setAuth(formDataObject.username);
                 navigate('/user/dashboard');
-            
+
             } else {
                 console.log(response);
-                if(response.username){
+                if (response.username) {
                     setErrorMsg(prevErrorMsg => ({
                         ...prevErrorMsg,
                         username: response.username,
                     }));
                     isValid = false;
                 }
-                if(response.password){
+                if (response.password) {
                     setErrorMsg(prevErrorMsg => ({
                         ...prevErrorMsg,
                         password: response.password,
                     }));
                     isValid = false;
-                }  
+                }
             }
         }
     }
@@ -144,12 +144,13 @@ const Login = () => {
                             <button type="submit" className="auth_submit btn btn-dark btn-full">
                                 Log In
                             </button>
-                            <p className="have_auth_msg">
-                                Not a Member?
-                                <button onClick={openModal}> &nbsp; Sign Up</button>
-                                <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
-                            </p>
+
                         </form>
+                        <p className="have_auth_msg">
+                            Not a Member?
+                            <button onClick={openModal}> &nbsp; Sign Up</button>
+                            <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
+                        </p>
                     </div>
                 </div>
             </section>

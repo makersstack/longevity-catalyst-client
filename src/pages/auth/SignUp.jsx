@@ -12,28 +12,28 @@ const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
     const [getAuthF, setAuthF] = useState(checkAuth());
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
-    },[getAuthF]);
+    }, [getAuthF]);
 
 
-    
+
     ScrollToTop();
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (Object.keys(errorMsg).length !== 0) {
-            if (formRef.current) { 
+            if (formRef.current) {
                 formRef.current.scrollIntoView({ behavior: 'smooth' });
             }
         }
-    },[errorMsg]);
-   
+    }, [errorMsg]);
+
     const handalSubmitSignUp = (e) => {
         e.preventDefault();
         setErrorMsg({});
@@ -49,7 +49,7 @@ const SignUp = () => {
                 ...prevErrorMsg,
                 Email: 'Email is Required',
             }));
-            isValid = false; 
+            isValid = false;
         }
 
         if (formDataObject.name.length === 0) {
@@ -57,14 +57,14 @@ const SignUp = () => {
                 ...prevErrorMsg,
                 name: 'Full Name is Required',
             }));
-            isValid = false; 
+            isValid = false;
         }
         if (formDataObject.password.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
                 password: 'Password is Required',
             }));
-            isValid = false; 
+            isValid = false;
         }
 
         // Access the selected file using the name attribute
@@ -79,19 +79,19 @@ const SignUp = () => {
         // } else {
         //     console.log("No file selected");
         // }
-        if(isValid){
-           const response = setUserData(formDataObject);
-           if(response.status){
-            navigate('/login');
-           }else{
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                Email: response.message,
-            }));
-            isValid = false; 
-           }
+        if (isValid) {
+            const response = setUserData(formDataObject);
+            if (response.status) {
+                navigate('/login');
+            } else {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    Email: response.message,
+                }));
+                isValid = false;
+            }
         }
-      
+
         // console.log(formDataObject);
     }
     if (type === 'user' || type === 'contributor' || type === 'researcher') {
@@ -110,7 +110,7 @@ const SignUp = () => {
                                     type === 'user' && <UserSignUp errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'contributor' && <ContributerSignUp errorMsg={errorMsg}/>
+                                    type === 'contributor' && <ContributerSignUp errorMsg={errorMsg} />
                                 }
                                 {
                                     type === 'researcher' && <ResearcherSignUp errorMsg={errorMsg} />
@@ -119,11 +119,12 @@ const SignUp = () => {
                                 <button type="submit" className="auth_submit btn btn-dark btn-full">
                                     Sign Up
                                 </button>
-                                <p className="have_auth_msg">
-                                    Already have an account?
-                                    <Link to='/login'> &nbsp; Log In.</Link>
-                                </p>
+
                             </form>
+                            <p className="have_auth_msg">
+                                Already have an account?
+                                <Link to='/login'> &nbsp; Log In.</Link>
+                            </p>
                         </div>
                     </div>
                 </section>

@@ -4,42 +4,63 @@ import Select from 'react-select';
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    border: '1px solid #ccc',
+    border: state.isFocused ? '1px solid #ccc' : '1px solid #ccc',
+    boxShadow: '0 0 0 0 #ccc',
     borderRadius: '4px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     cursor: 'pointer',
-    maxWidth: '200px',
+    maxWidth: '140px',
+    fontSize: '14px',
     backgroundColor: '#F1F1F1',
-    padding: '5px 0px 5px 0px',
+    padding: '0px',
+    '&:hover': {
+      border: '1px solid #ccc',
+      boxShadow: '0 0 0 0 #ccc',
+    },
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
     padding: state.isFocused ? '0px' : '0px',
   }),
-  indicatorSeparator: () => ({}),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    padding: state.isFocused ? '0px' : '0px',
+  }),
   menu: (provided) => ({
     ...provided,
     borderRadius: '4px',
     boxShadow: '0 2px 4px rgba(16, 24, 40, 0.05)',
+    borderColor: '#d0d5dd',
+    fontSize: '14px',
+    minWidth: '250px',
+    right: '0',
   }),
   option: (provided, state) => ({
     ...provided,
     cursor: 'pointer',
-    backgroundColor: state.isSelected ? '#383838' : 'white',
+    backgroundColor: state.isSelected ? '#383838' : '#F1F1F1',
     color: state.isSelected ? 'white' : '#383838',
+    fontSize: '14px', 
     '&:hover': {
-      backgroundColor: 'lightgray',
+      backgroundColor: state.isSelected ? '#383838' : 'lightgray', 
     },
+    singleValue: (provided, state) => ({
+      ...provided,
+      fontSize: '14px',
+    }),
   }),
 };
 
 const options = [
-  { value: 'explore', label: 'Explore', isDisabled: true }, 
-  { value: 'option1', label: 'Option 1' },
-  { value: 'option2', label: 'Option 2' },
-  { value: 'option3', label: 'Option 3' },
+  { value: 'explore', label: 'Explore'},
+  { value: 'ct_1', label: 'Machine Learning' },
+  { value: 'ct_2', label: 'Blockchain Technology' },
+  { value: 'ct_3', label: 'Mobile App Development' },
+  { value: 'ct_4', label: 'Data Science' },
+  { value: 'ct_5', label: 'Cybersecurity' },
+  { value: 'ct_6', label: 'Smart Home Automation'},
 ];
 
 const CustomSelect = () => {
@@ -47,7 +68,7 @@ const CustomSelect = () => {
     <Select
       styles={customStyles}
       options={options}
-      isSearchable={false} 
+      isSearchable={false}
       placeholder="Explore"
       defaultValue={options[0]}
     />
