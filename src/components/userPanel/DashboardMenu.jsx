@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { LuBarChart2, LuLock, LuUsers } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
 import { RxLayers } from 'react-icons/rx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../globals';
+import { removeAuth } from '../../utils/fakeAuth';
 import RanderNav from './RanderNav';
 
 const DashboardMenu = () => {
+    const navigate = useNavigate();
+    const LogOuthandel = (event) => {
+        event.preventDefault();
+        removeAuth();
+        navigate('/login');
+    }
 
 
     // Your menu data (you can replace this with your actual data)
@@ -50,11 +57,12 @@ const DashboardMenu = () => {
             id: 5,
             title: 'Logout',
             icon: <PiSignOut />,
-            route: '/login'
+            route: '/login',
+            clickHandel: LogOuthandel,
         }
     ];
 
-  
+
 
     // Initialize isOpenState with an array of the same length as menuData
     const [isOpenState, setIsOpenState] = useState(new Array(menuData.length).fill(false));

@@ -1,30 +1,35 @@
 import React from 'react';
 import DargFileAttech from '../common/DargFileAttech';
 
-const UserSignUp = () => {
+const UserSignUp = ({ errorMsg }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
                 <label htmlFor="name">Full Name</label>
                 <input
+                    className={errorMsg.name ? 'border-warring' : ''}
                     type="text"
                     name="name"
                     id="name"
                     placeholder="Full Name"
                 />
+                {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="Email">Email</label>
-                <input type="email" name="Email" id="Email" placeholder="Email" />
+                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
+                {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
                 <input
+                    className={errorMsg.password ? 'border-warring' : ''}
                     type="password"
                     name="password"
                     id="password"
                     placeholder="Type Your password"
                 />
+                {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
 
 

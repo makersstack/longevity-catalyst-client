@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import ScrollToTop from '../../utils/RouteChange';
+import { checkAuth } from '../../utils/fakeAuth';
 
 const PasswordChange = () => {
+    ScrollToTop();
+    const navigate = useNavigate();
+    const [getAuthF, setAuthF] = useState(checkAuth());
+    
+    useEffect(()=>{
+        if (!getAuthF) {
+            navigate('/login');
+        }
+    },[getAuthF]);
+
     return (
         <section className="full_widht_auth_section">
             <div className="container">

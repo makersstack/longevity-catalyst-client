@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { FaChevronDown, FaRegUser } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
+import { checkAuth } from '../../utils/fakeAuth';
 import CustomSelect from '../CustomSelect';
 import SignupModal from '../SignupModal';
 
 const Header = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [getAuthF, setAuthF] = useState(false);
+
+  useEffect(()=>{
+    setAuthF(checkAuth());
+  },[location]);
+
+
 
   const openModal = () => {
     setModalOpen(true);
@@ -55,18 +64,26 @@ const Header = () => {
             </form>
           </div>
           <div className="header_buttons">
-            <Link to='/login' className='btn btn-dark'>
+            {
+              getAuthF ? <Link to='/user/dashboard' className='btn btn-dark'>
+                Dashboard
+              </Link> : <> <Link to='/login' className='btn btn-dark'>
+                Login
+              </Link>
+                <div className="custom-dropdown">
+                  <button className="dropdown-button" onClick={openModal}>
+                    <FaRegUser />
+                    <FaChevronDown />
+                  </button>
 
-              Login
-            </Link>
-            <div className="custom-dropdown">
-              <button className="dropdown-button" onClick={openModal}>
-                <FaRegUser />
-                <FaChevronDown/>
-              </button>
-              
-              <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
-            </div>
+                  <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
+                </div>
+              </>
+            }
+
+
+
+
           </div>
         </div>
       </div>

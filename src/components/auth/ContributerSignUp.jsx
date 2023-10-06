@@ -2,14 +2,14 @@ import React from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = () => {
+const ContributerSignUp = ({ errorMsg }) => {
 
     const SkillCheckBox = [
-        { id:1, inputName: 'python', labelText: 'Python' },
-        { id:2, inputName: 'machine-learning', labelText: 'Machine learning' },
-        { id:3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
-       
-      ];
+        { id: 1, inputName: 'python', labelText: 'Python' },
+        { id: 2, inputName: 'machine-learning', labelText: 'Machine learning' },
+        { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
+
+    ];
 
     return (
         <>
@@ -17,34 +17,39 @@ const ContributerSignUp = () => {
             <div className="auth_box padding_top-30">
                 <label htmlFor="name">Full Name</label>
                 <input
+                    className={errorMsg.name ? 'border-warring' : ''}
                     type="text"
                     name="name"
                     id="name"
                     placeholder="Full Name"
                 />
+                {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="Email">Email</label>
-                <input type="email" name="Email" id="Email" placeholder="Email" />
+                <input  className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
+                {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
                 <input
+                 className={errorMsg.password ? 'border-warring' : ''}
                     type="password"
                     name="password"
                     id="password"
                     placeholder="Type Your password"
                 />
+                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
 
             <div className="auth_box">
                 <label>Skills</label>
-           
+
 
                 {
-                    SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk}/>)
+                    SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk} />)
                 }
-                
+
             </div>
 
             <div className="auth_box">
