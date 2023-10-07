@@ -1033,6 +1033,17 @@ header {
 .post_user_fet button:hover {
   text-decoration: underline;
 }
+.post_user_fet a {
+  color: #333;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.post_user_fet a:hover {
+  text-decoration: underline;
+}
 .post-features {
   color: #777;
   font-family: "Noto Sans", sans-serif;
@@ -1136,7 +1147,7 @@ header {
   line-height: normal;
 }
 .project_effective_button {
-  color: #232323;
+  color: #777;
   font-family: Noto Sans;
   font-size: 14px;
   font-style: normal;
@@ -1156,6 +1167,7 @@ header {
 }
 .project_effective_button:hover {
   background: rgba(77, 77, 77, 0.1);
+  color: #000000;
 }
 .project_comment_features {
   display: flex;
@@ -1498,6 +1510,10 @@ header {
   justify-content: space-between;
   align-content: center;
   align-items: flex-start;
+}
+.project_show_left_box {
+  flex: 0 0 66.66%;
+  width: 100%;
 }
 .show_project_details {
   flex: 0 0 66.66%;
@@ -2131,6 +2147,7 @@ footer ul li a:hover {
 /* Add Project Page */
 /* Maker Shihab */
 /* For modal */
+
 .react-responsive-modal-modal {
   max-width: 520px;
   width: 100%;
@@ -2153,6 +2170,8 @@ footer ul li a:hover {
   margin-top: 25px;
 }
 /* For modal */
+/* Alifur Rahman*/
+/* --- fix some global css  */
 .al_submit_button {
   text-align: right;
 }
@@ -2170,4 +2189,128 @@ footer ul li a:hover {
 }
 .border-warring {
   border-color: red;
+}
+/* for post comment box  */
+/* pin box  */
+.project_outer_box {
+  flex: 0 0 66.66%;
+  width: 100%;
+  max-width: 100%;
+}
+.comment_pin_box {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+}
+.pin_icon {
+  color: #000000;
+  font-size: 20px;
+}
+.user_thum_style {
+  width: 100%;
+  max-width: 44px;
+  height: 100%;
+  max-height: 44px;
+  border-radius: 50px;
+}
+/* comment card  */
+.comment_card_head {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+.commenter_info {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 18px;
+}
+.comment_time {
+  color: #667085;
+  font-size: 14.413px;
+  font-weight: 400;
+  line-height: 21.619px;
+}
+.comment_date {
+  color: #949297;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.comment_card_body {
+  margin: 20px 0;
+}
+.comment_card_body p {
+  margin-bottom: 10px;
+}
+.comment_card_body p:last-child {
+  margin-bottom: 0px;
+}
+
+.devide_buttons_wraper {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.comment_box_buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 11px;
+}
+.post_arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 6px;
+}
+.post_arrow button {
+  font-size: 21px;
+}
+
+.comment_vote_count {
+  color: #777;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 4px;
+}
+
+.project_effective_button svg {
+  font-size: 18px;
+}
+
+.project_effective_button.replay_btn span {
+  margin-bottom: 1px;
+}
+.box_open_close_icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 50px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+/* reply card css  */
+.comment_card.replay_card {
+  padding: 24px;
+  border-left: 1px solid #efefef;
+  padding-top: 50px;
+  margin-left: 9px;
+  margin-top: -5px;
+}
+.comment_card.replay_card .comment_card_footer,
+.comment_card.replay_card .comment_card_body {
+  padding-left: 63px;
 }
