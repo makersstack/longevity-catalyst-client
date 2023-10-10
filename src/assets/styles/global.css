@@ -902,9 +902,8 @@ header {
 .project_side_bar select {
   color: #aaa;
 }
-
 .input_box:not(:last-child) {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 .input_box h4 {
   color: #404145;
@@ -912,7 +911,7 @@ header {
   font-style: normal;
   font-weight: 600;
   line-height: 28px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 .project_side_bar .plan .plan-content {
   border-radius: 12px;
@@ -933,7 +932,7 @@ header {
   justify-content: center;
   align-items: center;
   color: #6b6b6b;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px;
@@ -968,11 +967,29 @@ header {
   p {
   color: #333;
 }
-
 .required_skills .plan-details {
   justify-content: flex-start;
 }
-
+.required_skills_tags {
+  padding-top: 5px;
+}
+.required_skill_single {
+  max-width: 238px;
+  padding: 10px 20px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  color: #6b6b6b;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+.required_skill_single:not(:last-child) {
+  margin-bottom: 10px;
+}
 .side_ber_style_2 .plan-details p {
   color: #6b6b6b;
   font-size: 16px;
@@ -980,7 +997,6 @@ header {
   font-weight: 400;
   line-height: 28px;
 }
-
 /* short filter css  */
 .project_short_filter {
   border-radius: 20px;
@@ -1231,7 +1247,7 @@ header {
   color: #000;
 }
 .post-features svg {
-  width: 10px;
+  font-size: 14px;
 }
 .project_show_footer {
   padding-bottom: 80px;
@@ -1271,11 +1287,13 @@ header {
   padding-top: 30px;
 }
 .auth_area label {
-  color: var(--gray-700, #344054);
+  color: #344054;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
+  display: block;
+  padding-bottom: 6px;
 }
 .auth_submit {
   margin-top: 24px;
@@ -1334,7 +1352,7 @@ header {
   border: 1px solid #eaecf0;
   background: #fff;
   text-align: center;
-  padding: 16px 24px;
+  padding: 16px 24px !important;
   margin: 30px 0;
   cursor: pointer;
   display: flex;
@@ -1342,6 +1360,7 @@ header {
   justify-items: center;
   align-items: center;
   flex-direction: column;
+  display: flex !important;
 }
 .drag_imge_input input {
   display: none;
@@ -1480,6 +1499,9 @@ header {
   width: 28px;
 }
 /* team members  */
+.full_width_team_member_section {
+  padding-bottom: 100px;
+}
 .team_member_box {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1574,6 +1596,10 @@ header {
   align-content: center;
   align-items: flex-start;
 }
+.project_show_section {
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
 .project_show_left_box {
   flex: 0 0 66.66%;
   width: 100%;
@@ -1663,6 +1689,39 @@ header {
 }
 .project_outer_box .details_block {
   margin-bottom: 25px;
+}
+.profile_info_ratings {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  color: 5px;
+}
+.profile_info_ratings span svg {
+  font-size: 20px;
+}
+.vote_count {
+  color: #667085;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.project_show_section .project_short_filter {
+  box-shadow: none;
+}
+.project_show_section .short_filter_button {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+  column-gap: 10px;
+}
+.project_show_section .short_filter_button:hover,
+.project_show_section .short_filter_button:focus,
+.project_show_section .short_filter_button.active {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
 }
 /* ------------------------------------------------------------------------------- */
 /* --- FAQ's CSS --- */

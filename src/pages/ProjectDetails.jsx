@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsCheckSquare } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import UserProfileImage from '../assets/images/user-1.png';
 import CommentBox from '../components/comment/CommentBox';
@@ -126,14 +127,9 @@ const ProjectDetails = () => {
                   <div className="input_box">
                     <h4> Affiliation : </h4>
 
-                    <label className="plan plan-button plan-button-colors" htmlFor="opt1">
-                      <input type="checkbox" name="plan" id="opt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>MIT</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>MIT</p>
+                    </div>
                   </div>
 
                   <div className="input_box">
@@ -150,182 +146,86 @@ const ProjectDetails = () => {
                   <div className="input_box">
                     <h4> Onsite Requirement : </h4>
 
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="onopt1"
-                    >
-                      <input type="checkbox" name="plan" id="onopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>N/A</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>N/A</p>
+                    </div>
                   </div>
 
                   <div className="input_box">
                     <h4>Project Type : </h4>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="ptopt1"
-                    >
-                      <input type="checkbox" name="plan" id="ptopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Team</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>Team</p>
+                    </div>
                   </div>
 
                   <div className="input_box">
                     <h4>Member Needed : </h4>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="mnopt1"
-                    >
-                      <input type="checkbox" name="plan" id="mnopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>3-4</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>3-4</p>
+                    </div>
                   </div>
 
                   <div className="input_box">
                     <h4>Primary Category : </h4>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="pcopt1"
-                    >
-                      <input type="checkbox" name="plan" id="pcopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>AI- driven Drug Discovery</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>AI- driven Drug Discovery</p>
+                    </div>
                   </div>
 
                   <div className="input_box required_skills">
                     <h4> Required Skills </h4>
-
-                    <label className="plan plan-button-colors" htmlFor="sk-opt1">
-                      <input type="checkbox" name="skill" id="sk-opt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <div className="plan-defaultChecked-icon">
-                            <i className="check_icon fas fa-check"></i>
-                          </div>
-                          <p>Python</p>
-                        </div>
+                    <div className="required_skills_tags">
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Python</p>
                       </div>
-                    </label>
-
-                    <label className="plan plan-button-colors" htmlFor="sk-opt2">
-                      <input
-                        type="checkbox"
-                        defaultChecked=""
-                        name="skill"
-                        id="sk-opt2"
-                      />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <div className="plan-defaultChecked-icon">
-                            <i className="check_icon fas fa-check"></i>
-                          </div>
-                          <p>Machine learning</p>
-                        </div>
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Machine learning</p>
                       </div>
-                    </label>
-
-                    <label className="plan plan-button-colors" htmlFor="sk-opt3">
-                      <input type="checkbox" name="skill" id="sk-opt3" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <div className="plan-defaultChecked-icon">
-                            <i className="check_icon fas fa-check"></i>
-                          </div>
-                          <p>Molecular modeling</p>
-                        </div>
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Molecular modeling</p>
                       </div>
-                    </label>
-                    <label className="plan plan-button-colors" htmlFor="sk-opt4">
-                      <input type="checkbox" name="skill" id="sk-opt4" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <div className="plan-defaultChecked-icon">
-                            <i className="check_icon fas fa-check"></i>
-                          </div>
-                          <p>Cheminformatics</p>
-                        </div>
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Cheminformatics</p>
                       </div>
-                    </label>
-                    <label className="plan plan-button-colors" htmlFor="sk-opt5">
-                      <input type="checkbox" name="skill" id="sk-opt5" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <div className="plan-defaultChecked-icon">
-                            <i className="check_icon fas fa-check"></i>
-                          </div>
-                          <p>Pharmacology</p>
-                        </div>
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Machine learning</p>
                       </div>
-                    </label>
+                      <div className="required_skill_single">
+                        <BsCheckSquare />
+                        <p>Pharmacology</p>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="input_box">
                     <h4>Deadline : </h4>
 
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="dlopt1"
-                    >
-                      <input type="checkbox" name="plan" id="dlopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Flexible</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>Flexible</p>
+                    </div>
                   </div>
                   <div className="input_box">
                     <h4>Expected Duration : </h4>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="edlopt1"
-                    >
-                      <input type="checkbox" name="plan" id="edlopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>4-6 Months</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>4-6 Months</p>
+                    </div>
                   </div>
                   <div className="input_box">
                     <h4>Time to Start : </h4>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="tmsopt1"
-                    >
-                      <input type="checkbox" name="plan" id="tmsopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>May 1, 2023</p>
-                        </div>
-                      </div>
-                    </label>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>May 1, 2023</p>
+                    </div>
                   </div>
-
                   <div className="input_box">
-                    <p className="submited_date">Project Submutted April 27, 2023</p>
+                    <h4>Project Submitted :</h4>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>Jun 27, 2023</p>
+                    </div>
                   </div>
                 </form>
               </div>

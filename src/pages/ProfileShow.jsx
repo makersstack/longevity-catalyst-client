@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { AiOutlineLike } from 'react-icons/ai';
-import { BiDownvote, BiUpvote } from 'react-icons/bi';
+import { AiFillStar, AiOutlineLike, AiOutlineStar } from 'react-icons/ai';
+import { BiDownvote, BiSolidUpvote, BiUpvote, BiWorld } from 'react-icons/bi';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import UserProfile from '../assets/images/profile-user.png';
-import RatingStars from '../components/RatingStars';
 import SidebarFilters from '../components/filter/SidebarFilters';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';
@@ -100,6 +99,11 @@ const ProfileShow = ({ rating }) => {
     });
   };
 
+  // TODO:: An Example Data
+  // const userRatings = {
+
+  // }
+
   return (
     <>
       <section className="project_show_section">
@@ -126,7 +130,14 @@ const ProfileShow = ({ rating }) => {
                 <div className="info_block">
                   <h3>Mark Hamalainen</h3>
                   <div className="user_title">Programmer</div>
-                  <RatingStars rating={rating} />
+                  <div className="profile_info_ratings">
+                    <span><AiFillStar /></span>
+                    <span><AiFillStar /></span>
+                    <span><AiFillStar /></span>
+                    <span><AiFillStar /></span>
+                    <span><AiOutlineStar /></span>
+                  </div>
+                  <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
                 </div>
               </div>
               <TopFilterButtons options={topFilterOptionsByUser}
@@ -150,7 +161,7 @@ const ProfileShow = ({ rating }) => {
                             {project.author}
                           </button>
                           <div className="post-features">
-                            <i className="fas fa-user"></i> Friends <span></span> 5 hours ago
+                            <BiWorld /> Public <span></span> 5 hours ago
                           </div>
                         </div>
                       </div>
