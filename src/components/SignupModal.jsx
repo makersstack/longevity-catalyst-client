@@ -37,7 +37,7 @@ function SignupModal({ open, onClose, onSignUp }) {
               <h2 className="modal_title">Choose Your Preferences.</h2>
               <form className="sign_up_preference" action="#" method="post">
                 <SignUpRadio options={radioOptions} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
-                <button type="button" onClick={handleCreateAccountClick} className="btn btn-dark btn-full">
+                <button type="button" onClick={handleCreateAccountClick} className="btn btn-dark btn-full no-shadow">
                   Create Account
                 </button>
               </form>
