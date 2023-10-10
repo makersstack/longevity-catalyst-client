@@ -2445,11 +2445,65 @@ footer ul li a:hover {
 .comment_card.replay_card {
   padding: 24px;
   border-left: 1px solid #efefef;
-  padding-top: 50px;
+  padding-top: 15px;
   margin-left: 9px;
   margin-top: -5px;
 }
 .comment_card.replay_card .comment_card_footer,
 .comment_card.replay_card .comment_card_body {
   padding-left: 63px;
+}
+/* add comment form  */
+.add_comment_f_btns {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  align-items: center;
+  gap: 21px;
+  margin-top: 20px;
+}
+.add_comment_f_btns button {
+  width: 100%;
+  max-width: 90px;
+}
+.comment_card_footer .al_add_comment_box {
+  margin-left: 9px;
+  border-left: 1px solid #efefef;
+  padding: 24px;
+}
+.replay_card .al_add_comment_box {
+  margin-left: 0;
+  border-left: none;
+  padding: 24px;
+}
+.details_block.commnet_add_box {
+  width: 100%;
+  max-width: 680px;
+}
+.comment_card {
+  margin-bottom: 50px;
+}
+.comment_card:last-child {
+  margin-bottom: 0px;
+}
+
+.show_more_button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  color: #000000;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  transition: 0.3s;
+}
+
+.show_more_button:hover {
+  color: #777;
+}
+.comment_card.replay_card {
+  margin-bottom: 0;
 }

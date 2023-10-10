@@ -1,10 +1,8 @@
 import React from 'react';
-import { AiOutlinePlus } from 'react-icons/ai';
 import { BsCheckSquare } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import UserProfileImage from '../assets/images/user-1.png';
-import Comment from '../components/postProject/Comment';
-import PinBox from '../components/postProject/PinBox';
+import CommentBox from '../components/comment/CommentBox';
 const ProjectDetails = () => {
   return (
     <div>
@@ -108,24 +106,17 @@ const ProjectDetails = () => {
                     </p>
                   </div>
                   {/* single block add comment button  */}
-                  <div className="details_block">
-                    <button className="btn btn-light add_comment_btn">
-                      <AiOutlinePlus />
-                      Add Comment
-                    </button>
-                  </div>
+               
                 </div>
               </div>
               {/* project details outer box  */}
               <div className="project_outer_box">
                 {/* pin box  */}
-                <div className="details_block">
-                  <PinBox />
-                </div>
+               
 
                 {/* comment box  */}
                 <div className="details_block">
-                  <Comment />
+                  <CommentBox />
                 </div>
               </div>
             </div>
