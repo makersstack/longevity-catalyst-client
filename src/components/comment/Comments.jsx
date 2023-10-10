@@ -170,7 +170,7 @@ const Comments = ({ data }) => {
                     {
                         isOpenCmnt && <> {
                             replayData.length !== 0 ? (
-                                replayData.map((singleData) => (<Replay key={singleData.id} data={singleData} />))
+                                replayData.map((singleData) => (<Replay key={singleData.id} data={singleData} addNewReplay={addNewReplay} />))
                             ) : (
                                 <> No Replay yet ..</>
                             )

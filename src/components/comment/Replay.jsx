@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { LiaHeart } from 'react-icons/lia';
 import { MdOutlineAddComment } from 'react-icons/md';
@@ -6,8 +6,13 @@ import { PiLinkSimpleHorizontalLight } from 'react-icons/pi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import UserProfileImage2 from "../../assets/images/user-1.png";
+import AddReplay from './AddReplay';
 
-const Replay = ({data}) => {
+const Replay = ({ data,addNewReplay }) => {
+    const [isAddReplay,setIsAddReplay] = useState(false);
+    const openReplayBoxHandeler = () =>{
+        setIsAddReplay(!isAddReplay);
+    }
     return (
 
         <div className="comment_card replay_card">
@@ -30,7 +35,7 @@ const Replay = ({data}) => {
 
             </div>
             {/* card footer  */}
-            <div className="comment_card_footer">
+            <div className="comment_card_footer ">
                 <div className="devide_buttons_wraper">
                     <div className="comment_box_buttons">
                         <div className="post_arrow">
@@ -42,7 +47,7 @@ const Replay = ({data}) => {
                                 <BiDownvote />
                             </button>
                         </div>
-                        <button className="project_effective_button replay_btn">
+                        <button className="project_effective_button replay_btn" onClick={openReplayBoxHandeler}>
                             <MdOutlineAddComment /> <span>Replay</span>
                         </button>
                         <button className="project_effective_button">
@@ -60,6 +65,9 @@ const Replay = ({data}) => {
                         </button>
                     </div>
                 </div>
+                {
+                    isAddReplay && <AddReplay addNewReplay={addNewReplay} openReplayBoxHandele={openReplayBoxHandeler} />
+                }
             </div>
 
         </div>
