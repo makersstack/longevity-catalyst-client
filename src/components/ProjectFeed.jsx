@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
-import { FaRegCommentDots } from 'react-icons/fa';
+import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
@@ -138,7 +138,7 @@ const ProjectFeed = () => {
                         {project.author}
                       </button>
                       <div className="post-features">
-                        <i className="fas fa-user"></i> Friends <span></span> 5 hours ago
+                        <FaUserAlt /> Friends <span></span> 5 hours ago
                       </div>
                     </div>
                   </div>
@@ -197,6 +197,11 @@ const ProjectFeed = () => {
                 </div>
               </div>
             ))}
+            <div className="project_show_footer">
+              <button type='button' className='btn btn_show_more'>
+                Load More
+              </button>
+            </div>
           </div>
 
         </div>

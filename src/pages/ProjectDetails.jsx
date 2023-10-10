@@ -124,7 +124,7 @@ const ProjectDetails = () => {
               <div className="project_side_bar side_ber_style_2">
                 <form action="/" method="post">
                   <div className="input_box">
-                    <label> Affiliation : </label>
+                    <h4> Affiliation : </h4>
 
                     <label className="plan plan-button plan-button-colors" htmlFor="opt1">
                       <input type="checkbox" name="plan" id="opt1" />
@@ -137,67 +137,18 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box">
-                    <label> Keywords : </label>
-
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="kopt1"
-                    >
-                      <input type="checkbox" name="plan" id="kopt1" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Drug discovery</p>
-                        </div>
-                      </div>
-                    </label>
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="kopt2"
-                    >
-                      <input type="checkbox" name="plan" id="kopt2" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Artificial Intelligence</p>
-                        </div>
-                      </div>
-                    </label>
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="kopt3"
-                    >
-                      <input type="checkbox" name="plan" id="kopt3" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Neurodegenerative diseases</p>
-                        </div>
-                      </div>
-                    </label>
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="kopt4"
-                    >
-                      <input defaultChecked type="checkbox" name="plan" id="kopt4" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Machine Learning</p>
-                        </div>
-                      </div>
-                    </label>
-                    <label
-                      className="plan plan-button plan-button-colors"
-                      htmlFor="kopt5"
-                    >
-                      <input type="checkbox" name="plan" id="kopt5" />
-                      <div className="plan-content">
-                        <div className="plan-details">
-                          <p>Molecular Modeling</p>
-                        </div>
-                      </div>
-                    </label>
+                    <h4> Keywords : </h4>
+                    <div className="input_box_keywords">
+                      <p className='show_ct'>Drug discovery</p>
+                      <p className='show_ct'>Artificial Intelligence</p>
+                      <p className='show_ct'>Neurodegenerative diseases</p>
+                      <p className='show_ct'>Machine Learning</p>
+                      <p className='show_ct'>Molecular Modeling</p>
+                    </div>
                   </div>
 
                   <div className="input_box">
-                    <label> Onsite Requirement : </label>
+                    <h4> Onsite Requirement : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -213,7 +164,7 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box">
-                    <label>Project Type : </label>
+                    <h4>Project Type : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -229,7 +180,7 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box">
-                    <label>Member Needed : </label>
+                    <h4>Member Needed : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -245,7 +196,7 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box">
-                    <label>Primary Category : </label>
+                    <h4>Primary Category : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -261,7 +212,7 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box required_skills">
-                    <label> Required Skills </label>
+                    <h4> Required Skills </h4>
 
                     <label className="plan plan-button-colors" htmlFor="sk-opt1">
                       <input type="checkbox" name="skill" id="sk-opt1" />
@@ -328,7 +279,7 @@ const ProjectDetails = () => {
                   </div>
 
                   <div className="input_box">
-                    <label>Deadline : </label>
+                    <h4>Deadline : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -343,7 +294,7 @@ const ProjectDetails = () => {
                     </label>
                   </div>
                   <div className="input_box">
-                    <label>Expected Duration : </label>
+                    <h4>Expected Duration : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"
@@ -358,7 +309,7 @@ const ProjectDetails = () => {
                     </label>
                   </div>
                   <div className="input_box">
-                    <label>Time to Start : </label>
+                    <h4>Time to Start : </h4>
 
                     <label
                       className="plan plan-button plan-button-colors"

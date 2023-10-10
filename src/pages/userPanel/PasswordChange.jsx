@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
@@ -8,7 +9,7 @@ const PasswordChange = () => {
     ScrollToTop();
     const navigate = useNavigate();
     const [getAuthF, setAuthF] = useState(checkAuth());
-    
+    console.log(setAuthF);
     useEffect(()=>{
         if (!getAuthF) {
             navigate('/login');
