@@ -2408,7 +2408,13 @@ footer ul li a:hover {
   max-width: 90px;
 }
 .al_add_comment_box {
+  padding: 24px;
+}
+.comment_card_footer .al_add_comment_box {
   padding: 40px 0;
+  margin-left: 9px;
+  border-left: 1px solid #efefef;
+  padding: 24px;
 }
 .details_block.commnet_add_box {
   width: 100%;
