@@ -202,7 +202,6 @@ input[type="radio"]:checked + .radio-control span {
   height: 50%;
   display: block;
   border-radius: 50px;
-  margin-right: 1.1px;
 }
 
 /* Hide the default radio button */
@@ -236,6 +235,9 @@ input[type="radio"] {
   transition: background-color 0.2s, border-color 0.2s;
   border: 1px solid #878787;
   background: #fff;
+}
+#signup_references .custom-radio {
+  font-size: 14px;
 }
 /* check box plan css  */
 .plan {
@@ -522,8 +524,8 @@ input[type="radio"] {
 } */
 .react-responsive-modal-closeButton {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: -15px;
+  right: -15px;
   border-radius: 32px;
   background: #000;
   box-shadow: 0px 8px 16px -8px rgba(15, 15, 15, 0.2);
@@ -531,8 +533,8 @@ input[type="radio"] {
   border: none;
   cursor: pointer;
   font-size: 20px;
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   z-index: 99;
   transition: 0.3s;
   display: flex;
@@ -543,8 +545,8 @@ input[type="radio"] {
   color: #fff;
   fill: #fff;
   font-size: 14px;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
 }
 .react-responsive-modal-closeButton:hover {
   transform: scale(0.9);
@@ -559,7 +561,7 @@ input[type="radio"] {
 }
 .modal_title {
   color: var(--gray-900, #101828);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 28px;
   padding: 20px 0;
@@ -602,6 +604,9 @@ input[type="radio"] {
 }
 .modal-show .toggle_top {
   transform: translateY(0);
+}
+.react-responsive-modal-modal {
+  overflow: initial !important;
 }
 /* ------------------------------------------------------------------------------- */
 /* --- HEADER CSS --- */
@@ -751,6 +756,8 @@ header {
 }
 .banner_wrapper {
   text-align: center;
+  max-width: 940px;
+  margin: 0 auto;
 }
 .banner_wrapper h1 {
   width: 100%;
@@ -759,6 +766,8 @@ header {
 }
 .banner_wrapper p {
   padding-top: 20px;
+  max-width: 790px;
+  margin: 0 auto;
   padding-bottom: 56px;
 }
 /* ------------------------------------------------------------------------------- */
@@ -786,8 +795,11 @@ header {
 /* ------------------------------------------------------------------------------- */
 /* --- Trading Project CSS --- */
 /* ------------------------------------------------------------------------------- */
+.full_width_trading_project_section {
+  padding-bottom: 60px;
+}
 .trading_project_wrapper h6 {
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 .trading_project_box {
   display: flex;
@@ -894,11 +906,39 @@ header {
 .input_box:not(:last-child) {
   margin-bottom: 30px;
 }
+.input_box h4 {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  padding-bottom: 20px;
+}
 .project_side_bar .plan .plan-content {
   border-radius: 12px;
   background: #f7f7f7;
   border: none;
-  padding: 16px 17px;
+  padding: 10px 20px;
+}
+.input_box_keywords {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 15px;
+  row-gap: 15px;
+}
+.show_ct {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  color: #6b6b6b;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  border-radius: 50px;
+  background: #f4f4f4;
 }
 .project_side_bar .plan-details p {
   color: #aaa;
@@ -908,7 +948,6 @@ header {
   font-weight: 400;
   line-height: normal;
 }
-
 .project_side_bar .plan input[type="checkbox"]:checked + .plan-content,
 .project_side_bar .plan input[type="radio"]:checked + .plan-content {
   transition: ease-in 0.3s;
@@ -947,7 +986,7 @@ header {
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 10px 28px;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -970,7 +1009,7 @@ header {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  gap: 10px;
+  gap: 5px;
   width: 100%;
   cursor: pointer;
   transition: 0.3s;
@@ -1063,6 +1102,7 @@ header {
   background: #ccc;
   display: inline-block;
   border-radius: 50px;
+  margin-left: 5px;
 }
 .post_arrow button {
   background: transparent;
@@ -1099,9 +1139,11 @@ header {
   align-items: center;
   gap: 6px;
   transition: 0.3s;
+  max-width: 110px;
 }
 .card_body a:hover {
   color: #555;
+  text-decoration: underline;
 }
 .project_resourse {
   border-radius: 10px;
@@ -1187,6 +1229,27 @@ header {
 .post-features a:hover {
   text-decoration: underline;
   color: #000;
+}
+.post-features svg {
+  width: 10px;
+}
+.project_show_footer {
+  padding-bottom: 80px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn_show_more {
+  color: #fff;
+  background: #000;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn_show_more:hover {
+  opacity: 0.7;
 }
 /* ------------------------------------------------------------------------------- */
 /* --- AUTH FORM CSS --- */
@@ -1544,13 +1607,15 @@ header {
 }
 .head_btn {
   margin-top: 20px;
+  font-size: 1.8rem;
+  padding: 15px;
 }
 
 .project_details_show {
-  padding: 35px 0;
+  padding: 50px 0;
 }
 .details_block {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .details_block:last-child {
@@ -1560,7 +1625,7 @@ header {
   font-weight: 600;
   color: #404145;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .details_block ul {
   list-style: disc;
@@ -1583,6 +1648,21 @@ header {
 }
 .add_comment_btn {
   padding: 14px 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 14px;
+  font-size: 1.8rem;
+}
+.add_comment_btn svg {
+  font-size: 20px;
+}
+.pin_data_info {
+  color: #667085;
+  padding-left: 5px;
+}
+.project_outer_box .details_block {
+  margin-bottom: 25px;
 }
 /* ------------------------------------------------------------------------------- */
 /* --- FAQ's CSS --- */
@@ -1887,7 +1967,7 @@ header {
 
 .rating {
   font-size: 30px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .rating .star {
@@ -2162,7 +2242,7 @@ footer ul li a:hover {
 }
 .sign_up_preference .form_radio {
   text-align: left;
-  max-width: 250px;
+  max-width: 160px;
   margin: 0 auto;
   margin-bottom: 10px;
 }
@@ -2264,7 +2344,7 @@ footer ul li a:hover {
   justify-content: flex-start;
   align-content: center;
   align-items: center;
-  gap: 11px;
+  gap: 20px;
 }
 .post_arrow {
   display: flex;
