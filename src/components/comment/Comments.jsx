@@ -78,6 +78,7 @@ const Comments = ({ data }) => {
     const [moreCount, setMoreCount] = useState(0);
 
 
+
     useEffect(() => {
         // const sortedComments = commentDataDami.sort((a, b) => b.id - a.id);// Sort the comments in descending order by their ID
         setReplayData(replayDataDami.slice(0, initialDisplayCount));
@@ -101,16 +102,23 @@ const Comments = ({ data }) => {
             id: newReplayId,
             name: "New User",
             email: "new@example.com",
-            comment: formDataObject.replayText,
+            replay: formDataObject.replayText,
         };
         // Add the new comment to the beginning of the array
         setReplayData([newReplay, ...replayData]);
+        setOpenCmnt(true);
+        setIsAddReplay(false);
     };
 
 
     const [isOpenCmnt, setOpenCmnt] = useState(false);
     const openReplyHandel = () => {
         setOpenCmnt(!isOpenCmnt);
+    }
+    const [isAddReplay,setIsAddReplay] = useState(false);
+    const openReplayBoxHandeler = () =>{
+        setIsAddReplay(!isAddReplay);
+        setOpenCmnt(true);
     }
     return (
         <>
@@ -146,7 +154,7 @@ const Comments = ({ data }) => {
                                     <BiDownvote />
                                 </button>
                             </div>
-                            <button className="project_effective_button replay_btn" >
+                            <button className="project_effective_button replay_btn" onClick={openReplayBoxHandeler}>
                                 <MdOutlineAddComment /> <span>Replay</span>
                             </button>
                             <button className="project_effective_button">
@@ -154,13 +162,15 @@ const Comments = ({ data }) => {
                             </button>
                         </div>
                     </div>
-                    <AddReplay />
-                    {/* box under box  */}
-                    {/* st reply of this comment  */}
+                    {
+                        isAddReplay &&   <AddReplay addNewReplay={addNewReplay} openReplayBoxHandele={openReplayBoxHandeler}/>
+                    }
+                  
+                    {/* show reply of this comment  */}
                     {
                         isOpenCmnt && <> {
                             replayData.length !== 0 ? (
-                                replayData.map((singleData) => (<Replay key={singleData.id} data={singleData} />))
+                                replayData.map((singleData) => (<Replay key={singleData.id} data={singleData} addNewReplay={addNewReplay} />))
                             ) : (
                                 <> No Replay yet ..</>
                             )
@@ -168,8 +178,8 @@ const Comments = ({ data }) => {
                         </>
                     }
 
-                    {/* ed reply of this comment  */}
-                    {/* end box under box  */}
+                    {/* show reply of this comment  */}
+                  
                 </div>
                 {isOpenCmnt &&
                     moreCount >= 0 && (

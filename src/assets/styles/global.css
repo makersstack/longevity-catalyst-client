@@ -2407,8 +2407,15 @@ footer ul li a:hover {
   width: 100%;
   max-width: 90px;
 }
-.al_add_comment_box {
-  padding: 40px 0;
+.comment_card_footer .al_add_comment_box {
+  margin-left: 9px;
+  border-left: 1px solid #efefef;
+  padding: 24px;
+}
+.replay_card .al_add_comment_box {
+  margin-left: 0;
+  border-left: none;
+  padding: 24px;
 }
 .details_block.commnet_add_box {
   width: 100%;
