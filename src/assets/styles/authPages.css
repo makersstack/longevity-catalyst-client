@@ -161,3 +161,24 @@
 .auth_box .plan-content {
   margin-top: 10px;
 }
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .padding_top-30 {
+    padding-top: 18px;
+  }
+  .full_widht_auth_section {
+    padding-bottom: 50px;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+}

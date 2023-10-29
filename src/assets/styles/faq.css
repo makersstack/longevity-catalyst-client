@@ -114,3 +114,39 @@
 .get_touch_btn {
   box-shadow: none;
 }
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .faq_head {
+    text-align: center;
+    padding: 45px 0 45px 0;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .have_question_content {
+    padding: 20px 0;
+  }
+  .user_image_box img {
+    width: 40px;
+    height: 40px;
+  }
+  .accordion-item h3 {
+    font-size: 17px;
+    line-height: 26px;
+  }
+  .full_width_have_question_contact {
+    padding: 55px 0 70px 0;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+  .have_question_content {
+    padding: 10px 0;
+  }
+}

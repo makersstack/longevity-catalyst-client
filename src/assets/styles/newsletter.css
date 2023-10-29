@@ -15,3 +15,24 @@
   align-items: center;
   gap: 16px;
 }
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .full_width_newsletter_section {
+    padding: 75px 0;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+  .full_width_newsletter_section {
+    padding: 55px 0;
+  }
+}
