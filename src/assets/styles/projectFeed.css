@@ -297,6 +297,27 @@
 
 /* For 767px breakpoint and smaller */
 @media (max-width: 767px) {
+  .project_short_filter {
+    flex-wrap: wrap;
+  }
+  .project_show_section .short_filter_button {
+    flex: 0 0 47%;
+  }
+  .card_title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .card_body a {
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .card:not(:last-child) {
+    margin-bottom: 30px;
+  }
+  .project_show_section {
+    padding-top: 20px;
+    padding-bottom: 50px;
+  }
 }
 
 /* For 576px breakpoint and smaller */

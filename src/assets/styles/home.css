@@ -302,10 +302,29 @@
 /* --------------------------------- */
 /* For 991px breakpoint and smaller */
 @media (max-width: 991px) {
+  .full_width_banner_section {
+    padding-top: 60px;
+  }
+  .trading_project_single h3 {
+    margin-bottom: 15px;
+  }
+  .trading_project_box p {
+    font-size: 15.826px;
+    line-height: 23.738px;
+  }
 }
 
 /* For 767px breakpoint and smaller */
 @media (max-width: 767px) {
+  .full_width_banner_section {
+    padding-top: 45px;
+  }
+  .banner_wrapper p {
+    padding-bottom: 40px;
+  }
+  .trading_project_box {
+    flex-wrap: wrap;
+  }
 }
 
 /* For 576px breakpoint and smaller */

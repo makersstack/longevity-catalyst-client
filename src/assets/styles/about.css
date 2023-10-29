@@ -137,3 +137,80 @@
   height: 20px;
   width: 20px;
 }
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .full_width_about_banner_section {
+    padding-top: 50px;
+  }
+  .about_banner_wrapper {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+  }
+  .about_banner_content,
+  .about_banner_img {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+  }
+  .about_banner_content h2 {
+    margin-bottom: 20px;
+    font-size: 36px;
+  }
+  .about_banner_img img {
+    max-width: 588px;
+  }
+  .about_banner_content p {
+    margin: 0 auto;
+  }
+  .about_banner_img {
+    margin-top: 20px;
+  }
+  .team_member_box {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 31px;
+    grid-row-gap: 31px;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .about_banner_content p {
+    font-size: 17px;
+    line-height: 29px;
+  }
+  .why_choice_us_boxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .signle_choice_us {
+    padding: 20px;
+  }
+  .choice_icon {
+    height: 45px;
+    width: 45px;
+  }
+  .choice_icon svg {
+    height: 20px;
+    width: 20px;
+  }
+  .team_member_img {
+    width: 70px;
+    height: 70px;
+  }
+  .full_width_team_member_section {
+    padding-bottom: 60px;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+  .team_member_box {
+    margin-top: 25px;
+  }
+  .team_member_img {
+    width: 65px;
+    height: 65px;
+  }
+}
