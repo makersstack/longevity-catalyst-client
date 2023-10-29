@@ -420,7 +420,7 @@ const AddProject = () => {
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label >
-                                        Is there a hard deadline for this project ? <span>*</span>
+                                    How much experience will this project require? <span>*</span>
                                     </label>
 
                                     {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../assets/styles/faq.css';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
 import ScrollToTop from '../utils/RouteChange';

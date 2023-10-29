@@ -1,0 +1,136 @@
+/* ------------------------------------------------------------------------------- */
+/* --- PROJECT DETAILS CSS --- */
+/* ------------------------------------------------------------------------------- */
+.project_details_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: flex-start;
+}
+.project_show_section {
+  padding-top: 60px;
+  padding-bottom: 80px;
+}
+.project_show_left_box {
+  flex: 0 0 66.66%;
+  width: 100%;
+}
+.show_project_details {
+  flex: 0 0 66.66%;
+  width: 100%;
+  max-width: 680px;
+}
+.submited_date {
+  color: #6b6b6b;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  border-radius: 50px;
+  background: #f4f4f4;
+  padding: 10px 20px;
+}
+.project_time {
+  color: #949297;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.project_details_head h2 {
+  margin: 15px 0;
+}
+.head_btn {
+  margin-top: 20px;
+  font-size: 1.8rem;
+  padding: 15px;
+}
+
+.project_details_show {
+  padding: 50px 0;
+}
+.details_block {
+  margin-bottom: 50px;
+}
+
+.details_block:last-child {
+  margin-bottom: 0;
+}
+.block_title {
+  font-weight: 600;
+  color: #404145;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.details_block ul {
+  list-style: disc;
+  margin-left: 25px;
+}
+.details_block ul li {
+  margin-bottom: 10px;
+}
+.details_block ul li a {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  text-decoration-line: underline;
+  transition: 0.3s;
+}
+.details_block ul li a:hover {
+  color: #646464;
+}
+.add_comment_btn {
+  padding: 14px 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 14px;
+  font-size: 1.8rem;
+}
+.add_comment_btn svg {
+  font-size: 20px;
+}
+.pin_data_info {
+  color: #667085;
+  padding-left: 5px;
+}
+.project_outer_box .details_block {
+  margin-bottom: 25px;
+}
+.profile_info_ratings {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  color: 5px;
+}
+.profile_info_ratings span svg {
+  font-size: 20px;
+}
+.vote_count {
+  color: #667085;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.project_show_section .project_short_filter {
+  box-shadow: none;
+}
+.project_show_section .short_filter_button {
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+  column-gap: 10px;
+}
+.project_show_section .short_filter_button:hover,
+.project_show_section .short_filter_button:focus,
+.project_show_section .short_filter_button.active {
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+}

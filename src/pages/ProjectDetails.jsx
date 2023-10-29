@@ -2,6 +2,7 @@ import React from 'react';
 import { BsCheckSquare } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import UserProfileImage from '../assets/images/user-1.png';
+import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
 const ProjectDetails = () => {
   return (
