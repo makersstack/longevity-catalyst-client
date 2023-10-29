@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../../assets/styles/comment.css';
 import AddComment from './AddComment';
 import Comments from './Comments';
 import PinBox from './PinBox';

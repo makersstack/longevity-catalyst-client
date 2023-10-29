@@ -3,6 +3,7 @@ import { BiSearch } from 'react-icons/bi';
 import { FaChevronDown, FaRegUser } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
+import '../../assets/styles/header.css';
 import { checkAuth } from '../../utils/fakeAuth';
 import CustomSelect from '../CustomSelect';
 import SignupModal from '../SignupModal';
@@ -38,6 +39,12 @@ const Header = () => {
     closeModal();
   };
 
+  const [isOpenSearchBox, setOpenSearchBox] = useState(false);
+  const handelSearchBox = () =>{
+    console.log("Before state update:", isOpenSearchBox);
+    setOpenSearchBox(!isOpenSearchBox);
+    console.log("After state update:", isOpenSearchBox);
+  }
 
   return (
     <header>
@@ -48,9 +55,9 @@ const Header = () => {
               <img src={logo} alt="logo" />
             </Link>
           </div>
-          <div className="header_search">
+          <div className={`header_search ${isOpenSearchBox ? 'active_header_search' : '' }`}>
             <form action="#" method="post">
-              <span className='header_search_icon'>
+              <span className='header_search_icon '>
                 <BiSearch />
               </span>
               <input
@@ -64,6 +71,9 @@ const Header = () => {
             </form>
           </div>
           <div className="header_buttons">
+          <button className='dropdown-button res-search-btn' onClick={handelSearchBox}>
+            <BiSearch />
+          </button>
             {
               getAuthF ? <Link to='/user/dashboard' className='btn btn-dark'>
                 Dashboard
@@ -80,10 +90,6 @@ const Header = () => {
                 </div>
               </>
             }
-
-
-
-
           </div>
         </div>
       </div>

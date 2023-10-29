@@ -1,0 +1,116 @@
+/* ------------------------------------------------------------------------------- */
+/* --- FAQ's CSS --- */
+/* ------------------------------------------------------------------------------- */
+.faq_head {
+  text-align: center;
+  padding: 90px 0 64px 0;
+}
+.faq_questions {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+/* Style for the accordion container */
+.accordion {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Style for each FAQ item */
+.accordion-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+/* Style for the header of each FAQ item */
+.accordion-header {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.accordion-item h3 {
+  color: #101828;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+/* Style for the toggle icon */
+.toggle-icon {
+  font-weight: bold;
+}
+
+.accordion-icon-design {
+  color: #9d9d9d;
+  border: 1px solid #9d9d9d;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+}
+
+/* Style for the active (expanded) FAQ item */
+
+/* CSS for the transition animation */
+.accordion-content {
+  padding: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  display: none;
+  margin-bottom: 20px;
+}
+
+/* Style for the active (expanded) FAQ item */
+.accordion-content.active {
+  max-height: 1000px; /* Adjust this value based on your content's maximum height */
+  transition: max-height 0.3s ease-in-out;
+}
+.accordion .active {
+  display: block;
+}
+
+/* stil have question css  */
+.full_width_have_question_contact {
+  padding: 64px 0 90px 0;
+}
+.have_question_wrapper {
+  text-align: center;
+  border-radius: 16px;
+  background: #f3f3f3;
+  padding: 32px;
+}
+.user_image_box img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50px;
+  border: 2px solid #fff;
+  margin: 0 10px;
+}
+.user_image_box {
+  position: relative;
+}
+
+.user_image_box .middle-img {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 0;
+  transform: scale(1.1);
+}
+.have_question_content {
+  padding: 32px 0;
+}
+.get_touch_btn {
+  box-shadow: none;
+}

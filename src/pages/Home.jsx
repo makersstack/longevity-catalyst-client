@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ProjectFeed';
 import trustImages from '../data/images';
 import { data } from '../data/projectData';
