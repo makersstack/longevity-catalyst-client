@@ -3,11 +3,12 @@ import { LuBarChart2, LuLock, LuUsers } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
 import { RxLayers } from 'react-icons/rx';
 import { Link, useNavigate } from 'react-router-dom';
+import '../../assets/styles/dashboardMenu.css';
 import { baseUrl } from '../../globals';
 import { removeAuth } from '../../utils/fakeAuth';
 import RanderNav from './RanderNav';
 
-const DashboardMenu = () => {
+const DashboardMenu = ({isActiveMenu}) => {
     const navigate = useNavigate();
     const LogOuthandel = (event) => {
         event.preventDefault();
@@ -80,7 +81,7 @@ const DashboardMenu = () => {
 
 
     return (
-        <div className="dashboard_menu">
+        <div className={`dashboard_menu ${ isActiveMenu ? 'activemenu' : ''} `}>
             {/* <!-- Menu Profile --> */}
             <div className="dashboard_menu_profile">
                 <div className="profile_img">

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
@@ -215,6 +216,12 @@ const AddProject = () => {
         console.log(formData);
         alert('browser console to see the sumited value ! need to work more on submit');
     }
+    const [isActiveMenu, setIsActiveMenu] = useState(false);
+
+    const handelDashMenu = () => {
+        setIsActiveMenu(!isActiveMenu);
+    }
+
 
 
     return (
@@ -222,11 +229,14 @@ const AddProject = () => {
             <div className="container">
                 <div className="dashboard">
                     {/* <!-- Dashboard Menu --> */}
-                    <DashboardMenu />
+                    <DashboardMenu  isActiveMenu={isActiveMenu}/>
                     {/* <!-- Add Project --> */}
                     <div className="dashboard_add_project">
                         {/* <!-- Add Project head --> */}
                         <div className="add_project_head">
+                        <button className='dasMenuBtn' onClick={handelDashMenu}>
+                                <AiOutlineMenuUnfold />
+                            </button>
                             <h3 className="title">Add Project</h3>
                         </div>
                         <form onSubmit={handelProjectSubmit} className="add_project_form">
