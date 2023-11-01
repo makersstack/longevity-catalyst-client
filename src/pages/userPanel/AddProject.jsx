@@ -11,7 +11,7 @@ import { checkAuth } from '../../utils/fakeAuth';
 const AddProject = () => {
     ScrollToTop();
     const navigate = useNavigate();
-    const [getAuthF, setAuthF] = useState(checkAuth());
+    const [getAuthF] = useState(checkAuth());
     
     useEffect(()=>{
         if (!getAuthF) {
@@ -223,7 +223,6 @@ const AddProject = () => {
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
-    const [startDate, setStartDate] = useState(null);
 
 
     return (
