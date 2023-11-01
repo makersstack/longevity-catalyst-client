@@ -21,9 +21,9 @@ const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
             {item.submenu ? (
                 <li className="dropdown_menu">
                     <button onClick={toggleDropdown}>
-                        <span>
+                        <span className='menu_with_chev'>
                             <span className='al_menu_icon'> {item.icon} </span>
-                            {item.title}
+                           <span className=''>{item.title}</span> 
                         </span>
                         <HiChevronDown />
                     </button>
@@ -42,7 +42,7 @@ const RanderNav = ({ item, isOpenState, setIsOpenState, toggleDropdown }) => {
                 <li>
                     <NavLink to={item.route} onClick={item.clickHandel ? item.clickHandel : undefined}>
                         <span className='al_menu_icon'>{item.icon}</span>
-                        {item.title}
+                        <span className=''>{item.title}</span> 
                     </NavLink>
                 </li>
             )}

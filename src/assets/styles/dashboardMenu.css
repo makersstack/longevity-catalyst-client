@@ -1,0 +1,115 @@
+.dashboard_menu {
+  flex: 0 0 265px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.dashboard_menu_profile {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  padding: 10px;
+  padding-top: 25px;
+  border-bottom: 1px solid #eaecf0;
+}
+.profile_img {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+.profile_img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.profile_text a {
+  color: #101828;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.042px;
+}
+.profile_text a:hover {
+  text-decoration: underline;
+}
+.profile_text p {
+  color: #667085;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17.042px;
+}
+.dashboard_nav ul {
+  padding-bottom: 10px;
+}
+.dashboard_nav ul li {
+  padding-top: 10px;
+}
+.dashboard_nav ul li button,
+.dashboard_nav ul li a {
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  color: #344054;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.dropdown_menu button {
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  font-size: 16px;
+  justify-content: space-between;
+}
+.dashboard_nav ul li a i {
+  font-size: 15px;
+}
+.dropdown_menu button:hover,
+.dashboard_nav ul li a:hover,
+.dashboard_nav ul li a.active {
+  background: #f2f4f7;
+}
+.submenu {
+  padding: 15px 0;
+}
+.submenu li {
+  padding-top: 0px !important;
+}
+.submenu li a {
+  padding-left: 45px !important;
+}
+.dashboard_add_project {
+  width: 100%;
+}
+.menu_with_chev {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  column-gap: 10px;
+}
+.al_des_menu_mob {
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .al_des_menu_mob {
+    display: none;
+  }
+  .dashboard_menu {
+    flex: unset;
+    display: none;
+  }
+  .dashboard_menu.activemenu {
+    display: block;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+}

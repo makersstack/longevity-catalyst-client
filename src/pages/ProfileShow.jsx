@@ -7,6 +7,7 @@ import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import UserProfile from '../assets/images/profile-user.png';
+import '../assets/styles/profileShow.css';
 import SidebarFilters from '../components/filter/SidebarFilters';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';

@@ -1,7 +1,9 @@
 // SidebarFilters.js
+
 import React, { useState } from 'react';
-import styles from '../../styles/Filter.module.css';
+import { AiOutlineClose } from 'react-icons/ai';
 import CheckBoxButton from '../common/CheckBoxButton';
+
 // Search field component
 function SearchField({ onSearchChange, value }) {
   const [localValue, setLocalValue] = useState(value || '');
@@ -13,11 +15,12 @@ function SearchField({ onSearchChange, value }) {
   };
 
   return (
-    <div className={styles.input_box}>
+    <div className="input_box">
       <label htmlFor="se-p">Search Project</label>
       <input
         id="se-p"
-        type="search"
+        name='search_project_byName'
+        type="text"
         placeholder="Project Name"
         onChange={handleChange}
         value={localValue}
@@ -168,56 +171,73 @@ const SidebarFilters = ({
   onPageChange,
   requirdSkillCheckData,
   filters,
+  isSideBarActive,
+  handelSideBarButton,
+  sideBarRef
 }) => {
+  const [searchValue,setSearchValue] = useState('');
+  const handelResetFrom = () => {
+    setSearchValue('');
+  }
+
   return (
     <>
       {/* Project sidebar filter */}
-      <div className={styles.project_side_ber_container}>
-        <div className={styles.project_side_bar}>
-          <div>
-            {search && <SearchField onSearchChange={onPageChange} value={filters.search} />}
-            {categories && (
-              <Categories
-                categoryOptions={categories}
-                onCategoryChange={(value) => onPageChange('selectedCategory', value)}
-                value={filters.selectedCategory}
-              />
-            )}
-            {topic && (
-              <Topic
-                topicOptions={topic}
-                onTopicChange={(value) => onPageChange('selectedTopic', value)}
-                value={filters.selectedTopic}
-              />
-            )}
-            {duration && (
-              <Duration
-                durationOptions={duration}
-                onDurationChange={(value) => onPageChange('selectedDuration', value)}
-                value={filters.selectedDuration}
-              />
-            )}
-            {requiredSkills && (
-              <RequiredSkills
-                onSkillsChange={(value) => onPageChange('selectedRequiredSkills', value)}
-                requirdSkillCheckData={requirdSkillCheckData}
-              />
-            )}
-            {fundingStatus && (
-              <FundingStatus
-                fundingStatusOptions={fundingStatus}
-                onFundingStatusChange={(value) => onPageChange('selectedFundingStatus', value)}
-                value={filters.selectedFundingStatus}
-              />
-            )}
-            {language && (
-              <Language
-                languageOptions={language}
-                onLanguageChange={(value) => onPageChange('selectedLanguage', value)}
-                value={filters.selectedLanguage}
-              />
-            )}
-          </div>
+      <div className={`project_side_ber_container ${isSideBarActive ? 'active_side_bar' : ''}`}>
+        <div className="project_side_bar" ref={sideBarRef}>
+          <form >
+            <div className="side_bar_mobile_header">
+              <button type='reset' onClick={handelResetFrom} className='side_bar_head_btn'>Reset</button>
+              <p>Projects Filter</p>
+              <button className='side_bar_head_btn sideCloseBtn' onClick={handelSideBarButton}>  <AiOutlineClose /> </button>
+
+
+            </div>
+            <div className='side_bar_inputs_box'>
+              {search && <SearchField onSearchChange={(value) => onPageChange('textsearch', value)} value={searchValue} />}
+              {categories && (
+                <Categories
+                  categoryOptions={categories}
+                  onCategoryChange={(value) => onPageChange('selectedCategory', value)}
+                  value={filters.selectedCategory}
+                />
+              )}
+              {topic && (
+                <Topic
+                  topicOptions={topic}
+                  onTopicChange={(value) => onPageChange('selectedTopic', value)}
+                  value={filters.selectedTopic}
+                />
+              )}
+              {duration && (
+                <Duration
+                  durationOptions={duration}
+                  onDurationChange={(value) => onPageChange('selectedDuration', value)}
+                  value={filters.selectedDuration}
+                />
+              )}
+              {requiredSkills && (
+                <RequiredSkills
+                  onSkillsChange={(value) => onPageChange('selectedRequiredSkills', value)}
+                  requirdSkillCheckData={requirdSkillCheckData}
+                />
+              )}
+              {fundingStatus && (
+                <FundingStatus
+                  fundingStatusOptions={fundingStatus}
+                  onFundingStatusChange={(value) => onPageChange('selectedFundingStatus', value)}
+                  value={filters.selectedFundingStatus}
+                />
+              )}
+              {language && (
+                <Language
+                  languageOptions={language}
+                  onLanguageChange={(value) => onPageChange('selectedLanguage', value)}
+                  value={filters.selectedLanguage}
+                />
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </>

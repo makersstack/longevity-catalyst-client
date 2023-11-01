@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
@@ -8,6 +8,7 @@ import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
 
+import '../assets/styles/projectFeed.css';
 import SidebarFilters from './filter/SidebarFilters';
 import TopFilterButtons from './filter/TopFilterButtons';
 
@@ -16,6 +17,8 @@ const ProjectFeed = () => {
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
+  
+  const [isSideBarActive,setSideBarActive] = useState(false);
 
   useEffect(() => {
     fetch('/data.json')
@@ -82,6 +85,7 @@ const ProjectFeed = () => {
   
   const handlePageChange = (filterType, value) => {
     console.log('onPageChange called with:', filterType, value);
+ 
   
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -97,9 +101,41 @@ const ProjectFeed = () => {
         prevFilteredProjects
       );
     });
+    if(filterType !== 'textsearch'){
+      setSideBarActive(!isSideBarActive);
+    }
+    
   };
   
+  const sideBarRef = useRef();
+  const handelSideBarButton = (e) =>{
+    e.preventDefault();
+    setSideBarActive(!isSideBarActive);
+   
+  }
 
+  useEffect(() => {
+    if (isSideBarActive) {
+      document.body.classList.add('sitebaractivebody');
+    } else {
+      document.body.classList.remove('sitebaractivebody');
+    }
+  }, [isSideBarActive]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (sideBarRef.current && !sideBarRef.current.contains(event.target)) {
+        setSideBarActive(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [sideBarRef]);
+  
   return (
     <>
       <div className="project_show_wrapper">
@@ -114,12 +150,17 @@ const ProjectFeed = () => {
           onPageChange={handlePageChange}
           requirdSkillCheckData={requirdSkillCheckData}
           filters={filters}
+          isSideBarActive={isSideBarActive}
+          handelSideBarButton={handelSideBarButton}
+          sideBarRef={sideBarRef}
         />
         {/* project show container */}
         <div className="project_show_container">
           <TopFilterButtons options={topFilterOptionsPage1}
             selectedOption={selectedTopOption}
-            onOptionChange={handleTopOptionChange} />
+            onOptionChange={handleTopOptionChange}
+            handelSideBarButton={handelSideBarButton}
+            />
           {/* project show container */}
           <div className="project_show_cash">
             {/* Render project cards */}

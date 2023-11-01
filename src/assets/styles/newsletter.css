@@ -1,0 +1,38 @@
+/* newsletter area  */
+.full_width_newsletter_section {
+  padding: 96px 0;
+  background: #f3f3f3;
+}
+.newsletter_form_area {
+  width: 100%;
+  max-width: 495px;
+  margin: 0 auto;
+}
+.news_letter_input {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .full_width_newsletter_section {
+    padding: 75px 0;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+  .full_width_newsletter_section {
+    padding: 55px 0;
+  }
+}

@@ -1,15 +1,14 @@
 import React from 'react';
-import styles from '../../styles/Filter.module.css';
-const TopFilterButtons = ({ options = [], selectedOption, onOptionChange }) => {
+import { LiaFilterSolid } from 'react-icons/lia';
+
+const TopFilterButtons = ({ options = [], selectedOption, onOptionChange, handelSideBarButton }) => {
   return (
     <>
-      <div className={styles.project_short_filter}>
+      <div className="project_short_filter">
+      <button onClick={handelSideBarButton} className='short_filter_button al_resFilterBtn'> <LiaFilterSolid/> Filter</button>
         {
           options.map((option) => (
-            <button className={`${styles.short_filter_button} ${selectedOption === option.value ? styles.active : ''
-              }`}
-              key={option.value}
-              onClick={() => onOptionChange(option.value)}>
+            <button className={selectedOption === option.value ? 'short_filter_button active' : 'short_filter_button'} key={option.value} onClick={() => onOptionChange(option.value)}>
               {option.icon}
               {option.label}
             </button>

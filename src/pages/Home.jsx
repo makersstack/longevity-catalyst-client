@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ProjectFeed';
-import trustImages from '../data/images';
-import { data } from '../data/projectData';
-import { baseUrl } from '../globals';
+import TradingProjectSlider from '../components/TradingProjectSlider';
+import TrustSlider from '../components/TrustSlider';
 import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
@@ -34,15 +34,7 @@ const Home = () => {
         <div className="container">
           <div className="trust_by_wrapper">
             <h6>Trusted by</h6>
-            <div className="trust_by_box">
-              {
-                trustImages.map((image, index) => (
-                  <div className="single_trust_by" key={index}>
-                    <img src={`${baseUrl}${image.src}`} alt={image.name} />
-                  </div>
-                ))
-              }
-            </div>
+              <TrustSlider/>
           </div>
         </div>
       </section>
@@ -53,7 +45,7 @@ const Home = () => {
         <div className="container">
           <div className="trading_project_wrapper">
             <h6>Trending Project</h6>
-            <div className="trading_project_box">
+            {/* <div className="trading_project_box">
               {
                 data.projectCards.map((item, index) => (
                   <div className="trading_project_single" key={index} style={{ background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat` }} >
@@ -66,7 +58,8 @@ const Home = () => {
                   </div>
                 ))
               }
-            </div>
+            </div> */}
+            <TradingProjectSlider />
           </div>
         </div>
       </section>

@@ -1,0 +1,216 @@
+/* ------------------------------------------------------------------------------- */
+/* --- About page CSS --- */
+/* ------------------------------------------------------------------------------- */
+.about_banner_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 24px;
+}
+.about_banner_content,
+.about_banner_img {
+  flex: 0 0 50%;
+}
+
+.about_banner_img img {
+  width: 100%;
+  height: auto;
+}
+.about_banner_content p {
+  margin: 20px 0;
+  color: #272727;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+  width: 100%;
+  max-width: 588px;
+}
+.about_banner_content a {
+  margin-top: 30px;
+}
+
+/* why choice us  */
+.why_choice_us_boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.signle_choice_us {
+  text-align: center;
+  padding: 30px;
+}
+.signle_choice_us h5 {
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+.signle_choice_us p {
+  color: var(--gray-500, #667085);
+}
+.choice_icon {
+  border-radius: 50%;
+  background: #eaeaea;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 20px;
+}
+.choice_icon svg {
+  height: 28px;
+  width: 28px;
+}
+/* team members  */
+.full_width_team_member_section {
+  padding-bottom: 100px;
+}
+.team_member_box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  grid-column-gap: 32px;
+  grid-row-gap: 60px;
+}
+.single_team_member {
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  text-align: center;
+  height: 100%;
+}
+.team_member_img {
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.team_member_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.team_member_title {
+  color: #101828;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+}
+.team_member_designation {
+  color: #626262;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  margin-bottom: 10px;
+  display: block;
+}
+.single_team_member p {
+  color: #667085;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.team_socail_contact {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 16px;
+}
+.team_socail_contact a svg {
+  fill: #98a2b3;
+  height: 20px;
+  width: 20px;
+}
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .full_width_about_banner_section {
+    padding-top: 50px;
+  }
+  .about_banner_wrapper {
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+  }
+  .about_banner_content,
+  .about_banner_img {
+    flex: 0 0 100%;
+    width: 100%;
+    text-align: center;
+  }
+  .about_banner_content h2 {
+    margin-bottom: 20px;
+    font-size: 36px;
+  }
+  .about_banner_img img {
+    max-width: 588px;
+  }
+  .about_banner_content p {
+    margin: 0 auto;
+  }
+  .about_banner_img {
+    margin-top: 20px;
+  }
+  .team_member_box {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 31px;
+    grid-row-gap: 31px;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .about_banner_content p {
+    font-size: 17px;
+    line-height: 29px;
+  }
+  .why_choice_us_boxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .signle_choice_us {
+    padding: 20px;
+  }
+  .choice_icon {
+    height: 45px;
+    width: 45px;
+  }
+  .choice_icon svg {
+    height: 20px;
+    width: 20px;
+  }
+  .team_member_img {
+    width: 70px;
+    height: 70px;
+  }
+  .full_width_team_member_section {
+    padding-bottom: 60px;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+  .team_member_box {
+    margin-top: 25px;
+  }
+  .team_member_img {
+    width: 65px;
+    height: 65px;
+  }
+}

@@ -1,0 +1,366 @@
+/* ------------------------------------------------------------------------------- */
+/* --- BANNER CSS --- */
+/* ------------------------------------------------------------------------------- */
+.full_width_banner_section {
+  padding-top: 100px;
+}
+.banner_wrapper {
+  text-align: center;
+  max-width: 940px;
+  margin: 0 auto;
+}
+.banner_wrapper h1 {
+  width: 100%;
+  max-width: 941px;
+  margin: 0 auto;
+}
+.banner_wrapper p {
+  padding-top: 20px;
+  max-width: 790px;
+  margin: 0 auto;
+  padding-bottom: 56px;
+}
+
+/* ------------------------------------------------------------------------------- */
+/* --- TRUST BY CSS --- */
+/* ------------------------------------------------------------------------------- */
+/* .trust_by_box {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+} */
+
+.single_trust_by {
+  outline: none;
+  text-align: center;
+  display: flex !important;
+  justify-content: center;
+}
+.single_trust_by img {
+  /* width: 100%; */
+  height: auto;
+  filter: opacity(70%);
+  transition: 0.3s all ease linear;
+}
+.single_trust_by:hover img {
+  filter: opacity(100%);
+}
+.trust_by_wrapper h6 {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.trust_by_box .slick-slider {
+  padding: 30px 0;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  color: black !important;
+}
+/* ------------------------------------------------------------------------------- */
+/* --- Trading Project CSS --- */
+/* ------------------------------------------------------------------------------- */
+.full_width_trading_project_section {
+  padding-bottom: 60px;
+}
+.trading_project_wrapper h6 {
+  margin-bottom: 24px;
+}
+/* .trading_project_box {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  gap: 20px;
+} */
+.trading_project_single {
+  border-radius: 12px;
+  border: 3px solid #edefff;
+  padding: 45px;
+  background-position: center !important;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.trading_project_single::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #0000009a;
+  content: "";
+  border-radius: 12px;
+  box-shadow: 0px 5px 45px 0px #dce4ff14;
+  z-index: -1;
+}
+.trading_project_single h3 {
+  color: #fff;
+  margin-bottom: 20px;
+}
+.trading_project_box p {
+  color: #fff;
+  font-family: "Sen", sans-serif;
+  font-size: 17.826px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26.738px;
+}
+
+.trading_project_box .slick-slider {
+  padding-bottom: 35px;
+}
+.full_width_trading_project_section .slick-dots li button::before {
+  content: "" !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: #000 !important;
+  border-radius: 50px !important;
+}
+.full_width_trading_project_section .slick-dots li.slick-active button::before {
+  width: 50px !important;
+}
+.full_width_trading_project_section .slick-dots li.slick-active {
+  margin-right: 40px;
+}
+
+/* ------------------------------------------------------------------------------- */
+/* --- Project show section  CSS --- */
+/* ------------------------------------------------------------------------------- */
+.project_show_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  /* align-items: center; */
+}
+.project_side_ber_container {
+  flex: 0 0 33.33%;
+  padding: 20px;
+}
+.project_show_container {
+  flex: 0 0 66.66%;
+  padding: 20px;
+}
+.project_side_bar {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 50px 31px;
+}
+/* side bar filte css  */
+.project_side_bar label {
+  color: #333;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.65px;
+  margin-bottom: 9px;
+  display: inline-block;
+}
+.project_side_bar.side_ber_style_2 label {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+.project_side_bar select,
+.project_side_bar input {
+  border-radius: 12px;
+  background: #f7f7f7;
+  border: none;
+  padding: 14px 17px;
+  height: 50px;
+  color: #333;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.project_side_bar input::placeholder,
+.project_side_bar select {
+  color: #aaa;
+}
+.input_box:not(:last-child) {
+  margin-bottom: 40px;
+}
+.input_box h4 {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  padding-bottom: 15px;
+}
+.project_side_bar .plan .plan-content {
+  border-radius: 12px;
+  background: #f7f7f7;
+  border: none;
+  padding: 10px 20px;
+}
+.input_box_keywords {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 15px;
+  row-gap: 15px;
+}
+.show_ct {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  color: #6b6b6b;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  border-radius: 50px;
+  background: #f4f4f4;
+}
+.project_side_bar .plan-details p {
+  color: #aaa;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.project_side_bar .plan input[type="checkbox"]:checked + .plan-content,
+.project_side_bar .plan input[type="radio"]:checked + .plan-content {
+  transition: ease-in 0.3s;
+  border: none;
+  background: rgba(16, 24, 40, 0.05);
+}
+.project_side_bar
+  .plan
+  input[type="radio"]:checked
+  + .plan-content
+  .plan-details
+  p,
+.project_side_bar
+  .plan
+  input[type="checkbox"]:checked
+  + .plan-content
+  .plan-details
+  p {
+  color: #333;
+}
+.required_skills .plan-details {
+  justify-content: flex-start;
+}
+.required_skills_tags {
+  padding-top: 5px;
+}
+.required_skill_single {
+  max-width: 238px;
+  padding: 10px 20px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  color: #6b6b6b;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+.required_skill_single:not(:last-child) {
+  margin-bottom: 10px;
+}
+.side_ber_style_2 .plan-details p {
+  color: #6b6b6b;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+/* short filter css  */
+.project_short_filter {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px 28px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+.short_filter_button {
+  border-radius: 50px;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color: #959595;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  gap: 5px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 55px;
+}
+.short_filter_button svg {
+  fill: #959595;
+  height: 24px;
+  width: 24px;
+}
+.short_filter_button.active,
+.short_filter_button:hover {
+  background: rgba(77, 77, 77, 0.1);
+  color: #000;
+}
+.short_filter_button.active svg,
+.short_filter_button:hover svg {
+  fill: #000;
+}
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS   */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .full_width_banner_section {
+    padding-top: 60px;
+  }
+  .trading_project_single h3 {
+    margin-bottom: 15px;
+  }
+  .trading_project_box p {
+    font-size: 15.826px;
+    line-height: 23.738px;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .full_width_banner_section {
+    padding-top: 45px;
+  }
+  .banner_wrapper p {
+    padding-bottom: 40px;
+  }
+  .trading_project_box {
+    flex-wrap: wrap;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+}

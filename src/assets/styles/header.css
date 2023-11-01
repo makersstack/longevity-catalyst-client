@@ -1,0 +1,189 @@
+/* ------------------------------------------------------------------------------- */
+/* --- HEADER CSS --- */
+/* ------------------------------------------------------------------------------- */
+header {
+  padding: 28px 0px;
+}
+.header_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+/* style the header search form  */
+.header_search {
+  max-width: 632px;
+  border-radius: 0.8rem;
+  border: 0.1rem solid #d0d5dd;
+  background: #fff;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(16, 24, 40, 0.05);
+  width: 100%;
+  padding: 5px 9px;
+}
+.header_search:focus-within,
+.header_search:focus,
+.header_search:hover {
+  border-color: #383838;
+}
+.header_search form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+.header_search input {
+  border: none;
+  box-shadow: none;
+  padding: 5px 10px;
+  color: #383838;
+}
+
+.header_search_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 30px;
+  width: 100%;
+}
+.header_search_icon svg {
+  color: rgba(152, 162, 179, 1);
+  font-size: 24px;
+}
+.search_category {
+  position: relative;
+  max-width: 120px;
+  width: 100%;
+}
+.search_category select {
+  border-radius: 0.8rem;
+  background: #f1f1f1;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  height: 100%;
+  padding-right: 1.1rem;
+  color: #595959;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+  appearance: none;
+  padding-right: 3rem;
+  width: unset;
+}
+/* .search_category::after {
+    content: "\f078";
+    position: absolute;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-42%);
+    font-size: 15px;
+    color: #595959;
+    pointer-events: none;
+  } */
+
+/* Style the custom dropdown container */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-button {
+  background-color: transparent;
+  color: rgba(135, 138, 140, 1);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+}
+.dropdown-button i {
+  margin-left: 5px;
+}
+.dropdown-list {
+  list-style: none;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+  min-width: 200px;
+  transform: translateY(10px);
+}
+.dropdown-list li {
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-list li i {
+  margin-right: 10px;
+}
+.custom-dropdown:hover .dropdown-list {
+  display: block;
+}
+
+.header_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 15px;
+}
+.res-search-btn {
+  display: none;
+}
+
+/* ----------------------------------- */
+/* RESPONSIVE CSS FOR HEADER  */
+/* --------------------------------- */
+/* For 991px breakpoint and smaller */
+@media (max-width: 991px) {
+  .header_wrapper {
+    position: relative;
+  }
+  .header_search {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: -63px;
+    right: 0;
+    margin: 0 auto;
+    max-width: 100%;
+    display: none;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .header_search.active_header_search {
+    display: block;
+    transform: translateY(0);
+  }
+
+  .header_buttons {
+    gap: 5px;
+  }
+  .res-search-btn {
+    font-size: 20px;
+    display: block;
+  }
+}
+
+/* For 767px breakpoint and smaller */
+@media (max-width: 767px) {
+  .header_buttons {
+    gap: 0;
+  }
+}
+
+/* For 576px breakpoint and smaller */
+@media (max-width: 576px) {
+}

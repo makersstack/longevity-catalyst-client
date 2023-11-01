@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../assets/styles/authPages.css';
 import SignupModal from '../../components/SignupModal';
 import AuthHeader from '../../components/auth/AuthHeader';
 import ScrollToTop from '../../utils/RouteChange';

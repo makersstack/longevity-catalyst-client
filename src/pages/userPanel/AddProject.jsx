@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import DatePickerInput from '../../components/DatePickerInput';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
@@ -8,7 +11,7 @@ import { checkAuth } from '../../utils/fakeAuth';
 const AddProject = () => {
     ScrollToTop();
     const navigate = useNavigate();
-    const [getAuthF, setAuthF] = useState(checkAuth());
+    const [getAuthF] = useState(checkAuth());
     
     useEffect(()=>{
         if (!getAuthF) {
@@ -215,6 +218,11 @@ const AddProject = () => {
         console.log(formData);
         alert('browser console to see the sumited value ! need to work more on submit');
     }
+    const [isActiveMenu, setIsActiveMenu] = useState(false);
+
+    const handelDashMenu = () => {
+        setIsActiveMenu(!isActiveMenu);
+    }
 
 
     return (
@@ -222,11 +230,14 @@ const AddProject = () => {
             <div className="container">
                 <div className="dashboard">
                     {/* <!-- Dashboard Menu --> */}
-                    <DashboardMenu />
+                    <DashboardMenu  isActiveMenu={isActiveMenu}/>
                     {/* <!-- Add Project --> */}
                     <div className="dashboard_add_project">
                         {/* <!-- Add Project head --> */}
                         <div className="add_project_head">
+                        <button className='dasMenuBtn' onClick={handelDashMenu}>
+                                <AiOutlineMenuUnfold />
+                            </button>
                             <h3 className="title">Add Project</h3>
                         </div>
                         <form onSubmit={handelProjectSubmit} className="add_project_form">
@@ -420,7 +431,7 @@ const AddProject = () => {
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label >
-                                        Is there a hard deadline for this project ? <span>*</span>
+                                    How much experience will this project require? <span>*</span>
                                     </label>
 
                                     {
@@ -451,22 +462,21 @@ const AddProject = () => {
 
 
                             <div className="two_columns">
-
-
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
+                                 {/* <!-- Single Input --> */}
+                                 <div className="form_control">
                                     <label htmlFor="p_deadline"> What is your project deadline? </label>
-                                    <div className="date_picker">
-                                        <input id='p_deadline' type="p_deadline" placeholder='Date picker will appear here ' />
-                                        <button>Data Picker</button>
-                                    </div>
+                                    <DatePickerInput id='p_deadline' name='p_deadline'/>
                                 </div>
+
+                              
+
+
+
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label>
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
-
 
                                     {
                                         ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
