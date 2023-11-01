@@ -1,8 +1,7 @@
 // SidebarFilters.js
-
 import React, { useState } from 'react';
+import styles from '../../styles/Filter.module.css';
 import CheckBoxButton from '../common/CheckBoxButton';
-
 // Search field component
 function SearchField({ onSearchChange, value }) {
   const [localValue, setLocalValue] = useState(value || '');
@@ -14,7 +13,7 @@ function SearchField({ onSearchChange, value }) {
   };
 
   return (
-    <div className="input_box">
+    <div className={styles.input_box}>
       <label htmlFor="se-p">Search Project</label>
       <input
         id="se-p"
@@ -173,8 +172,8 @@ const SidebarFilters = ({
   return (
     <>
       {/* Project sidebar filter */}
-      <div className="project_side_ber_container">
-        <div className="project_side_bar">
+      <div className={styles.project_side_ber_container}>
+        <div className={styles.project_side_bar}>
           <div>
             {search && <SearchField onSearchChange={onPageChange} value={filters.search} />}
             {categories && (
