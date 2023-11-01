@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import DatePickerInput from '../../components/DatePickerInput';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
@@ -221,7 +223,7 @@ const AddProject = () => {
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
-
+    const [startDate, setStartDate] = useState(null);
 
 
     return (
@@ -461,22 +463,21 @@ const AddProject = () => {
 
 
                             <div className="two_columns">
-
-
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
+                                 {/* <!-- Single Input --> */}
+                                 <div className="form_control">
                                     <label htmlFor="p_deadline"> What is your project deadline? </label>
-                                    <div className="date_picker">
-                                        <input id='p_deadline' type="p_deadline" placeholder='Date picker will appear here ' />
-                                        <button>Data Picker</button>
-                                    </div>
+                                    <DatePickerInput id='p_deadline' name='p_deadline'/>
                                 </div>
+
+                              
+
+
+
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label>
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
-
 
                                     {
                                         ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
