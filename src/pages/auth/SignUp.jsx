@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import AuthHeader from '../../components/auth/AuthHeader';
 import ContributerSignUp from '../../components/auth/ContributerSignUp';
@@ -9,18 +10,20 @@ import ScrollToTop from '../../utils/RouteChange';
 import { checkAuth, setUserData } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
 
+
 const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
+
     const [getAuthF, setAuthF] = useState(checkAuth());
+
+    console.log(setAuthF);
 
     useEffect(() => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
     }, [getAuthF]);
-
-
 
     ScrollToTop();
     const mes = {};
@@ -35,28 +38,31 @@ const SignUp = () => {
         }
     }, [errorMsg]);
 
-    const handalSubmitSignUp = (e) => {
+    const handalSubmitSignUp = async (e) => {
         e.preventDefault();
+
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
+
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
+
         // validation 
         let isValid = true;
-        if (formDataObject.Email.length === 0) {
+        if (formDataObject.email.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                Email: 'Email is Required',
+                email: 'Email is Required',
             }));
             isValid = false;
         }
 
-        if (formDataObject.name.length === 0) {
+        if (formDataObject.username.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                name: 'Full Name is Required',
+                username: 'Full Name is Required',
             }));
             isValid = false;
         }
@@ -80,23 +86,31 @@ const SignUp = () => {
         // } else {
         //     console.log("No file selected");
         // }
+
         if (isValid) {
             const response = setUserData(formDataObject);
+
             if (response.status) {
                 navigate('/login');
+
             } else {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    Email: response.message,
+                    email: response.message,
                 }));
                 isValid = false;
             }
         }
 
-        // console.log(formDataObject);
-    }
-    if (type === 'user' || type === 'contributor' || type === 'researcher') {
+        const responseApi = await authApi.signup(formDataObject);
 
+        if(responseApi.status){
+            console.log("Well, Data is successfylly updated");
+        }
+        console.log(formDataObject);
+    }
+
+    if (type === 'user' || type === 'contributor' || type === 'researcher') {
         return (
             <>
                 <AuthHeader />
@@ -106,7 +120,6 @@ const SignUp = () => {
                             <form onSubmit={handalSubmitSignUp} ref={formRef}>
                                 <h4>Sign Up</h4>
                                 <p>Welcome back! Please enter your details.</p>
-
                                 {
                                     type === 'user' && <UserSignUp errorMsg={errorMsg} />
                                 }

@@ -1,0 +1,145 @@
+/* Project Side Bar */
+.input_box:not(:last-child) {
+  margin-bottom: 40px;
+}
+.input_box h4 {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  padding-bottom: 15px;
+}
+.input_box_keywords {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: 15px;
+  row-gap: 15px;
+}
+.project_side_bar {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 50px 31px;
+}
+/* side bar filte css  */
+.project_side_bar label {
+  color: #333;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.65px;
+  margin-bottom: 9px;
+  display: inline-block;
+}
+.project_side_bar.side_ber_style_2 label {
+  color: #404145;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+.project_side_bar select,
+.project_side_bar input {
+  border-radius: 12px;
+  background: #f7f7f7;
+  border: none;
+  padding: 14px 17px;
+  height: 50px;
+  color: #333;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.project_side_bar input::placeholder,
+.project_side_bar select {
+  color: #aaa;
+}
+.project_side_bar .plan .plan-content {
+  border-radius: 12px;
+  background: #f7f7f7;
+  border: none;
+  padding: 10px 20px;
+}
+
+.project_side_bar .plan-details p {
+  color: #aaa;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.project_side_bar .plan input[type="checkbox"]:checked + .plan-content,
+.project_side_bar .plan input[type="radio"]:checked + .plan-content {
+  transition: ease-in 0.3s;
+  border: none;
+  background: rgba(16, 24, 40, 0.05);
+}
+.project_side_bar
+  .plan
+  input[type="radio"]:checked
+  + .plan-content
+  .plan-details
+  p,
+.project_side_bar
+  .plan
+  input[type="checkbox"]:checked
+  + .plan-content
+  .plan-details
+  p {
+  color: #333;
+}
+/* short filter css  */
+.project_short_filter {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 10px 28px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+.short_filter_button {
+  border-radius: 50px;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color: #959595;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  gap: 5px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 55px;
+}
+.short_filter_button svg {
+  fill: #959595;
+  height: 24px;
+  width: 24px;
+}
+.short_filter_button.active,
+.short_filter_button:hover {
+  background: rgba(77, 77, 77, 0.1);
+  color: #000;
+}
+.short_filter_button.active svg,
+.short_filter_button:hover svg {
+  fill: #000;
+}

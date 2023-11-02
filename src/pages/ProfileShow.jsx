@@ -107,7 +107,7 @@ const ProfileShow = ({ rating }) => {
 
   return (
     <>
-      <section className="project_show_section">
+      <section className="project_show_section single_page_project_show">
         <div className="container">
           <div className="project_show_wrapper">
             <SidebarFilters

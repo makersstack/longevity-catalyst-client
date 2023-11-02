@@ -1,23 +1,31 @@
 import React from 'react';
-import DargFileAttech from '../common/DargFileAttech';
 
 const UserSignUp = ({ errorMsg }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="company">Full Name</label>
+                <input
+                    type="text"
+                    name="full_name"
+                    id="full_name"
+                    placeholder="Full Name"
+                />
+            </div>
+            <div className="auth_box">
+                <label htmlFor="name">User Name</label>
                 <input
                     className={errorMsg.name ? 'border-warring' : ''}
                     type="text"
-                    name="name"
-                    id="name"
-                    placeholder="Full Name"
+                    name="username"
+                    id="username"
+                    placeholder="User Name"
                 />
                 {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="Email">Email</label>
-                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
+                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="email" id="Email" placeholder="Email" />
                 {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
             </div>
             <div className="auth_box">
@@ -35,7 +43,7 @@ const UserSignUp = ({ errorMsg }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                <DargFileAttech />
+                {/* <DargFileAttech /> */}
             </div>
 
             <div className="auth_box">
@@ -51,11 +59,11 @@ const UserSignUp = ({ errorMsg }) => {
             </div>
 
             <div className="auth_box">
-                <label htmlFor="compay">Affiliation / Company / Institution</label>
+                <label htmlFor="company">Affiliation / Company / Institution</label>
                 <input
                     type="text"
-                    name="compay"
-                    id="compay"
+                    name="company"
+                    id="company"
                     placeholder="Company"
                 />
             </div>
