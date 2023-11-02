@@ -1,9 +1,6 @@
 // const setUserData = (data) => {
 //     localStorage.setItem('user_data', JSON.stringify(data));
 // }
-
-
-
 const setUserData = (data) => {
     let storedData = JSON.parse(localStorage.getItem('user_data')) || {}; // Initialize with an empty object if no data exists
     const response = {}

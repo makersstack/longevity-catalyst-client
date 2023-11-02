@@ -195,7 +195,9 @@ const ProjectFeed = () => {
                 {/* card body */}
                 <div className="card_body">
                   <h4 className="card_title">{project.projectName}</h4>
-                  <p className="card_text">{project.projectDescription}</p>
+                  <p className="card_text">
+                    {project.projectDescription}
+                    </p>
                   <Link to="single-project">
                     Learn more <HiArrowNarrowRight />
                   </Link>

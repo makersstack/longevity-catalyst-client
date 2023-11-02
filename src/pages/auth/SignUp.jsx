@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import AuthHeader from '../../components/auth/AuthHeader';
 import ContributerSignUp from '../../components/auth/ContributerSignUp';
@@ -9,19 +10,21 @@ import ScrollToTop from '../../utils/RouteChange';
 import { checkAuth } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
 
+
 const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
+
     const [getAuthF, setAuthF] = useState(checkAuth());
     const [profilePic, setProfilePic] = useState({});
+
+    console.log(setAuthF);
 
     useEffect(() => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
     }, [getAuthF]);
-
-
 
     ScrollToTop();
     const mes = {};
@@ -36,16 +39,28 @@ const SignUp = () => {
         }
     }, [errorMsg]);
 
-    const handalSubmitSignUp = (e) => {
+    const handalSubmitSignUp = async (e) => {
         e.preventDefault();
+
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
+        console.log(formData);
+
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
+
         // validation 
         let isValid = true;
+        if (formDataObject.full_name.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                full_name: 'Full Name is Required',
+            }));
+            isValid = false;
+        }
+
         if (formDataObject.Email.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
@@ -54,10 +69,10 @@ const SignUp = () => {
             isValid = false;
         }
 
-        if (formDataObject.name.length === 0) {
+        if (formDataObject.username.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                name: 'Full Name is Required',
+                username: 'Full Name is Required',
             }));
             isValid = false;
         }
@@ -98,7 +113,7 @@ const SignUp = () => {
                     profile_pic: 'Please Select PNG or JPG !',
                 }));
                 isValid = false;
-            }else{
+            } else {
                 isImageValid = true;
             }
         }
@@ -117,13 +132,19 @@ const SignUp = () => {
         // After validation ok then work it 
         if (isValid) {
 
+            const responseApi = await authApi.signup(formDataObject);
+
+            if (responseApi.status) {
+                console.log("Well, Data is successfylly updated");
+            }
             console.log(formDataObject);
         }
 
 
     }
-    if (type === 'user' || type === 'contributor' || type === 'researcher') {
 
+
+    if (type === 'user' || type === 'contributor' || type === 'researcher') {
         return (
             <>
                 <AuthHeader />

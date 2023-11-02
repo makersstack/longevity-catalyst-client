@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import SignupModal from '../../components/SignupModal';
 import AuthHeader from '../../components/auth/AuthHeader';
 import ScrollToTop from '../../utils/RouteChange';
 import { checkAuth, setAuth, userLoginCheck } from '../../utils/fakeAuth';
-
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const [getAuthF, setAuthF] = useState(checkAuth());
+
+    console.log(setAuthF);
 
     useEffect(() => {
         if (getAuthF) {
@@ -54,8 +56,9 @@ const Login = () => {
     }, [errorMsg]);
 
 
-    const handalSubmitLogin = (e) => {
+    const handalSubmitLogin = async (e) => {
         e.preventDefault();
+
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
@@ -103,6 +106,14 @@ const Login = () => {
                 }
             }
         }
+        
+        const responseApi = await authApi.signup();
+        console.log(responseApi);
+
+        // if(responseApi.status){
+        //     console.log("Well, Data is successfylly updated");
+        // }
+        console.log(formDataObject);
     }
     return (
         <>

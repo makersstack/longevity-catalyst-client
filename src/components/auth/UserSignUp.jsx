@@ -1,19 +1,30 @@
 import React from 'react';
 import DargFileAttech from '../common/DargFileAttech';
 
-const UserSignUp = ({ errorMsg,setProfilePic }) => {
+const UserSignUp = ({ errorMsg, setProfilePic }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="company">Full Name</label>
                 <input
-                    className={errorMsg.name ? 'border-warring' : ''}
+                    className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
-                    name="name"
-                    id="name"
+                    name="full_name"
+                    id="full_name"
                     placeholder="Full Name"
                 />
-                {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
+                {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
+            </div>
+            <div className="auth_box">
+                <label htmlFor="name">Username</label>
+                <input
+                    className={errorMsg.username ? 'border-warring' : ''}
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                />
+                {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="Email">Email</label>
@@ -35,7 +46,7 @@ const UserSignUp = ({ errorMsg,setProfilePic }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic}/>
+                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
             </div>
 
             <div className="auth_box">
@@ -51,11 +62,11 @@ const UserSignUp = ({ errorMsg,setProfilePic }) => {
             </div>
 
             <div className="auth_box">
-                <label htmlFor="compay">Affiliation / Company / Institution</label>
+                <label htmlFor="company">Affiliation / Company / Institution</label>
                 <input
                     type="text"
-                    name="compay"
-                    id="compay"
+                    name="company"
+                    id="company"
                     placeholder="Company"
                 />
             </div>
