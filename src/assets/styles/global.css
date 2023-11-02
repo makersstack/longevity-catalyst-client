@@ -711,7 +711,7 @@ input[type="radio"] {
   font-size: 14px;
 }
 .border-warring {
-  border-color: red;
+  border-color: red !important;
 }
 
 /* ----------------------------------- */

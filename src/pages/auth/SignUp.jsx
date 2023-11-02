@@ -7,7 +7,7 @@ import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth, setUserData } from '../../utils/fakeAuth';
+import { checkAuth } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
 
 
@@ -16,6 +16,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const [getAuthF, setAuthF] = useState(checkAuth());
+    const [profilePic, setProfilePic] = useState({});
 
     console.log(setAuthF);
 
@@ -44,6 +45,7 @@ const SignUp = () => {
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
+        console.log(formData);
 
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -51,10 +53,18 @@ const SignUp = () => {
 
         // validation 
         let isValid = true;
-        if (formDataObject.email.length === 0) {
+        if (formDataObject.full_name.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                email: 'Email is Required',
+                full_name: 'Full Name is Required',
+            }));
+            isValid = false;
+        }
+
+        if (formDataObject.Email.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                Email: 'Email is Required',
             }));
             isValid = false;
         }
@@ -74,41 +84,65 @@ const SignUp = () => {
             isValid = false;
         }
 
-        // Access the selected file using the name attribute
+        if (formDataObject.user_role.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                user_role: 'User Role is Required',
+            }));
+            isValid = false;
+        }
+
+        // Start proccsing image 
         const profilePictureFile = formData.get("profile_pic");
-        // Check if a file was selected
-        // if (profilePictureFile) {
-        //     console.log("Selected File:", profilePictureFile);
-        //     // You can also access additional file properties, such as name, type, and size
-        //     console.log("File Name:", profilePictureFile.name);
-        //     console.log("File Type:", profilePictureFile.type);
-        //     console.log("File Size (bytes):", profilePictureFile.size);
-        // } else {
-        //     console.log("No file selected");
-        // }
-
-        if (isValid) {
-            const response = setUserData(formDataObject);
-
-            if (response.status) {
-                navigate('/login');
-
-            } else {
+        if (profilePictureFile.name.length !== 0) {
+            setProfilePic(profilePictureFile);
+        }
+        let isImageValid = false;
+        if (profilePic.name) {
+            // image validation 
+            if (profilePic.size > 1048576) {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    email: response.message,
+                    profile_pic: 'Max 1MB file can Upload !',
                 }));
                 isValid = false;
             }
+            else if (!['image/jpeg', 'image/png', 'image/gif'].includes(profilePic.type)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    profile_pic: 'Please Select PNG or JPG !',
+                }));
+                isValid = false;
+            } else {
+                isImageValid = true;
+            }
+        }
+        if (isImageValid) {
+            formDataObject.user_image = profilePic;
+        }
+        else {
+            formDataObject.user_image = '';
+        }
+        delete formDataObject.profile_pic;
+
+
+
+        // end proccsing image 
+
+        // After validation ok then work it 
+        if (isValid) {
+
+            const responseApi = await authApi.signup(formDataObject);
+
+            if (responseApi.status) {
+                console.log("Well, Data is successfylly updated");
+            }
+            console.log(formDataObject);
         }
 
-        const responseApi = await authApi.signup(formDataObject);
 
-        if(responseApi.status){
-            console.log("Well, Data is successfylly updated");
-        }
-        console.log(formDataObject);
     }
+
 
     if (type === 'user' || type === 'contributor' || type === 'researcher') {
         return (
@@ -120,14 +154,16 @@ const SignUp = () => {
                             <form onSubmit={handalSubmitSignUp} ref={formRef}>
                                 <h4>Sign Up</h4>
                                 <p>Welcome back! Please enter your details.</p>
+                                <input type="hidden" name="user_role" value={type} />
+
                                 {
-                                    type === 'user' && <UserSignUp errorMsg={errorMsg} />
+                                    type === 'user' && <UserSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'contributor' && <ContributerSignUp errorMsg={errorMsg} />
+                                    type === 'contributor' && <ContributerSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'researcher' && <ResearcherSignUp errorMsg={errorMsg} />
+                                    type === 'researcher' && <ResearcherSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
 
                                 <button type="submit" className="auth_submit btn btn-dark btn-full">

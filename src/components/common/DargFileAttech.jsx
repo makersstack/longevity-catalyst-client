@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FiUploadCloud } from 'react-icons/fi';
 
-const DargFileAttech = () => {
+const DargFileAttech = ({ errorMsg, setProfilePic }) => {
     const [dragging, setDragging] = useState(false);
     const [filePreview, setFilePreview] = useState(null);
+    const fileInputRef = useRef(null);
 
     const handleDragEnter = (e) => {
         e.preventDefault();
@@ -14,7 +15,7 @@ const DargFileAttech = () => {
         setDragging(false);
     };
 
-    const handleDragOver = (e) => { 
+    const handleDragOver = (e) => {
         e.preventDefault();
     };
 
@@ -29,7 +30,10 @@ const DargFileAttech = () => {
         if (files.length > 0) {
             const file = files[0]; // Assuming only one file is dropped
             const reader = new FileReader();
-
+            setProfilePic(file);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ''; // Reset the input value
+            }
             reader.onload = (event) => {
                 // Set the file preview to the data URL of the dropped file
                 setFilePreview(event.target.result);
@@ -46,11 +50,11 @@ const DargFileAttech = () => {
 
     return (
         <>
-            <label htmlFor="img_up" className={`drag_imge_input ${dragging ? 'dragging' : ''}`} onDragEnter={handleDragEnter}
+            <label htmlFor="img_up" className={`drag_imge_input ${dragging ? 'dragging' : ''} ${errorMsg.profile_pic ? 'border-warring' : ''}`} onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-                <input type="file" name='profile_pic' id="img_up" onChange={handleFileInputChange} />
+                <input ref={fileInputRef} className={errorMsg.profile_pic ? 'border-warring' : ''} type="file" name='profile_pic' id="img_up" onChange={handleFileInputChange} />
                 {filePreview ? (
                     <img className='dargedImage' src={filePreview} alt="Uploaded" />
                 ) : (
@@ -61,7 +65,9 @@ const DargFileAttech = () => {
 
                 <p><span>Click to upload</span> or drag and drop</p>
                 <p>SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                {errorMsg.profile_pic && <div className='error-msg'>{errorMsg.profile_pic}</div>}
             </label>
+
         </>
     );
 };
