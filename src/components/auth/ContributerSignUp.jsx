@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = ({ errorMsg }) => {
+const ContributerSignUp = ({ errorMsg,setProfilePic }) => {
 
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python' },
@@ -75,7 +75,7 @@ const ContributerSignUp = ({ errorMsg }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                <DargFileAttech />
+                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic}/>
             </div>
 
             <div className="auth_box">

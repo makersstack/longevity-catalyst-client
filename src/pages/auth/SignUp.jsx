@@ -6,13 +6,14 @@ import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth, setUserData } from '../../utils/fakeAuth';
+import { checkAuth } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
 
 const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
     const [getAuthF, setAuthF] = useState(checkAuth());
+    const [profilePic, setProfilePic] = useState({});
 
     useEffect(() => {
         if (getAuthF) {
@@ -68,32 +69,58 @@ const SignUp = () => {
             isValid = false;
         }
 
-        // Access the selected file using the name attribute
+        if (formDataObject.user_role.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                user_role: 'User Role is Required',
+            }));
+            isValid = false;
+        }
+
+        // Start proccsing image 
         const profilePictureFile = formData.get("profile_pic");
-        // Check if a file was selected
-        // if (profilePictureFile) {
-        //     console.log("Selected File:", profilePictureFile);
-        //     // You can also access additional file properties, such as name, type, and size
-        //     console.log("File Name:", profilePictureFile.name);
-        //     console.log("File Type:", profilePictureFile.type);
-        //     console.log("File Size (bytes):", profilePictureFile.size);
-        // } else {
-        //     console.log("No file selected");
-        // }
-        if (isValid) {
-            const response = setUserData(formDataObject);
-            if (response.status) {
-                navigate('/login');
-            } else {
+        if (profilePictureFile.name.length !== 0) {
+            setProfilePic(profilePictureFile);
+        }
+        let isImageValid = false;
+        if (profilePic.name) {
+            // image validation 
+            if (profilePic.size > 1048576) {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    Email: response.message,
+                    profile_pic: 'Max 1MB file can Upload !',
                 }));
                 isValid = false;
             }
+            else if (!['image/jpeg', 'image/png', 'image/gif'].includes(profilePic.type)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    profile_pic: 'Please Select PNG or JPG !',
+                }));
+                isValid = false;
+            }else{
+                isImageValid = true;
+            }
+        }
+        if (isImageValid) {
+            formDataObject.user_image = profilePic;
+        }
+        else {
+            formDataObject.user_image = '';
+        }
+        delete formDataObject.profile_pic;
+
+
+
+        // end proccsing image 
+
+        // After validation ok then work it 
+        if (isValid) {
+
+            console.log(formDataObject);
         }
 
-        // console.log(formDataObject);
+
     }
     if (type === 'user' || type === 'contributor' || type === 'researcher') {
 
@@ -106,15 +133,16 @@ const SignUp = () => {
                             <form onSubmit={handalSubmitSignUp} ref={formRef}>
                                 <h4>Sign Up</h4>
                                 <p>Welcome back! Please enter your details.</p>
+                                <input type="hidden" name="user_role" value={type} />
 
                                 {
-                                    type === 'user' && <UserSignUp errorMsg={errorMsg} />
+                                    type === 'user' && <UserSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'contributor' && <ContributerSignUp errorMsg={errorMsg} />
+                                    type === 'contributor' && <ContributerSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'researcher' && <ResearcherSignUp errorMsg={errorMsg} />
+                                    type === 'researcher' && <ResearcherSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
 
                                 <button type="submit" className="auth_submit btn btn-dark btn-full">

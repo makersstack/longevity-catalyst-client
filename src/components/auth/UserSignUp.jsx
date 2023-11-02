@@ -1,7 +1,7 @@
 import React from 'react';
 import DargFileAttech from '../common/DargFileAttech';
 
-const UserSignUp = ({ errorMsg }) => {
+const UserSignUp = ({ errorMsg,setProfilePic }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
@@ -35,7 +35,7 @@ const UserSignUp = ({ errorMsg }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                <DargFileAttech />
+                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic}/>
             </div>
 
             <div className="auth_box">
