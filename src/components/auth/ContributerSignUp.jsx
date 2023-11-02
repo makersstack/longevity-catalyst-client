@@ -13,7 +13,6 @@ const ContributerSignUp = ({ errorMsg }) => {
 
     return (
         <>
-
             <div className="auth_box padding_top-30">
                 <label htmlFor="name">Full Name</label>
                 <input
@@ -27,19 +26,19 @@ const ContributerSignUp = ({ errorMsg }) => {
             </div>
             <div className="auth_box">
                 <label htmlFor="Email">Email</label>
-                <input  className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
+                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
                 {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
                 <input
-                 className={errorMsg.password ? 'border-warring' : ''}
+                    className={errorMsg.password ? 'border-warring' : ''}
                     type="password"
                     name="password"
                     id="password"
                     placeholder="Type Your password"
                 />
-                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
+                {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
 
             <div className="auth_box">

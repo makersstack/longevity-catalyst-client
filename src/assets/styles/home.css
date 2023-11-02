@@ -144,6 +144,9 @@
   flex: 0 0 66.66%;
   padding: 20px;
 }
+.home_project_show {
+  padding-top: 0px;
+}
 .project_side_bar {
   border-radius: 20px;
   background: #fff;

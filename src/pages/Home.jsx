@@ -66,7 +66,7 @@ const Home = () => {
       {/* ED:- trust by area */}
       
       {/* ST:- Project show area */}
-      <section className="project_show_section">
+      <section className="project_show_section home_project_show">
         <div className="container">
           <ProjectFeed />
         </div>

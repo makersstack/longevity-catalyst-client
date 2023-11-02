@@ -120,17 +120,26 @@
   align-items: center;
   column-gap: 5px;
 }
-.project_show_section .project_short_filter {
-  box-shadow: none;
+.short_filter_button.active,
+.short_filter_button:hover {
+  background: rgba(77, 77, 77, 0.1);
+  color: #000;
 }
-.project_show_section .short_filter_button {
+.single_page_project_show .short_filter_button {
   border-radius: 10px;
   background: #fff;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
   column-gap: 10px;
 }
-.project_show_section .short_filter_button:hover,
-.project_show_section .short_filter_button:focus,
-.project_show_section .short_filter_button.active {
+.single_page_project_show .project_short_filter {
+  padding: 0px;
+}
+.single_page_project_show .short_filter_button:hover,
+.single_page_project_show .short_filter_button:focus,
+.single_page_project_show .short_filter_button.active {
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+}
+/* For extra */
+.single_page_project_show .project_short_filter {
+  box-shadow: none;
 }
