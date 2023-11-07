@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
 import DatePickerInput from '../../components/DatePickerInput';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth } from '../../utils/fakeAuth';
 
 const AddProject = () => {
     ScrollToTop();
-    const navigate = useNavigate();
-    const [getAuthF] = useState(checkAuth());
-    
-    useEffect(()=>{
-        if (!getAuthF) {
-            navigate('/login');
-        }
-    },[getAuthF]);
-
-
+   
     const onsiteOption = [
         {
             key: 'onsite-1',
