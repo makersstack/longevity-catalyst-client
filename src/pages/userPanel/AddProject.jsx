@@ -17,7 +17,7 @@ const AddProject = () => {
         if (!getAuthF) {
             navigate('/login');
         }
-    },[getAuthF]);
+    },[navigate, getAuthF]);
 
 
     const onsiteOption = [

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { authApi } from '../../api';
@@ -17,13 +18,11 @@ const SignUp = () => {
 
     const [getAuthF, setAuthF] = useState(checkAuth());
 
-    console.log(setAuthF);
-
     useEffect(() => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
-    }, [getAuthF]);
+    }, [navigate, getAuthF]);
 
     ScrollToTop();
     const mes = {};

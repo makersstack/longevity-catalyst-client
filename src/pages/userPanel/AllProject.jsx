@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +16,7 @@ const AllProject = () => {
         if (!getAuthF) {
             navigate('/login');
         }
-    }, [getAuthF]);
+    }, [navigate, getAuthF]);
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 

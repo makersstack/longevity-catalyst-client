@@ -18,7 +18,7 @@ const Login = () => {
         if (getAuthF) {
             navigate('/user/dashboard');
         }
-    }, [getAuthF]);
+    }, [navigate, getAuthF]);
 
 
 

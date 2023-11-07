@@ -713,7 +713,15 @@ input[type="radio"] {
 .border-warring {
   border-color: red;
 }
-
+/* ----------------------------------- */
+/* RESPONSIVE CSS FOR GLOBAL  */
+/* --------------------------------- */
+.post_arrow .upvateBtn svg.upvoted {
+  fill: #007aff;
+}
+.post_arrow .downvoteBtn svg.downvoted {
+  fill: red;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */
