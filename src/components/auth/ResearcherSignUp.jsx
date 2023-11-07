@@ -5,7 +5,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="company">Full Name</label>
+                <label htmlFor="full_name">Full Name</label>
                 <input
                     className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
@@ -16,7 +16,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="name">Username</label>
+                <label htmlFor="username">Username</label>
                 <input
                     className={errorMsg.username ? 'border-warring' : ''}
                     type="text"
@@ -27,9 +27,9 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="Email">Email</label>
-                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
-                {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
+                <label htmlFor="email">Email</label>
+                <input className={errorMsg.email ? 'border-warring' : ''} type="email" name="email" id="email" placeholder="Email" />
+                {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
@@ -43,11 +43,11 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="compay">Company / Institution</label>
+                <label htmlFor="company">Company / Institution</label>
                 <input
                     type="text"
-                    name="compay"
-                    id="compay"
+                    name="company"
+                    id="company"
                     placeholder="Company"
                 />
             </div>

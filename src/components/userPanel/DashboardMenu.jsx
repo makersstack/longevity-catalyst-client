@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { LuBarChart2, LuLock, LuUsers } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
 import { RxLayers } from 'react-icons/rx';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../assets/styles/dashboardMenu.css';
 import { baseUrl } from '../../globals';
-import { removeAuth } from '../../utils/fakeAuth';
+import useAuth from '../../hooks/UseAuth';
 import RanderNav from './RanderNav';
 
 const DashboardMenu = ({isActiveMenu}) => {
-    const navigate = useNavigate();
+    const {setAuth,auth} = useAuth();
+    console.log(auth);
     const LogOuthandel = (event) => {
         event.preventDefault();
-        removeAuth();
-        navigate('/login');
+       setAuth({});
+      
     }
 
 
