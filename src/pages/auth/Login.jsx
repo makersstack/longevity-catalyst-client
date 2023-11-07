@@ -1,26 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import SignupModal from '../../components/SignupModal';
 import AuthHeader from '../../components/auth/AuthHeader';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth, setAuth, userLoginCheck } from '../../utils/fakeAuth';
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
-
-    const [getAuthF, setAuthF] = useState(checkAuth());
-
-    console.log(setAuthF);
-
-    useEffect(() => {
-        if (getAuthF) {
-            navigate('/user/dashboard');
-        }
-    }, [navigate, getAuthF]);
+    const { setAuth } = useAuth();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/user/dashboard';
+    const mes = {};
+    const [errorMsg, setErrorMsg] = useState(mes);
+    const formRef = useRef(null);
 
 
+
+
+    ScrollToTop();
 
     const openModal = () => {
         setModalOpen(true);
@@ -41,12 +42,6 @@ const Login = () => {
         closeModal();
     };
 
-
-    ScrollToTop();
-    const mes = {};
-    const [errorMsg, setErrorMsg] = useState(mes);
-    const formRef = useRef(null);
-
     useEffect(() => {
         if (Object.keys(errorMsg).length !== 0) {
             if (formRef.current) {
@@ -54,6 +49,25 @@ const Login = () => {
             }
         }
     }, [errorMsg]);
+
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLoadingState = () => {
+        const body = document.querySelector('body');
+        if (isLoading) {
+            body.classList.add('loading_BG');
+            // Add your custom code here for the loading state
+        } else {
+            body.classList.remove('loading_BG');
+            // Add your custom code here for when loading is finished
+        }
+    };
+
+    useEffect(() => {
+        handleLoadingState();
+    }, [isLoading]);
+
 
 
     const handalSubmitLogin = async (e) => {
@@ -81,39 +95,71 @@ const Login = () => {
             }));
             isValid = false;
         }
+        formDataObject.identifier = formDataObject.username;
+        delete formDataObject.username;
 
+
+        // After validation, perform the form submission with loading message
         if (isValid) {
-            const response = userLoginCheck(formDataObject);
-            if (response.status) {
-                setAuth(formDataObject.username);
-                navigate('/user/dashboard');
-
-            } else {
-                console.log(response);
-                if (response.username) {
-                    setErrorMsg(prevErrorMsg => ({
-                        ...prevErrorMsg,
-                        username: response.username,
-                    }));
-                    isValid = false;
-                }
-                if (response.password) {
-                    setErrorMsg(prevErrorMsg => ({
-                        ...prevErrorMsg,
-                        password: response.password,
-                    }));
-                    isValid = false;
-                }
+            try {
+                setIsLoading(true);
+                const promise = authApi.login(formDataObject,{
+                    withCredentials : true
+                });
+                await toast.promise(promise, {
+                    loading: 'Login...', // Display a loading message
+                    success: (response) => {
+                        if (response.data.success) {
+                            // document.querySelector('body').classList.remove('loading_BG');
+                           
+                            setIsLoading(false);
+                            setAuth({accessToken:response.data.data.accessToken});
+                            navigate(from, { replace: true });
+                          
+                            return 'Sign In Successfully Done !';
+                            
+                        } else {
+                            return 'Unexpected error occurred';
+                        }
+                    },
+                    error: (error) => {
+                        if (error.response) {
+                            if (error.response.status === 401) {
+                                const resMsg = error.response.data.message.replace('Error: ', '');
+                                const [msg] = resMsg.split('.');
+                                setErrorMsg(prevErrorMsg => ({
+                                    ...prevErrorMsg,
+                                    username: 'Invalid Username',
+                                }));
+                                setErrorMsg(prevErrorMsg => ({
+                                    ...prevErrorMsg,
+                                    password: 'Invalid Password',
+                                }));
+                                return `Sign In failed: ${msg}`;
+                            } else {
+                                console.error('Request failed with status code', error.response.status);
+                                return 'Request failed';
+                            }
+                        } else {
+                            console.error('Error', error.message);
+                            return `Error: ${error.message}`;
+                        }
+                    },
+                    style: {
+                        duration: 6000,
+                        position: 'top-right', // Set the position to top-right
+                    },
+                });
+                // console.log(responseApi);
+            } catch (error) {
+                // console.error('Error', error);
+                console.log('');
+            } finally {
+                setIsLoading(false); // Set loading back to false after the form submission
             }
+            // console.log(formDataObject);
         }
-        
-        const responseApi = await authApi.signup();
-        console.log(responseApi);
 
-        // if(responseApi.status){
-        //     console.log("Well, Data is successfylly updated");
-        // }
-        console.log(formDataObject);
     }
     return (
         <>
@@ -162,6 +208,7 @@ const Login = () => {
                             Not a Member?
                             <button onClick={openModal}> &nbsp; Sign Up</button>
                             <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
+                      
                         </p>
                     </div>
                 </div>

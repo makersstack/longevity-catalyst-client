@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBoxButton from '../common/CheckBoxButton';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = ({ errorMsg }) => {
+const ContributerSignUp = ({ errorMsg, setProfilePic }) => {
 
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python' },
@@ -14,20 +14,32 @@ const ContributerSignUp = ({ errorMsg }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="name">Full Name</label>
+                <label htmlFor="full_name">Full Name</label>
                 <input
-                    className={errorMsg.name ? 'border-warring' : ''}
+                    className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
-                    name="name"
-                    id="name"
+                    name="full_name"
+                    id="full_name"
                     placeholder="Full Name"
                 />
-                {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
+                {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="Email">Email</label>
-                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="Email" id="Email" placeholder="Email" />
-                {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
+                <label htmlFor="username">Username</label>
+                <input
+                    className={errorMsg.username ? 'border-warring' : ''}
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Username"
+                />
+                {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
+            </div>
+
+            <div className="auth_box">
+                <label htmlFor="email">Email</label>
+                <input className={errorMsg.email ? 'border-warring' : ''} type="email" name="email" id="email" placeholder="Email" />
+                {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
@@ -52,11 +64,11 @@ const ContributerSignUp = ({ errorMsg }) => {
             </div>
 
             <div className="auth_box">
-                <label htmlFor="compay">Company / Institution</label>
+                <label htmlFor="company">Company / Institution</label>
                 <input
                     type="text"
-                    name="compay"
-                    id="compay"
+                    name="company"
+                    id="company"
                     placeholder="Company"
                 />
             </div>
@@ -74,7 +86,7 @@ const ContributerSignUp = ({ errorMsg }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                <DargFileAttech />
+                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
             </div>
 
             <div className="auth_box">

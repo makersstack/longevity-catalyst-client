@@ -1,32 +1,36 @@
 import React from 'react';
+import DargFileAttech from '../common/DargFileAttech';
 
-const UserSignUp = ({ errorMsg }) => {
+const UserSignUp = ({ errorMsg, setProfilePic }) => {
+
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="company">Full Name</label>
+                <label htmlFor="full_name">Full Name</label>
                 <input
+                    className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
                     name="full_name"
                     id="full_name"
                     placeholder="Full Name"
                 />
+                {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="name">User Name</label>
+                <label htmlFor="username">Username</label>
                 <input
-                    className={errorMsg.name ? 'border-warring' : ''}
+                    className={errorMsg.username ? 'border-warring' : ''}
                     type="text"
                     name="username"
                     id="username"
-                    placeholder="User Name"
+                    placeholder="Username"
                 />
-                {errorMsg.name && <div className='error-msg'>{errorMsg.name}</div>}
+                {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="Email">Email</label>
-                <input className={errorMsg.Email ? 'border-warring' : ''} type="email" name="email" id="Email" placeholder="Email" />
-                {errorMsg.Email && <div className='error-msg'>{errorMsg.Email}</div>}
+                <label htmlFor="email">Email</label>
+                <input className={errorMsg.email ? 'border-warring' : ''} type="email" name="email" id="email" placeholder="Email" />
+                {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
@@ -43,7 +47,7 @@ const UserSignUp = ({ errorMsg }) => {
 
             <div className="auth_box">
                 <label htmlFor="propic">Profile Picture </label>
-                {/* <DargFileAttech /> */}
+                <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
             </div>
 
             <div className="auth_box">

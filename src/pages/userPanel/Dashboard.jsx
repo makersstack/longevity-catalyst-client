@@ -1,21 +1,13 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import UseRefreshToken from '../../hooks/UseRefreshToken';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth } from '../../utils/fakeAuth';
 
 
 const Dashboard = () => {
     ScrollToTop();
-    const navigate = useNavigate();
-    const [getAuthF, setAuthF] = useState(checkAuth());
-    useEffect(()=>{
-        if (!getAuthF) {
-            navigate('/login');
-        }
-    },[navigate, getAuthF]);
+    const refresh = UseRefreshToken();
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
     const handelDashMenu = () => {
@@ -27,8 +19,9 @@ const Dashboard = () => {
         <section className="full_widht_auth_section">
             <div className="container">
                 <div className="dashboard">
-                    <DashboardMenu  isActiveMenu={isActiveMenu}/>
-                   
+                    <DashboardMenu isActiveMenu={isActiveMenu} />
+                    <button onClick={() => refresh()}>Refresh</button>
+
                     <div className="dashboard_add_project">
                         {/* <!-- Add Project head --> */}
                         <div className="add_project_head">

@@ -4,6 +4,8 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
+import IfAuthCheck from './hooks/IfAuthCheck';
+import RequireAuth from './hooks/RequireAuth';
 import AboutUs from './pages/AboutUs';
 import FAQ from './pages/FAQ';
 import Home from './pages/Home';
@@ -26,15 +28,23 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/faqs' element={<FAQ />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/sign-up/:type' element={<SignUp />}></Route>
+        
+        <Route element={<IfAuthCheck />}>
+          <Route path='/login' element={<Login />} />
+          <Route path='/sign-up/:type' element={<SignUp />}></Route>
+        </Route>
+
         <Route path='/single-project' element={<ProjectDetails />} />
         <Route path='/user/:profile' element={<ProfileShow />} />
-        <Route path='/user/profile/update' element={<EditUserProfile />} />
-        <Route path='/user/dashboard' element={<Dashboard />} />
-        <Route path='/user/project/all' element={<AllProject />} />
-        <Route path='/user/project/add' element={<AddProject />} />
-        <Route path='/user/password/change' element={<PasswordChange />} />
+
+        <Route element={<RequireAuth />}>
+          <Route path='/user/profile/update' element={<EditUserProfile />} />
+          <Route path='/user/dashboard' element={<Dashboard />} />
+          <Route path='/user/project/all' element={<AllProject />} />
+          <Route path='/user/project/add' element={<AddProject />} />
+          <Route path='/user/password/change' element={<PasswordChange />} />
+        </Route>
+
         <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
       </Routes>
       <Footer />

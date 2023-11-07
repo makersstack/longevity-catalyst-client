@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
@@ -8,15 +9,16 @@ import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth, setUserData } from '../../utils/fakeAuth';
+import { checkAuth } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
-
 
 const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
 
     const [getAuthF, setAuthF] = useState(checkAuth());
+    const [profilePic, setProfilePic] = useState({});
+    console.log(setAuthF);
 
     useEffect(() => {
         if (getAuthF) {
@@ -35,11 +37,31 @@ const SignUp = () => {
                 formRef.current.scrollIntoView({ behavior: 'smooth' });
             }
         }
+
     }, [errorMsg]);
+
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLoadingState = () => {
+        const body = document.querySelector('body');
+        if (isLoading) {
+            body.classList.add('loading_BG');
+            // Add your custom code here for the loading state
+        } else {
+            body.classList.remove('loading_BG');
+            // Add your custom code here for when loading is finished
+        }
+    };
+
+
+    useEffect(() => {
+        handleLoadingState();
+    }, [isLoading])
+
 
     const handalSubmitSignUp = async (e) => {
         e.preventDefault();
-
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
@@ -50,6 +72,14 @@ const SignUp = () => {
 
         // validation 
         let isValid = true;
+        if (formDataObject.full_name.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                full_name: 'Full Name is Required',
+            }));
+            isValid = false;
+        }
+
         if (formDataObject.email.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
@@ -61,7 +91,7 @@ const SignUp = () => {
         if (formDataObject.username.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                username: 'Full Name is Required',
+                username: 'Username is Required',
             }));
             isValid = false;
         }
@@ -73,41 +103,109 @@ const SignUp = () => {
             isValid = false;
         }
 
-        // Access the selected file using the name attribute
+        if (formDataObject.role.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                role: 'User Role is Required',
+            }));
+            isValid = false;
+        }
+
+        // Start proccsing image 
         const profilePictureFile = formData.get("profile_pic");
-        // Check if a file was selected
-        // if (profilePictureFile) {
-        //     console.log("Selected File:", profilePictureFile);
-        //     // You can also access additional file properties, such as name, type, and size
-        //     console.log("File Name:", profilePictureFile.name);
-        //     console.log("File Type:", profilePictureFile.type);
-        //     console.log("File Size (bytes):", profilePictureFile.size);
-        // } else {
-        //     console.log("No file selected");
-        // }
+        if (profilePictureFile.name.length !== 0) {
+            setProfilePic(profilePictureFile);
+        }
+        let isImageValid = false;
+        if (profilePic.name) {
+            // image validation 
 
-        if (isValid) {
-            const response = setUserData(formDataObject);
-
-            if (response.status) {
-                navigate('/login');
-
-            } else {
+            if (!['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'].includes(profilePic.type)) {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    email: response.message,
+                    profile_pic: 'Please Select PNG/JPG/GIF/SVG file !',
                 }));
                 isValid = false;
             }
+            else if (profilePic.size > 1048576) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    profile_pic: 'Max 1MB file can Upload !',
+                }));
+                isValid = false;
+            }
+            else {
+                isImageValid = true;
+            }
+        }
+        if (isImageValid) {
+            formDataObject.profile_photo = profilePic;
+            formData.append('profile_photo', profilePic);
+        }
+        else {
+            formDataObject.profile_photo = '';
+        }
+        delete formDataObject.profile_pic;
+        formData.delete('profile_pic');
+
+        // end proccsing image 
+
+
+        // After validation, perform the form submission with loading message
+        if (isValid) {
+            try {
+                setIsLoading(true);
+                const promise = authApi.signup(formData);
+                await toast.promise(promise, {
+                    loading: 'Signing Up...', // Display a loading message
+                    success: (response) => {
+                        if (response.data.success) {
+                            // document.querySelector('body').classList.remove('loading_BG');
+                            setIsLoading(false);
+                            navigate('/login');
+                            return 'Sign Up Successfully Done !';
+                        } else {
+                            return 'Unexpected error occurred';
+                        }
+                    },
+                    error: (error) => {
+                        if (error.response) {
+                            if (error.response.status === 409) {
+                                const resMsg = error.response.data.message.replace('Error: ', '');
+                                console.log(resMsg);
+                                const [field, msg] = resMsg.split('.');
+                                console.log(field);
+                                setErrorMsg(prevErrorMsg => ({
+                                    ...prevErrorMsg,
+                                    [field]: msg,
+                                }));
+                                return `Sign up failed: ${msg}`;
+                            } else {
+                                console.error('Request failed with status code', error.response.status);
+                                return 'Request failed';
+                            }
+                        } else {
+                            console.error('Error', error.message);
+                            return `Error: ${error.message}`;
+                        }
+                    },
+                    style: {
+                        duration: 6000,
+                        position: 'top-right', // Set the position to top-right
+                    },
+                });
+                // console.log(responseApi);
+            } catch (error) {
+                // console.error('Error', error);
+                console.log('');
+            } finally {
+                setIsLoading(false); // Set loading back to false after the form submission
+            }
+            // console.log(formDataObject);
         }
 
-        const responseApi = await authApi.signup(formDataObject);
-
-        if(responseApi.status){
-            console.log("Well, Data is successfylly updated");
-        }
-        console.log(formDataObject);
     }
+
 
     if (type === 'user' || type === 'contributor' || type === 'researcher') {
         return (
@@ -116,22 +214,25 @@ const SignUp = () => {
                 <section className="full_widht_auth_section">
                     <div className="container">
                         <div className="auth_area">
-                            <form onSubmit={handalSubmitSignUp} ref={formRef}>
+                            <form onSubmit={handalSubmitSignUp} ref={formRef} encType="multipart/form-data">
                                 <h4>Sign Up</h4>
                                 <p>Welcome back! Please enter your details.</p>
+                                <input type="hidden" name="role" value={type} />
+
                                 {
-                                    type === 'user' && <UserSignUp errorMsg={errorMsg} />
+                                    type === 'user' && <UserSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'contributor' && <ContributerSignUp errorMsg={errorMsg} />
+                                    type === 'contributor' && <ContributerSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'researcher' && <ResearcherSignUp errorMsg={errorMsg} />
+                                    type === 'researcher' && <ResearcherSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
 
                                 <button type="submit" className="auth_submit btn btn-dark btn-full">
                                     Sign Up
                                 </button>
+
 
                             </form>
                             <p className="have_auth_msg">

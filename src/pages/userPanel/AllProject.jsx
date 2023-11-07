@@ -1,14 +1,17 @@
+<<<<<<< HEAD
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+=======
+import React, { useState } from 'react';
+>>>>>>> main
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/dashboard.css';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth } from '../../utils/fakeAuth';
 
 const AllProject = () => {
     ScrollToTop();
+<<<<<<< HEAD
     const navigate = useNavigate();
     const [getAuthF, setAuthF] = useState(checkAuth());
 
@@ -17,6 +20,8 @@ const AllProject = () => {
             navigate('/login');
         }
     }, [navigate, getAuthF]);
+=======
+>>>>>>> main
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
