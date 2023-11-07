@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -18,7 +19,6 @@ const SignUp = () => {
 
     const [getAuthF, setAuthF] = useState(checkAuth());
     const [profilePic, setProfilePic] = useState({});
-    console.log(setAuthF);
 
     useEffect(() => {
         if (getAuthF) {
@@ -40,7 +40,6 @@ const SignUp = () => {
 
     }, [errorMsg]);
 
-
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLoadingState = () => {
@@ -49,11 +48,10 @@ const SignUp = () => {
             body.classList.add('loading_BG');
             // Add your custom code here for the loading state
         } else {
-            body.classList.remove('loading_BG');
+          return  body.classList.remove('loading_BG');
             // Add your custom code here for when loading is finished
         }
     };
-
 
     useEffect(() => {
         handleLoadingState();
@@ -149,7 +147,6 @@ const SignUp = () => {
         formData.delete('profile_pic');
 
         // end proccsing image 
-
 
         // After validation, perform the form submission with loading message
         if (isValid) {
