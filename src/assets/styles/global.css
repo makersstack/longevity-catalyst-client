@@ -727,7 +727,15 @@ input[type="radio"] {
   z-index: 9999;
   /* Add other styles for the overlay */
 }
-
+/* ----------------------------------- */
+/* RESPONSIVE CSS FOR GLOBAL  */
+/* --------------------------------- */
+.post_arrow .upvateBtn svg.upvoted {
+  fill: #007aff;
+}
+.post_arrow .downvoteBtn svg.downvoted {
+  fill: red;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

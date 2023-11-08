@@ -1,10 +1,12 @@
 import axios from "axios";
+import { instance as axoisInstance } from "../helpers/axios/axoisInstance";
 const BASE_URL = 'http://localhost:5000/api/v1';
 
 // SetUp the base URL for Api
 const api = axios.create({
   baseURL: BASE_URL
 });
+
 // Add a response interceptor
 api.interceptors.response.use(
   response => response,
@@ -14,10 +16,9 @@ api.interceptors.response.use(
 );
 
 export const authApi = {
-  signup: (userData) => api.post('/users/user', userData),
-  login: (credentials) => api.post('/auth/login', credentials)
+  signup: (userData) => axoisInstance.post(`${(BASE_URL)}/auth/signup`, userData),
+  login: (credentials) => axoisInstance.post(`${(BASE_URL)}/auth/login`, credentials)
 };
-
 
 
 
