@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "author": "Esther Howard",
+    "projectName": "AI-driven Drug Discovery for Neurodegenerative Diseases",
+    "projectDescription": "Developing an AI-driven platform to screen and identify potential drug candidates for the treatment of neurodegenerative diseases.",
+    "likesCount": 312,
+    "commentsCount": 927,
+    "sharesCount": 20,
+    "profileImageUrl": "https://www.mecgale.com/wp-content/uploads/2017/08/dummy-profile.png"
+  },
+  {
+    "id": 2,
+    "author": "John Smith",
+    "projectName": "Machine Learning for Weather Prediction",
+    "projectDescription": "Using machine learning algorithms to improve weather prediction accuracy.",
+    "likesCount": 150,
+    "commentsCount": 520,
+    "sharesCount": 10,
+    "profileImageUrl": "https://www.mecgale.com/wp-content/uploads/2017/08/dummy-profile.png"
+  },
+  {
+    "id": 3,
+    "author": "Alice Johnson",
+    "projectName": "Blockchain-based Supply Chain Tracking",
+    "projectDescription": "Implementing blockchain technology to enhance supply chain transparency and traceability.",
+    "likesCount": 400,
+    "commentsCount": 800,
+    "sharesCount": 25,
+    "profileImageUrl": "https://www.mecgale.com/wp-content/uploads/2017/08/dummy-profile.png"
+  },
+  {
+    "id": 4,
+    "author": "David Miller",
+    "projectName": "Smart Home Automation System",
+    "projectDescription": "Building a smart home automation system to control devices remotely using IoT technology.",
+    "likesCount": 200,
+    "commentsCount": 600,
+    "sharesCount": 15,
+    "profileImageUrl": "https://www.mecgale.com/wp-content/uploads/2017/08/dummy-profile.png"
+  },
+  {
+    "id": 5,
+    "author": "Sophia Wilson",
+    "projectName": "Eco-Friendly Transportation Solutions",
+    "projectDescription": "Developing eco-friendly transportation solutions to reduce carbon emissions.",
+    "likesCount": 250,
+    "commentsCount": 700,
+    "sharesCount": 18,
+    "profileImageUrl": "https://www.mecgale.com/wp-content/uploads/2017/08/dummy-profile.png"
+  }
+]
