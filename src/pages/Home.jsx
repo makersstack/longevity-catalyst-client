@@ -4,18 +4,7 @@ import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ProjectFeed';
 import TradingProjectSlider from '../components/TradingProjectSlider';
 import TrustSlider from '../components/TrustSlider';
-import SingleProject from '../components/project/SingleProject';
 import ScrollToTop from '../utils/RouteChange';
-const damiProject = {
-  id: 1,
-  author: "John Doe",
-  profileImageUrl: "https://example.com/user-profile-image.jpg",
-  projectName: "Sample Project",
-  projectDescription: "This is a sample project description.",
-  likesCount: 10,
-  commentsCount: 5,
-  sharesCount: 3,
-};
 
 const Home = () => {
   ScrollToTop();
@@ -39,9 +28,6 @@ const Home = () => {
         </div>
       </section>
       {/* ED: Banner section  */}
-      <section>
-        <SingleProject project={damiProject} />
-      </section>
       {/* ST:- trust by area */}
       <section className="full_width_trust_by_section section_padding">
         <div className="container">
@@ -58,20 +44,6 @@ const Home = () => {
         <div className="container">
           <div className="trading_project_wrapper">
             <h6>Trending Project</h6>
-            {/* <div className="trading_project_box">
-              {
-                data.projectCards.map((item, index) => (
-                  <div className="trading_project_single" key={index} style={{ background: `url(${baseUrl}${item.bg_img}) lightgray 50% / cover no-repeat` }} >
-                    <h3>{item.title}</h3>
-                    <p>
-                      {
-                        item.desc
-                      }
-                    </p>
-                  </div>
-                ))
-              }
-            </div> */}
             <TradingProjectSlider />
           </div>
         </div>

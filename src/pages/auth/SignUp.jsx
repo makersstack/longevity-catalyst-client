@@ -194,7 +194,7 @@ const SignUp = () => {
                 // console.log(responseApi);
             } catch (error) {
                 // console.error('Error', error);
-                console.log('');
+                console.log(error);
             } finally {
                 setIsLoading(false); // Set loading back to false after the form submission
             }
