@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 /* ------------------------------------------------------------------------------- */
 /* --- AUTH FORM CSS --- */
 /* ------------------------------------------------------------------------------- */
@@ -29,6 +36,7 @@
 .auth_submit {
   margin-top: 24px;
   margin-bottom: 32px;
+  -webkit-box-shadow: none;
   box-shadow: none;
 }
 .full_widht_auth_section {
@@ -46,6 +54,8 @@
   font-style: normal;
   font-weight: 600;
   line-height: 20px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -56,9 +66,16 @@
 }
 /* auth other menu  */
 .others_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
+  -ms-flex-line-pack: center;
   align-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 .others_menu a {
@@ -70,6 +87,8 @@
   line-height: 24px;
   display: inline-block;
   padding: 6px 8px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
   transition: 0.3s;
 }
 .others_menu a:hover {
@@ -86,10 +105,19 @@
   padding: 16px 24px !important;
   margin: 30px 0;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   justify-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   display: flex !important;
 }
@@ -102,6 +130,7 @@
 }
 .dargedImage {
   width: 100%;
+  -o-object-fit: cover;
   object-fit: cover;
   border-radius: 5px;
 }
@@ -136,6 +165,8 @@
 }
 
 .auth_box .plan-details {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
 }
 .auth_box .plan-details p {
@@ -180,5 +211,5 @@
 }
 
 /* For 576px breakpoint and smaller */
-@media (max-width: 576px) {
-}
+/* @media (max-width: 576px) {
+} */

@@ -41,7 +41,7 @@
   /* width: 100%; */
   height: auto;
   filter: opacity(70%);
-  transition: 0.3s all ease linear;
+  transition: 0.3s all ease;
 }
 .single_trust_by:hover img {
   filter: opacity(100%);
