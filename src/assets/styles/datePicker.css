@@ -30,7 +30,7 @@
   width: 40px !important;
   line-height: 40px !important;
   color: #000;
-  font-family: Open Sans;
+  font-family: "Open Sans";
   font-size: 14px !important;
   font-weight: 400;
   border-radius: 50px;
@@ -53,7 +53,7 @@
   border: none !important;
 }
 .react-datepicker {
-  font-family: Open Sans;
+  font-family: "Open Sans";
   color: #000;
 }
 
