@@ -20,8 +20,6 @@ header {
   width: 100%;
   padding: 5px 9px;
 }
-.header_search:focus-within,
-.header_search:focus,
 .header_search:hover {
   border-color: #383838;
 }
