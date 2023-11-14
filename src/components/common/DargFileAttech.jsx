@@ -50,11 +50,11 @@ const DargFileAttech = ({ errorMsg, setProfilePic }) => {
 
     return (
         <>
-            <label htmlFor="img_up" className={`drag_imge_input ${dragging ? 'dragging' : ''} ${errorMsg.profile_pic ? 'border-warring' : ''}`} onDragEnter={handleDragEnter}
+            <label htmlFor="img_up" className={`drag_imge_input ${dragging ? 'dragging' : ''} ${errorMsg.profileImage ? 'border-warring' : ''}`} onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}>
-                <input ref={fileInputRef} className={errorMsg.profile_pic ? 'border-warring' : ''} type="file" name='profile_pic' id="img_up" onChange={handleFileInputChange} />
+                <input ref={fileInputRef} className={errorMsg.profileImage ? 'border-warring' : ''} type="file" name='profileImage' id="img_up" onChange={handleFileInputChange} />
                 {filePreview ? (
                     <img className='dargedImage' src={filePreview} alt="Uploaded" />
                 ) : (
@@ -65,7 +65,7 @@ const DargFileAttech = ({ errorMsg, setProfilePic }) => {
 
                 <p><span>Click to upload</span> or drag and drop</p>
                 <p>SVG, PNG, JPG or GIF (max. 800x400px)</p>
-                {errorMsg.profile_pic && <div className='error-msg'>{errorMsg.profile_pic}</div>}
+                {errorMsg.profileImage && <div className='error-msg'>{errorMsg.profileImage}</div>}
             </label>
 
         </>

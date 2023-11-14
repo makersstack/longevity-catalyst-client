@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiKey, baseUrl } from "../globals";
+import { instance } from "../helpers/axios/axoisInstance";
 
 // SetUp the base URL for Api
 const api = axios.create({
@@ -15,7 +16,7 @@ api.interceptors.response.use(
 );
 
 export const authApi = {
-  signup: (userData) => api.post(`${(apiKey)}/auth/signup`, userData),
+  signup: (userData) => instance.post(`${(apiKey)}/auth/signup`, userData),
   login: (credentials) => api.post(`${(apiKey)}/auth/login`, credentials)
 };
 
