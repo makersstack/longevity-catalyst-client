@@ -76,10 +76,6 @@ const DashboardMenu = ({isActiveMenu}) => {
         }));
     };
 
-
-
-
-
     return (
         <div className={`dashboard_menu ${ isActiveMenu ? 'activemenu' : ''} `}>
             {/* <!-- Menu Profile --> */}

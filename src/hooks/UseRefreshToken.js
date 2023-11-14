@@ -2,7 +2,7 @@
 import axios from 'axios';
 import useAuth from './UseAuth';
 
-const BASE_URL = 'http://localhost:5000/api/v1';
+const BASE_URL = 'http://159.89.80.212:5000/api/v1';
 
 const UseRefreshToken = () => {
   const { setAuth,auth } = useAuth();
