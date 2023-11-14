@@ -63,7 +63,6 @@ const SignUp = () => {
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
-
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
@@ -110,7 +109,9 @@ const SignUp = () => {
         }
 
         // Start proccsing image 
-        const profilePictureFile = formData.get("profile_pic");
+        const profilePictureFile = formData.get("profileImage");
+        console.log('Find for image path',profilePictureFile);
+
         if (profilePictureFile.name.length !== 0) {
             setProfilePic(profilePictureFile);
         }
@@ -137,14 +138,17 @@ const SignUp = () => {
             }
         }
         if (isImageValid) {
-            formDataObject.profile_photo = profilePic;
-            formData.append('profile_photo', profilePic);
+            formDataObject.profileImage = profilePic;
+            console.log("For checking", formDataObject.profileImage);
+            console.log("For checking", profilePic);
+            formData.append('profileImage', profilePic);
         }
         else {
-            formDataObject.profile_photo = '';
+            formDataObject.profileImage = '';
         }
-        delete formDataObject.profile_pic;
-        formData.delete('profile_pic');
+        delete formDataObject.profileImage;
+
+        // formData.delete('profileImage');
 
         // end proccsing image 
 

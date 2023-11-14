@@ -1,25 +1,33 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { AiOutlineLike } from 'react-icons/ai';
+import { instance } from '../../helpers/axios/axoisInstance';
 
-const LikeButton = ({item, type}) => {
-  const [likes, setLikes] = useState(item.likes);
+const LikeButton = ({ postId }) => {
+  const [liked, setLiked] = useState(false);
 
-  const handaleLike = async () => {
+  const handleLike = async () => {
     try {
-      const response = await axios.post(`/api/like/${type}/${item._id}`);
-      if(response.data.success){
-        setLikes(likes + 1);
+      // Send a request to like or unlike the post
+      if (liked) {
+        // If already liked, send an "unlike" request
+        await instance.post(`/api/unlike/${postId}`);
+      } else {
+        // If not liked, send a "like" request
+        await instance.post(`/api/like/${postId}`);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  } 
-  return (
-    <button onClick={handaleLike}>
-       <AiOutlineLike /> Like
-    </button>
-  )
-}
 
-export default LikeButton
+      // Toggle the liked state
+      setLiked(!liked);
+    } catch (error) {
+      console.error('Error liking/unliking the post:', error);
+    }
+  };
+
+  return (
+    <button onClick={handleLike}>
+      <AiOutlineLike /> {liked ? 'Unlike' : 'Like'}
+    </button>
+  );
+};
+
+export default LikeButton;

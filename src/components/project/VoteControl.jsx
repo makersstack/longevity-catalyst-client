@@ -1,47 +1,55 @@
-import React, { useState } from 'react';
-import DownvoteButton from './DownvoteButton';
-import UpvoteButton from './UpvoteButton';
+import React, { useEffect, useState } from 'react';
+import { instance as axoisInstance } from '../../helpers/axios/axoisInstance';
 
-const VoteControl = () => {
-  // For voting
-  const [upvotes, setUpvotes] = useState(0);
-  const [downvotes, setDownvotes] = useState(0);
-  const [voteType, setVoteType] = useState(null);
+const Vote = ({ postId }) => {
+  const [voteType, setVoteType] = useState(null); 
+  const [voteCount, setVoteCount] = useState(0); 
 
-  const handleVote = (type) => {
-    if (voteType === type) {
-      setVoteType(null);
-    } else {
-      setVoteType(type);
+  useEffect(() => {
+    getVoteData(postId);
+  }, [postId]);
+
+  const getVoteData = async (postId) => {
+    try {
+      const response = await axoisInstance.get(`/api/vote/${postId}`);
+      const { upVoteCount, downVoteCount, userVote } = response.data;
+
+      setVoteCount(upVoteCount - downVoteCount);
+      setVoteType(userVote);
+    } catch (error) {
+      console.error('Error fetching vote data:', error);
     }
   };
-  const handleUpvote = () => {
-    setUpvotes((prevUpvotes) => prevUpvotes + 1);
-    setDownvotes((prevDownvotes) => prevDownvotes - 1);
-    handleVote("upvote");
+
+  const handleVote = async (newVoteType) => {
+    try {
+      const response = await axoisInstance.post(`/api/vote/${postId}`, { voteType: newVoteType });
+      const { upVoteCount, downVoteCount, userVote } = response.data;
+
+      setVoteCount(upVoteCount - downVoteCount);
+      setVoteType(userVote);
+    } catch (error) {
+      console.error('Error updating vote:', error);
+    }
   };
 
-  const handleDownvote = () => {
-    setDownvotes((prevDownvotes) => prevDownvotes + 1);
-    setUpvotes((prevUpvotes) => prevUpvotes - 1);
-    handleVote("downvote");
-  };
   return (
-    <>
-      <UpvoteButton
-        upvotes={upvotes}
-        downvotes={downvotes}
-        voteType={voteType}
-        onUpvote={handleUpvote}
-      />
-      <DownvoteButton
-        upvotes={upvotes}
-        downvotes={downvotes}
-        voteType={voteType}
-        onDownvote={handleDownvote}
-      />
-    </>
-  )
-}
+    <div>
+      <button
+        onClick={() => handleVote('up')}
+        disabled={voteType === 'up'}
+      >
+        Upvote
+      </button>
+      <button
+        onClick={() => handleVote('down')}
+        disabled={voteType === 'down'}
+      >
+        Downvote
+      </button>
+      <p>Votes: {voteCount}</p>
+    </div>
+  );
+};
 
-export default VoteControl
+export default Vote;

@@ -67,9 +67,6 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 <label htmlFor="propic">Profile Picture </label>
                 <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
             </div>
-
-
-
         </>
     );
 };
