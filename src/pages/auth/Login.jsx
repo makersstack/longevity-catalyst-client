@@ -94,32 +94,32 @@ const Login = () => {
             isValid = false;
         }
         formDataObject.identifier = formDataObject.username;
-        delete formDataObject.username;
+        // delete formDataObject.username;
 
 
         // After validation, perform the form submission with loading message
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = authApi.login(formDataObject,{
-                    withCredentials : true
+                const promise = authApi.login(formDataObject, {
+                    withCredentials: true
                 });
                 await toast.promise(promise, {
                     loading: 'Login...', // Display a loading message
                     success: (response) => {
                         if (response?.data?.success) {
                             // document.querySelector('body').classList.remove('loading_BG');
-                           
+
                             setIsLoading(false);
 
                             // setAuth({accessToken: response.data.data.accessToken});
-                           
+
                             storeUserInfo({ accessToken: response.data.data.accessToken });
 
                             navigate(from, { replace: true });
-                          
+
                             return 'Sign In Successfully Done !';
-                            
+
                         } else {
                             return 'Unexpected error occurred';
                         }
@@ -210,7 +210,7 @@ const Login = () => {
                             Not a Member?
                             <button onClick={openModal}> &nbsp; Sign Up</button>
                             <SignupModal open={modalOpen} onClose={closeModal} onSignUp={handleCreateAccountClick} />
-                      
+
                         </p>
                     </div>
                 </div>

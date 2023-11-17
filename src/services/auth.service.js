@@ -1,7 +1,5 @@
-
-
 import { authKey } from "../constants/storageKey";
-import { baseUrl } from "../globals";
+import { apiKey } from "../globals";
 import { instance as axoisInstance } from "../helpers/axios/axoisInstance";
 import { decodedToken } from "../utils/jwt";
 import { getLocalStorage, setToLocalStorage } from "../utils/local-storage";
@@ -32,7 +30,7 @@ export const isLoggdIn = () => {
 
 export const getNewAccessToken = async () => {
   return await axoisInstance({
-    url: `${(baseUrl)}/auth/refresh-token`,
+    url: `${(apiKey)}/auth/refresh-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     withCredentials: true,

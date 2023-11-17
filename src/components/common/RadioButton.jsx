@@ -1,16 +1,13 @@
 import React from 'react';
 
-function RadioButton({ radionData }) {
+function RadioButton({ radionData, onRadioChange }) {
 
-  // if(onRadioChange){
-  //   const handleRadioChange = (event) => {
-  //     const newValue = event.target.value;
-
-
-  //     onRadioChange(newValue);
-  //   };
-  // }
-
+  const handleRadioChange = (event) => {
+    const newValue = event.target.value;
+    if (onRadioChange) {
+      onRadioChange(newValue);
+    }
+  };
 
   return (
     <>
@@ -21,6 +18,7 @@ function RadioButton({ radionData }) {
             value={radionData.value}
             name={radionData.inputName}
             defaultChecked={radionData?.checked}
+            onChange={handleRadioChange}
           />
           <span className='radio-control'>
             <span></span>
@@ -31,7 +29,5 @@ function RadioButton({ radionData }) {
     </>
   );
 }
-
-// TODOMK dynamicly no need to onChange handeler. it's only need for sign up modal. 
 
 export default RadioButton;

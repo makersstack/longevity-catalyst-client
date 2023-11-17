@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
+import { LoadingProvider } from './contex/LoadingProvider';
 import IfAuthCheck from './hooks/IfAuthCheck';
 import RequireAuth from './hooks/RequireAuth';
 import AboutUs from './pages/AboutUs';
@@ -23,31 +24,33 @@ import PasswordChange from './pages/userPanel/PasswordChange';
 const App = () => {
   return (
     <HashRouter>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<AboutUs />} />
-        <Route path='/faqs' element={<FAQ />} />
-        
-        <Route element={<IfAuthCheck />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/sign-up/:type' element={<SignUp />}></Route>
-        </Route>
+      <LoadingProvider>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<AboutUs />} />
+          <Route path='/faqs' element={<FAQ />} />
 
-        <Route path='/single-project' element={<ProjectDetails />} />
-        <Route path='/user/:profile' element={<ProfileShow />} />
+          <Route element={<IfAuthCheck />}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/sign-up/:type' element={<SignUp />}></Route>
+          </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path='/user/profile/update' element={<EditUserProfile />} />
-          <Route path='/user/dashboard' element={<Dashboard />} />
-          <Route path='/user/project/all' element={<AllProject />} />
-          <Route path='/user/project/add' element={<AddProject />} />
-          <Route path='/user/password/change' element={<PasswordChange />} />
-        </Route>
+          <Route path='/single-project' element={<ProjectDetails />} />
+          <Route path='/user/:profile' element={<ProfileShow />} />
 
-        <Route path='*' element={<PageNotFound />} /> {/* Catch-all route for all other paths */}
-      </Routes>
-      <Footer />
+          <Route element={<RequireAuth />}>
+            <Route path='/user/profile/update' element={<EditUserProfile />} />
+            <Route path='/user/dashboard' element={<Dashboard />} />
+            <Route path='/user/project/all' element={<AllProject />} />
+            <Route path='/user/project/add' element={<AddProject />} />
+            <Route path='/user/password/change' element={<PasswordChange />} />
+          </Route>
+
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+        <Footer />
+      </LoadingProvider>
     </HashRouter>
   );
 };
