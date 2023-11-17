@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import DatePickerInput from '../../components/DatePickerInput';
 import Loader from '../../components/Loader';
+import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { useLoading } from '../../contex/LoadingProvider';
@@ -72,6 +73,8 @@ const AddProject = () => {
         const { name, value } = event.target;
         validateField(name, value);
     };
+
+    const [project_keywords, set_project_keywords] = useState({});
 
     const handelProjectSubmit = async (event) => {
         event.preventDefault();
@@ -208,7 +211,7 @@ const AddProject = () => {
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
-                                <div className="form_control">
+                                {/* <div className="form_control">
                                     <label htmlFor="keywords">
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
@@ -220,7 +223,22 @@ const AddProject = () => {
                                         placeholder="keywords"
                                         onChange={handleInputChange}
                                     />
+                                </div> */}
+
+
+                                 {/* <!-- Single Input --> */}
+                                 <div className="form_control">
+                                    <label htmlFor="keywords">
+                                        Provide up to (5) keywords engineers can use to find your
+                                        project.<span>*</span>
+                                    </label>
+                                    <ListInput list_keywords={project_keywords} set_list_keyword={set_project_keywords} isLimit={true} max={5}/>
+                              
                                 </div>
+
+
+
+
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label>
