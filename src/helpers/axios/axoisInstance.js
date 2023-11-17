@@ -35,9 +35,11 @@ instance.interceptors.response.use(
   },
   async function (error) {
     const config = error?.config;
-    if (error?.response?.status === 403 && !config?.sent) {
+    console.log("this is for check token",error);
+    if (error?.response?.status === 500 && !config?.sent) {
       config.sent = true;
       const response = await getNewAccessToken();
+      console.log("this is for check token",response);
       const accessToken = response?.data?.accessToken;
       config.headers["Authorization"] = accessToken;
       setToLocalStorage(authKey, accessToken);

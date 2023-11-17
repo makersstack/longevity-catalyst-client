@@ -1,263 +1,176 @@
 import React, { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { authApi } from '../../api';
 import DatePickerInput from '../../components/DatePickerInput';
+import Loader from '../../components/Loader';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import { useLoading } from '../../contex/LoadingProvider';
+import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, initialProFormData, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
+
+    const { isLoading, setIsLoading } = useLoading();
+    const navigate = useNavigate();
+
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/user/dashboard';
+
     ScrollToTop();
-   
-    const onsiteOption = [
-        {
-            key: 'onsite-1',
-            value: 'on',
-            label: 'on',
-            inputName: 'onsite-work',
-        },
-        {
-            key: 'onsite-2',
-            value: 'off',
-            label: 'off',
-            inputName: 'onsite-work',
-            checked: true
-        }
-    ];
-    const ProjectHardDeadlineOption = [
-        {
-            key: 'hardDeadline-1',
-            value: 'on',
-            label: 'on',
-            inputName: 'hardDeadline',
-        },
-        {
-            key: 'hardDeadline-2',
-            value: 'off',
-            label: 'off',
-            inputName: 'hardDeadline',
-            checked: true
-        }
-    ];
-    const projectTypeOption = [
-        {
-            key: 'projectType-1',
-            value: 'Individual',
-            label: 'Individual',
-            inputName: 'projecType',
-        },
-        {
-            key: 'projectType-2',
-            value: 'Team',
-            label: 'Team',
-            inputName: 'projecType',
-            checked: true
-        },
-        {
-            key: 'projectType-3',
-            value: 'Other',
-            label: 'Other',
-            inputName: 'projecType',
-        }
-    ];
-    const projectNatureOption = [
-        {
-            key: 'projectNature-1',
-            value: 'General Programming',
-            label: 'General Programming',
-            inputName: 'projectNature',
-        },
-        {
-            key: 'projectNature-2',
-            value: 'Data Analysis',
-            label: 'Data Analysis',
-            inputName: 'projectNature',
-        },
-        {
-            key: 'projectNature-3',
-            value: 'Wet Lab',
-            label: 'Wet Lab',
-            inputName: 'projectNature',
-        },
-        {
-            key: 'projectNature-4',
-            value: 'Other',
-            label: 'Other',
-            inputName: 'projectNature',
-            checked: true
-        }
-    ];
 
-    const projectExperienceOption = [
-        {
-            key: 'projectExperience-1',
-            value: 'Novice',
-            label: 'Novice',
-            inputName: 'projectExperience',
-        },
-        {
-            key: 'projectExperience-2',
-            value: 'Intermediate',
-            label: 'Intermediate',
-            inputName: 'projectExperience',
-        },
-        {
-            key: 'projectExperience-3',
-            value: 'Proficient',
-            label: 'Proficient',
-            inputName: 'projectExperience',
-            checked: true
-        },
-        {
-            key: 'projectExperience-4',
-            value: 'Advanced',
-            label: 'Advanced',
-            inputName: 'projectExperience',
-        },
-        {
-            key: 'projectExperience-5',
-            value: 'Expert',
-            label: 'Expert',
-            inputName: 'projectExperience',
+    const [formData, setFormData] = useState(initialProFormData);
+
+    const [errors, setErrors] = useState({});
+    const handleRadioChange = (fieldName, newValue) => {
+        setFormData({
+            ...formData,
+            [fieldName]: newValue,
+        });
+
+        validateField(fieldName, newValue);
+    };
+
+    const handleInputChange = (event) => {
+        const { name, value, type, checked, files } = event.target;
+
+        const newValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
+
+        setFormData({
+            ...formData,
+            [name]: newValue,
+        });
+
+        validateField(name, newValue);
+    };
+
+    const validateField = (fieldName, value) => {
+        let error = '';
+        switch (fieldName) {
+            case 'projectTitle':
+                error = value.trim().length === 0 ? 'Project Title is required' : '';
+                break;
+            case 'affiliation':
+                error = value.trim().length === 0 ? 'Project affiliation is required' : '';
+                break;
+            case 'projectDescription':
+                error = value.trim().length <= 5 ? 'Project Description must be at least 250 characters' : '';
+                break;
+            default:
+                break;
         }
-    ];
-
-    const expectedTimeProjectOption = [
-        {
-            key: 'expectedTimeProject-1',
-            value: 'Less than 1 week',
-            label: 'Less than 1 week',
-            inputName: 'expectedTimeProject',
-        },
-        {
-            key: 'expectedTimeProject-2',
-            value: 'Less than 1 month',
-            label: 'Less than 1 month',
-            inputName: 'expectedTimeProject',
-            checked: true
-        },
-        {
-            key: 'expectedTimeProject-3',
-            value: 'Less than 3 months',
-            label: 'Less than 3 months',
-            inputName: 'expectedTimeProject',
-        },
-        {
-            key: 'expectedTimeProject-4',
-            value: 'Greater than 3 months',
-            label: 'Greater than 3 months',
-            inputName: 'expectedTimeProject',
-        },
-        {
-            key: 'expectedTimeProject-5',
-            value: 'Other',
-            label: 'Other',
-            inputName: 'expectedTimeProject',
-        }
-    ];
-
-    const haveProjectBudgetOption = [
-        {
-            key: 'haveProjectBudget-1',
-            value: 'I have a budget',
-            label: 'I have a budget',
-            inputName: 'haveProjectBudget',
-        },
-        {
-            key: 'haveProjectBudget-2',
-            value: 'I will require a volunteer / sponsorship',
-            label: 'I will require a volunteer sponsorship',
-            inputName: 'haveProjectBudget',
-        }
-    ];
-
-
-    const readyToStartOption = [
-        {
-            key: 'readyToStart-1',
-            value: 'Immediately',
-            label: 'Immediately',
-            inputName: 'readyToStart',
-            checked: true
-        },
-        {
-            key: 'readyToStart-2',
-            value: 'Within 1 week',
-            label: 'Within 1 week',
-            inputName: 'readyToStart',
-        },
-        {
-            key: 'readyToStart-3',
-            value: 'Within 2 week',
-            label: 'Within 2 week',
-            inputName: 'readyToStart',
-        },
-        {
-            key: 'readyToStart-4',
-            value: 'Other',
-            label: 'Other',
-            inputName: 'readyToStart',
-        }
-
-    ];
-
-    const handelProjectSubmit = (event) =>{
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        console.log(formData);
-        alert('browser console to see the sumited value ! need to work more on submit');
+        setErrors({
+            ...errors,
+            [fieldName]: error,
+        });
     }
+
+    const handleBlur = (event) => {
+        const { name, value } = event.target;
+        validateField(name, value);
+    };
+
+    const handelProjectSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!formData.projectTitle || !formData.affiliation || !formData.projectDescription) {
+            toast.error('Please fill in all required fields.');
+
+            setFormData(initialProFormData);
+            return;
+        }
+
+        const hasErrors = Object.values(errors).some((error) => error !== '');
+
+        
+        if (!hasErrors) {
+            try {
+                console.log(formData);
+
+                setIsLoading(false);
+                const promise = authApi.projectSubmit(formData);
+                await toast.promise(promise, {
+                    loading: 'Post...',
+                    success: (response) => {
+                        if (response?.data?.success) {
+                            setIsLoading(false);
+                            navigate(from, { replace: true });
+                            return 'Sign In Successfully Done !';
+                        } else {
+                            return 'Unexpected error occurred';
+                        }
+                    },
+                    error: (error) => {
+                        if (error.response) {
+                            return "Error!"
+                        }
+                    }
+                })
+                // toast.success("Post Has bin successful!");
+            } catch (error) {
+                setIsLoading(false);
+            }
+        } else {
+            toast.error('Please fill in all required fields 2.');
+        }
+    }
+
+
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
 
-
     return (
         <section className="full_widht_auth_section">
+            {isLoading && <Loader />}
             <div className="container">
                 <div className="dashboard">
                     {/* <!-- Dashboard Menu --> */}
-                    <DashboardMenu  isActiveMenu={isActiveMenu}/>
+                    <DashboardMenu isActiveMenu={isActiveMenu} />
                     {/* <!-- Add Project --> */}
                     <div className="dashboard_add_project">
                         {/* <!-- Add Project head --> */}
                         <div className="add_project_head">
-                        <button className='dasMenuBtn' onClick={handelDashMenu}>
+                            <button className='dasMenuBtn' onClick={handelDashMenu}>
                                 <AiOutlineMenuUnfold />
                             </button>
                             <h3 className="title">Add Project</h3>
                         </div>
                         <form onSubmit={handelProjectSubmit} className="add_project_form">
                             <div className="two_columns">
-                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="project_name">
+                                    <label htmlFor="projectTitle">
                                         What is the name of your project?<span>*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        name="project_name"
-                                        id="project_name"
+                                        className={errors.projectTitle ? 'border-warring' : ''}
+                                        name="projectTitle"
+                                        id="projectTitle"
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
                                         placeholder="Project Name"
                                     />
+                                    {errors.projectTitle && <p className='error-msg'>{errors.projectTitle}</p>}
                                 </div>
-                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_name"> What is your name?<span>*</span> </label>
-                                    <input type="text" name="user_name" id="user_name" placeholder="Name" />
+                                    <input type="text" id="user_name" placeholder="Name" readOnly />
                                 </div>
                             </div>
                             <div className="two_columns">
-                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_email"> What is your email?<span>*</span> </label>
                                     <input
                                         type="email"
-                                        name="user_email"
                                         id="user_email"
                                         placeholder="Email"
+                                        disabled
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -267,36 +180,45 @@ const AddProject = () => {
                                     </label>
                                     <input
                                         type="text"
+                                        className={errors.affiliation ? 'border-warring' : ''}
                                         name="affiliation"
                                         id="affiliation"
                                         placeholder="Affiliation"
+                                        onChange={handleInputChange}
+                                        onBlur={handleBlur}
                                     />
+                                    {errors.affiliation && <p className='error-msg'>{errors.affiliation}</p>}
                                 </div>
                             </div>
                             {/* <!-- Single Input --> */}
                             <div className="form_control">
-                                <label htmlFor="project_desc">
+                                <label htmlFor="projectDescription">
                                     Provide a brief description of your project.<span>*</span>
                                 </label>
                                 <textarea
-                                    name="project_desc"
-                                    id="project_desc"
+                                    name="projectDescription"
+                                    className={errors.projectDescription ? 'border-warring' : ''}
+                                    id="projectDescription"
                                     rows="2"
                                     placeholder="Description"
+                                    onChange={handleInputChange}
+                                    onBlur={handleBlur}
                                 ></textarea>
+                                {errors.projectDescription && <p className='error-msg'>{errors.projectDescription}</p>}
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="project_keywords">
+                                    <label htmlFor="keywords">
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
                                     <input
                                         type="text"
-                                        name="project_keywords"
-                                        id="project_keywords"
+                                        name="keywords"
+                                        id="keywords"
                                         placeholder="keywords"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -305,12 +227,9 @@ const AddProject = () => {
                                         Will this project require any onsite work?
                                     </label>
                                     <div className="onsite_check">
-
-                                        {
-                                            onsiteOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                        }
-
-
+                                        {onsiteOption.map((singleData) => (
+                                            <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -327,16 +246,18 @@ const AddProject = () => {
                                         name="address"
                                         id="address"
                                         placeholder="65 Hansen Way"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="address_line">Address Line 2 </label>
+                                    <label htmlFor="addressLine">Address Line 2 </label>
                                     <input
                                         type="text"
-                                        name="address_line"
-                                        id="address_line"
+                                        name="addressLine"
+                                        id="addressLine"
                                         placeholder="Apartment 4"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -349,6 +270,7 @@ const AddProject = () => {
                                         name="city_town"
                                         id="city_town"
                                         placeholder="Palo Alto"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -359,6 +281,7 @@ const AddProject = () => {
                                         name="state_region_province"
                                         id="testate_region_provincext"
                                         placeholder="California"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -371,6 +294,7 @@ const AddProject = () => {
                                         name="zip_code"
                                         id="zip_code"
                                         placeholder="94304"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -381,6 +305,7 @@ const AddProject = () => {
                                         name="country"
                                         id="country"
                                         placeholder="United States"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -391,27 +316,15 @@ const AddProject = () => {
                                         Is this an individual or team project?
                                         <span>*</span>
                                     </label>
-
-
-                                    {
-                                        projectTypeOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-
-                                  
-
-
+                                    {projectTypeOption.map((singleData) => (
+                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label > Describe the nature of your project. </label>
-
-                                    {
-                                        projectNatureOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-
-                                   
+                                    {projectNatureOption.map((singleData) => (<RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
 
                                 </div>
                             </div>
@@ -420,16 +333,11 @@ const AddProject = () => {
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label >
-                                    How much experience will this project require? <span>*</span>
+                                        How much experience will this project require? <span>*</span>
                                     </label>
-
-                                    {
-                                        projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-
+                                    {projectExperienceOption.map((singleData) => (<RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
-
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -441,37 +349,27 @@ const AddProject = () => {
                                         id="required_skill_list"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
-
-
                             </div>
 
-
-
                             <div className="two_columns">
-                                 {/* <!-- Single Input --> */}
-                                 <div className="form_control">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
                                     <label htmlFor="p_deadline"> What is your project deadline? </label>
-                                    <DatePickerInput id='p_deadline' name='p_deadline'/>
+                                    <DatePickerInput id='p_deadline' name='p_deadline' />
                                 </div>
-
-                              
-
-
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label>
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
-
-                                    {
-                                        ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                  
-
+                                    {ProjectHardDeadlineOption.map((singleData) => (
+                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
                             </div>
 
@@ -483,10 +381,9 @@ const AddProject = () => {
                                     <label >
                                         How long do you expect this project to take ?
                                     </label>
-                                    {
-                                        expectedTimeProjectOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                   
+                                    {expectedTimeProjectOption.map((singleData) => (
+                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -495,12 +392,9 @@ const AddProject = () => {
                                         volunteer work / platform sponsorship?<span>*</span>
                                     </label>
 
-                                    {
-                                        haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-
-                                  
+                                    {haveProjectBudgetOption.map((singleData) => (
+                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
 
                             </div>
@@ -516,6 +410,7 @@ const AddProject = () => {
                                         id="expected_cost"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
@@ -524,10 +419,9 @@ const AddProject = () => {
                                     <label >
                                         What will you be ready to start this project?
                                     </label>
-                                    {
-                                        readyToStartOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
+                                    {readyToStartOption.map((singleData) => (
+                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
+                                    ))}
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -542,13 +436,14 @@ const AddProject = () => {
                                         id="final_deliverable_details"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
-                                    <input name="relevant_link" id="relevant_link" placeholder="https://" />
+                                    <input name="relevant_link" id="relevant_link" placeholder="https://" onChange={handleInputChange} />
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -563,13 +458,14 @@ const AddProject = () => {
                                         id="relevant_literature_link"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="other_included">
-                                        Anything else that should be included with your project’s
+                                        Anything else that should be included with your project's
                                         description?
                                     </label>
                                     <textarea
@@ -577,6 +473,7 @@ const AddProject = () => {
                                         id="other_included"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
@@ -593,5 +490,4 @@ const AddProject = () => {
         </section>
     );
 };
-
 export default AddProject;
