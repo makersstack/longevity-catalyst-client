@@ -2,7 +2,7 @@
 import axios from "axios";
 import { authKey } from "../../constants/storageKey";
 import { getNewAccessToken } from "../../services/auth.service";
-import { getLocalStorage, setToLocalStorage } from "../../utils/local-storage";
+import { getLocalStorage } from "../../utils/local-storage";
 
 const instance = axios.create();
 instance.defaults.headers.post["Content-Type"] = "application/json";
@@ -34,16 +34,25 @@ instance.interceptors.response.use(
     return responseObject;
   },
   async function (error) {
-    const config = error?.config;
-    console.log("this is for check token",error);
-    if (error?.response?.status === 500 && !config?.sent) {
-      config.sent = true;
-      const response = await getNewAccessToken();
-      console.log("this is for check token",response);
-      const accessToken = response?.data?.accessToken;
-      config.headers["Authorization"] = accessToken;
-      setToLocalStorage(authKey, accessToken);
-      
+    const originalRequest = error.config;
+
+    if (error.response.status === 403 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      console.log("Hello for pass");
+      // try {
+      try {
+        const newAccessTokenResponse = await getNewAccessToken();
+
+        // Update the original request headers with the new access token
+        originalRequest.headers.Authorization = `Bearer ${newAccessTokenResponse.accessToken}`;
+        console.log(newAccessTokenResponse);
+        // Retry the original request with the new access token
+        return axios(originalRequest);
+      } catch (refreshError) {
+        // Handle token refresh failure or other errors
+        return Promise.reject(refreshError);
+      }
+
     } else {
       const responseObject = {
         statusCode: error?.response?.data?.statusCode || 500,
@@ -52,8 +61,6 @@ instance.interceptors.response.use(
       };
       return responseObject;
     }
-
-    return Promise.reject(error);
   }
 );
 

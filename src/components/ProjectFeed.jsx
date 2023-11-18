@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineLike } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
@@ -11,25 +10,25 @@ import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckDat
 import '../assets/styles/projectFeed.css';
 import SidebarFilters from './filter/SidebarFilters';
 import TopFilterButtons from './filter/TopFilterButtons';
+import LikeButton from './LikeShare/LikeButton';
 
 const ProjectFeed = () => {
   const navigation = useNavigate();
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
-  
-  const [isSideBarActive,setSideBarActive] = useState(false);
+
+  const [isSideBarActive, setSideBarActive] = useState(false);
 
   useEffect(() => {
     fetch('/data.json')
       .then((response) => response.json())
       .then((data) => {
         setProjects(data);
-        setFilteredProjects(data); 
+        setFilteredProjects(data);
       })
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
-
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -48,7 +47,7 @@ const ProjectFeed = () => {
       selectedFundingStatus,
       selectedLanguage,
     } = filters;
-  
+
     return projects.filter((project) => {
       // Debug statements to check values
       // console.log('Search:', search);
@@ -58,12 +57,12 @@ const ProjectFeed = () => {
       if (search && !project.projectName.toLowerCase().includes(search.toLowerCase())) {
         return false;
       }
-  
+
       if (selectedCategory && project.category !== selectedCategory) {
         return false;
       }
-  
-      return true; 
+
+      return true;
     });
   }
   const [filters, setFilters] = useState({
@@ -75,43 +74,43 @@ const ProjectFeed = () => {
     selectedFundingStatus: '',
     selectedLanguage: '',
   });
-  
+
   useEffect(() => {
-   
+
     const filtered = filterProjects(filters, projects);
     setFilteredProjects(filtered);
-  
+
   }, [filters, projects]);
-  
+
   const handlePageChange = (filterType, value) => {
     console.log('onPageChange called with:', filterType, value);
- 
-  
+
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
-  
+
     setFilteredProjects((prevFilteredProjects) => {
       return filterProjects(
         {
-          ...prevFilteredProjects, 
+          ...prevFilteredProjects,
           [filterType]: value,
         },
         prevFilteredProjects
       );
     });
-    if(filterType !== 'textsearch'){
+    if (filterType !== 'textsearch') {
       setSideBarActive(!isSideBarActive);
     }
-    
+
   };
-  
+
   const sideBarRef = useRef();
-  const handelSideBarButton = (e) =>{
+  const handelSideBarButton = (e) => {
     e.preventDefault();
     setSideBarActive(!isSideBarActive);
-   
+
   }
 
   useEffect(() => {
@@ -135,7 +134,7 @@ const ProjectFeed = () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [sideBarRef]);
-  
+
   return (
     <>
       <div className="project_show_wrapper">
@@ -160,7 +159,7 @@ const ProjectFeed = () => {
             selectedOption={selectedTopOption}
             onOptionChange={handleTopOptionChange}
             handelSideBarButton={handelSideBarButton}
-            />
+          />
           {/* project show container */}
           <div className="project_show_cash">
             {/* Render project cards */}
@@ -168,7 +167,7 @@ const ProjectFeed = () => {
               <div className="card" key={project.id}>
                 {/* card header */}
                 <div className="card_header">
-                <div className="post_auth_info">
+                  <div className="post_auth_info">
                     <div className="profile_image">
                       <button onClick={() => navigation(`/user/${project.author}`)}>
                         <img src={project.profileImageUrl} alt="userProfile" />
@@ -197,7 +196,7 @@ const ProjectFeed = () => {
                   <h4 className="card_title">{project.projectName}</h4>
                   <p className="card_text">
                     {project.projectDescription}
-                    </p>
+                  </p>
                   <Link to="single-project">
                     Learn more <HiArrowNarrowRight />
                   </Link>
@@ -206,9 +205,7 @@ const ProjectFeed = () => {
                 <div className="card_footer">
                   {/* project resource */}
                   <div className="project_resourse">
-                    <button className="project_effective_button">
-                      <AiOutlineLike /> Like
-                    </button>
+                    <LikeButton projectId={2}  userId={2}  />
                     <div className="project_reso_details">
                       <div className="likded_users">
                         <Link to="/">

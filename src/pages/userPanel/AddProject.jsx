@@ -3,7 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authApi } from '../../api';
+import { projectApi } from '../../api/ProjectApi';
 import DatePickerInput from '../../components/DatePickerInput';
 import Loader from '../../components/Loader';
 import RadioButton from '../../components/common/RadioButton';
@@ -91,7 +91,7 @@ const AddProject = () => {
                 console.log(formData);
 
                 setIsLoading(false);
-                const promise = authApi.projectSubmit(formData);
+                const promise = projectApi.createProject(formData);
                 await toast.promise(promise, {
                     loading: 'Post...',
                     success: (response) => {

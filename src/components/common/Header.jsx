@@ -4,20 +4,20 @@ import { FaChevronDown, FaRegUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
-import { authKey } from '../../constants/storageKey';
-import { isLoggdIn, removeUserInfo } from '../../services/auth.service';
+import { useAuth } from '../../contex/AuthContext';
+import { isLoggdIn } from '../../services/auth.service';
 import CustomSelect from '../CustomSelect';
 import SignupModal from '../SignupModal';
 
 const Header = () => {
- 
+  const { logout } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const isLoggedIn = isLoggdIn();
 
   // For testing
   const handleLogout = () => {
-    removeUserInfo(authKey);
+    logout();
     navigate('/login');
   }
   const openModal = () => {
