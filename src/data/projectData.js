@@ -148,7 +148,6 @@ export const ProjectHardDeadlineOption = [
     value: 'off',
     label: 'off',
     inputName: 'hardDeadline',
-    checked: true
   }
 ];
 export const projectTypeOption = [
@@ -163,7 +162,6 @@ export const projectTypeOption = [
     value: 'Team',
     label: 'Team',
     inputName: 'projecType',
-    checked: true
   },
   {
     key: 'projectType-3',

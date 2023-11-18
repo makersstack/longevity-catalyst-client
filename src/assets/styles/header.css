@@ -140,6 +140,63 @@ header {
   display: none;
 }
 
+/* user dropdown  */
+.user-dropdown {
+  position: relative;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  right: 0;
+  margin-top: 12px;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.user_dropdown_menu_itme {
+  position: relative;
+  z-index: 4;
+  background: #f9f9f9;
+}
+
+.idicator_icondiv {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: -10px;
+  right: 7px;
+  background: #f9f9f9;
+  transform: rotate(45deg);
+  z-index: 1;
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR HEADER  */
 /* --------------------------------- */

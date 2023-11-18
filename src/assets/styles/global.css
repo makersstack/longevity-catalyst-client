@@ -392,6 +392,51 @@ input[type="radio"] {
 .check_icon {
   font-size: 14px;
 }
+
+/* input plan css */
+.input-plan .plan-details {
+  justify-content: flex-start;
+}
+
+.input-plan .plan-content {
+  border: none;
+}
+
+.input-plan.plan input[type="checkbox"]:checked + .plan-content,
+.input-plan.plan input[type="radio"]:checked + .plan-content {
+  border: 1px solid #cbd5e1;
+  background: #cbd5e1;
+  transition: ease-in 0.3s;
+  background: transparent;
+  border: none;
+}
+.input-plan.plan input[type="radio"]:checked + .plan-content .plan-details p,
+.input-plan.plan
+  input[type="checkbox"]:checked
+  + .plan-content
+  .plan-details
+  p {
+  color: #333;
+}
+.input-plan .check_icon {
+  color: #333;
+}
+.input-plan {
+  margin: 0 !important;
+  padding-bottom: 0 !important;
+}
+.EditUserProfile .al_submit_button {
+  text-align: left;
+}
+.input_hint {
+  color: #667085;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 10px 0;
+}
 /* ED global input css  */
 
 /* custom golbal css  */
@@ -667,6 +712,42 @@ input[type="radio"] {
   font-size: 24px;
   color: #101828;
 }
+.list_input_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: center;
+  gap: 10px;
+}
+.list_lebel {
+  flex: 0 0 30%;
+  margin-top: 5px;
+}
+.list_input {
+  flex: 0 0 70%;
+}
+.inputhr {
+  margin-bottom: 20px;
+  margin-top: -5px;
+  border-color: #eaecf0;
+  border-width: 1px;
+  opacity: 0.3;
+}
+
+input:read-only:hover,
+input:disabled:hover,
+input:read-only,
+input:disabled {
+  /* Apply styles to all disabled input elements */
+  pointer-events: none;
+  opacity: 0.6; /* Or any opacity value to visually indicate it's disabled */
+  /* Additional styles for appearance */
+  background-color: #f2f2f2; /* Change the background color */
+  color: #999; /* Change the text color */
+  border: 1px solid #ccc; /* Change the border */
+  /* Any other styles you want to apply */
+}
+
 /* Add Project Page */
 /* Maker Shihab */
 /* For modal */
@@ -696,7 +777,10 @@ input[type="radio"] {
 /* Alifur Rahman*/
 /* --- fix some global css  */
 .al_submit_button {
-  text-align: right;
+  /* text-align: right; */
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
 }
 .al_submit_button .btn {
   width: 100%;

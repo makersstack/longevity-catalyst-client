@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { FaChevronDown, FaRegUser } from 'react-icons/fa';
+import { HiOutlineCog } from 'react-icons/hi';
+import { LuBarChart2 } from 'react-icons/lu';
+import { PiSignOut } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { useAuth } from '../../contex/AuthContext';
 import { isLoggdIn } from '../../services/auth.service';
+import { authKey } from '../../constants/storageKey';
+import { baseUrl } from '../../globals';
+import { isLoggdIn, removeUserInfo } from '../../services/auth.service';
 import CustomSelect from '../CustomSelect';
 import SignupModal from '../SignupModal';
 
 const Header = () => {
   const { logout } = useAuth();
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const isLoggedIn = isLoggdIn();
@@ -46,6 +53,33 @@ const Header = () => {
     console.log("After state update:", isOpenSearchBox);
   }
 
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+
   return (
     <header>
       <div className='container'>
@@ -76,13 +110,45 @@ const Header = () => {
             </button>
             {
               isLoggedIn ? <>
-                <button type='button' onClick={handleLogout} className='btn btn-dark'>
-                  Logout
-                </button>
                 <Link to='/user/dashboard' className='btn btn-dark'>
                   Dashboard
-                </Link> 
-                </>
+                </Link>
+                <div className="user-dropdown" ref={dropdownRef}>
+                  <img
+                    src={`${baseUrl}assets/img/demo-user-3.png`}
+                    alt="Avater"
+                    className="profile-image"
+                    onClick={toggleDropdown}
+                  />
+                  {isDropdownOpen && (
+                    <div className="dropdown-content">
+                      <div className="user_dropdown_menu">
+                        <div className="user_dropdown_menu_itme">
+                          <Link to='/user/dashboard' >
+                            <span className='al_menu_icon'> <LuBarChart2 /></span>
+                            <span>Dashboard</span>
+                          </Link>
+                          <Link to='/user/profile/update' >
+                            <span className='al_menu_icon'> <FaRegUser /> </span>
+                            <span>Profile</span>
+                          </Link>
+                          <Link to='/user/password/change' >
+                            <span className='al_menu_icon'> <HiOutlineCog /> </span>
+
+                            <span>Settings</span>
+                          </Link>
+                          <Link to='#' onClick={handleLogout}>
+                            <span className='al_menu_icon'> <PiSignOut /> </span>
+                            <span>Log Out</span>
+                          </Link>
+                        </div>
+
+                        <div className="idicator_icondiv"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
                 :
                 <>
                   <Link to='/login' className='btn btn-dark'>
