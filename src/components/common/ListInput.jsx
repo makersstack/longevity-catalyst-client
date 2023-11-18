@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
 
-const ListInput = ({ list_keywords, set_list_keyword, dots = false,isLimit = false,max=5 }) => {
+const ListInput = ({ list_keywords, set_list_keyword, dots = false,isLimit = false,max=5, onBlur,alName }) => {
     const [lists, setLists] = useState([]);
     const [keywordInput, setKeywordInput] = useState('');
 
@@ -27,8 +27,11 @@ const ListInput = ({ list_keywords, set_list_keyword, dots = false,isLimit = fal
         }
     }
 
-    const handleInputBlur = () => {
+    const handleInputBlur = (event) => {
         SetKeywordFunc();
+        if(onBlur){
+            onBlur(event);
+        }
     };
 
     const handleKeyDown = (event) => {
@@ -72,6 +75,7 @@ const ListInput = ({ list_keywords, set_list_keyword, dots = false,isLimit = fal
                 onBlur={handleInputBlur}
                 placeholder="Enter a keyword and press Enter"
                 style={{ marginTop: '10px' }}
+                data-alname={alName ? alName : ''}
             />
         </div>
     );

@@ -6,6 +6,6 @@ import { instance as axoisInstance } from "../helpers/axios/axoisInstance";
 export const authApi = {
   signup: (userData) => axoisInstance.post(`${(apiKey)}/auth/signup`, userData),
   login: (credentials) => axoisInstance.post(`${(apiKey)}/auth/login`, credentials),
-  projectSubmit: (projectData) => axoisInstance.post(`${(apiKey)}/projects/create-project`, projectData)
+  projectSubmit: (projectData) => axoisInstance.post(`${(apiKey)}/projects/create`, projectData)
 };
 

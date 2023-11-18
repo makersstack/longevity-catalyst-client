@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import DatePickerInput from '../../components/DatePickerInput';
 import Loader from '../../components/Loader';
@@ -10,28 +10,45 @@ import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { useLoading } from '../../contex/LoadingProvider';
-import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, initialProFormData, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
+import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
 
     const { isLoading, setIsLoading } = useLoading();
     const navigate = useNavigate();
-
-    const location = useLocation();
-    const from = location.state?.from?.pathname || '/user/dashboard';
-
     ScrollToTop();
+    const mes = {};
+    const [errorMsg, setErrorMsg] = useState(mes);
+    const formRef = useRef(null);
 
-    const [formData, setFormData] = useState(initialProFormData);
+    useEffect(() => {
+        if (Object.keys(errorMsg).length !== 0) {
+            if (formRef.current) {
+                formRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [errorMsg]);
 
-    const [errors, setErrors] = useState({});
+
+    const handleLoadingState = () => {
+        const body = document.querySelector('body');
+        if (isLoading) {
+            body.classList.add('loading_BG');
+            // Add your custom code here for the loading state
+        } else {
+            body.classList.remove('loading_BG');
+            // Add your custom code here for when loading is finished
+        }
+    };
+
+    useEffect(() => {
+        handleLoadingState();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading]);
+
+    //ST:- get onchange/onblure validation 
     const handleRadioChange = (fieldName, newValue) => {
-        setFormData({
-            ...formData,
-            [fieldName]: newValue,
-        });
-
         validateField(fieldName, newValue);
     };
 
@@ -39,69 +56,139 @@ const AddProject = () => {
         const { name, value, type, checked, files } = event.target;
 
         const newValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
-
-        setFormData({
-            ...formData,
-            [name]: newValue,
-        });
-
         validateField(name, newValue);
     };
 
     const validateField = (fieldName, value) => {
         let error = '';
         switch (fieldName) {
-            case 'projectTitle':
-                error = value.trim().length === 0 ? 'Project Title is required' : '';
+            case 'project_name':
+                error = value.trim().length === 0 ? 'Project Title is required!' : '';
                 break;
             case 'affiliation':
-                error = value.trim().length === 0 ? 'Project affiliation is required' : '';
+                error = value.trim().length === 0 ? 'Project affiliation is required!' : '';
                 break;
-            case 'projectDescription':
-                error = value.trim().length <= 5 ? 'Project Description must be at least 250 characters' : '';
+            case 'project_desc':
+                error = value.trim().length <= 40 ? 'Project Description must be at least 40 characters!' : '';
+                break;
+            case 'project_keywords':
+                error = value.lists.length === 0 ? 'Project Keywords is Required!' : '';
                 break;
             default:
                 break;
         }
-        setErrors({
-            ...errors,
+        setErrorMsg(prevErrorMsg => ({
+            ...prevErrorMsg,
             [fieldName]: error,
-        });
+        }));
     }
-
-    const handleBlur = (event) => {
-        const { name, value } = event.target;
-        validateField(name, value);
-    };
 
     const [project_keywords, set_project_keywords] = useState({});
 
-    const handelProjectSubmit = async (event) => {
-        event.preventDefault();
+    const handleBlur = (event) => {
 
-        if (!formData.projectTitle || !formData.affiliation || !formData.projectDescription) {
-            toast.error('Please fill in all required fields.');
-
-            setFormData(initialProFormData);
-            return;
+        if ('alname' in event.target.dataset) {
+            const name = event.target.dataset.alname;
+            const value = project_keywords;
+            validateField(name, value);
+        } else {
+            const { name, value } = event.target;
+            validateField(name, value);
         }
 
-        const hasErrors = Object.values(errors).some((error) => error !== '');
+    };
+    //ED:- get onchange/onblure validation 
 
-        
-        if (!hasErrors) {
+
+    const handelProjectSubmit = async (event) => {
+        event.preventDefault();
+        setErrorMsg({});
+        const formData = new FormData(event.target);
+        // After Submit Validation 
+        // Pushing other data into form data 
+        if (project_keywords.lists.length !== 0) {
+            formData.append('project_keywords', JSON.stringify(project_keywords.lists));
+        }
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // validation 
+        let isValid = true;
+        if (formDataObject.project_name.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                project_name: 'Project Name is Required!',
+            }));
+            isValid = false;
+        }
+        if (formDataObject.affiliation.length === 0) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                affiliation: 'Affiliation is Required!',
+            }));
+            isValid = false;
+        }
+        if (formDataObject.project_desc.length < 40) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                project_desc: 'Project Description must be at least 40 characters!',
+            }));
+            isValid = false;
+        }
+        if (!('project_keywords' in formDataObject)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                project_keywords: 'Project Keywords is Required!',
+            }));
+            console.log('get errror');
+            isValid = false;
+        }
+        if (!('projecType' in formDataObject)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                projecType: 'Project Type is Required !',
+            }));
+            isValid = false;
+        }
+        if (!('projectExperience' in formDataObject)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                projectExperience: 'Project Experience is Required!',
+            }));
+            isValid = false;
+        }
+        if (!('hardDeadline' in formDataObject)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                hardDeadline: 'Project hard deadline is Required!',
+            }));
+            isValid = false;
+        }
+        if (!('haveProjectBudget' in formDataObject)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                haveProjectBudget: 'Project Budget is Required!',
+            }));
+            isValid = false;
+        }
+
+
+
+      
+      
+        if (isValid) {
             try {
-                console.log(formData);
-
-                setIsLoading(false);
-                const promise = authApi.projectSubmit(formData);
+                setIsLoading(true);
+                const promise = authApi.projectSubmit(formDataObject);
                 await toast.promise(promise, {
-                    loading: 'Post...',
+                    loading: 'Submitting...',
                     success: (response) => {
                         if (response?.data?.success) {
                             setIsLoading(false);
-                            navigate(from, { replace: true });
-                            return 'Sign In Successfully Done !';
+                            navigate('/user/project/all');
+                            return 'Submit Has bin successful!';
                         } else {
                             return 'Unexpected error occurred';
                         }
@@ -115,9 +202,9 @@ const AddProject = () => {
                 // toast.success("Post Has bin successful!");
             } catch (error) {
                 setIsLoading(false);
+            }finally{
+                setIsLoading(false);
             }
-        } else {
-            toast.error('Please fill in all required fields 2.');
         }
     }
 
@@ -144,37 +231,44 @@ const AddProject = () => {
                             </button>
                             <h3 className="title">Add Project</h3>
                         </div>
-                        <form onSubmit={handelProjectSubmit} className="add_project_form">
+                        <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
                             <div className="two_columns">
+                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="projectTitle">
+                                    <label htmlFor="project_name">
                                         What is the name of your project?<span>*</span>
                                     </label>
                                     <input
+                                        className={errorMsg.project_name ? 'border-warring' : ''}
                                         type="text"
-                                        className={errors.projectTitle ? 'border-warring' : ''}
-                                        name="projectTitle"
-                                        id="projectTitle"
-                                        onChange={handleInputChange}
-                                        onBlur={handleBlur}
+                                        name="project_name"
+                                        id="project_name"
                                         placeholder="Project Name"
+                                        onBlur={handleBlur}
+                                        onChange={handleInputChange}
                                     />
-                                    {errors.projectTitle && <p className='error-msg'>{errors.projectTitle}</p>}
+                                    {errorMsg.project_name && <div className='error-msg'>{errorMsg.project_name}</div>}
                                 </div>
+                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_name"> What is your name?<span>*</span> </label>
-                                    <input type="text" id="user_name" placeholder="Name" readOnly />
+                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value='John Doe' />
+                                    {errorMsg.user_name && <div className='error-msg'>{errorMsg.user_name}</div>}
                                 </div>
                             </div>
                             <div className="two_columns">
+                                {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_email"> What is your email?<span>*</span> </label>
                                     <input
+                                        className={errorMsg.user_email ? 'border-warring' : ''}
                                         type="email"
                                         id="user_email"
                                         placeholder="Email"
-                                        disabled
+                                        disabled readOnly
+                                        value="user@email.com"
                                     />
+                                    {errorMsg.user_email && <div className='error-msg'>{errorMsg.user_email}</div>}
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -182,62 +276,43 @@ const AddProject = () => {
                                         What is your affiliation?<span>*</span>
                                     </label>
                                     <input
+                                        className={errorMsg.affiliation ? 'border-warring' : ''}
                                         type="text"
-                                        className={errors.affiliation ? 'border-warring' : ''}
                                         name="affiliation"
                                         id="affiliation"
                                         placeholder="Affiliation"
-                                        onChange={handleInputChange}
                                         onBlur={handleBlur}
+                                        onChange={handleInputChange}
                                     />
-                                    {errors.affiliation && <p className='error-msg'>{errors.affiliation}</p>}
+                                    {errorMsg.affiliation && <div className='error-msg'>{errorMsg.affiliation}</div>}
                                 </div>
                             </div>
                             {/* <!-- Single Input --> */}
                             <div className="form_control">
-                                <label htmlFor="projectDescription">
+                                <label htmlFor="project_desc">
                                     Provide a brief description of your project.<span>*</span>
                                 </label>
                                 <textarea
-                                    name="projectDescription"
-                                    className={errors.projectDescription ? 'border-warring' : ''}
-                                    id="projectDescription"
+                                    className={errorMsg.project_desc ? 'border-warring' : ''}
+                                    name="project_desc"
+                                    id="project_desc"
                                     rows="2"
                                     placeholder="Description"
-                                    onChange={handleInputChange}
                                     onBlur={handleBlur}
+                                    onChange={handleInputChange}
                                 ></textarea>
-                                {errors.projectDescription && <p className='error-msg'>{errors.projectDescription}</p>}
+                                {errorMsg.project_desc && <div className='error-msg'>{errorMsg.project_desc}</div>}
                             </div>
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
-                                {/* <div className="form_control">
-                                    <label htmlFor="keywords">
+                                <div className="form_control">
+                                    <label htmlFor="project_keywords">
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
-                                    <input
-                                        type="text"
-                                        name="keywords"
-                                        id="keywords"
-                                        placeholder="keywords"
-                                        onChange={handleInputChange}
-                                    />
-                                </div> */}
-
-
-                                 {/* <!-- Single Input --> */}
-                                 <div className="form_control">
-                                    <label htmlFor="keywords">
-                                        Provide up to (5) keywords engineers can use to find your
-                                        project.<span>*</span>
-                                    </label>
-                                    <ListInput list_keywords={project_keywords} set_list_keyword={set_project_keywords} isLimit={true} max={5}/>
-                              
+                                    <ListInput onBlur={handleBlur} list_keywords={project_keywords} set_list_keyword={set_project_keywords} alName={'project_keywords'} />
+                                    {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
                                 </div>
-
-
-
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -245,9 +320,12 @@ const AddProject = () => {
                                         Will this project require any onsite work?
                                     </label>
                                     <div className="onsite_check">
-                                        {onsiteOption.map((singleData) => (
-                                            <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                        ))}
+
+                                        {
+                                            onsiteOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+
+
                                     </div>
                                 </div>
                             </div>
@@ -264,18 +342,16 @@ const AddProject = () => {
                                         name="address"
                                         id="address"
                                         placeholder="65 Hansen Way"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="addressLine">Address Line 2 </label>
+                                    <label htmlFor="address_line">Address Line 2 </label>
                                     <input
                                         type="text"
-                                        name="addressLine"
-                                        id="addressLine"
+                                        name="address_line"
+                                        id="address_line"
                                         placeholder="Apartment 4"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -288,7 +364,6 @@ const AddProject = () => {
                                         name="city_town"
                                         id="city_town"
                                         placeholder="Palo Alto"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -299,7 +374,6 @@ const AddProject = () => {
                                         name="state_region_province"
                                         id="testate_region_provincext"
                                         placeholder="California"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -312,7 +386,6 @@ const AddProject = () => {
                                         name="zip_code"
                                         id="zip_code"
                                         placeholder="94304"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -323,7 +396,6 @@ const AddProject = () => {
                                         name="country"
                                         id="country"
                                         placeholder="United States"
-                                        onChange={handleInputChange}
                                     />
                                 </div>
                             </div>
@@ -334,16 +406,20 @@ const AddProject = () => {
                                         Is this an individual or team project?
                                         <span>*</span>
                                     </label>
-                                    {projectTypeOption.map((singleData) => (
-                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+
+                                    {
+                                        projectTypeOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+                                    {errorMsg.projecType && <div className='error-msg'>{errorMsg.projecType}</div>}
+
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label > Describe the nature of your project. </label>
-                                    {projectNatureOption.map((singleData) => (<RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
 
+                                    {
+                                        projectNatureOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
                                 </div>
                             </div>
 
@@ -353,9 +429,14 @@ const AddProject = () => {
                                     <label >
                                         How much experience will this project require? <span>*</span>
                                     </label>
-                                    {projectExperienceOption.map((singleData) => (<RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+
+                                    {
+                                        projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+                                    {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
+
                                 </div>
+
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -367,11 +448,14 @@ const AddProject = () => {
                                         id="required_skill_list"
                                         rows="2"
                                         placeholder="Answer here.."
-                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
+
+
                             </div>
+
+
 
                             <div className="two_columns">
                                 {/* <!-- Single Input --> */}
@@ -385,12 +469,14 @@ const AddProject = () => {
                                     <label>
                                         Is there a hard deadline for this project ? <span>*</span>
                                     </label>
-                                    {ProjectHardDeadlineOption.map((singleData) => (
-                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+
+                                    {
+                                        ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+                                    {errorMsg.hardDeadline && <div className='error-msg'>{errorMsg.hardDeadline}</div>}
+
                                 </div>
                             </div>
-
 
                             <div className="two_columns">
 
@@ -399,9 +485,10 @@ const AddProject = () => {
                                     <label >
                                         How long do you expect this project to take ?
                                     </label>
-                                    {expectedTimeProjectOption.map((singleData) => (
-                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+                                    {
+                                        expectedTimeProjectOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -410,9 +497,11 @@ const AddProject = () => {
                                         volunteer work / platform sponsorship?<span>*</span>
                                     </label>
 
-                                    {haveProjectBudgetOption.map((singleData) => (
-                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+                                    {
+                                        haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+                                    {errorMsg.haveProjectBudget && <div className='error-msg'>{errorMsg.haveProjectBudget}</div>}
+
                                 </div>
 
                             </div>
@@ -428,7 +517,6 @@ const AddProject = () => {
                                         id="expected_cost"
                                         rows="2"
                                         placeholder="Answer here.."
-                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
@@ -437,9 +525,10 @@ const AddProject = () => {
                                     <label >
                                         What will you be ready to start this project?
                                     </label>
-                                    {readyToStartOption.map((singleData) => (
-                                        <RadioButton key={singleData.key} radionData={singleData} onRadioChange={(newValue) => handleRadioChange(singleData.inputName, newValue)} />
-                                    ))}
+                                    {
+                                        readyToStartOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                    }
+
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -454,14 +543,13 @@ const AddProject = () => {
                                         id="final_deliverable_details"
                                         rows="2"
                                         placeholder="Answer here.."
-                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
-                                    <input name="relevant_link" id="relevant_link" placeholder="https://" onChange={handleInputChange} />
+                                    <input name="relevant_link" id="relevant_link" placeholder="https://" />
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -476,14 +564,13 @@ const AddProject = () => {
                                         id="relevant_literature_link"
                                         rows="2"
                                         placeholder="Answer here.."
-                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="other_included">
-                                        Anything else that should be included with your project's
+                                        Anything else that should be included with your project’s
                                         description?
                                     </label>
                                     <textarea
@@ -491,15 +578,19 @@ const AddProject = () => {
                                         id="other_included"
                                         rows="2"
                                         placeholder="Answer here.."
-                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                             </div>
+                            <hr className='inputhr' />
                             <div className="form_submit al_submit_button">
+                                <button type="reset" className="btn btn-submit btn-light">
+                                    Cancel
+                                </button>
                                 <button type="submit" className="btn btn-submit btn-dark">
                                     Submit
                                 </button>
+
                             </div>
                         </form>
                     </div>
