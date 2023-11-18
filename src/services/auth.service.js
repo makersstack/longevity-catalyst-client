@@ -1,6 +1,6 @@
+import axios from "axios";
 import { authKey } from "../constants/storageKey";
 import { apiKey } from "../globals";
-import { instance as axoisInstance } from "../helpers/axios/axoisInstance";
 import { decodedToken } from "../utils/jwt";
 import { getLocalStorage, setToLocalStorage } from "../utils/local-storage";
 
@@ -11,7 +11,7 @@ export const storeUserInfo = ({ accessToken }) => {
 
 export const getUserInfo = () => {
   const authToken = getLocalStorage(authKey);
-  if(authToken) {
+  if (authToken) {
     const decodeadData = decodedToken(authToken);
     return decodeadData
   } else {
@@ -29,10 +29,20 @@ export const isLoggdIn = () => {
 }
 
 export const getNewAccessToken = async () => {
-  return await axoisInstance({
-    url: `${(apiKey)}/auth/refresh-token`,
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    withCredentials: true,
-  });
+  try {
+    const response = await axios.post(
+      `${apiKey}/auth/refresh-token`,
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to refresh access token');
+  }
 };

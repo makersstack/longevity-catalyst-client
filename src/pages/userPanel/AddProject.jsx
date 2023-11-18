@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { projectApi } from '../../api/ProjectApi';
 import DatePickerInput from '../../components/DatePickerInput';
 import Loader from '../../components/Loader';
 import ListInput from '../../components/common/ListInput';
@@ -174,14 +174,13 @@ const AddProject = () => {
             isValid = false;
         }
 
-
-
       
       
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = authApi.projectSubmit(formDataObject);
+                const promise = projectApi.createProject(formData);
+
                 await toast.promise(promise, {
                     loading: 'Submitting...',
                     success: (response) => {
