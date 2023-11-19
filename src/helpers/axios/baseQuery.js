@@ -1,4 +1,4 @@
-import { instance as axiosInstance } from "./axiosInstance";
+import axiosInstance from "./axoisInstance";
 
 export const axiosBaseQuery = async ({
   url,
@@ -19,12 +19,11 @@ export const axiosBaseQuery = async ({
       withCredentials: true,
     });
     return result;
-  } catch (axiosError) {
-    let err = axiosError;
+  } catch (error) {
     return {
       error: {
-        status: err.response?.status,
-        data: err.response?.data || err.message,
+        status: error?.response?.status,
+        data: error?.response?.data || error.message,
       },
     };
   }

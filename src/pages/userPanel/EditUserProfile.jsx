@@ -61,7 +61,7 @@ const EditUserProfile = () => {
     const [bioText, setBioText] = useState('');
     const [profilePic, setProfilePic] = useState({});
 
-
+    console.log(profilePic);
 
     const handelProfileSubmit = (e) => {
         e.preventDefault();

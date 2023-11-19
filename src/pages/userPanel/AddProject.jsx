@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { projectApi } from '../../api/ProjectApi';
+import { useNavigate } from 'react-router-dom';
+import { projectApi } from '../../api';
 import DatePickerInput from '../../components/DatePickerInput';
 import Loader from '../../components/Loader';
 import ListInput from '../../components/common/ListInput';
@@ -11,6 +11,7 @@ import RadioButton from '../../components/common/RadioButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { useLoading } from '../../contex/LoadingProvider';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
+import { getNewAccessToken } from '../../services/auth.service';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
@@ -51,6 +52,7 @@ const AddProject = () => {
     const handleRadioChange = (fieldName, newValue) => {
         validateField(fieldName, newValue);
     };
+    console.log(handleRadioChange);
 
     const handleInputChange = (event) => {
         const { name, value, type, checked, files } = event.target;
@@ -179,7 +181,7 @@ const AddProject = () => {
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = projectApi.createProject(formData);
+                const promise = projectApi.createProject(formData)
 
                 await toast.promise(promise, {
                     loading: 'Submitting...',
@@ -207,13 +209,16 @@ const AddProject = () => {
         }
     }
 
-
     const [isActiveMenu, setIsActiveMenu] = useState(false);
 
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
 
+    const handelRefreshToken = async () => {
+      const response =  await getNewAccessToken();
+      console.log(response);
+    }
     return (
         <section className="full_widht_auth_section">
             {isLoading && <Loader />}
@@ -229,6 +234,7 @@ const AddProject = () => {
                                 <AiOutlineMenuUnfold />
                             </button>
                             <h3 className="title">Add Project</h3>
+                            <button className='btn btn-primary' onClick={handelRefreshToken}>Create Refresh Token</button>
                         </div>
                         <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
                             <div className="two_columns">

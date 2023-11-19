@@ -6,12 +6,12 @@ import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import SignupModal from '../../components/SignupModal';
 import AuthHeader from '../../components/auth/AuthHeader';
-import { storeUserInfo } from '../../services/auth.service';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
-    // const { setAuth } = useAuth();
+    const { storeUserInfo } = useAuth();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/user/dashboard';
     const mes = {};

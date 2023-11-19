@@ -7,11 +7,9 @@ import { PiSignOut } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
-import { useAuth } from '../../contex/AuthContext';
-import { isLoggdIn } from '../../services/auth.service';
-import { authKey } from '../../constants/storageKey';
 import { baseUrl } from '../../globals';
-import { isLoggdIn, removeUserInfo } from '../../services/auth.service';
+import useAuth from '../../hooks/UseAuth';
+import { isLoggdIn } from '../../services/auth.service';
 import CustomSelect from '../CustomSelect';
 import SignupModal from '../SignupModal';
 
