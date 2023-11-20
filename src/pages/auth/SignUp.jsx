@@ -216,7 +216,7 @@ const SignUp = () => {
                     <div className="container">
                         <div className="auth_area">
                             <form onSubmit={handalSubmitSignUp} ref={formRef} encType="multipart/form-data">
-                                <h4>Sign Up</h4>
+                                <h4>Sign Up as a {type.charAt(0).toUpperCase() + type.slice(1)}</h4>
                                 <p>Welcome back! Please enter your details.</p>
                                 <input type="hidden" name="role" value={type} />
 

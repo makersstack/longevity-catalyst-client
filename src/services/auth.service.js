@@ -22,10 +22,6 @@ export const removeUserInfo = (key) => {
   return localStorage.removeItem(key);
 };
 
-export const isLoggdIn = () => {
-  const authToken = getLocalStorage(authKey);
-  return !!authToken
-}
 
 export const getNewAccessToken = async () => {
   try {

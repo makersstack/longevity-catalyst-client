@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/about.css';
-import Newsletter from '../components/Newsletter';
+import Newsletter from '../components/ui/Newsletter';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
 import ScrollToTop from '../utils/RouteChange';

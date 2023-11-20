@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { isLoggdIn } from '../services/auth.service';
+import useAuth from './UseAuth';
 
 const IfAuthCheck = () => {
     const location = useLocation();
 
-    const isLoggedIn = isLoggdIn();
+    const { isLoggedIn } = useAuth();
 
     return isLoggedIn
         ? <Navigate to='/user/dashboard' state={{ from: location }} replace />
-        : <Outlet /> 
+        : <Outlet />
 };
 
 export default IfAuthCheck;

@@ -4,13 +4,13 @@ import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
-import DatePickerInput from '../../components/DatePickerInput';
-import Loader from '../../components/Loader';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
+import DatePickerInput from "../../components/ui/DatePickerInput";
+import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
-import { useLoading } from '../../contex/LoadingProvider';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
+import useLoading from '../../hooks/useLoading';
 import { getNewAccessToken } from '../../services/auth.service';
 import ScrollToTop from '../../utils/RouteChange';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import trustImages from '../data/images';
-import { baseUrl } from '../globals';
+import trustImages from '../../data/images';
+import { baseUrl } from '../../globals';
 
 const TrustSlider = () => {
     const settings = {

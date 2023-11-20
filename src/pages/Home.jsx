@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../src/assets/styles/home.css';
-import ProjectFeed from '../components/ProjectFeed';
-import TradingProjectSlider from '../components/TradingProjectSlider';
-import TrustSlider from '../components/TrustSlider';
+import ProjectFeed from '../components/ui/ProjectFeed';
+import TradingProjectSlider from '../components/ui/TradingProjectSlider';
+import TrustSlider from '../components/ui/TrustSlider';
 import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
