@@ -9,22 +9,20 @@ import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { baseUrl } from '../../globals';
 import useAuth from '../../hooks/UseAuth';
-import { isLoggdIn } from '../../services/auth.service';
-import CustomSelect from '../CustomSelect';
-import SignupModal from '../SignupModal';
+import CustomSelect from '../ui/CustomSelect';
+import SignupModal from '../ui/SignupModal';
 
 const Header = () => {
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
 
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  const isLoggedIn = isLoggdIn();
 
-  // For testing
   const handleLogout = () => {
     logout();
     navigate('/login');
   }
+  
   const openModal = () => {
     setModalOpen(true);
   };
@@ -135,7 +133,7 @@ const Header = () => {
 
                             <span>Settings</span>
                           </Link>
-                          <Link to='#' onClick={handleLogout}>
+                          <Link to='/login' onClick={handleLogout}>
                             <span className='al_menu_icon'> <PiSignOut /> </span>
                             <span>Log Out</span>
                           </Link>

@@ -1,8 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 const LoadingContext = createContext();
-
-export const useLoading = () => useContext(LoadingContext);
 
 export const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);

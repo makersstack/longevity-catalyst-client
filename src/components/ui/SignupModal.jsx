@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-responsive-modal';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/logo.png';
-import SignUpRadio from './common/SignUpRadio';
+import logo from '../../assets/images/logo.png';
+import SignUpRadio from '../common/SignUpRadio';
 
 function SignupModal({ open, onClose, onSignUp }) {
   const [selectedValue, setSelectedValue] = useState('researcher');

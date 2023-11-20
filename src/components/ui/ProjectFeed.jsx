@@ -5,12 +5,12 @@ import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
-import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
+import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
-import '../assets/styles/projectFeed.css';
-import SidebarFilters from './filter/SidebarFilters';
-import TopFilterButtons from './filter/TopFilterButtons';
-import LikeButton from './LikeShare/LikeButton';
+import '../../assets/styles/projectFeed.css';
+import SidebarFilters from '../filter/SidebarFilters';
+import TopFilterButtons from '../filter/TopFilterButtons';
+import LikeButton from '../likeShare/LikeButton';
 
 const ProjectFeed = () => {
   const navigation = useNavigate();
