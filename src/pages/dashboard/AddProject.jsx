@@ -7,16 +7,20 @@ import { projectApi } from '../../api';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DatePickerInput from "../../components/ui/DatePickerInput";
-import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
-import useLoading from '../../hooks/useLoading';
+
 import { getNewAccessToken } from '../../services/auth.service';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
 
-    const { isLoading, setIsLoading } = useLoading();
+    const [isLoading, setIsLoading] = useState();
+   
+
+
+    
+
     const navigate = useNavigate();
     ScrollToTop();
     const mes = {};
@@ -228,11 +232,11 @@ const AddProject = () => {
                         }
                     }
                 })
-                // toast.success("Post Has bin successful!");
             } catch (error) {
-                setIsLoading(false);
+                console.log(error);
             } finally {
                 setIsLoading(false);
+                console.log('finally');
             }
         }
     }
@@ -249,7 +253,7 @@ const AddProject = () => {
     }
     return (
         <section className="full_widht_auth_section">
-            {isLoading && <Loader />}
+            
             <div className="container">
                 <div className="dashboard">
                     {/* <!-- Dashboard Menu --> */}
