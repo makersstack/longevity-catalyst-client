@@ -8,7 +8,10 @@ import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
 
+import { projectsApi } from '../api';
+import defaultAvatar from '../assets/images/defaultAvatar.png';
 import '../assets/styles/projectFeed.css';
+import calculateDurationFromNow from '../utils/durationCalculate';
 import SidebarFilters from './filter/SidebarFilters';
 import TopFilterButtons from './filter/TopFilterButtons';
 
@@ -17,18 +20,36 @@ const ProjectFeed = () => {
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
-  
-  const [isSideBarActive,setSideBarActive] = useState(false);
+
+  const [isSideBarActive, setSideBarActive] = useState(false);
+
+  // useEffect(() => {
+  //   fetch('/data.json')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setProjects(data);
+  //       setFilteredProjects(data); 
+  //     })
+  //     .catch((error) => console.error('Error fetching data:', error));
+  // }, []);
+
+
 
   useEffect(() => {
-    fetch('/data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        setProjects(data);
-        setFilteredProjects(data); 
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      try {
+        const response = await projectsApi.allProjects();
+        const projectsData = response?.data?.data || []; // Extract the 'data' array
+        setProjects(projectsData); // Set projects state with the extracted data
+        setFilteredProjects(projectsData); // Set filteredProjects state as well if needed
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData(); // Invoke the fetchData function
   }, []);
+  
 
 
   // Top Filter
@@ -48,22 +69,22 @@ const ProjectFeed = () => {
       selectedFundingStatus,
       selectedLanguage,
     } = filters;
-  
-    return projects.filter((project) => {
+
+    return projects.filter((project) => { 
       // Debug statements to check values
       // console.log('Search:', search);
       // console.log('Project Name:', project.projectName.toLowerCase());
       // Apply your filter logic here based on the filter criteria
       // For example, you can use if statements to check each filter
-      if (search && !project.projectName.toLowerCase().includes(search.toLowerCase())) {
+      if (search && !project.project_name.toLowerCase().includes(search.toLowerCase())) {
         return false;
       }
-  
-      if (selectedCategory && project.category !== selectedCategory) {
+
+      if (selectedCategory && project.project_keywords !== selectedCategory) {
         return false;
       }
-  
-      return true; 
+
+      return true;
     });
   }
   const [filters, setFilters] = useState({
@@ -75,43 +96,43 @@ const ProjectFeed = () => {
     selectedFundingStatus: '',
     selectedLanguage: '',
   });
-  
+
   useEffect(() => {
-   
+
     const filtered = filterProjects(filters, projects);
     setFilteredProjects(filtered);
-  
+
   }, [filters, projects]);
-  
+
   const handlePageChange = (filterType, value) => {
     console.log('onPageChange called with:', filterType, value);
- 
-  
+
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
-  
+
     setFilteredProjects((prevFilteredProjects) => {
       return filterProjects(
         {
-          ...prevFilteredProjects, 
+          ...prevFilteredProjects,
           [filterType]: value,
         },
         prevFilteredProjects
       );
     });
-    if(filterType !== 'textsearch'){
+    if (filterType !== 'textsearch') {
       setSideBarActive(!isSideBarActive);
     }
-    
+
   };
-  
+
   const sideBarRef = useRef();
-  const handelSideBarButton = (e) =>{
+  const handelSideBarButton = (e) => {
     e.preventDefault();
     setSideBarActive(!isSideBarActive);
-   
+
   }
 
   useEffect(() => {
@@ -135,7 +156,7 @@ const ProjectFeed = () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [sideBarRef]);
-  
+
   return (
     <>
       <div className="project_show_wrapper">
@@ -160,7 +181,7 @@ const ProjectFeed = () => {
             selectedOption={selectedTopOption}
             onOptionChange={handleTopOptionChange}
             handelSideBarButton={handelSideBarButton}
-            />
+          />
           {/* project show container */}
           <div className="project_show_cash">
             {/* Render project cards */}
@@ -168,18 +189,19 @@ const ProjectFeed = () => {
               <div className="card" key={project.id}>
                 {/* card header */}
                 <div className="card_header">
-                <div className="post_auth_info">
+                  <div className="post_auth_info">
                     <div className="profile_image">
-                      <button onClick={() => navigation(`/user/${project.author}`)}>
-                        <img src={project.profileImageUrl} alt="userProfile" />
+                      <button onClick={() => navigation(`/user/${project?.User?.username}`)}>
+                        <img  src={project?.User?.profileImage || defaultAvatar} alt={project?.User?.username} />
+                        
                       </button>
                     </div>
                     <div className="post_user_fet">
-                      <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
-                        {project.author}
+                      <button onClick={() => navigation(`/user/${project?.User?.username}`)} className="user_name">
+                        {project?.User?.full_name}
                       </button>
                       <div className="post-features">
-                        <FaUserAlt /> Friends <span></span> 5 hours ago
+                        <FaUserAlt /> Friends <span></span> {calculateDurationFromNow(project.createdAt)}
                       </div>
                     </div>
                   </div>
@@ -194,10 +216,10 @@ const ProjectFeed = () => {
                 </div>
                 {/* card body */}
                 <div className="card_body">
-                  <h4 className="card_title">{project.projectName}</h4>
+                  <h4 className="card_title">{project.project_name}</h4>
                   <p className="card_text">
-                    {project.projectDescription}
-                    </p>
+                    {project.project_desc}
+                  </p>
                   <Link to="single-project">
                     Learn more <HiArrowNarrowRight />
                   </Link>
@@ -212,13 +234,13 @@ const ProjectFeed = () => {
                     <div className="project_reso_details">
                       <div className="likded_users">
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                       </div>
                       <p>and {project.likesCount} people liked this post.</p>

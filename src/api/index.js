@@ -9,3 +9,7 @@ export const authApi = {
   projectSubmit: (projectData) => axoisInstance.post(`${(apiKey)}/projects/create`, projectData)
 };
 
+
+export const projectsApi ={
+  allProjects: () => axoisInstance.get(`${(apiKey)}/projects`,)
+}

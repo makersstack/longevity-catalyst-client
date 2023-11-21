@@ -44,7 +44,7 @@ export const languageOptions = [
 // Category Options
 export const categoryOptions = [
   { label: 'Select Categories', value: '' },
-  { label: 'Project 1', value: 'project1' },
+  { label: 'science platform', value: 'science platform' },
   { label: 'Project 2', value: 'project2' },
   { label: 'Project 3', value: 'project3' },
 ];
