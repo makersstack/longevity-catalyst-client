@@ -110,7 +110,6 @@ const ProjectFeed = () => {
   const handelSideBarButton = (e) => {
     e.preventDefault();
     setSideBarActive(!isSideBarActive);
-
   }
 
   useEffect(() => {
@@ -169,12 +168,12 @@ const ProjectFeed = () => {
                 <div className="card_header">
                   <div className="post_auth_info">
                     <div className="profile_image">
-                      <button onClick={() => navigation(`/user/${project.author}`)}>
+                      <button onClick={() => navigation(`/project/${project.author}`)}>
                         <img src={project.profileImageUrl} alt="userProfile" />
                       </button>
                     </div>
                     <div className="post_user_fet">
-                      <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
+                      <button onClick={() => navigation(`/project/${project.author}`)} className="user_name">
                         {project.author}
                       </button>
                       <div className="post-features">
@@ -197,7 +196,7 @@ const ProjectFeed = () => {
                   <p className="card_text">
                     {project.projectDescription}
                   </p>
-                  <Link to="single-project">
+                  <Link to="project/single-project">
                     Learn more <HiArrowNarrowRight />
                   </Link>
                 </div>

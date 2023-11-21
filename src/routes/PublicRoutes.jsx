@@ -15,11 +15,15 @@ const PublicRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<AboutUs />} />
       <Route path="/faqs" element={<FAQ />} />
+
       <Route element={<IfAuthCheck />}>
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up/:type" element={<SignUp />} />
       </Route>
+
       <Route path="/dashboard" element={<Dashboard />} />
+      
+
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   )
