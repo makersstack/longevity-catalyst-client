@@ -5,6 +5,7 @@ import AboutUs from '../pages/AboutUs'
 import FAQ from '../pages/FAQ'
 import Home from '../pages/Home'
 import PageNotFound from '../pages/PageNotFound'
+import ProfileShow from '../pages/ProfileShow'
 import Login from '../pages/auth/Login'
 import SignUp from '../pages/auth/SignUp'
 import Dashboard from '../pages/dashboard/Dashboard'
@@ -22,6 +23,8 @@ const PublicRoutes = () => {
       </Route>
 
       <Route path="/dashboard" element={<Dashboard />} />
+      
+      <Route path="/:profile" element={<ProfileShow />} />
       
 
       <Route path="*" element={<PageNotFound />} />

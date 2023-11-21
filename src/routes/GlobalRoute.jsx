@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom'
 import RequireAuth from '../hooks/RequireAuth'
 import ContributorProfile from '../pages/ContributorProfile'
 import PageNotFound from '../pages/PageNotFound'
-import ProfileShow from '../pages/ProfileShow'
 import ProjectDetails from '../pages/ProjectDetails'
 
 const GlobalRoute = () => {
@@ -15,7 +14,6 @@ const GlobalRoute = () => {
         <Route path="/contributor/:username" element={<ContributorProfile />} />
       </Route>
 
-      <Route path="/:profile" element={<ProfileShow />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   )

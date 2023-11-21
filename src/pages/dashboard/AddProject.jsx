@@ -23,13 +23,13 @@ const AddProject = () => {
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
 
-    useEffect(() => {
-        if (Object.keys(errorMsg).length !== 0) {
-            if (formRef.current) {
-                formRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }, [errorMsg]);
+    // useEffect(() => {
+    //     if (Object.keys(errorMsg).length !== 0) {
+    //         if (formRef.current) {
+    //             formRef.current.scrollIntoView({ behavior: 'smooth' });
+    //         }
+    //     }
+    // }, [errorMsg]);
 
 
     const handleLoadingState = () => {
@@ -48,17 +48,21 @@ const AddProject = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
-    //ST:- get onchange/onblure validation 
-    const handleRadioChange = (fieldName, newValue) => {
-        validateField(fieldName, newValue);
-    };
-    console.log(handleRadioChange);
 
     const handleInputChange = (event) => {
-        const { name, value, type, checked, files } = event.target;
 
-        const newValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
-        validateField(name, newValue);
+        if ('alname' in event.target.dataset) {
+            const name = event.target.dataset.alname;
+            const value = project_keywords;
+            validateField(name, value);
+        } else {
+            const { name, value, type, checked, files } = event.target;
+            const newValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
+            validateField(name, newValue);
+        }
+
+
+
     };
 
     const validateField = (fieldName, value) => {
@@ -86,6 +90,10 @@ const AddProject = () => {
     }
 
     const [project_keywords, set_project_keywords] = useState({});
+    const [required_skill_list, set_required_skill_list] = useState({});
+    const [expected_cost, set_expected_cost] = useState({});
+    const [final_deliverable_details, set_final_deliverable_details] = useState({}); 
+    const [relevant_literature_link, set_relevant_literature_link] = useState({}); 
 
     const handleBlur = (event) => {
 
@@ -111,6 +119,19 @@ const AddProject = () => {
         if (project_keywords.lists.length !== 0) {
             formData.append('project_keywords', JSON.stringify(project_keywords.lists));
         }
+        if (required_skill_list.lists.length !== 0) {
+            formData.append('required_skill_list', JSON.stringify(required_skill_list.lists));
+        }
+        if (expected_cost.lists.length !== 0) {
+            formData.append('expected_cost', JSON.stringify(expected_cost.lists));
+        }
+        if (final_deliverable_details.lists.length !== 0) {
+            formData.append('final_deliverable_details', JSON.stringify(final_deliverable_details.lists));
+        }
+        if (relevant_literature_link.lists.length !== 0) {
+            formData.append('relevant_literature_link', JSON.stringify(relevant_literature_link.lists));
+        }
+
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -176,8 +197,15 @@ const AddProject = () => {
             isValid = false;
         }
 
-      
-      
+        if (!isValid) {
+            if (formRef.current) {
+                formRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+
+
+
         if (isValid) {
             try {
                 setIsLoading(true);
@@ -203,7 +231,7 @@ const AddProject = () => {
                 // toast.success("Post Has bin successful!");
             } catch (error) {
                 setIsLoading(false);
-            }finally{
+            } finally {
                 setIsLoading(false);
             }
         }
@@ -315,7 +343,7 @@ const AddProject = () => {
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
-                                    <ListInput onBlur={handleBlur} list_keywords={project_keywords} set_list_keyword={set_project_keywords} alName={'project_keywords'} />
+                                    <ListInput alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter"/>
                                     {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
                                 </div>
 
@@ -448,13 +476,9 @@ const AddProject = () => {
                                     <label htmlFor="required_skill_list"
                                     >List the skills that this project will require.
                                     </label>
-                                    <textarea
-                                        name="required_skill_list"
-                                        id="required_skill_list"
-                                        rows="2"
-                                        placeholder="Answer here.."
-                                    >
-                                    </textarea>
+
+                                    <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
                                 </div>
 
 
@@ -517,13 +541,11 @@ const AddProject = () => {
                                     <label htmlFor="expected_cost"
                                     >What is your budget or the expected cost of this project ?
                                     </label>
-                                    <textarea
-                                        name="answer"
-                                        id="expected_cost"
-                                        rows="2"
-                                        placeholder="Answer here.."
-                                    >
-                                    </textarea>
+                                 
+
+                                    <ListInput type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
+
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -543,13 +565,11 @@ const AddProject = () => {
                                         Please describe the final deliverable in as much detail as
                                         possible.
                                     </label>
-                                    <textarea
-                                        name="final_deliverable_details"
-                                        id="final_deliverable_details"
-                                        rows="2"
-                                        placeholder="Answer here.."
-                                    >
-                                    </textarea>
+                                
+
+                                    <ListInput type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
+
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -564,13 +584,8 @@ const AddProject = () => {
                                         Provide links to any relevant literature that may help your
                                         project match.
                                     </label>
-                                    <textarea
-                                        name="relevant_literature_link"
-                                        id="relevant_literature_link"
-                                        rows="2"
-                                        placeholder="Answer here.."
-                                    >
-                                    </textarea>
+                                   
+                                    <ListInput type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">

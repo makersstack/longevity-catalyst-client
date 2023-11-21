@@ -7,10 +7,16 @@ import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
+
+import defaultAvatar from '../../assets/images/defaultAvatar.png';
 import '../../assets/styles/projectFeed.css';
+import calculateDurationFromNow from '../../utils/durationCalculate';
+import LikeButton from '../LikeShare/LikeButton';
+
+import { projectApi } from '../../api';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
-import LikeButton from '../likeShare/LikeButton';
+
 
 const ProjectFeed = () => {
   const navigation = useNavigate();
@@ -20,15 +26,33 @@ const ProjectFeed = () => {
 
   const [isSideBarActive, setSideBarActive] = useState(false);
 
+  // useEffect(() => {
+  //   fetch('/data.json')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setProjects(data);
+  //       setFilteredProjects(data); 
+  //     })
+  //     .catch((error) => console.error('Error fetching data:', error));
+  // }, []);
+
+
+
   useEffect(() => {
-    fetch('/data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        setProjects(data);
-        setFilteredProjects(data);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
+    const fetchData = async () => {
+      try {
+        const response = await projectApi.getAllProjects();
+        const projectsData = response?.data?.data || []; // Extract the 'data' array
+        setProjects(projectsData); // Set projects state with the extracted data
+        setFilteredProjects(projectsData); // Set filteredProjects state as well if needed
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Invoke the fetchData function
   }, []);
+
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -54,11 +78,11 @@ const ProjectFeed = () => {
       // console.log('Project Name:', project.projectName.toLowerCase());
       // Apply your filter logic here based on the filter criteria
       // For example, you can use if statements to check each filter
-      if (search && !project.projectName.toLowerCase().includes(search.toLowerCase())) {
+      if (search && !project.project_name.toLowerCase().includes(search.toLowerCase())) {
         return false;
       }
 
-      if (selectedCategory && project.category !== selectedCategory) {
+      if (selectedCategory && project.project_keywords !== selectedCategory) {
         return false;
       }
 
@@ -168,16 +192,17 @@ const ProjectFeed = () => {
                 <div className="card_header">
                   <div className="post_auth_info">
                     <div className="profile_image">
-                      <button onClick={() => navigation(`/project/${project.author}`)}>
-                        <img src={project.profileImageUrl} alt="userProfile" />
+                      <button onClick={() => navigation(`${project?.User?.username}`)}>
+                        <img src={project?.User?.profileImage || defaultAvatar} alt={project?.User?.username} />
+
                       </button>
                     </div>
                     <div className="post_user_fet">
-                      <button onClick={() => navigation(`/project/${project.author}`)} className="user_name">
-                        {project.author}
+                      <button onClick={() => navigation(`${project?.User?.username}`)} className="user_name">
+                        {project?.User?.full_name}
                       </button>
                       <div className="post-features">
-                        <FaUserAlt /> Friends <span></span> 5 hours ago
+                        <FaUserAlt /> Friends <span></span> {calculateDurationFromNow(project.createdAt)}
                       </div>
                     </div>
                   </div>
@@ -192,11 +217,11 @@ const ProjectFeed = () => {
                 </div>
                 {/* card body */}
                 <div className="card_body">
-                  <h4 className="card_title">{project.projectName}</h4>
+                  <h4 className="card_title">{project.project_name}</h4>
                   <p className="card_text">
-                    {project.projectDescription}
+                    {project.project_desc}
                   </p>
-                  <Link to="project/single-project">
+                  <Link to="single-project">
                     Learn more <HiArrowNarrowRight />
                   </Link>
                 </div>
@@ -204,17 +229,17 @@ const ProjectFeed = () => {
                 <div className="card_footer">
                   {/* project resource */}
                   <div className="project_resourse">
-                    <LikeButton projectId={2}  userId={2}  />
+                    <LikeButton projectId={2} userId={2} />
                     <div className="project_reso_details">
                       <div className="likded_users">
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={project.profileImageUrl} alt={`userImage`} />
+                          <img src={defaultAvatar} alt={`userImage`} />
                         </Link>
                       </div>
                       <p>and {project.likesCount} people liked this post.</p>
