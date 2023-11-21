@@ -2,8 +2,6 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import RequireAuth from '../hooks/RequireAuth'
 import PageNotFound from '../pages/PageNotFound'
-import ProfileShow from '../pages/ProfileShow'
-import ProjectDetails from '../pages/ProjectDetails'
 import AddProject from '../pages/dashboard/AddProject'
 import AllProject from '../pages/dashboard/AllProject'
 import Dashboard from '../pages/dashboard/Dashboard'
@@ -23,8 +21,6 @@ const PrivetRoutes = () => {
         <Route path="/password/change" element={<PasswordChange />} />
       </Route>
 
-      <Route path="/:profile" element={<ProfileShow />} />
-      <Route path="/single-project" element={<ProjectDetails />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   )

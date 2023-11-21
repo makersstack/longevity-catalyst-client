@@ -201,6 +201,10 @@
   line-height: 28px;
   padding-bottom: 15px;
 }
+.side_bar_card_title {
+  padding-bottom: 5px !important;
+  margin: 0;
+}
 .project_side_bar .plan .plan-content {
   border-radius: 12px;
   background: #f7f7f7;
@@ -254,6 +258,10 @@
   .plan-details
   p {
   color: #333;
+}
+.side_bar_card_skilld {
+  display: flex;
+  flex-direction: column;
 }
 .required_skills .plan-details {
   justify-content: flex-start;

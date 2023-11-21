@@ -4,7 +4,7 @@ import { FaChevronDown, FaRegUser } from 'react-icons/fa';
 import { HiOutlineCog } from 'react-icons/hi';
 import { LuBarChart2 } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { baseUrl } from '../../globals';
@@ -22,7 +22,7 @@ const Header = () => {
     logout();
     navigate('/login');
   }
-  
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -74,7 +74,17 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  const location = useLocation();
 
+  const getLinkText = () => {
+    if (location.pathname === '/user/dashboard') {
+      return 'Home';
+    } else if (location.pathname === '/') {
+      return 'Dashboard';
+    }
+    // Add more conditions if needed
+    return 'Dashboard';
+  };
 
   return (
     <header>
@@ -106,8 +116,8 @@ const Header = () => {
             </button>
             {
               isLoggedIn ? <>
-                <Link to='/user/dashboard' className='btn btn-dark'>
-                  Dashboard
+                <Link to={location.pathname === '/user/dashboard' ? '/' : '/user/dashboard'} className='btn btn-dark'>
+                  {getLinkText()}
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
                   <img
