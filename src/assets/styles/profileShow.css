@@ -82,6 +82,15 @@
   align-content: center;
   align-items: center;
   gap: 8px;
+  padding-top: 5px;
+}
+.profile_buttons .btn {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.profile_buttons .btn svg {
+  font-size: 18px;
 }
 .btn_more_bar {
   color: #333333;
@@ -113,6 +122,9 @@
   gap: 8px;
   margin-bottom: 12px;
 }
+.side_bar_card_body ul li .icon_box svg {
+  font-size: 19px;
+}
 .side_bar_card_body ul li:last-child {
   margin-bottom: 0;
 }
@@ -121,6 +133,9 @@
   font-size: 15px;
   font-weight: 400;
   line-height: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 8px;
 }
 .side_bar_card_body ul li p b {
   color: #333;

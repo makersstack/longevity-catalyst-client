@@ -4,26 +4,25 @@ import { FaChevronDown, FaRegUser } from 'react-icons/fa';
 import { HiOutlineCog } from 'react-icons/hi';
 import { LuBarChart2 } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
-import { authKey } from '../../constants/storageKey';
 import { baseUrl } from '../../globals';
-import { isLoggdIn, removeUserInfo } from '../../services/auth.service';
-import CustomSelect from '../CustomSelect';
-import SignupModal from '../SignupModal';
+import useAuth from '../../hooks/UseAuth';
+import CustomSelect from '../ui/CustomSelect';
+import SignupModal from '../ui/SignupModal';
 
 const Header = () => {
+  const { logout, isLoggedIn } = useAuth();
 
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  const isLoggedIn = isLoggdIn();
 
-  // For testing
   const handleLogout = () => {
-    removeUserInfo(authKey);
+    logout();
     navigate('/login');
   }
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -75,7 +74,17 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  const location = useLocation();
 
+  const getLinkText = () => {
+    if (location.pathname === '/user/dashboard') {
+      return 'Home';
+    } else if (location.pathname === '/') {
+      return 'Dashboard';
+    }
+    // Add more conditions if needed
+    return 'Dashboard';
+  };
 
   return (
     <header>
@@ -107,8 +116,8 @@ const Header = () => {
             </button>
             {
               isLoggedIn ? <>
-                <Link to='/user/dashboard' className='btn btn-dark'>
-                  Dashboard
+                <Link to={location.pathname === '/user/dashboard' ? '/' : '/user/dashboard'} className='btn btn-dark'>
+                  {getLinkText()}
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
                   <img
@@ -134,7 +143,7 @@ const Header = () => {
 
                             <span>Settings</span>
                           </Link>
-                          <Link to='#' onClick={handleLogout}>
+                          <Link to='/login' onClick={handleLogout}>
                             <span className='al_menu_icon'> <PiSignOut /> </span>
                             <span>Log Out</span>
                           </Link>

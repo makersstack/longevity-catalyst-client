@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2';
-import '../assets/styles/datePicker.css';
+import '../../assets/styles/datePicker.css';
 
 const DatePickerInput = ({id,name}) => {
     const [startDate, setStartDate] = useState(null);

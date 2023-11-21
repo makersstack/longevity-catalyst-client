@@ -1,19 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineLike } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
-import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../data/filterData';
+import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
-import { projectsApi } from '../api';
-import defaultAvatar from '../assets/images/defaultAvatar.png';
-import '../assets/styles/projectFeed.css';
-import calculateDurationFromNow from '../utils/durationCalculate';
-import SidebarFilters from './filter/SidebarFilters';
-import TopFilterButtons from './filter/TopFilterButtons';
+
+import defaultAvatar from '../../assets/images/defaultAvatar.png';
+import '../../assets/styles/projectFeed.css';
+import calculateDurationFromNow from '../../utils/durationCalculate';
+import LikeButton from '../LikeShare/LikeButton';
+
+import { projectApi } from '../../api';
+import SidebarFilters from '../filter/SidebarFilters';
+import TopFilterButtons from '../filter/TopFilterButtons';
+
 
 const ProjectFeed = () => {
   const navigation = useNavigate();
@@ -38,7 +41,7 @@ const ProjectFeed = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await projectsApi.allProjects();
+        const response = await projectApi.getAllProjects();
         const projectsData = response?.data?.data || []; // Extract the 'data' array
         setProjects(projectsData); // Set projects state with the extracted data
         setFilteredProjects(projectsData); // Set filteredProjects state as well if needed
@@ -46,10 +49,9 @@ const ProjectFeed = () => {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchData(); // Invoke the fetchData function
   }, []);
-  
 
 
   // Top Filter
@@ -70,7 +72,7 @@ const ProjectFeed = () => {
       selectedLanguage,
     } = filters;
 
-    return projects.filter((project) => { 
+    return projects.filter((project) => {
       // Debug statements to check values
       // console.log('Search:', search);
       // console.log('Project Name:', project.projectName.toLowerCase());
@@ -132,7 +134,6 @@ const ProjectFeed = () => {
   const handelSideBarButton = (e) => {
     e.preventDefault();
     setSideBarActive(!isSideBarActive);
-
   }
 
   useEffect(() => {
@@ -191,13 +192,13 @@ const ProjectFeed = () => {
                 <div className="card_header">
                   <div className="post_auth_info">
                     <div className="profile_image">
-                      <button onClick={() => navigation(`/user/${project?.User?.username}`)}>
-                        <img  src={project?.User?.profileImage || defaultAvatar} alt={project?.User?.username} />
-                        
+                      <button onClick={() => navigation(`${project?.User?.username}`)}>
+                        <img src={project?.User?.profileImage || defaultAvatar} alt={project?.User?.username} />
+
                       </button>
                     </div>
                     <div className="post_user_fet">
-                      <button onClick={() => navigation(`/user/${project?.User?.username}`)} className="user_name">
+                      <button onClick={() => navigation(`${project?.User?.username}`)} className="user_name">
                         {project?.User?.full_name}
                       </button>
                       <div className="post-features">
@@ -228,9 +229,7 @@ const ProjectFeed = () => {
                 <div className="card_footer">
                   {/* project resource */}
                   <div className="project_resourse">
-                    <button className="project_effective_button">
-                      <AiOutlineLike /> Like
-                    </button>
+                    <LikeButton projectId={2} userId={2} />
                     <div className="project_reso_details">
                       <div className="likded_users">
                         <Link to="/">

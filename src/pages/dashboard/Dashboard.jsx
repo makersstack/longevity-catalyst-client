@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import '../../assets/styles/dashboard.css';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
-
 
 const Dashboard = () => {
     ScrollToTop();
@@ -14,7 +14,6 @@ const Dashboard = () => {
     }
 
     return (
-
         <section className="full_widht_auth_section">
             <div className="container">
                 <div className="dashboard">
@@ -32,7 +31,6 @@ const Dashboard = () => {
                 </div>
             </div>
         </section>
-
     );
 };
 

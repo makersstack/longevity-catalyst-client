@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 import UserProfileImage from '../assets/images/user-1.png';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
+import ScrollToTop from '../utils/RouteChange';
 const ProjectDetails = () => {
+  ScrollToTop();
   return (
     <div>
       {/* ST:- project details section */}
@@ -20,14 +22,14 @@ const ProjectDetails = () => {
                   <span className="project_time">27 April 2023</span>
                   <div className="post_auth_info">
                     <div className="profile_image">
-                      <Link to="/user/Esther Howard">
+                      <Link to="/project/esther-howard">
                         <img src={UserProfileImage} alt="userImage" />
                       </Link>
                     </div>
                     <div className="post_user_fet">
-                      <a href="/user/Esther Howard" className="user_name"
-                      >Esther Howard</a
-                      >
+                      <Link to="/project/esther-howard" className="user_name">
+                        Esther Howard
+                      </Link>
                       <div className="user_title">Product Designer</div>
                     </div>
                   </div>
@@ -107,13 +109,13 @@ const ProjectDetails = () => {
                     </p>
                   </div>
                   {/* single block add comment button  */}
-               
+
                 </div>
               </div>
               {/* project details outer box  */}
               <div className="project_outer_box">
                 {/* pin box  */}
-               
+
 
                 {/* comment box  */}
                 <div className="details_block">

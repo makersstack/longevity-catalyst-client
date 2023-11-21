@@ -1,18 +1,21 @@
-
 import axios from "axios";
 import { authKey } from "../../constants/storageKey";
-import { getNewAccessToken } from "../../services/auth.service";
-import { getLocalStorage, setToLocalStorage } from "../../utils/local-storage";
+import { getNewAccessToken, storeUserInfo } from "../../services/auth.service";
+import { getLocalStorage } from "../../utils/local-storage";
 
-const instance = axios.create();
-instance.defaults.headers.post["Content-Type"] = "application/json";
-instance.defaults.headers["Accept"] = "application/json";
-instance.defaults.timeout = 60000;
 
-// Add a request interceptor
+const instance = axios.create({
+  baseURL: "http://localhost:5000/api/v1",
+  timeout: 60000,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+  withCredentials: true,
+});
+
 instance.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
     const accessToken = getLocalStorage(authKey);
     if (accessToken) {
       config.headers.Authorization = accessToken;
@@ -20,12 +23,10 @@ instance.interceptors.request.use(
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );
 
-// Add a response interceptor
 instance.interceptors.response.use(
   function (response) {
     const responseObject = {
@@ -34,28 +35,20 @@ instance.interceptors.response.use(
     return responseObject;
   },
   async function (error) {
-    const config = error?.config;
-    console.log("this is for check token",error);
-    if (error?.response?.status === 500 && !config?.sent) {
-      config.sent = true;
-      const response = await getNewAccessToken();
-      console.log("this is for check token",response);
-      const accessToken = response?.data?.accessToken;
-      config.headers["Authorization"] = accessToken;
-      setToLocalStorage(authKey, accessToken);
-      
-    } else {
-      const responseObject = {
-        statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong",
-        errorMessages: error?.response?.data?.message,
-      };
-      return responseObject;
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const { newAccessToken } = await getNewAccessToken();
+        storeUserInfo({ newAccessToken });
+        error.config.headers.Authorization = `accessToken ${newAccessToken}`;
+        return instance(originalRequest);
+      } catch (refreshError) {
+        console.error('Error refreshing access token:', refreshError);
+      }
     }
-
     return Promise.reject(error);
   }
 );
 
-export { instance };
-
+export default instance;
