@@ -1,20 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/styles/dashboardMenu.css';
-import { baseUrl } from '../../globals';
+import useAuth from '../../hooks/UseAuth';
 import RanderNav from './RanderNav';
 
-const DashboardMenu = ({isActiveMenu}) => {
+const DashboardMenu = ({ isActiveMenu }) => {
+    const { userInfo } = useAuth();
+
     return (
-        <div className={`dashboard_menu ${ isActiveMenu ? 'activemenu' : ''} `}>
+        <div className={`dashboard_menu ${isActiveMenu ? 'activemenu' : ''} `}>
             {/* <!-- Menu Profile --> */}
             <div className="dashboard_menu_profile">
                 <div className="profile_img">
-                    <img src={`${baseUrl}assets/img/demo-user-3.png`} alt="profile_img" />
+                    <img src={`${userInfo.profileImage}`} alt={userInfo.full_name || "Annette Black"} />
                 </div>
                 <div className="profile_text">
-                    <Link to='/user/username'> Annette Black </Link>
-                    <p>debra.holt@example.com</p>
+                    <Link to={`/${userInfo.username}`}>{userInfo.full_name || "Annette Black"}</Link>
+                    <p>{userInfo.email || ''}</p>
                 </div>
             </div>
             {/* <!-- Navigation --> */}

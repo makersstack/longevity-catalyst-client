@@ -48,7 +48,7 @@ const SignUp = () => {
             body.classList.add('loading_BG');
             // Add your custom code here for the loading state
         } else {
-          return  body.classList.remove('loading_BG');
+            return body.classList.remove('loading_BG');
             // Add your custom code here for when loading is finished
         }
     };
@@ -56,19 +56,22 @@ const SignUp = () => {
     useEffect(() => {
         handleLoadingState();
     }, [isLoading])
-
-
+    const [skillValue, setSkillValues] = useState([]);
+    // console.log(skillValue);
     const handalSubmitSignUp = async (e) => {
         e.preventDefault();
         setErrorMsg({});
         const formData = new FormData(e.target);
+
         const formDataObject = {};
+        console.log(formDataObject);
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
 
         // validation 
         let isValid = true;
+        
         if (formDataObject.full_name.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
@@ -110,7 +113,7 @@ const SignUp = () => {
 
         // Start proccsing image 
         const profilePictureFile = formData.get("profileImage");
-        console.log('Find for image path',profilePictureFile);
+        // console.log('Find for image path',profilePictureFile);
 
         if (profilePictureFile.name.length !== 0) {
             setProfilePic(profilePictureFile);
@@ -139,8 +142,8 @@ const SignUp = () => {
         }
         if (isImageValid) {
             formDataObject.profileImage = profilePic;
-            console.log("For checking", formDataObject.profileImage);
-            console.log("For checking", profilePic);
+            // console.log("For checking", formDataObject.profileImage);
+            // console.log("For checking", profilePic);
             formData.append('profileImage', profilePic);
         }
         else {
@@ -173,9 +176,9 @@ const SignUp = () => {
                         if (error.response) {
                             if (error.response.status === 409) {
                                 const resMsg = error.response.data.message.replace('Error: ', '');
-                                console.log(resMsg);
+                                // console.log(resMsg);
                                 const [field, msg] = resMsg.split('.');
-                                console.log(field);
+                                // console.log(field);
                                 setErrorMsg(prevErrorMsg => ({
                                     ...prevErrorMsg,
                                     [field]: msg,
@@ -198,7 +201,8 @@ const SignUp = () => {
                 // console.log(responseApi);
             } catch (error) {
                 // console.error('Error', error);
-                console.log(error);
+                // console.log(error);
+                setIsLoading(false);
             } finally {
                 setIsLoading(false); // Set loading back to false after the form submission
             }
@@ -224,7 +228,7 @@ const SignUp = () => {
                                     type === 'user' && <UserSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
                                 }
                                 {
-                                    type === 'contributor' && <ContributerSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />
+                                    type === 'contributor' && <ContributerSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} setSkillValues={setSkillValues} />
                                 }
                                 {
                                     type === 'researcher' && <ResearcherSignUp setProfilePic={setProfilePic} errorMsg={errorMsg} />

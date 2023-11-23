@@ -13,13 +13,13 @@ import CustomSelect from '../ui/CustomSelect';
 import SignupModal from '../ui/SignupModal';
 
 const Header = () => {
-  const { logout, isLoggedIn } = useAuth();
+  const { handleLogout, isLoggedIn } = useAuth();
 
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogoutButton = () => {
+    handleLogout();
     navigate('/login');
   }
 
@@ -143,7 +143,7 @@ const Header = () => {
 
                             <span>Settings</span>
                           </Link>
-                          <Link to='/login' onClick={handleLogout}>
+                          <Link to='/login' onClick={handleLogoutButton}>
                             <span className='al_menu_icon'> <PiSignOut /> </span>
                             <span>Log Out</span>
                           </Link>
