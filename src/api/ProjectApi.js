@@ -1,10 +1,15 @@
 import { axiosBaseQuery } from "../helpers/axios/baseQuery";
 
 
-export const projectApi = {
+const projectApi = {
   getAllProjects: async () =>
     axiosBaseQuery({
       url: "/projects",
+      method: "GET",
+    }),
+    getSingleProject: async (projectId) =>
+    axiosBaseQuery({
+      url:  `/projects/${projectId}`,
       method: "GET",
     }),
 

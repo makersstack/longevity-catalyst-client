@@ -7,7 +7,7 @@ export const menuData = [
       id: 1,
       title: 'Dashboard',
       icon: <LuBarChart2 />,
-      route: '/user/dashboard'
+      route: '/dashboard/home'
   },
   {
       id: 2,
@@ -17,12 +17,12 @@ export const menuData = [
           {
               id: 2.1,
               title: 'All Project',
-              route: '/user/project/all',
+              route: '/dashboard/project/all',
           },
           {
               id: 2.2,
               title: 'Add Project',
-              route: '/user/project/add',
+              route: '/dashboard/project/add',
           },
       ],
   },
@@ -34,12 +34,12 @@ export const menuData = [
         {
             id: 3.1,
             title: 'View Profile',
-            route: '/user/profile/view',
+            route: '/dashboard/profile/view',
         },
         {
             id: 3.2,
             title: 'Update Profile',
-            route: '/user/profile/update',
+            route: '/dashboard/profile/update',
         },
     ],
   },
@@ -47,7 +47,7 @@ export const menuData = [
       id: 4,
       title: 'Change Password',
       icon: <LuLock />,
-      route: '/user/password/change'
+      route: '/dashboard/password/change'
   },
   {
       id: 5,

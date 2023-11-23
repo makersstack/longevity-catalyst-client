@@ -5,7 +5,7 @@ import CheckBoxButton from '../../components/common/CheckBoxButton';
 import DargFileAttech from '../../components/common/DargFileAttech';
 import TextEditor from '../../components/common/TextEditor';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
-import { baseUrl } from '../../globals';
+import { avatersFor } from '../../constants/avaters';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditUserProfile = () => {
@@ -205,7 +205,7 @@ const EditUserProfile = () => {
                                 </div>
                                 <div className='list_input upload_avater_withOld'>
                                     <div className="show_old_avater">
-                                        <img src={`${baseUrl}assets/img/demo-user-4.png`} alt="profile_img" />
+                                        <img src={avatersFor.user} alt="profile_img" />
                                     </div>
                                     <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
                                 </div>

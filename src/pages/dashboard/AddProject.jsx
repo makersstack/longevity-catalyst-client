@@ -10,16 +10,16 @@ import DatePickerInput from "../../components/ui/DatePickerInput";
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
-import { getNewAccessToken } from '../../services/auth.service';
+import categoryApi from '../../api/CategoryApi';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
 
     const [isLoading, setIsLoading] = useState();
-   
 
 
-    
+
+
 
     const navigate = useNavigate();
     ScrollToTop();
@@ -84,6 +84,9 @@ const AddProject = () => {
             case 'project_keywords':
                 error = value.lists.length === 0 ? 'Project Keywords is Required!' : '';
                 break;
+            case 'primary_category':
+                error = value.trim().length === 0 ? 'Primary Category is Required!' : '';
+                break;
             default:
                 break;
         }
@@ -96,8 +99,8 @@ const AddProject = () => {
     const [project_keywords, set_project_keywords] = useState({});
     const [required_skill_list, set_required_skill_list] = useState({});
     const [expected_cost, set_expected_cost] = useState({});
-    const [final_deliverable_details, set_final_deliverable_details] = useState({}); 
-    const [relevant_literature_link, set_relevant_literature_link] = useState({}); 
+    const [final_deliverable_details, set_final_deliverable_details] = useState({});
+    const [relevant_literature_link, set_relevant_literature_link] = useState({});
 
     const handleBlur = (event) => {
 
@@ -200,6 +203,13 @@ const AddProject = () => {
             }));
             isValid = false;
         }
+        if (formDataObject.primary_category.trim().length === 0 ) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                primary_category: ' Primary Category is Required!',
+            }));
+            isValid = false;
+        }
 
         if (!isValid) {
             if (formRef.current) {
@@ -213,14 +223,14 @@ const AddProject = () => {
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = projectApi.createProject(formData)
+                const promise = projectApi.createProject(formDataObject)
 
                 await toast.promise(promise, {
                     loading: 'Submitting...',
                     success: (response) => {
                         if (response?.data?.success) {
                             setIsLoading(false);
-                            navigate('/user/project/all');
+                            navigate('/dashboard/project/all');
                             return 'Submit Has bin successful!';
                         } else {
                             return 'Unexpected error occurred';
@@ -247,13 +257,28 @@ const AddProject = () => {
         setIsActiveMenu(!isActiveMenu);
     }
 
-    const handelRefreshToken = async () => {
-      const response =  await getNewAccessToken();
-      console.log(response);
-    }
+    // fetching ui data 
+    const [primaryCateOption, setprimaryCateOption] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await categoryApi.getAllCategories();
+                const primary_category = response?.data?.data || [];
+                setprimaryCateOption(primary_category);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(); // Invoke the fetchData function
+    }, []);
+
+    console.log(primaryCateOption);
+
+
     return (
         <section className="full_widht_auth_section">
-            
+
             <div className="container">
                 <div className="dashboard">
                     {/* <!-- Dashboard Menu --> */}
@@ -266,7 +291,7 @@ const AddProject = () => {
                                 <AiOutlineMenuUnfold />
                             </button>
                             <h3 className="title">Add Project</h3>
-                            <button className='btn btn-primary' onClick={handelRefreshToken}>Create Refresh Token</button>
+
                         </div>
                         <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
                             <div className="two_columns">
@@ -347,7 +372,7 @@ const AddProject = () => {
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
-                                    <ListInput alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter"/>
+                                    <ListInput alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter" />
                                     {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
                                 </div>
 
@@ -365,6 +390,25 @@ const AddProject = () => {
 
                                     </div>
                                 </div>
+                            </div>
+                            <div className="two_columns">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control">
+                                    <label htmlFor="primary_category">
+                                        Primary Category:
+                                        <span>*</span>
+                                    </label>
+                                    <select name="primary_category" id="primary_category" onChange={handleInputChange}>
+                                        <option value="">Select</option>
+                                        {
+                                            primaryCateOption.map(singleData => <option key={singleData.id} value={singleData.id}>{singleData.category_name}</option>)
+                                        }
+
+                                    </select>
+                                    {errorMsg.primary_category && <div className='error-msg'>{errorMsg.primary_category}</div>}
+                                </div>
+
+
                             </div>
                             {/* <!-- Form Sub Title Text --> */}
                             <p className="form_subtitle">
@@ -481,7 +525,7 @@ const AddProject = () => {
                                     >List the skills that this project will require.
                                     </label>
 
-                                    <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+                                    <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
                                 </div>
 
@@ -545,9 +589,9 @@ const AddProject = () => {
                                     <label htmlFor="expected_cost"
                                     >What is your budget or the expected cost of this project ?
                                     </label>
-                                 
 
-                                    <ListInput type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
+                                    <ListInput type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
 
                                 </div>
@@ -569,9 +613,9 @@ const AddProject = () => {
                                         Please describe the final deliverable in as much detail as
                                         possible.
                                     </label>
-                                
 
-                                    <ListInput type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
+                                    <ListInput type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
 
                                 </div>
@@ -588,8 +632,8 @@ const AddProject = () => {
                                         Provide links to any relevant literature that may help your
                                         project match.
                                     </label>
-                                   
-                                    <ListInput type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.."/>
+
+                                    <ListInput type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
