@@ -15,9 +15,9 @@ export const authApi = {
       data: userData,
     }),
 
-  getUserProfile: async () =>
+  getUserProfile: async (userId) =>
     axiosBaseQuery({
-      url: "/auth/user-profile",
+      url: `/users/profile/${userId}`, 
       method: "GET",
     }),
 

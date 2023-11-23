@@ -5,7 +5,7 @@ import { menuData } from '../../data/dashboardData';
 import useAuth from '../../hooks/UseAuth';
 
 const RanderNav = () => {
-  const { logout } = useAuth();
+  const { handleLogout } = useAuth();
   
   const [isOpenState, setIsOpenState] = useState({});
 
@@ -17,7 +17,7 @@ const RanderNav = () => {
   };
 
   const LogOuthandel = () => {
-    logout();
+    handleLogout();
     return <Navigate to="/login" />
   }
   return (

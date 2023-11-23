@@ -11,7 +11,7 @@ import ScrollToTop from '../../utils/RouteChange';
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const navigate = useNavigate();
-    const { storeUserInfo } = useAuth();
+    const { handleLoginSuccess } = useAuth();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/user/dashboard';
     const mes = {};
@@ -114,7 +114,7 @@ const Login = () => {
 
                             // setAuth({accessToken: response.data.data.accessToken});
 
-                            storeUserInfo({ accessToken: response.data.data.accessToken });
+                            handleLoginSuccess({ accessToken: response.data.data.accessToken });
 
                             navigate(from, { replace: true });
 

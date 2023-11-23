@@ -8,6 +8,7 @@ import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
   ScrollToTop();
+
   return (
     <>
       {/* ST:- Banner section */}

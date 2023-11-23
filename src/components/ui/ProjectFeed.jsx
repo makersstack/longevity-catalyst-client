@@ -10,7 +10,7 @@ import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckDat
 
 
 import '../../assets/styles/projectFeed.css';
-import LikeButton from '../LikeShare/LikeButton';
+import LikeButton from '../likeShare/LikeButton';
 
 import { projectApi } from '../../api';
 
@@ -18,6 +18,7 @@ import { avatersFor } from '../../constants/avaters';
 import dateTimeHel from '../../utils/dateTimeHel';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
+import SocailModal from './SocailModal';
 
 
 const ProjectFeed = () => {
@@ -27,6 +28,13 @@ const ProjectFeed = () => {
   const [projects, setProjects] = useState([]);
 
   const [isSideBarActive, setSideBarActive] = useState(false);
+
+  // Top Filter
+  const [selectedTopOption, setSelectedTopOption] = useState('latest');
+
+  const handleTopOptionChange = (value) => {
+    setSelectedTopOption(value);
+  };
 
   // useEffect(() => {
   //   fetch('/data.json')
@@ -38,15 +46,13 @@ const ProjectFeed = () => {
   //     .catch((error) => console.error('Error fetching data:', error));
   // }, []);
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await projectApi.getAllProjects();
-        const projectsData = response?.data?.data || []; // Extract the 'data' array
+        const projectsData = response?.data?.data || [];
         setProjects(projectsData); // Set projects state with the extracted data
-        setFilteredProjects(projectsData); // Set filteredProjects state as well if needed
+        setFilteredProjects(projectsData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -55,13 +61,6 @@ const ProjectFeed = () => {
     fetchData(); // Invoke the fetchData function
   }, []);
 
-
-  // Top Filter
-  const [selectedTopOption, setSelectedTopOption] = useState('latest');
-
-  const handleTopOptionChange = (value) => {
-    setSelectedTopOption(value);
-  };
   // Sidebar Content
   function filterProjects(filters, projects) {
     const {
@@ -73,14 +72,11 @@ const ProjectFeed = () => {
       selectedFundingStatus,
       selectedLanguage,
     } = filters;
-
     return projects.filter((project) => {
-      // Debug statements to check values
-      // console.log('Search:', search);
-      // console.log('Project Name:', project.projectName.toLowerCase());
       // Apply your filter logic here based on the filter criteria
       // For example, you can use if statements to check each filter
       if (search && !project.project_name.toLowerCase().includes(search.toLowerCase())) {
+        console.log(search);
         return false;
       }
 
@@ -91,6 +87,7 @@ const ProjectFeed = () => {
       return true;
     });
   }
+
   const [filters, setFilters] = useState({
     search: '',
     selectedCategory: '',
@@ -102,16 +99,12 @@ const ProjectFeed = () => {
   });
 
   useEffect(() => {
-
     const filtered = filterProjects(filters, projects);
     setFilteredProjects(filtered);
 
   }, [filters, projects]);
 
   const handlePageChange = (filterType, value) => {
-    console.log('onPageChange called with:', filterType, value);
-
-
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
@@ -126,12 +119,25 @@ const ProjectFeed = () => {
         prevFilteredProjects
       );
     });
+
     if (filterType !== 'textsearch') {
       setSideBarActive(!isSideBarActive);
     }
 
   };
+  // For modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const postLink = "http://localhost:3000/single-project";
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  
+  // for Side bar
   const sideBarRef = useRef();
   const handelSideBarButton = (e) => {
     e.preventDefault();
@@ -196,7 +202,6 @@ const ProjectFeed = () => {
                     <div className="profile_image">
                       <button onClick={() => navigation(`${project?.User?.username}`)}>
                         <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
-
                       </button>
                     </div>
                     <div className="post_user_fet">
@@ -249,7 +254,10 @@ const ProjectFeed = () => {
                       </div>
                       <p>and {project.likesCount} people liked this post.</p>
                     </div>
-                    <button className="project_effective_button">
+
+                    {/* For Share */}
+                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={postLink} />
+                    <button className="project_effective_button" onClick={openModal}>
                       <RiShareForwardFill /> Share
                     </button>
                   </div>

@@ -821,6 +821,74 @@ input:disabled {
 .post_arrow .downvoteBtn svg.downvoted {
   fill: red;
 }
+/* Modal Socail */
+.socail_modal {
+  padding: 10px 20px;
+}
+.socail_modal h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #01001a;
+  text-align: left;
+}
+.socail_modal_list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+  padding: 20px 0;
+}
+.socail_modal_list button {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid gray;
+  border-radius: 50%;
+  font-size: 24px;
+}
+.socail_modal_list button:hover {
+  border-color: #007aff;
+  color: #007aff;
+}
+.socail_modal_body {
+  text-align: left;
+}
+.socail_modal_body p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #101828;
+  padding-bottom: 5px;
+}
+.socail_modal_body .copy_link {
+  position: relative;
+  width: 100%;
+}
+.socail_modal_body .copy_link input {
+  width: 100%;
+  border: 1px solid gray;
+  outline: none;
+  box-shadow: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  padding-right: 50px;
+}
+.socail_modal_body .copy_link button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  padding-right: 15px;
+  color: #01001a;
+  font-weight: 600;
+  font-size: 14px;
+}
+/* For Dashboard Fetch All Project by user */
+.dashboard_all_projectBody {
+  padding: 20px;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

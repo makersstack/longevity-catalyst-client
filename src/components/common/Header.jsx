@@ -13,13 +13,13 @@ import CustomSelect from '../ui/CustomSelect';
 import SignupModal from '../ui/SignupModal';
 
 const Header = () => {
-  const { logout, isLoggedIn } = useAuth();
-
+  const { handleLogout, isLoggedIn, userInfo } = useAuth();
+  
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogoutButton = () => {
+    handleLogout();
     navigate('/login');
   }
 
@@ -87,6 +87,12 @@ const Header = () => {
     closeDropdown();
   }, [location.pathname]);
 
+  // For User
+  if (!userInfo) {
+    return <div>Loading...</div>;
+  }
+
+  const avatarSrc = userInfo.profileImage || avatersFor;
 
   return (
     <header>
@@ -123,7 +129,7 @@ const Header = () => {
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
                   <img
-                    src={avatersFor.user}
+                    src={avatarSrc}
                     alt="Avater"
                     className="profile-image"
                     onClick={toggleDropdown}
@@ -145,7 +151,7 @@ const Header = () => {
 
                             <span>Settings</span>
                           </Link>
-                          <Link to='#' onClick={handleLogout}>
+                          <Link to='/login' onClick={handleLogoutButton}>
                             <span className='al_menu_icon'> <PiSignOut /> </span>
                             <span>Log Out</span>
                           </Link>

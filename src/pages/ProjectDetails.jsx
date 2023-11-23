@@ -35,7 +35,7 @@ const ProjectDetails = () => {
     };
 
     fetchSingleProject(); // Fetch the project data when the component mounts
-  }, [projectId]);
+  }, [navigate, projectId]);
 
 
  
