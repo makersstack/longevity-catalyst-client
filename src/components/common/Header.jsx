@@ -7,7 +7,7 @@ import { PiSignOut } from 'react-icons/pi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
-import { baseUrl } from '../../globals';
+import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
 import CustomSelect from '../ui/CustomSelect';
 import SignupModal from '../ui/SignupModal';
@@ -77,14 +77,16 @@ const Header = () => {
   const location = useLocation();
 
   const getLinkText = () => {
-    if (location.pathname === '/user/dashboard') {
+    if (location.pathname.startsWith('/dashboard/')) {
       return 'Home';
-    } else if (location.pathname === '/') {
+    } else {
       return 'Dashboard';
     }
-    // Add more conditions if needed
-    return 'Dashboard';
   };
+  useEffect(() => {
+    closeDropdown();
+  }, [location.pathname]);
+
 
   return (
     <header>
@@ -116,12 +118,12 @@ const Header = () => {
             </button>
             {
               isLoggedIn ? <>
-                <Link to={location.pathname === '/user/dashboard' ? '/' : '/user/dashboard'} className='btn btn-dark'>
+                <Link to={location.pathname.startsWith('/dashboard/') ? '/' : '/dashboard/home'} className='btn btn-dark'>
                   {getLinkText()}
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
                   <img
-                    src={`${baseUrl}assets/img/demo-user-3.png`}
+                    src={avatersFor.user}
                     alt="Avater"
                     className="profile-image"
                     onClick={toggleDropdown}
@@ -130,20 +132,20 @@ const Header = () => {
                     <div className="dropdown-content">
                       <div className="user_dropdown_menu">
                         <div className="user_dropdown_menu_itme">
-                          <Link to='/user/dashboard' >
+                          <Link to='/dashboard/home' >
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
                           </Link>
-                          <Link to='/user/profile/update' >
+                          <Link to='/dashboard/profile/update' >
                             <span className='al_menu_icon'> <FaRegUser /> </span>
                             <span>Profile</span>
                           </Link>
-                          <Link to='/user/password/change' >
+                          <Link to='/dashboard/password/change' >
                             <span className='al_menu_icon'> <HiOutlineCog /> </span>
 
                             <span>Settings</span>
                           </Link>
-                          <Link to='/login' onClick={handleLogout}>
+                          <Link to='#' onClick={handleLogout}>
                             <span className='al_menu_icon'> <PiSignOut /> </span>
                             <span>Log Out</span>
                           </Link>

@@ -8,7 +8,7 @@ const IfAuthCheck = () => {
     const { isLoggedIn } = useAuth();
 
     return isLoggedIn
-        ? <Navigate to='/user/dashboard' state={{ from: location }} replace />
+        ? <Navigate to='/dashboard/home' state={{ from: location }} replace />
         : <Outlet />
 };
 

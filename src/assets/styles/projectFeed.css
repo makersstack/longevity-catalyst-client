@@ -96,7 +96,7 @@
   color: #667085;
   padding: 20px 0;
 }
-.card_body a {
+.card_body .al_project_learn_more {
   color: #333;
   font-size: 16px;
   font-style: normal;
@@ -110,7 +110,7 @@
   transition: 0.3s;
   max-width: 110px;
 }
-.card_body a:hover {
+.card_body .al_project_learn_more:hover {
   color: #555;
   text-decoration: underline;
 }

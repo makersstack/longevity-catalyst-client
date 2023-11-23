@@ -8,7 +8,6 @@ import PageNotFound from '../pages/PageNotFound'
 import ProfileShow from '../pages/ProfileShow'
 import Login from '../pages/auth/Login'
 import SignUp from '../pages/auth/SignUp'
-import Dashboard from '../pages/dashboard/Dashboard'
 
 const PublicRoutes = () => {
   return (
@@ -22,9 +21,8 @@ const PublicRoutes = () => {
         <Route path="/sign-up/:type" element={<SignUp />} />
       </Route>
 
-      <Route path="/dashboard" element={<Dashboard />} />
-      
       <Route path="/:profile" element={<ProfileShow />} />
+     
       
 
       <Route path="*" element={<PageNotFound />} />
