@@ -164,7 +164,11 @@
   letter-spacing: 0.65px;
   margin-bottom: 9px;
   display: inline-block;
+  border-radius: 12px;
 }
+/* .project_side_bar label:hover {
+  outline: 1px solid #404145;
+} */
 .project_side_bar.side_ber_style_2 label {
   color: #404145;
   font-size: 20px;
@@ -189,9 +193,27 @@
 .project_side_bar input::placeholder,
 .project_side_bar select {
   color: #aaa;
+  outline: none;
+}
+.project_side_bar select {
+  -webkit-appearance: none;
+
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("../images/chevron-down.svg");
+  background-repeat: no-repeat;
+  background-size: 26px;
+  background-position: 98% 55%;
 }
 .input_box:not(:last-child) {
   margin-bottom: 40px;
+}
+.project_side_bar select:hover,
+.project_side_bar select:focus,
+.project_side_bar input:hover,
+.project_side_bar input:focus {
+  outline: 1px solid #404145;
 }
 .input_box h4 {
   color: #404145;

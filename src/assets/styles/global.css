@@ -889,6 +889,32 @@ input:disabled {
 .dashboard_all_projectBody {
   padding: 20px;
 }
+.al_add_comment_box {
+  padding-top: 20px;
+}
+/* For Header */
+.header_search_menu {
+  position: relative;
+}
+.meghamenu_header {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  background: #aaa;
+  transition: 0.3s all ease-in;
+}
+.header_search_menu:focus-within input[type="search"] {
+  border-color: transparent;
+}
+.header_search_menu:focus-within > .meghamenu_header {
+  opacity: 1;
+  visibility: visible;
+  top: 50px;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

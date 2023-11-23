@@ -15,6 +15,7 @@ import LikeButton from '../likeShare/LikeButton';
 import { projectApi } from '../../api';
 
 import { avatersFor } from '../../constants/avaters';
+import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
@@ -127,7 +128,6 @@ const ProjectFeed = () => {
   };
   // For modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const postLink = "http://localhost:3000/single-project";
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -136,7 +136,7 @@ const ProjectFeed = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
+
   // for Side bar
   const sideBarRef = useRef();
   const handelSideBarButton = (e) => {
@@ -230,7 +230,6 @@ const ProjectFeed = () => {
                   <p className="card_text">
                     {project.project_desc}
                   </p>
-
                   <Link to={`/project/${project.id}`} className='al_project_learn_more'>
                     Learn more <HiArrowNarrowRight />
                   </Link>
@@ -256,7 +255,7 @@ const ProjectFeed = () => {
                     </div>
 
                     {/* For Share */}
-                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={postLink} />
+                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}/project/${project.id}`} />
                     <button className="project_effective_button" onClick={openModal}>
                       <RiShareForwardFill /> Share
                     </button>

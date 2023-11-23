@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const customStyles = {
+export const customStyles = {
   control: (provided, state) => ({
     ...provided,
     border: state.isFocused ? '1px solid #ccc' : '1px solid #ccc',
@@ -53,7 +53,7 @@ const customStyles = {
   }),
 };
 
-const options = [
+export const headerSelectOptions = [
   { value: 'explore', label: 'Explore'},
   { value: 'ct_1', label: 'Machine Learning' },
   { value: 'ct_2', label: 'Blockchain Technology' },
@@ -67,10 +67,10 @@ const CustomSelect = () => {
   return (
     <Select
       styles={customStyles}
-      options={options}
+      options={headerSelectOptions}
       isSearchable={false}
       placeholder="Explore"
-      defaultValue={options[0]}
+      defaultValue={headerSelectOptions[0]}
     />
   );
 };

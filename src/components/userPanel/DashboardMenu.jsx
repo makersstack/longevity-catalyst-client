@@ -6,12 +6,16 @@ import useAuth from '../../hooks/UseAuth';
 import RanderNav from './RanderNav';
 
 const DashboardMenu = ({ isActiveMenu }) => {
-    const { userInfo } = useAuth();
-    if (!userInfo) {
-        return <div>Loading...</div>;
+    const { userInfo, isLoggedIn } = useAuth();
+    
+    if (isLoggedIn) {
+        // For User
+        if (!userInfo) {
+          return <div>Loading...</div>;
+        }
       }
     
-    const avatarSrc = userInfo.profileImage || avatersFor;
+      const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
     return (
         <div className={`dashboard_menu ${isActiveMenu ? 'activemenu' : ''} `}>
             {/* <!-- Menu Profile --> */}

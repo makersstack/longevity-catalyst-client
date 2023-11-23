@@ -21,12 +21,6 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* <Route path="/*" element={<PublicRoutes />} />
-      <Route path="/user/*" element={<PrivetRoutes />} />
-      <Route path="/project/*" element={<GlobalRoute />} />
-      <Route path="*" element={<PageNotFound />} /> */}
-
-
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<AboutUs />} />
       <Route path="/faqs" element={<FAQ />} />

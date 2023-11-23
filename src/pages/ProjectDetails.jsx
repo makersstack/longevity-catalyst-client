@@ -12,44 +12,35 @@ const ProjectDetails = () => {
   ScrollToTop();
   const [loading, setLoading] = useState(true)
   const [projectData, setProjectData] = useState(null);
-  const { projectId } = useParams(); // Get the project ID from the URL parameter
+  const { projectId } = useParams(); 
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchSingleProject = async () => {
       try {
-        // Fetch data for a single project based on the projectId
         const response = await projectApi.getSingleProject(projectId);
-        if(response?.data?.success){
-          setProjectData(response.data.data); // Set the fetched project data to state
-        }else{
+        if (response && response.data && response.data.success) {
+          setProjectData(response.data.data); 
+        } else{
           navigate('/404');
         }
-
       } catch (error) {
         console.error('Error fetching project:', error);
-        // Handle error states or show an error message
+        
       } finally {
-        setLoading(false); // Set loading to false after fetching data (success or error)
+        setLoading(false); 
       }
     };
 
-    fetchSingleProject(); // Fetch the project data when the component mounts
+    fetchSingleProject(); 
   }, [navigate, projectId]);
-
-
- 
-
-
 
   return (
 
     <div>
       {
-        loading ? (<div className='al_loader_container' ><div className="loader"></div></div>) : (
-
-
-
+        loading ? (<div className='al_loader_container'><div className="loader"></div></div>) : (
           <section className="full_widht_project_details_area section_padding">
             <div className="container">
               <div className="project_details_wrapper">
