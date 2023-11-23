@@ -15,6 +15,13 @@ export const projectApi = {
       throw new Error('Error fetching projects:', error);
     }
   },
+
+  getSingleProject: async (projectId) =>
+    axiosBaseQuery({
+      url:  `/projects/${projectId}`,
+      method: "GET",
+  }),
+
   getAllProjectsByUser: async (page = 1, limit = 5) => {
     try {
       return await axiosBaseQuery({
@@ -25,6 +32,7 @@ export const projectApi = {
       throw new Error('Error fetching projects by user:', error);
     }
   },
+  
   createProject: async (projectData) =>
     axiosBaseQuery({
       url: '/projects/create',

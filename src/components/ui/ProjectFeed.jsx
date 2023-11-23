@@ -8,14 +8,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
 
-import defaultAvatar from '../../assets/images/defaultAvatar.png';
+
 import '../../assets/styles/projectFeed.css';
-import calculateDurationFromNow from '../../utils/durationCalculate';
 import LikeButton from '../likeShare/LikeButton';
 
 import { projectApi } from '../../api';
+
+import { avatersFor } from '../../constants/avaters';
+import dateTimeHel from '../../utils/dateTimeHel';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
+import SocailModal from './SocailModal';
 
 
 const ProjectFeed = () => {
@@ -122,7 +125,19 @@ const ProjectFeed = () => {
     }
 
   };
+  // For modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const postLink = "http://localhost:3000/single-project";
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  
+  // for Side bar
   const sideBarRef = useRef();
   const handelSideBarButton = (e) => {
     e.preventDefault();
@@ -186,7 +201,7 @@ const ProjectFeed = () => {
                   <div className="post_auth_info">
                     <div className="profile_image">
                       <button onClick={() => navigation(`${project?.User?.username}`)}>
-                        <img src={project?.User?.profileImage || defaultAvatar} alt={project?.User?.username} />
+                        <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
                       </button>
                     </div>
                     <div className="post_user_fet">
@@ -194,7 +209,7 @@ const ProjectFeed = () => {
                         {project?.User?.full_name}
                       </button>
                       <div className="post-features">
-                        <FaUserAlt /> Friends <span></span> {calculateDurationFromNow(project.createdAt)}
+                        <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
                       </div>
                     </div>
                   </div>
@@ -209,11 +224,14 @@ const ProjectFeed = () => {
                 </div>
                 {/* card body */}
                 <div className="card_body">
-                  <h4 className="card_title">{project.project_name}</h4>
+                  <Link to={`/project/${project.id}`}>
+                    <h4 className="card_title">{project.project_name}</h4>
+                  </Link>
                   <p className="card_text">
                     {project.project_desc}
                   </p>
-                  <Link to="single-project">
+
+                  <Link to={`/project/${project.id}`} className='al_project_learn_more'>
                     Learn more <HiArrowNarrowRight />
                   </Link>
                 </div>
@@ -225,18 +243,21 @@ const ProjectFeed = () => {
                     <div className="project_reso_details">
                       <div className="likded_users">
                         <Link to="/">
-                          <img src={defaultAvatar} alt={`userImage`} />
+                          <img src={avatersFor.user} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={defaultAvatar} alt={`userImage`} />
+                          <img src={avatersFor.user} alt={`userImage`} />
                         </Link>
                         <Link to="/">
-                          <img src={defaultAvatar} alt={`userImage`} />
+                          <img src={avatersFor.user} alt={`userImage`} />
                         </Link>
                       </div>
                       <p>and {project.likesCount} people liked this post.</p>
                     </div>
-                    <button className="project_effective_button">
+
+                    {/* For Share */}
+                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={postLink} />
+                    <button className="project_effective_button" onClick={openModal}>
                       <RiShareForwardFill /> Share
                     </button>
                   </div>

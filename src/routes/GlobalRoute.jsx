@@ -9,10 +9,10 @@ const GlobalRoute = () => {
   return (
     <Routes>
       <Route element={<RequireAuth />}>
-        <Route path="/single-project" element={<ProjectDetails />} />
         <Route path="/:username/single-project" element={<ProjectDetails />} />
         <Route path="/contributor/:username" element={<ContributorProfile />} />
       </Route>
+      <Route path="/:id" element={<ProjectDetails />} />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>

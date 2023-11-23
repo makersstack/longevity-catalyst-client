@@ -1,242 +1,274 @@
-import React from 'react';
-import { BsCheckSquare } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import UserProfileImage from '../assets/images/user-1.png';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { projectApi } from '../api';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
+
+import { PiCheckThin } from 'react-icons/pi';
+import { avatersFor } from '../constants/avaters';
 import ScrollToTop from '../utils/RouteChange';
+import dateTimeHel from '../utils/dateTimeHel';
 const ProjectDetails = () => {
   ScrollToTop();
+  const [loading, setLoading] = useState(true)
+  const [projectData, setProjectData] = useState(null);
+  const { projectId } = useParams(); // Get the project ID from the URL parameter
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSingleProject = async () => {
+      try {
+        // Fetch data for a single project based on the projectId
+        const response = await projectApi.getSingleProject(projectId);
+        if(response?.data?.success){
+          setProjectData(response.data.data); // Set the fetched project data to state
+        }else{
+          navigate('/404');
+        }
+
+      } catch (error) {
+        console.error('Error fetching project:', error);
+        // Handle error states or show an error message
+      } finally {
+        setLoading(false); // Set loading to false after fetching data (success or error)
+      }
+    };
+
+    fetchSingleProject(); // Fetch the project data when the component mounts
+  }, [navigate, projectId]);
+
+
+ 
+
+
+
   return (
+
     <div>
-      {/* ST:- project details section */}
-      <section className="full_widht_project_details_area section_padding">
-        <div className="container">
-          <div className="project_details_wrapper">
-            {/* Project left show box  */}
-            <div className="project_show_left_box">
-              {/* show details content */}
-              <div className="show_project_details">
-                {/* project head */}
-                <div className="project_details_head">
-                  <span className="project_time">27 April 2023</span>
-                  <div className="post_auth_info">
-                    <div className="profile_image">
-                      <Link to="/project/esther-howard">
-                        <img src={UserProfileImage} alt="userImage" />
-                      </Link>
+      {
+        loading ? (<div className='al_loader_container' ><div className="loader"></div></div>) : (
+
+
+
+          <section className="full_widht_project_details_area section_padding">
+            <div className="container">
+              <div className="project_details_wrapper">
+                {/* Project left show box  */}
+                <div className="project_show_left_box">
+                  {/* show details content */}
+                  <div className="show_project_details">
+                    {/* project head */}
+                    <div className="project_details_head">
+                      <span className="project_time">{dateTimeHel.formatDateToString(projectData?.createdAt)}</span>
+                      <div className="post_auth_info">
+                        <div className="profile_image">
+                          <Link to={`/${projectData?.User?.username}`}>
+                            <img src={projectData?.User?.profileImage || avatersFor.user} alt={projectData?.User?.full_name} />
+                          </Link>
+                        </div>
+                        <div className="post_user_fet">
+                          <Link to={`/${projectData?.User?.username}`} title={projectData?.User?.username} className="user_name">
+                            {projectData?.User?.full_name}
+                          </Link>
+                          {/* [todo] */}
+                          <div className="user_title">As an {projectData?.User?.role}</div>
+                        </div>
+                      </div>
+                      <h2>{projectData?.project_name}</h2>
+                      <p>
+                        {projectData?.project_desc}
+                      </p>
+                      <Link to="#" className="btn btn-light head_btn">Schedule a Meeting</Link>
                     </div>
-                    <div className="post_user_fet">
-                      <Link to="/project/esther-howard" className="user_name">
-                        Esther Howard
-                      </Link>
-                      <div className="user_title">Product Designer</div>
+                    {/* project details show */}
+                    <div className="project_details_show">
+                      {/* single block */}
+                      {/* [todo] */}
+                      {/* {projectData?.required_skill_list && (
+                        <div className="details_block">
+                          <h5 className="block_title">Experience Required :</h5>
+                          {
+                            JSON.parse(projectData?.required_skill_list).map((skill, index) => (
+                              <p key={index}>{skill}</p>
+                            ))
+                          }
+
+                        </div>
+                      )} */}
+
+
+                      {/* single block */}
+                      {projectData?.final_deliverable_details && (
+                        <div className="details_block">
+                          <h5 className="block_title">Description of Final Deliverable :</h5>
+                          <ul>
+                            {
+                              JSON.parse(projectData?.final_deliverable_details).map((det, index) => (
+                                <li key={index}>
+                                  {det}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* single block */}
+                      {projectData?.relevant_link && (
+                        <div className="details_block">
+                          <h5 className="block_title">Links to Relevant date :</h5>
+                          <ul>
+                            <li>
+                              <Link target='_blank' to={projectData?.relevant_link}>{projectData?.relevant_link}</Link>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* single block */}
+                      {projectData?.relevant_literature_link && (
+                        <div className="details_block">
+                          <h5 className="block_title">Links to Relevant Literature :</h5>
+                          <ul>
+                            {
+                              JSON.parse(projectData?.relevant_literature_link).map((link, index) => (
+                                <li key={index}>
+                                  <Link target='_blank' to={link}>{link}</Link>
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* single block */}
+                      {projectData?.other_included && (
+                        <div className="details_block">
+                          <h5 className="block_title">Additional Information :</h5>
+                          <p>
+                            {projectData?.other_included}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* single block add comment button  */}
+
                     </div>
                   </div>
-                  <h2>AI-driven Drug Discovery for Neurodegenerative Diseases</h2>
-                  <p>
-                    Developing an AI-driven platform to screen and identify
-                    potential drug candidates for the treatment of neurodegenerative
-                    diseases.
-                  </p>
-                  <Link to="/" className="btn btn-light head_btn">Schedule a Meeting</Link>
+                  {/* project details outer box  */}
+                  <div className="project_outer_box">
+                    {/* pin box  */}
+
+
+                    {/* comment box  */}
+                    <div className="details_block">
+                      <CommentBox />
+                    </div>
+                  </div>
                 </div>
-                {/* project details show */}
-                <div className="project_details_show">
-                  {/* single block */}
-                  <div className="details_block">
-                    <h5 className="block_title">Experience Required :</h5>
-                    <p>
-                      Advanced: Has extensive experience and a deep understanding of
-                      the skills required, can handle complex tasks and mentor
-                      others.
-                    </p>
-                  </div>
-                  {/* single block */}
-                  <div className="details_block">
-                    <h5 className="block_title">Experience Required :</h5>
-                    <ul>
-                      <li>
-                        A comprehensive report on the AI-driven platform and its
-                        performance in identifying potential drug candidates
-                      </li>
-                      <li>
-                        A ranked list of drug candidates with predicted efficacy and
-                        safety profiles
-                      </li>
-                      <li>
-                        Molecular models and interaction diagrams for the top drug
-                        candidates
-                      </li>
-                      <li>
-                        Well-documented code for the AI-driven platform, including
-                        training and validation data
-                      </li>
-                      <li>
-                        A proposed plan for experimental validation of the top drug
-                        candidates
-                      </li>
-                    </ul>
-                  </div>
-                  {/* single block */}
-                  <div className="details_block">
-                    <h5 className="block_title">Links to Relevant date :</h5>
-                    <ul>
-                      <li>
-                        <Link to="/">https://www.exampledata.com</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  {/* single block */}
-                  <div className="details_block">
-                    <h5 className="block_title">Links to Relevant Literature :</h5>
-                    <ul>
-                      <li>
-                        <Link to="/">https://www.relevantliterature.com</Link>
-                      </li>
-                      <li>
-                        <Link to="/">https://www.longevityresearch.com</Link>
-                      </li>
-                    </ul>
-                  </div>
-                  {/* single block */}
-                  <div className="details_block">
-                    <h5 className="block_title">Additional Information :</h5>
-                    <p>
-                      Collaboration with our research team via regular meetings and
-                      progress updates is required. Experience with experimental
-                      validation of drug candidates is a plus.
-                    </p>
-                  </div>
-                  {/* single block add comment button  */}
+                {/* Sidebar */}
+                <div className="project_side_ber_container">
+                  <div className="project_side_bar side_ber_style_2">
+                    <form action="/" method="post">
+                      <div className="input_box">
+                        <h4> Affiliation : </h4>
 
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.affiliation}</p>
+                        </div>
+                      </div>
+
+                      <div className="input_box">
+                        <h4> Keywords : </h4>
+                        <div className="input_box_keywords">
+                          {
+                            JSON.parse(projectData?.project_keywords).map((key, index) => (
+                              <p className='show_ct' key={index}>{key}</p>
+                            ))
+                          }
+                        </div>
+                      </div>
+
+                      <div className="input_box">
+                        <h4> Onsite Requirement : </h4>
+
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.onsite_work ? 'Yes' : 'No'}</p>
+                        </div>
+                      </div>
+
+                      <div className="input_box">
+                        <h4>Project Type : </h4>
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.projecType}</p>
+                        </div>
+                      </div>
+
+                      <div className="input_box">
+                        <h4>Member Needed : </h4>
+                        {/* [todo] */}
+                        <div className="input_box_keywords">
+
+                          <p className='show_ct'>3-4</p>
+                        </div>
+                      </div>
+
+
+                      <div className="input_box">
+                        <h4>Primary Category : </h4>
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.Category.category_name ? projectData?.Category.category_name : 'N/A'}</p>
+                        </div>
+                      </div>
+                      {projectData?.required_skill_list && (
+                        <div className="input_box required_skills">
+                          <h4> Required Skills </h4>
+                          <div className="required_skills_tags">
+                            {
+                              JSON.parse(projectData?.required_skill_list).map((skill, index) => (
+                                <div className="required_skill_single" key={index}>
+                                  <PiCheckThin />
+                                  <p>{skill}</p>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        </div>
+                      )}
+                      <div className="input_box">
+                        <h4>Deadline : </h4>
+
+                        <div className="input_box_keywords">
+                          <p className='show_ct'> {projectData?.p_deadline ? dateTimeHel.formatDateToString(projectData?.p_deadline) : 'Flexible'} </p>
+                        </div>
+                      </div>
+                      <div className="input_box">
+                        <h4>Expected Duration : </h4>
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.expectedTimeProject ? projectData?.expectedTimeProject : 'Flexible'}</p>
+                        </div>
+                      </div>
+                      <div className="input_box">
+                        <h4>Time to Start : </h4>
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{projectData?.readyToStart ? projectData?.readyToStart : 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="input_box">
+                        <h4>Project Submitted :</h4>
+                        <div className="input_box_keywords">
+                          <p className='show_ct'>{dateTimeHel.formatDateToString(projectData?.createdAt)}</p>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
                 </div>
-              </div>
-              {/* project details outer box  */}
-              <div className="project_outer_box">
-                {/* pin box  */}
-
-
-                {/* comment box  */}
-                <div className="details_block">
-                  <CommentBox />
-                </div>
-              </div>
-            </div>
-            {/* Sidebar */}
-            <div className="project_side_ber_container">
-              <div className="project_side_bar side_ber_style_2">
-                <form action="/" method="post">
-                  <div className="input_box">
-                    <h4> Affiliation : </h4>
-
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>MIT</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4> Keywords : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>Drug discovery</p>
-                      <p className='show_ct'>Artificial Intelligence</p>
-                      <p className='show_ct'>Neurodegenerative diseases</p>
-                      <p className='show_ct'>Machine Learning</p>
-                      <p className='show_ct'>Molecular Modeling</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4> Onsite Requirement : </h4>
-
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>N/A</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4>Project Type : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>Team</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4>Member Needed : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>3-4</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4>Primary Category : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>AI- driven Drug Discovery</p>
-                    </div>
-                  </div>
-
-                  <div className="input_box required_skills">
-                    <h4> Required Skills </h4>
-                    <div className="required_skills_tags">
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Python</p>
-                      </div>
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Machine learning</p>
-                      </div>
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Molecular modeling</p>
-                      </div>
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Cheminformatics</p>
-                      </div>
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Machine learning</p>
-                      </div>
-                      <div className="required_skill_single">
-                        <BsCheckSquare />
-                        <p>Pharmacology</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="input_box">
-                    <h4>Deadline : </h4>
-
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>Flexible</p>
-                    </div>
-                  </div>
-                  <div className="input_box">
-                    <h4>Expected Duration : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>4-6 Months</p>
-                    </div>
-                  </div>
-                  <div className="input_box">
-                    <h4>Time to Start : </h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>May 1, 2023</p>
-                    </div>
-                  </div>
-                  <div className="input_box">
-                    <h4>Project Submitted :</h4>
-                    <div className="input_box_keywords">
-                      <p className='show_ct'>Jun 27, 2023</p>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      {/* ED:- project details section */}
+          </section>
+        )
+      }
+
     </div>
   );
 };

@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ui/ProjectFeed';
-import SocailModal from '../components/ui/SocailModal';
 import TradingProjectSlider from '../components/ui/TradingProjectSlider';
 import TrustSlider from '../components/ui/TrustSlider';
 import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
   ScrollToTop();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const postLink = "http://localhost:3000/single-project";
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
 
   return (
     <>
@@ -37,11 +25,6 @@ const Home = () => {
             <Link to='/' className="btn btn-dark btn-lg">
               Get Started
             </Link>
-            <br />
-            <br />
-            <br />
-            <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={postLink} />
-            <button onClick={openModal}>Share</button>
           </div>
         </div>
       </section>

@@ -6,12 +6,12 @@ import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
-import defaultAvatar from '../../assets/images/defaultAvatar.png';
 import '../../assets/styles/dashboard.css';
 import LikeButton from '../../components/likeShare/LikeButton';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import { avatersFor } from '../../constants/avaters';
 import ScrollToTop from '../../utils/RouteChange';
-import calculateDurationFromNow from '../../utils/durationCalculate';
+// import calculateDurationFromNow from '../../utils/durationCalculate';
 
 const AllProject = () => {
     ScrollToTop();
@@ -69,7 +69,7 @@ const AllProject = () => {
                                             <div className="post_auth_info">
                                                 <div className="profile_image">
                                                     <button onClick={() => navigation(`${project?.user?.userName}`)}>
-                                                        <img src={project?.user?.profileImage || defaultAvatar} alt={project?.user?.userName} />
+                                                        <img src={project?.user?.profileImage || avatersFor} alt={project?.user?.userName} />
                                                     </button>
                                                 </div>
                                                 <div className="post_user_fet">
@@ -77,7 +77,7 @@ const AllProject = () => {
                                                         {project?.user?.fullName}
                                                     </button>
                                                     <div className="post-features">
-                                                        <FaUserAlt /> Friends <span></span> {calculateDurationFromNow(project.createdAt)}
+                                                        <FaUserAlt /> Friends <span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,13 +108,13 @@ const AllProject = () => {
                                                 <div className="project_reso_details">
                                                     <div className="likded_users">
                                                         <Link to="/">
-                                                            <img src={defaultAvatar} alt={`userImage`} />
+                                                            <img src={avatersFor} alt={`userImage`} />
                                                         </Link>
                                                         <Link to="/">
-                                                            <img src={defaultAvatar} alt={`userImage`} />
+                                                            <img src={avatersFor} alt={`userImage`} />
                                                         </Link>
                                                         <Link to="/">
-                                                            <img src={defaultAvatar} alt={`userImage`} />
+                                                            <img src={avatersFor} alt={`userImage`} />
                                                         </Link>
                                                     </div>
                                                     <p>and {project.likesCount} people liked this post.</p>
