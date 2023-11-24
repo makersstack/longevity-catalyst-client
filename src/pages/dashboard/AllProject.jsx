@@ -19,8 +19,10 @@ import dateTimeHel from '../../utils/dateTimeHel';
 
 const AllProject = () => {
     ScrollToTop();
+
     const {userInfo} = useAuth();
     const userName = userInfo?.username;
+
     const navigation = useNavigate();
     const [isActiveMenu, setIsActiveMenu] = useState(false);
     const handelDashMenu = () => {
@@ -34,9 +36,9 @@ const AllProject = () => {
         const fetchLatestProjects = async () => {
             setIsLoading(true);
             try {
-                const response = await projectApi.getAllProjectsByUsername(userName);
+                const response = await projectApi.getAllProjects();
                 const newProjects = response.data.data || [];
-                setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+                setProjects(newProjects);
             } catch (error) {
                 throw new Error("Error fetching projects", error);
             } finally {
@@ -47,7 +49,7 @@ const AllProject = () => {
     }, [userName]);
 
     const handleLoadMore = () => {
-       alert("Processing... Project Filters, Search Terms, and Pagination!")
+       alert("Processing... Project Filters, Search Terms, and Pagination!");
     };
     // For modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -83,12 +85,12 @@ const AllProject = () => {
                                         <div className="card_header">
                                             <div className="post_auth_info">
                                                 <div className="profile_image">
-                                                    <button onClick={() => navigation(`${project?.User?.username}`)}>
+                                                    <button onClick={() => navigation(`/${project?.User?.username}`)}>
                                                         <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
                                                     </button>
                                                 </div>
                                                 <div className="post_user_fet">
-                                                    <button onClick={() => navigation(`${project?.user?.username}`)} className="user_name">
+                                                    <button onClick={() => navigation(`/${project?.User?.username}`)} className="user_name">
                                                         {project?.User?.full_name}
                                                     </button>
                                                     <div className="post-features">
@@ -137,7 +139,7 @@ const AllProject = () => {
                                                     <p>and {project.likesCount} people liked this post.</p>
                                                 </div>
                                                 {/* For Share */}
-                                                <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}/project/${project.id}`} />
+                                                <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
                                                 <button className="project_effective_button" onClick={openModal}>
                                                     <RiShareForwardFill /> Share
                                                 </button>

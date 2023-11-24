@@ -33,13 +33,12 @@ const ContributorProfile = () => {
 
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchLatestProjects = async () => {
       setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjectsByUser(page, 3);
+        const response = await projectApi.getAllProjectsByUsername(userInfo.username);
         const newProjects = response.data.data || [];
         setProjects((prevProjects) => [...prevProjects, ...newProjects]);
       } catch (error) {
@@ -49,9 +48,9 @@ const ContributorProfile = () => {
       }
     }
     fetchLatestProjects();
-  }, [page]);
+  }, [userInfo.username]);
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1);
+    alert("Processing... Project Filters, Search Terms, and Pagination!");
   };
   // For modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +62,6 @@ const ContributorProfile = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
   return (
     <section className="full_width_contributer_section">
@@ -80,7 +78,7 @@ const ContributorProfile = () => {
                       <img src={avatarSrc} alt="user" />
                     </div>
                     <div className="info_block">
-                      <h3>Mark Hamalainen</h3>
+                      <h3>{userInfo.full_name}</h3>
                       <div className="user_title">Programmer</div>
                       <span className="follow_st">
                         <Link to="/">5000 follower </Link> .
@@ -323,7 +321,7 @@ const ContributorProfile = () => {
                         <p>and {project.likesCount} people liked this post.</p>
                       </div>
                       {/* For Share */}
-                      <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}/project/${project.id}`} />
+                      <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
                       <button className="project_effective_button" onClick={openModal}>
                         <RiShareForwardFill /> Share
                       </button>

@@ -253,7 +253,7 @@ const ProjectFeed = () => {
                     </div>
 
                     {/* For Share */}
-                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}/project/${project.id}`} />
+                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
                     <button className="project_effective_button" onClick={openModal}>
                       <RiShareForwardFill /> Share
                     </button>

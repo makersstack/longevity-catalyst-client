@@ -29,7 +29,6 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<AboutUs />} />
       <Route path="/faqs" element={<FAQ />} />
-      <Route path="/project/:projectId" element={<ProjectDetails />} />
       <Route path="/:username" element={<ProfileShow />} />
 
       <Route element={<IfAuthCheck />}>
@@ -38,6 +37,7 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<RequireAuth />}>
+        <Route path="/project/:projectId" element={<ProjectDetails />} />
         <Route path="/dashboard/contributor/:username" element={<ContributorProfile />} />
         <Route path="/dashboard/home" element={<Dashboard />} />
         <Route path="/dashboard/project/all" element={<AllProject />} />

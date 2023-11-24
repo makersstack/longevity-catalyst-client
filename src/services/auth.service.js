@@ -1,5 +1,6 @@
 import axios from "axios";
 import { authKey } from "../constants/storageKey";
+import { apiKey } from "../globals";
 import { decodedToken } from "../utils/jwt";
 import { getLocalStorage, setToLocalStorage } from "../utils/local-storage";
 
@@ -25,7 +26,7 @@ export const removeUserInfo = (key) => {
 
 export const getNewAccessToken = async () => {
   try {
-    const response = await axios.post('http://localhost:5000/api/v1/auth/refresh-token');
+    const response = await axios.post(apiKey);
 
     if (response.data && response.data.success) {
       const newAccessToken = response.data.data.accessToken;

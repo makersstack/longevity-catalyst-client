@@ -38,12 +38,6 @@ export const projectApi = {
     url: `/projects/user/${username}`,
     method: "GET",
   }),
-
-  getProjectsByUsername: async (username) =>
-  axiosBaseQuery({
-    url: `/users/${username}`,
-    method: "GET",
-  }),
   
   createProject: async (projectData) =>
     axiosBaseQuery({

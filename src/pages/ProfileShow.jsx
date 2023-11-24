@@ -26,38 +26,29 @@ const ProfileShow = ({ rating }) => {
   const [projects, setProjects] = useState([]);
   const [userInformatin, setUserInformatin] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await projectApi.getProjectsByUsername(username);
-        if (response?.data?.success) {
-          const projectsData = response?.data?.data || [];
-          setUserInformatin(projectsData);
-        } else {
-          // navigation('/404');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const [isLoading, setIsLoading] = useState(false);
 
-    fetchData(); // Invoke the fetchData function
-  }, [username]);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjectsByUser();
-        console.log(response);
+        const response = await projectApi.getAllProjectsByUsername(username);
         if (response?.data?.success) {
           const projectsData = response?.data?.data || [];
           setProjects(projectsData);
           setFilteredProjects(projectsData);
+          projectsData.forEach(project => {
+            const user = project.User;
+            setUserInformatin(user);
+          });
         } else {
           // navigation('/404');
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -178,7 +169,7 @@ const ProfileShow = ({ rating }) => {
                 onOptionChange={handleTopOptionChange} />
               {/* project show container */}
               <div className="project_show_cash">
-                {/* Render project cards */}
+
                 {filteredProjects.length !== 0 ? (
                   filteredProjects.map((project) => (
                     <div className="card" key={project.id}>
