@@ -1,32 +1,59 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { AiFillStar, AiOutlineLike, AiOutlineStar } from 'react-icons/ai';
-import { BiDownvote, BiSolidUpvote, BiUpvote, BiWorld } from 'react-icons/bi';
-import { FaRegCommentDots } from 'react-icons/fa';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import { BiDownvote, BiSolidUpvote, BiUpvote } from 'react-icons/bi';
+import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { projectApi } from '../api';
 import UserProfile from '../assets/images/profile-user.png';
 import '../assets/styles/profileShow.css';
+import LikeButton from '../components/LikeShare/LikeButton';
 import SidebarFilters from '../components/filter/SidebarFilters';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
+import { avatersFor } from '../constants/avaters';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';
+import dateTimeHel from '../utils/dateTimeHel';
 
 const ProfileShow = ({ rating }) => {
+  const { username } = useParams()
   const navigation = useNavigate();
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  // useEffect(() => {
+  //   fetch('/data.json')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setProjects(data);
+  //       setFilteredProjects(data);
+  //     })
+  //     .catch((error) => console.error('Error fetching data:', error));
+  // }, []);
+
+
   useEffect(() => {
-    fetch('/data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        setProjects(data);
-        setFilteredProjects(data);
-      })
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await projectApi.getAllProjectsByUsername(username);
+        if (response?.data?.success) {
+          const projectsData = response?.data?.data || [];
+          setProjects(projectsData);
+          setFilteredProjects(projectsData);
+        } else {
+          // navigation('/404');
+          console.log(username);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Invoke the fetchData function
+  }, [username]);
+
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -147,80 +174,90 @@ const ProfileShow = ({ rating }) => {
               {/* project show container */}
               <div className="project_show_cash">
                 {/* Render project cards */}
-                {filteredProjects.map((project) => (
-                  <div className="card" key={project.id}>
-                    {/* card header */}
-                    <div className="card_header">
-                      <div className="post_auth_info">
-                        <div className="profile_image">
-                          <button onClick={() => navigation(`/user/${project.author}`)}>
-                            <img src={project.profileImageUrl} alt="userProfile" />
+                {filteredProjects.length !== 0 ? (
+                  filteredProjects.map((project) => (
+                    <div className="card" key={project.id}>
+                      {/* card header */}
+                      <div className="card_header">
+                        <div className="post_auth_info">
+                          <div className="profile_image">
+                            <button onClick={() => navigation(`${project?.User?.username}`)}>
+                              <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
+
+                            </button>
+                          </div>
+                          <div className="post_user_fet">
+                            <button onClick={() => navigation(`${project?.User?.username}`)} className="user_name">
+                              {project?.User?.full_name}
+                            </button>
+                            <div className="post-features">
+                              <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="post_arrow">
+                          <button type="button">
+                            <BiUpvote />
+                          </button>
+                          <button>
+                            <BiDownvote />
                           </button>
                         </div>
-                        <div className="post_user_fet">
-                          <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
-                            {project.author}
+                      </div>
+                      {/* card body */}
+                      <div className="card_body">
+                        <Link to={`/project/${project.id}`}>
+                          <h4 className="card_title">{project.project_name}</h4>
+                        </Link>
+                        <p className="card_text">
+                          {project.project_desc}
+                        </p>
+
+                        <Link to={`/project/${project.id}`} className='al_project_learn_more'>
+                          Learn more <HiArrowNarrowRight />
+                        </Link>
+                      </div>
+                      {/* card footer */}
+                      <div className="card_footer">
+                        {/* project resource */}
+                        <div className="project_resourse">
+                          <LikeButton projectId={2} userId={2} />
+                          <div className="project_reso_details">
+                            <div className="likded_users">
+                              <Link to="/">
+                                <img src={avatersFor.user} alt={`userImage`} />
+                              </Link>
+                              <Link to="/">
+                                <img src={avatersFor.user} alt={`userImage`} />
+                              </Link>
+                              <Link to="/">
+                                <img src={avatersFor.user} alt={`userImage`} />
+                              </Link>
+                            </div>
+                            <p>and {project.likesCount} people liked this post.</p>
+                          </div>
+                          <button className="project_effective_button">
+                            <RiShareForwardFill /> Share
+                          </button>
+                        </div>
+                        {/* comment features */}
+                        <div className="project_comment_features">
+                          <button className="project_effective_button">
+                            <FaRegCommentDots /> Comment
                           </button>
                           <div className="post-features">
-                            <BiWorld /> Public <span></span> 5 hours ago
+                            <Link to="/">{project.commentsCount} Comments</Link> <span></span>
+                            <Link to="/">{project.sharesCount} Shares</Link>
                           </div>
                         </div>
                       </div>
-                      <div className="post_arrow">
-                        <button type="button">
-                          <BiUpvote />
-                        </button>
-                        <button>
-                          <BiDownvote />
-                        </button>
-                      </div>
                     </div>
-                    {/* card body */}
-                    <div className="card_body">
-                      <h4 className="card_title">{project.projectName}</h4>
-                      <p className="card_text">{project.projectDescription}</p>
-                      <Link to="single-project">
-                        Learn more <HiArrowNarrowRight />
-                      </Link>
-                    </div>
-                    {/* card footer */}
-                    <div className="card_footer">
-                      {/* project resource */}
-                      <div className="project_resourse">
-                        <button className="project_effective_button">
-                          <AiOutlineLike /> Like
-                        </button>
-                        <div className="project_reso_details">
-                          <div className="likded_users">
-                            <Link to="/">
-                              <img src={project.profileImageUrl} alt={`userImage`} />
-                            </Link>
-                            <Link to="/">
-                              <img src={project.profileImageUrl} alt={`userImage`} />
-                            </Link>
-                            <Link to="/">
-                              <img src={project.profileImageUrl} alt={`userImage`} />
-                            </Link>
-                          </div>
-                          <p>and {project.likesCount} people liked this post.</p>
-                        </div>
-                        <button className="project_effective_button">
-                          <RiShareForwardFill /> Share
-                        </button>
-                      </div>
-                      {/* comment features */}
-                      <div className="project_comment_features">
-                        <button className="project_effective_button">
-                          <FaRegCommentDots /> Comment
-                        </button>
-                        <div className="post-features">
-                          <Link to="/">{project.commentsCount} Comments</Link> <span></span>
-                          <Link to="/">{project.sharesCount} Shares</Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))
+
+                ) : (
+                  <p>No projects found.</p>
+                )}
+
               </div>
 
             </div>

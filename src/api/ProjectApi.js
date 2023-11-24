@@ -32,6 +32,13 @@ export const projectApi = {
       throw new Error('Error fetching projects by user:', error);
     }
   },
+
+
+  getAllProjectsByUsername: async (username) =>
+  axiosBaseQuery({
+    url: `/projects/user/${username}`,
+    method: "GET",
+  }),
   
   createProject: async (projectData) =>
     axiosBaseQuery({
