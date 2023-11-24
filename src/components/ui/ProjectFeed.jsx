@@ -10,7 +10,6 @@ import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckDat
 
 
 import '../../assets/styles/projectFeed.css';
-import LikeButton from '../likeShare/LikeButton';
 
 import { projectApi } from '../../api';
 
@@ -19,6 +18,7 @@ import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from './SocailModal';
 
 
@@ -28,7 +28,9 @@ const ProjectFeed = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  const [page, setPage] = useState(1);
   const [isSideBarActive, setSideBarActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -37,31 +39,27 @@ const ProjectFeed = () => {
     setSelectedTopOption(value);
   };
 
-  // useEffect(() => {
-  //   fetch('/data.json')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProjects(data);
-  //       setFilteredProjects(data); 
-  //     })
-  //     .catch((error) => console.error('Error fetching data:', error));
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjects();
+        const response = await projectApi.getAllProjectsByUser(page, 3);
         const projectsData = response?.data?.data || [];
         setProjects(projectsData); // Set projects state with the extracted data
         setFilteredProjects(projectsData);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally{
+        setIsLoading(false);
       }
     };
 
     fetchData(); // Invoke the fetchData function
-  }, []);
-
+  }, [page]);
+  
+ const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   // Sidebar Content
   function filterProjects(filters, projects) {
     const {
@@ -273,11 +271,13 @@ const ProjectFeed = () => {
                 </div>
               </div>
             ))}
-            <div className="project_show_footer">
-              <button type='button' className='btn btn_show_more'>
-                Load More
-              </button>
-            </div>
+            {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                  Load More
+                </button>
+              )}
           </div>
 
         </div>

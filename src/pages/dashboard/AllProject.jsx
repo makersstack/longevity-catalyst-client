@@ -12,12 +12,15 @@ import SocailModal from '../../components/ui/SocailModal';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 import dateTimeHel from '../../utils/dateTimeHel';
 // import calculateDurationFromNow from '../../utils/durationCalculate';
 
 const AllProject = () => {
     ScrollToTop();
+    const {userInfo} = useAuth();
+    const userName = userInfo?.username;
     const navigation = useNavigate();
     const [isActiveMenu, setIsActiveMenu] = useState(false);
     const handelDashMenu = () => {
@@ -26,13 +29,12 @@ const AllProject = () => {
     // For Fetch Project By user
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         const fetchLatestProjects = async () => {
             setIsLoading(true);
             try {
-                const response = await projectApi.getAllProjectsByUser(page, 3);
+                const response = await projectApi.getAllProjectsByUsername(userName);
                 const newProjects = response.data.data || [];
                 setProjects((prevProjects) => [...prevProjects, ...newProjects]);
             } catch (error) {
@@ -42,10 +44,10 @@ const AllProject = () => {
             }
         }
         fetchLatestProjects();
-    }, [page]);
+    }, [userName]);
 
     const handleLoadMore = () => {
-        setPage((prevPage) => prevPage + 1);
+       alert("Processing... Project Filters, Search Terms, and Pagination!")
     };
     // For modal
     const [isModalOpen, setIsModalOpen] = useState(false);

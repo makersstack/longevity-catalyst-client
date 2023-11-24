@@ -1,25 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { CiLocationOn } from "react-icons/ci";
-import { FaBell, FaWifi } from 'react-icons/fa';
+import { FaBell, FaRegCommentDots, FaUserAlt, FaWifi } from 'react-icons/fa';
 import { FiBriefcase, FiCalendar } from 'react-icons/fi';
+import { HiArrowNarrowRight, HiDotsVertical } from 'react-icons/hi';
 import { IoEyeOutline, IoHomeOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { RiShareForwardFill } from 'react-icons/ri';
+import { Link, useNavigate } from 'react-router-dom';
+import { projectApi } from '../api';
 import "../assets/styles/profileShow.css";
 import TopFilterButtons from '../components/filter/TopFilterButtons';
+import LikeButton from '../components/likeShare/LikeButton';
+import SocailModal from '../components/ui/SocailModal';
+import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
+import { baseUrl } from '../globals';
+import useAuth from '../hooks/UseAuth';
 import ScrollToTop from '../utils/RouteChange';
-
+import dateTimeHel from '../utils/dateTimeHel';
 const ContributorProfile = () => {
   ScrollToTop();
+  const navigation = useNavigate();
+  const { isLoggedIn, userInfo } = useAuth();
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
 
   const handelSideBarButton = (e) => {
     e.preventDefault();
   }
-
   const handleTopOptionChange = (value) => {
     setSelectedTopOption(value);
   };
+
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const fetchLatestProjects = async () => {
+      setIsLoading(true);
+      try {
+        const response = await projectApi.getAllProjectsByUser(page, 3);
+        const newProjects = response.data.data || [];
+        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+      } catch (error) {
+        throw new Error("Error fetching projects", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchLatestProjects();
+  }, [page]);
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+  // For modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
   return (
     <section className="full_width_contributer_section">
       <div className="container">
@@ -32,7 +77,7 @@ const ContributorProfile = () => {
                 <div className="side_bar_card">
                   <div className="profile_user_info">
                     <div className="image_block">
-                      <img src="./assets/img/team-member-1.jpeg" alt="user" />
+                      <img src={avatarSrc} alt="user" />
                     </div>
                     <div className="info_block">
                       <h3>Mark Hamalainen</h3>
@@ -50,9 +95,12 @@ const ContributorProfile = () => {
                           <FaWifi />
                           Follow
                         </Link>
-                        <button className="btn_more_bar">
-                          <i className="fas fa-ellipsis-v"></i>
-                        </button>
+                        <Link to="/" className="btn_more_bar">
+                          <HiDotsVertical />
+                        </Link>
+                        {/* <button className="btn_more_bar" >
+                          <HiDotsVertical />
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -132,9 +180,6 @@ const ContributorProfile = () => {
                       <p className='show_ct'>Cheminformatics</p>
                       <p className='show_ct'>Pharmacology</p>
                     </div>
-                    {/* <div className='demo'>
-                      <Link to="/" className="btn btn-gray btn-sm">Add Skills</Link>
-                    </div> */}
                   </div>
                 </div>
 
@@ -218,104 +263,91 @@ const ContributorProfile = () => {
             />
 
             <div className="project_show_cash">
-
-              <div className="card">
-
-                <div className="card_header">
-                  <div className="post_auth_info">
-                    <div className="profile_image">
-                      <Link to="/">
-                        <img src="demo.png" alt="demo" />
-                      </Link>
+              {projects.map((project) => (
+                <div className="card" key={project.id}>
+                  {/* card header */}
+                  <div className="card_header">
+                    <div className="post_auth_info">
+                      <div className="profile_image">
+                        <button onClick={() => navigation(`/${project?.User?.username}`)}>
+                          <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
+                        </button>
+                      </div>
+                      <div className="post_user_fet">
+                        <button onClick={() => navigation(`/${project?.User?.username}`)} className="user_name">
+                          {project?.User?.full_name}
+                        </button>
+                        <div className="post-features">
+                          <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
+                        </div>
+                      </div>
                     </div>
-                    <div className="post_user_fet">
-                      <Link href="profile-contributer.html" className="user_name">
-                        Esther Howard
-                      </Link>
+                    <div className="post_arrow">
+                      <button type="button">
+                        <BiUpvote />
+                      </button>
+                      <button>
+                        <BiDownvote />
+                      </button>
+                    </div>
+                  </div>
+                  {/* card body */}
+                  <div className="card_body">
+                    <Link to={`/project/${project.id}`}>
+                      <h4 className="card_title">{project.project_name}</h4>
+                    </Link>
+                    <p className="card_text">
+                      {project.project_desc}
+                    </p>
+                    <Link to={`/project/${project.id}`} className='al_project_learn_more'>
+                      Learn more <HiArrowNarrowRight />
+                    </Link>
+                  </div>
+                  {/* card footer */}
+                  <div className="card_footer">
+                    {/* project resource */}
+                    <div className="project_resourse">
+                      <LikeButton projectId={2} userId={2} />
+                      <div className="project_reso_details">
+                        <div className="likded_users">
+                          <Link to="/">
+                            <img src={avatersFor.user} alt={`userImage`} />
+                          </Link>
+                          <Link to="/">
+                            <img src={avatersFor.user} alt={`userImage`} />
+                          </Link>
+                          <Link to="/">
+                            <img src={avatersFor.user} alt={`userImage`} />
+                          </Link>
+                        </div>
+                        <p>and {project.likesCount} people liked this post.</p>
+                      </div>
+                      {/* For Share */}
+                      <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}/project/${project.id}`} />
+                      <button className="project_effective_button" onClick={openModal}>
+                        <RiShareForwardFill /> Share
+                      </button>
+                    </div>
+                    {/* comment features */}
+                    <div className="project_comment_features">
+                      <button className="project_effective_button">
+                        <FaRegCommentDots /> Comment
+                      </button>
                       <div className="post-features">
-                        <i className="fas fa-user"></i> Public <span></span> 5 hours
-                        ago
+                        <Link to="/">{project.commentsCount} Comments</Link> <span></span>
+                        <Link to="/">{project.sharesCount} Shares</Link>
                       </div>
                     </div>
                   </div>
-                  <div className="post_arrow">
-                    <button>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M8 21V13H3L12 2L21 13H16V21H8ZM10 19H14V11H16.775L12 5.15L7.225 11H10V19Z"
-                        />
-                      </svg>
-                    </button>
-                    <button>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M16 3L16 11L21 11L12 22L3 11L8 11L8 3L16 3ZM14 5L10 5L10 13L7.225 13L12 18.85L16.775 13L14 13L14 5Z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
                 </div>
-
-                <div className="card_body">
-                  <h4 className="card_title">
-                    AI-driven Drug Discovery for Neurodegenerative Diseases
-                  </h4>
-                  <p className="card_text">
-                    Developing an AI-driven platform to screen and identify
-                    potential drug candidates for the treatment of
-                    neurodegenerative diseases.
-                  </p>
-                  <a href="project-details.html"
-                  >Learn more <i className="fas fa-arrow-right"></i
-                  ></a>
-                </div>
-
-                <div className="card_footer">
-
-                  <div className="project_resourse">
-                    <button className="project_effective_button">
-                      <img src="assets/img/liked1.svg" alt='demo' /> Like
-                    </button>
-                    <div className="project_reso_details">
-                      <div className="likded_users">
-                        <Link to="/">
-                          <img src="assets/img/user-2.png" alt="user 2" />
-                        </Link>
-                        <Link to="/">
-                          <img src="assets/img/user-3.png" alt="user 2" />
-                        </Link>
-                        <Link to="/">
-                          <img src="assets/img/user-4.png" alt="user 2" />
-                        </Link>
-                      </div>
-                      <p>and 312 peoples liked this post.</p>
-                    </div>
-                    <button className="project_effective_button">
-                      <img src="assets/img/share.svg" alt='demo' /> Share
-                    </button>
-                  </div>
-
-                  <div className="project_comment_features">
-                    <button className="project_effective_button">
-                      <img src="assets/img/comment.svg" alt='demo' /> Comment
-                    </button>
-                    <div className="post-features">
-                      <Link to="/">927 Comments</Link> <span></span>
-                      <Link to="/">20 Shares</Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                  Load More
+                </button>
+              )}
             </div>
           </div>
         </div>
