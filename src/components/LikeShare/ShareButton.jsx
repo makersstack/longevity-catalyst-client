@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RiShareLine } from 'react-icons/ri';
+import { apiKey } from '../../globals';
 
 const ShareButton = ({ postId }) => {
   const [sharedLink, setSharedLink] = useState(null);
@@ -7,7 +8,7 @@ const ShareButton = ({ postId }) => {
 
   const handleShare = () => {
     // You can generate a shareable link based on the postId
-    const shareableLink = `${window.location.origin}/post/${postId}`;
+    const shareableLink = `${apiKey}projects/${postId}`;
 
     // Set the generated shareable link in the state
     setSharedLink(shareableLink);

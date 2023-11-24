@@ -164,7 +164,11 @@
   letter-spacing: 0.65px;
   margin-bottom: 9px;
   display: inline-block;
+  border-radius: 12px;
 }
+/* .project_side_bar label:hover {
+  outline: 1px solid #404145;
+} */
 .project_side_bar.side_ber_style_2 label {
   color: #404145;
   font-size: 20px;
@@ -178,7 +182,7 @@
   background: #f7f7f7;
   border: none;
   padding: 14px 17px;
-  height: 50px;
+  height: 48px;
   color: #333;
   font-family: "Noto Sans", sans-serif;
   font-size: 14px;
@@ -189,9 +193,27 @@
 .project_side_bar input::placeholder,
 .project_side_bar select {
   color: #aaa;
+  outline: none;
+}
+.project_side_bar select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 40px;
+  background-image: url("../images/chevron-down.svg");
+  background-repeat: no-repeat;
+  background-size: 26px;
+  background-position: 98% 55%;
+  cursor: pointer;
 }
 .input_box:not(:last-child) {
   margin-bottom: 40px;
+}
+.project_side_bar select:hover,
+.project_side_bar select:focus,
+.project_side_bar input:hover,
+.project_side_bar input:focus {
+  outline: 1px solid #404145;
 }
 .input_box h4 {
   color: #404145;
@@ -209,7 +231,7 @@
   border-radius: 12px;
   background: #f7f7f7;
   border: none;
-  padding: 10px 20px;
+  padding: 14px 20px;
 }
 .input_box_keywords {
   display: flex;

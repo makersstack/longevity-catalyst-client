@@ -117,7 +117,7 @@ function RequiredSkills({ onSkillsChange, requirdSkillCheckData }) {
       <label>Required Skills</label>
       {requirdSkillCheckData.map((checkData) => (
         <label
-          className={`plan basic-plan ${checkData.planClass ?? checkData.planClass} `}
+          className={`plan basic-plan ${checkData.planClass} `}
           htmlFor={`ch-${checkData.inputName}-${checkData.id}`}
           key={checkData.id}
         >
@@ -220,8 +220,6 @@ const SidebarFilters = ({
               <button type='reset' onClick={handelResetFrom} className='side_bar_head_btn'>Reset</button>
               <p>Projects Filter</p>
               <button className='side_bar_head_btn sideCloseBtn' onClick={handelSideBarButton}>  <AiOutlineClose /> </button>
-
-
             </div>
             <div className='side_bar_inputs_box'>
               {search && <SearchField onSearchChange={(value) => onPageChange('textsearch', value)} value={searchValue} />}

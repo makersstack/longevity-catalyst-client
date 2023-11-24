@@ -7,47 +7,48 @@ import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
-import UserProfile from '../assets/images/profile-user.png';
 import '../assets/styles/profileShow.css';
-import LikeButton from '../components/LikeShare/LikeButton';
 import SidebarFilters from '../components/filter/SidebarFilters';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
+import LikeButton from '../components/likeShare/LikeButton';
 import { avatersFor } from '../constants/avaters';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';
+import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 
 const ProfileShow = ({ rating }) => {
+  ScrollToTop();
+
   const { username } = useParams()
   const navigation = useNavigate();
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [userInformatin, setUserInformatin] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('/data.json')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProjects(data);
-  //       setFilteredProjects(data);
-  //     })
-  //     .catch((error) => console.error('Error fetching data:', error));
-  // }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await projectApi.getAllProjectsByUsername(username);
         if (response?.data?.success) {
           const projectsData = response?.data?.data || [];
           setProjects(projectsData);
           setFilteredProjects(projectsData);
+          projectsData.forEach(project => {
+            const user = project.User;
+            setUserInformatin(user);
+          });
         } else {
           // navigation('/404');
-          console.log(username);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -102,7 +103,6 @@ const ProfileShow = ({ rating }) => {
   });
 
   useEffect(() => {
-
     const filtered = filterProjects(filters, projects);
     setFilteredProjects(filtered);
 
@@ -126,11 +126,7 @@ const ProfileShow = ({ rating }) => {
       );
     });
   };
-
-  // TODO:: An Example Data
-  // const userRatings = {
-
-  // }
+  const avatarSrc = userInformatin?.profileImage || avatersFor.user;
 
   return (
     <>
@@ -153,11 +149,11 @@ const ProfileShow = ({ rating }) => {
             <div className="project_show_container">
               <div className="profile_user_info other_profile">
                 <div className="image_block">
-                  <img src={UserProfile} alt="userProfile" />
+                  <img src={avatarSrc} alt="userProfile" />
                 </div>
                 <div className="info_block">
-                  <h3>Mark Hamalainen</h3>
-                  <div className="user_title">Programmer</div>
+                  <h3>{userInformatin?.full_name}</h3>
+                  <div className="user_title">{userInformatin?.bio}</div>
                   <div className="profile_info_ratings">
                     <span><AiFillStar /></span>
                     <span><AiFillStar /></span>
@@ -173,7 +169,7 @@ const ProfileShow = ({ rating }) => {
                 onOptionChange={handleTopOptionChange} />
               {/* project show container */}
               <div className="project_show_cash">
-                {/* Render project cards */}
+
                 {filteredProjects.length !== 0 ? (
                   filteredProjects.map((project) => (
                     <div className="card" key={project.id}>
@@ -181,13 +177,13 @@ const ProfileShow = ({ rating }) => {
                       <div className="card_header">
                         <div className="post_auth_info">
                           <div className="profile_image">
-                            <button onClick={() => navigation(`${project?.User?.username}`)}>
+                            <button onClick={() => navigation(`/${project?.User?.username}`)}>
                               <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
 
                             </button>
                           </div>
                           <div className="post_user_fet">
-                            <button onClick={() => navigation(`${project?.User?.username}`)} className="user_name">
+                            <button onClick={() => navigation(`/${project?.User?.username}`)} className="user_name">
                               {project?.User?.full_name}
                             </button>
                             <div className="post-features">

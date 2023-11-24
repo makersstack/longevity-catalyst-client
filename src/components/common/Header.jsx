@@ -14,7 +14,7 @@ import SignupModal from '../ui/SignupModal';
 
 const Header = () => {
   const { handleLogout, isLoggedIn, userInfo } = useAuth();
-  
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -87,12 +87,15 @@ const Header = () => {
     closeDropdown();
   }, [location.pathname]);
 
-  // For User
-  if (!userInfo) {
-    return <div>Loading...</div>;
+  if (isLoggedIn) {
+    // For User
+    if (!userInfo) {
+      return <div>Loading...</div>;
+    }
   }
 
-  const avatarSrc = userInfo.profileImage || avatersFor;
+
+  const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
 
   return (
     <header>
@@ -142,7 +145,7 @@ const Header = () => {
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
                           </Link>
-                          <Link to='/dashboard/profile/update' >
+                          <Link to='/dashboard/profile/view' >
                             <span className='al_menu_icon'> <FaRegUser /> </span>
                             <span>Profile</span>
                           </Link>

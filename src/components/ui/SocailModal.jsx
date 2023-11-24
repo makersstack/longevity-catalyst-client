@@ -19,31 +19,40 @@ const SocailModal = ({ isOpen, closeModal, postLink }) => {
     window.open(twitterShareUrl, '_blank');
   };
   useEffect(() => {
-    // Reset copied state when modal is closed
     if (!isOpen) {
       setCopied(false);
     }
   }, [isOpen]);
+  
+  const bg = {
+    overlay: {
+      background: "rgba(0, 0, 0, 0.2)"
+    }
+  };
   return (
-    <Modal open={isOpen} onClose={closeModal} center>
-      <div className='socail_modal'>
-        <h2>Share Post</h2>
+    <Modal open={isOpen} onClose={closeModal} center styles={bg}>
+      <div className="modal-wrapper">
+        <div className="custom-modal" id="socail_references">
+          <div className='socail_modal'>
+            <h2>Share Post</h2>
 
-        <div className='socail_modal_list'>
-          <button onClick={shareOnFacebook}><FaFacebook /></button>
-          <button onClick={shareOnTwitter}><FaTwitter /></button>
-          {/* Add more social media share buttons as needed */}
+            <div className='socail_modal_list'>
+              <button onClick={shareOnFacebook}><FaFacebook /></button>
+              <button onClick={shareOnTwitter}><FaTwitter /></button>
+              {/* Add more social media share buttons as needed */}
+            </div>
+            <div className='socail_modal_body'>
+              <p>Or copy link</p>
+              <div className='copy_link'>
+                <input type="text" value={postLink} readOnly />
+                <button onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy Link'}</button>
+              </div>
+            </div>
+            <button onClick={closeModal}></button>
+          </div>
         </div>
-        <div className='socail_modal_body'>
-        <p>Or copy link</p>
-        <div className='copy_link'>
-          <input type="text" value={postLink} readOnly />
-          <button onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy Link'}</button>
-        </div>
-        </div>
-        <button onClick={closeModal}></button>
       </div>
-    </Modal>
+    </Modal >
   )
 }
 

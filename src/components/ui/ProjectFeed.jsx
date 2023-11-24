@@ -14,10 +14,11 @@ import '../../assets/styles/projectFeed.css';
 import { projectApi } from '../../api';
 
 import { avatersFor } from '../../constants/avaters';
+import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
-import LikeButton from '../LikeShare/LikeButton';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from './SocailModal';
 
 
@@ -27,7 +28,9 @@ const ProjectFeed = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  const [page, setPage] = useState(1);
   const [isSideBarActive, setSideBarActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -36,31 +39,27 @@ const ProjectFeed = () => {
     setSelectedTopOption(value);
   };
 
-  // useEffect(() => {
-  //   fetch('/data.json')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setProjects(data);
-  //       setFilteredProjects(data); 
-  //     })
-  //     .catch((error) => console.error('Error fetching data:', error));
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjects();
+        const response = await projectApi.getAllProjectsByUser(page, 3);
         const projectsData = response?.data?.data || [];
         setProjects(projectsData); // Set projects state with the extracted data
         setFilteredProjects(projectsData);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally{
+        setIsLoading(false);
       }
     };
 
     fetchData(); // Invoke the fetchData function
-  }, []);
-
+  }, [page]);
+  
+ const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
   // Sidebar Content
   function filterProjects(filters, projects) {
     const {
@@ -127,7 +126,6 @@ const ProjectFeed = () => {
   };
   // For modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const postLink = "http://localhost:3000/single-project";
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -136,7 +134,7 @@ const ProjectFeed = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
+
   // for Side bar
   const sideBarRef = useRef();
   const handelSideBarButton = (e) => {
@@ -230,7 +228,6 @@ const ProjectFeed = () => {
                   <p className="card_text">
                     {project.project_desc}
                   </p>
-
                   <Link to={`/project/${project.id}`} className='al_project_learn_more'>
                     Learn more <HiArrowNarrowRight />
                   </Link>
@@ -256,7 +253,7 @@ const ProjectFeed = () => {
                     </div>
 
                     {/* For Share */}
-                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={postLink} />
+                    <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
                     <button className="project_effective_button" onClick={openModal}>
                       <RiShareForwardFill /> Share
                     </button>
@@ -274,11 +271,13 @@ const ProjectFeed = () => {
                 </div>
               </div>
             ))}
-            <div className="project_show_footer">
-              <button type='button' className='btn btn_show_more'>
-                Load More
-              </button>
-            </div>
+            {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                  Load More
+                </button>
+              )}
           </div>
 
         </div>

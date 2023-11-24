@@ -33,7 +33,6 @@ export const projectApi = {
     }
   },
 
-
   getAllProjectsByUsername: async (username) =>
   axiosBaseQuery({
     url: `/projects/user/${username}`,
