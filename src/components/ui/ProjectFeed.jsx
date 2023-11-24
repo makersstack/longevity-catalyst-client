@@ -15,9 +15,9 @@ import { projectApi } from '../../api';
 
 import { avatersFor } from '../../constants/avaters';
 import dateTimeHel from '../../utils/dateTimeHel';
-import LikeButton from '../LikeShare/LikeButton';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from './SocailModal';
 
 
