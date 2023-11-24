@@ -1,15 +1,32 @@
-import React from 'react';
-import CheckBoxButton from '../common/CheckBoxButton';
+/* eslint-disable no-undef */
+import React, { useEffect, useState } from 'react';
+import { HiCheck } from 'react-icons/hi';
+import skillApi from '../../api/SkillApi';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = ({ errorMsg, setProfilePic }) => {
+const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues  }) => {
+    const [skillCheckBox, setSkillCheckBox] = useState([]);
+    
+    useEffect(() => {
+        const fetchSkills = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                const skills = response.data.data;
 
-    const SkillCheckBox = [
-        { id: 1, inputName: 'python', labelText: 'Python' },
-        { id: 2, inputName: 'machine-learning', labelText: 'Machine learning' },
-        { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling' },
+                // Set the fetched skills to state
+                setSkillCheckBox(skills);
+            } catch (error) {
+                console.error('Error fetching skills:', error);
+            }
+        };
+        fetchSkills();
+    }, []);
 
-    ];
+    // For pass the skills
+    const handleCheckboxChange = (e) => {
+        const isChecked = e.target.checked;
+        setSkillValues(isChecked)
+      };
 
     return (
         <>
@@ -55,12 +72,23 @@ const ContributerSignUp = ({ errorMsg, setProfilePic }) => {
 
             <div className="auth_box">
                 <label>Skills</label>
-
-
                 {
-                    SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk} />)
+                    skillCheckBox.map((checkData) => (
+                        <label key={checkData.id} className={`plan basic-plan`} htmlFor={`ch-${checkData.id}-${checkData.id}`}>
+                            <input type="checkbox" name={`skillId_${checkData.id}`} id={`ch-${checkData.id}-${checkData.id}`} onChange={handleCheckboxChange} />
+                            <div className="plan-content">
+                                <div className="plan-details">
+                                    <div className="plan-checked-icon">
+                                        <span className=' check_icon '>
+                                            < HiCheck />
+                                        </span>
+                                    </div>
+                                    <p>{checkData.skillName}</p>
+                                </div>
+                            </div>
+                        </label>
+                    ))
                 }
-
             </div>
 
             <div className="auth_box">
@@ -98,8 +126,6 @@ const ContributerSignUp = ({ errorMsg, setProfilePic }) => {
                     placeholder="https://github.com/alifur-rahman/"
                 />
             </div>
-
-
         </>
     );
 };

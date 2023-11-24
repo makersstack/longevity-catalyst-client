@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import CheckBoxButton from '../common/CheckBoxButton';
 
 // Search field component
 function SearchField({ onSearchChange, value }) {
@@ -100,13 +99,44 @@ function Duration({ durationOptions, onDurationChange, value }) {
 }
 
 // Required Skills component 
-
 function RequiredSkills({ onSkillsChange, requirdSkillCheckData }) {
+  const [checkedSkills, setCheckedSkills] = useState([]);
+
+  const handleChange = (event) => {
+    const { name, checked } = event.target;
+    const updatedSkills = checked
+      ? [...checkedSkills, name]
+      : checkedSkills.filter((skill) => skill !== name);
+
+    setCheckedSkills(updatedSkills);
+    onSkillsChange(updatedSkills); 
+  };
+
   return (
     <div className="input_box required_skills">
       <label>Required Skills</label>
       {requirdSkillCheckData.map((checkData) => (
-        <CheckBoxButton key={checkData.id} checkData={checkData} onCheckChange={onSkillsChange} />
+        <label
+          className={`plan basic-plan ${checkData.planClass ?? checkData.planClass} `}
+          htmlFor={`ch-${checkData.inputName}-${checkData.id}`}
+          key={checkData.id}
+        >
+          <input
+            type="checkbox"
+            name={checkData.inputName}
+            id={`ch-${checkData.inputName}-${checkData.id}`}
+            checked={checkedSkills.includes(checkData.inputName)}
+            onChange={handleChange}
+          />
+          <div className="plan-content">
+            <div className="plan-details">
+              <div className="plan-checked-icon">
+                <span className="check_icon">{checkedSkills.includes(checkData.inputName) ? '✔' : ''}</span>
+              </div>
+              <p>{checkData.labelText}</p>
+            </div>
+          </div>
+        </label>
       ))}
     </div>
   );
@@ -175,7 +205,7 @@ const SidebarFilters = ({
   handelSideBarButton,
   sideBarRef
 }) => {
-  const [searchValue,setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const handelResetFrom = () => {
     setSearchValue('');
   }

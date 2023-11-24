@@ -37,7 +37,7 @@ const ProfileShow = ({ rating }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await projectApi.getAllProjectsByUser(username);
+        const response = await projectApi.getAllProjectsByUsername(username);
         if (response?.data?.success) {
           const projectsData = response?.data?.data || [];
           setProjects(projectsData);
