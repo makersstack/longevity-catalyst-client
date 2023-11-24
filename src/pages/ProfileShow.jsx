@@ -100,11 +100,6 @@ const ProfileShow = ({ rating }) => {
     });
   };
 
-  // TODO:: An Example Data
-  // const userRatings = {
-
-  // }
-
   return (
     <>
       <section className="project_show_section single_page_project_show">
