@@ -13,12 +13,12 @@ import '../../assets/styles/projectFeed.css';
 
 import { projectApi } from '../../api';
 
+import LikeButton from '../../components/LikeShare/LikeButton';
 import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
-import LikeButton from '../likeShare/LikeButton';
 import SocailModal from './SocailModal';
 
 

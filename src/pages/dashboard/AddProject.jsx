@@ -11,12 +11,13 @@ import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
 import categoryApi from '../../api/CategoryApi';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 
 const AddProject = () => {
 
     const [isLoading, setIsLoading] = useState();
-
+    const { userInfo } = useAuth();
 
 
 
@@ -314,7 +315,7 @@ const AddProject = () => {
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_name"> What is your name?<span>*</span> </label>
-                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value='John Doe' />
+                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value={userInfo?.full_name}/>
                                     {errorMsg.user_name && <div className='error-msg'>{errorMsg.user_name}</div>}
                                 </div>
                             </div>
@@ -328,7 +329,7 @@ const AddProject = () => {
                                         id="user_email"
                                         placeholder="Email"
                                         disabled readOnly
-                                        value="user@email.com"
+                                        value={userInfo?.email}
                                     />
                                     {errorMsg.user_email && <div className='error-msg'>{errorMsg.user_email}</div>}
                                 </div>

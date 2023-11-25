@@ -125,14 +125,14 @@ const SignUp = () => {
             if (!['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'].includes(profilePic.type)) {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    profile_pic: 'Please Select PNG/JPG/GIF/SVG file !',
+                    profileImage: 'Please Select PNG/JPG/GIF/SVG file !',
                 }));
                 isValid = false;
             }
             else if (profilePic.size > 1048576) {
                 setErrorMsg(prevErrorMsg => ({
                     ...prevErrorMsg,
-                    profile_pic: 'Max 1MB file can Upload !',
+                    profileImage: 'Max 1MB file can Upload !',
                 }));
                 isValid = false;
             }
