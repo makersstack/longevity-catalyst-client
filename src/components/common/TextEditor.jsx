@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../assets/styles/textEditor.css';
 
-const TextEditor = ({setBioText}) => {
+const TextEditor = ({setBioText,defaultContent}) => {
     
 
     const [text, setText] = useState('');
+
+    useEffect(() => {
+        setText(defaultContent);
+        setBioText(defaultContent); // Optional: set default content to your state or function
+    }, [defaultContent,setBioText]);
 
     const handleChange = (value) => {
         setText(value);

@@ -7,7 +7,7 @@ import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
 import '../../assets/styles/dashboard.css';
-import LikeButton from '../../components/likeShare/LikeButton';
+import LikeButton from '../../components/LikeShare/LikeButton';
 import SocailModal from '../../components/ui/SocailModal';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
@@ -36,7 +36,7 @@ const AllProject = () => {
         const fetchLatestProjects = async () => {
             setIsLoading(true);
             try {
-                const response = await projectApi.getAllProjects();
+                const response = await projectApi.getAllProjectsByUsername(userName);
                 const newProjects = response.data.data || [];
                 setProjects(newProjects);
             } catch (error) {

@@ -6,11 +6,14 @@ import DargFileAttech from '../../components/common/DargFileAttech';
 import TextEditor from '../../components/common/TextEditor';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditUserProfile = () => {
     ScrollToTop();
 
+    const { userInfo } = useAuth();
+    console.log(userInfo);
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
         { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },
@@ -142,6 +145,7 @@ const EditUserProfile = () => {
                                         name="full_name"
                                         id="full_name"
                                         placeholder="Full Name"
+                                        value={userInfo?.full_name}
                                     />
                                     {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
                                 </div>
@@ -161,6 +165,9 @@ const EditUserProfile = () => {
                                         name="email"
                                         id="email"
                                         placeholder="Email address"
+                                        readOnly
+                                        disabled
+                                        value={userInfo?.email}
                                     />
                                     {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
                                 </div>
@@ -190,7 +197,7 @@ const EditUserProfile = () => {
                                     <small>Write a short introduction.</small>
                                 </div>
                                 <div className='list_input'>
-                                    <TextEditor setBioText={setBioText} />
+                                    <TextEditor defaultContent={userInfo?.bio} setBioText={setBioText} />
                                     <p className='input_hint'>275 characters left</p>
                                 </div>
                                 {errorMsg.bio && <div className='error-msg'>{errorMsg.bio}</div>}
@@ -205,7 +212,7 @@ const EditUserProfile = () => {
                                 </div>
                                 <div className='list_input upload_avater_withOld'>
                                     <div className="show_old_avater">
-                                        <img src={avatersFor.user} alt="profile_img" />
+                                        <img src={userInfo?.profileImage || avatersFor.user} alt="profile_img" />
                                     </div>
                                     <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
                                 </div>
@@ -229,6 +236,7 @@ const EditUserProfile = () => {
                                         name="github"
                                         id="github"
                                         placeholder="http://gitthub.com"
+                                        value={userInfo?.github}
                                     />
                                     {errorMsg.github && <div className='error-msg'>{errorMsg.github}</div>}
                                 </div>

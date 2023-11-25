@@ -23,10 +23,10 @@ const DashboardMenu = ({ isActiveMenu }) => {
                     <img src={`${avatarSrc}`} alt={userInfo.full_name || "Annette Black"} />
                 </button>
                 <div className="">
-                    <button className='profile_text' onClick={() => navigation(`/${userInfo?.username}`)}>
+                    <button className='profile_text truncate-text' onClick={() => navigation(`/${userInfo?.username}`)}>
                         {userInfo.full_name || "Annette Black"}
                     </button>
-                    <p>{userInfo.email || ''}</p>
+                    <p className='truncate-text'>{userInfo.email || ''}</p>
                 </div>
             </div>
 

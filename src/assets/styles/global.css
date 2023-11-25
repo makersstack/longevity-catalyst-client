@@ -538,6 +538,13 @@ input[type="radio"] {
   height: 1px;
   margin: 14px 0;
 }
+.truncate-text {
+  max-width: 100%; /* Set the maximum width of the <p> tag */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ------------------------------------------------------------------------------- */
 /* --- Custom Modal CSS --- */
 /* ------------------------------------------------------------------------------- */
@@ -915,6 +922,7 @@ input:disabled {
   visibility: visible;
   top: 50px;
 }
+
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

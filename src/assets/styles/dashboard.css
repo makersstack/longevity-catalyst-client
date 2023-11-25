@@ -44,14 +44,18 @@
   margin: 0;
   width: 100%;
 }
+.show_old_avater {
+  max-width: 64px;
+  max-height: 64px;
+  border-radius: 50px;
+  overflow: hidden;
+  object-fit: cover;
+}
 
 .show_old_avater img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  max-width: 64px;
-  max-height: 64px;
-  border-radius: 50px;
 }
 @media (max-width: 991px) {
   .dashboard {
