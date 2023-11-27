@@ -15,7 +15,7 @@ import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 import dateTimeHel from '../../utils/dateTimeHel';
 // import calculateDurationFromNow from '../../utils/durationCalculate';
-import LikeButton from '../../components/LikeShare/LikeButton';
+import LikeButton from '../../components/likeShare/LikeButton';
 
 const AllProject = () => {
     ScrollToTop();

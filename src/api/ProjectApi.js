@@ -1,26 +1,44 @@
-import queryString from 'query-string';
 import { axiosBaseQuery } from '../helpers/axios/baseQuery';
 
 export const projectApi = {
-  getAllProjects: async (queryParams) => {
-    try {
-      const queryStringified = queryString.stringify(queryParams);
-      const url = `/projects${queryStringified ? `?${queryStringified}` : ''}`;
+  getAllProjects: async (filters, paginationOptions) => {
+      const searchQuery = filters.searchTerm ? `searchTerm=${encodeURIComponent(filters.searchTerm)}` : '';
+
+      const filterQueries = Object.entries(filters)
+        .filter(([key, value]) => key !== 'searchTerm' && value !== '')
+        .map(([key, value]) => {
+          if (Array.isArray(value)) {
+            return value.map((val) => `${key}=${encodeURIComponent(val)}`).join('&');
+          }
+          return `${key}=${encodeURIComponent(value)}`;
+        })
+        .join('&');
+
+      console.log(paginationOptions);
+      console.log(filters);
+
+      const { page, limit } = paginationOptions;
+
+      const paginationQuery = `page=${page}&limit=${limit}`;
+
+      const queryParams = [paginationQuery, searchQuery, filterQueries, ].filter(Boolean).join('&');
+
+      const modifyUrl = `/projects${queryParams?`?${queryParams}` : ''}`;
 
       return await axiosBaseQuery({
-        url,
+        url: modifyUrl,
         method: 'GET',
       });
-    } catch (error) {
-      throw new Error('Error fetching projects:', error);
-    }
+    // } catch (error) {
+    //   throw new Error('Error fetching projects:', error);
+    // }
   },
 
   getSingleProject: async (projectId) =>
     axiosBaseQuery({
-      url:  `/projects/${projectId}`,
+      url: `/projects/${projectId}`,
       method: "GET",
-  }),
+    }),
 
   getAllProjectsByUser: async (page = 1, limit = 5) => {
     try {
@@ -34,11 +52,11 @@ export const projectApi = {
   },
 
   getAllProjectsByUsername: async (username) =>
-  axiosBaseQuery({
-    url: `/projects/user/${username}`,
-    method: "GET",
-  }),
-  
+    axiosBaseQuery({
+      url: `/projects/user/${username}`,
+      method: "GET",
+    }),
+
   createProject: async (projectData) =>
     axiosBaseQuery({
       url: '/projects/create',
