@@ -121,7 +121,6 @@ const ProjectFeed = () => {
     if (filterType !== 'searchTerm') {
       setSideBarActive(!isSideBarActive);
     }
-
   };
   // For modal
   const [isModalOpen, setIsModalOpen] = useState(false);

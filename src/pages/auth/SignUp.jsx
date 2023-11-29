@@ -161,7 +161,8 @@ const SignUp = () => {
                 setIsLoading(true);
                 const promise = authApi.signup(formData);
                 await toast.promise(promise, {
-                    loading: 'Signing Up...', // Display a loading message
+                    loading: 'Signing Up...', 
+                    
                     success: (response) => {
                         if (response.data.success) {
                             // document.querySelector('body').classList.remove('loading_BG');

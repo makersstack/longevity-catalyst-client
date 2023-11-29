@@ -5,7 +5,7 @@ import AddComment from './AddComment';
 import Comments from './Comments';
 import PinBox from './PinBox';
 
-const CommentBox = () => {
+const CommentBox = ({projectId}) => {
     const commentDataDami = [
         {
             "id": 1,
@@ -109,12 +109,11 @@ const CommentBox = () => {
     return (
         <>
             <div className="details_block commnet_add_box">
-                <AddComment addNewComment={addNewComment}/>
+                <AddComment addNewComment={addNewComment} projectId={projectId}/>
             </div>
             <div className="details_block">
                 <PinBox />
             </div>
-
             {
                 commentData.length !== 0 ? (
                     commentData.map((singleComment) => (<Comments key={singleComment.id} data={singleComment} />))

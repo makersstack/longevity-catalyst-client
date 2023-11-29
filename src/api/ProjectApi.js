@@ -14,9 +14,6 @@ export const projectApi = {
         })
         .join('&');
 
-      console.log(paginationOptions);
-      console.log(filters);
-
       const { page, limit } = paginationOptions;
 
       const paginationQuery = `page=${page}&limit=${limit}`;
@@ -29,9 +26,6 @@ export const projectApi = {
         url: modifyUrl,
         method: 'GET',
       });
-    // } catch (error) {
-    //   throw new Error('Error fetching projects:', error);
-    // }
   },
 
   getSingleProject: async (projectId) =>
@@ -63,6 +57,28 @@ export const projectApi = {
       method: 'POST',
       data: projectData,
     }),
+    // For comment
+    createComment: async (projectData) =>
+    axiosBaseQuery({
+      url: '/project/create',
+      method: 'POST',
+      data: projectData,
+    }), 
+
+    updateComment: async (projectData) =>
+    axiosBaseQuery({
+      url: '/project/create',
+      method: 'POST',
+      data: projectData,
+    }), 
+
+    deleteComment: async (projectData) =>
+    axiosBaseQuery({
+      url: '/project/create',
+      method: 'POST',
+      data: projectData,
+    }),
+    // For Reply
 };
 
 export default projectApi;

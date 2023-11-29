@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-const AddComment = ({addNewComment}) => {
+const AddComment = ({ addNewComment, projectId }) => {
+  // const { userInfo } = useAuth();
   const initialFormData = {
     commentText: '',
   };
-
   const [isOpenForm, setOpenForm] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [errorMsg, setErrorMsg] = useState({});
@@ -18,7 +18,7 @@ const AddComment = ({addNewComment}) => {
   const handelCloseCommentForm = (event) => {
     event.preventDefault();
     setOpenForm(false);
-    setFormData(initialFormData); // Reset the form data
+    setFormData(initialFormData);
     setErrorMsg({});
   };
 
@@ -30,18 +30,21 @@ const AddComment = ({addNewComment}) => {
     formData.forEach((value, key) => {
       formDataObject[key] = value;
     });
+
     let isValid = true;
+
     if (formDataObject.commentText.length === 0) {
       setErrorMsg((prevErrorMsg) => ({
         ...prevErrorMsg,
         commentText: "Write something in the box!",
       }));
+
       isValid = false;
     }
     if (isValid) {
       addNewComment(formDataObject);
       setOpenForm(false);
-      setFormData(initialFormData); // Reset the form data
+      setFormData(initialFormData);
       setErrorMsg({});
     }
   };
