@@ -18,9 +18,9 @@ export const projectApi = {
 
   getSingleProject: async (projectId) =>
     axiosBaseQuery({
-      url:  `/projects/${projectId}`,
+      url: `/projects/${projectId}`,
       method: "GET",
-  }),
+    }),
 
   getAllProjectsByUser: async (page = 1, limit = 5) => {
     try {
@@ -34,17 +34,26 @@ export const projectApi = {
   },
 
   getAllProjectsByUsername: async (username) =>
-  axiosBaseQuery({
-    url: `/projects/user/${username}`,
-    method: "GET",
-  }),
-  
+    axiosBaseQuery({
+      url: `/projects/user/${username}`,
+      method: "GET",
+    }),
+
   createProject: async (projectData) =>
     axiosBaseQuery({
       url: '/projects/create',
       method: 'POST',
       data: projectData,
     }),
+  likeOperation: async (operationData) =>
+    axiosBaseQuery({
+      url: `/like/project`,
+      method: 'POST',
+      data: operationData
+    }),
+   
 };
+
+
 
 export default projectApi;

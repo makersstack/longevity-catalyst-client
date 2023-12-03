@@ -43,21 +43,21 @@ const ProjectFeed = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjectsByUser(page, 3);
+        const response = await projectApi.getAllProjects(page, 3);
         const projectsData = response?.data?.data || [];
         setProjects(projectsData); // Set projects state with the extracted data
         setFilteredProjects(projectsData);
       } catch (error) {
         console.error('Error fetching data:', error);
-      } finally{
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchData(); // Invoke the fetchData function
   }, [page]);
-  
- const handleLoadMore = () => {
+
+  const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
   // Sidebar Content
@@ -236,20 +236,21 @@ const ProjectFeed = () => {
                 <div className="card_footer">
                   {/* project resource */}
                   <div className="project_resourse">
-                    <LikeButton projectId={2} userId={2} />
+                    <LikeButton projectId={project.id} isLikedByUser={project?.isLikedByUser} />
                     <div className="project_reso_details">
                       <div className="likded_users">
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
+                        {project?.likedUsers.slice(-3).map((likedUser, index) => (
+                          <Link to={likedUser?.username} key={index}>
+                            <img src={likedUser?.profileImage || avatersFor.user} alt={likedUser?.username} />
+                          </Link>
+                        ))}
+
                       </div>
-                      <p>and {project.likesCount} people liked this post.</p>
+                      {
+                        project?.totalLikes !== 0 ? project?.totalLikes <= 3 ? <p>liked this post.</p> : <p> and {project?.totalLikes - 3} people liked this post.</p> : <p>Nobody has liked this yet.</p>
+                      }
+                    
+                     
                     </div>
 
                     {/* For Share */}
@@ -272,12 +273,12 @@ const ProjectFeed = () => {
               </div>
             ))}
             {isLoading ? (
-                <p>Loading...</p>
-              ) : (
-                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                  Load More
-                </button>
-              )}
+              <p>Loading...</p>
+            ) : (
+              <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                Load More
+              </button>
+            )}
           </div>
 
         </div>

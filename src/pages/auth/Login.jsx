@@ -17,7 +17,7 @@ const Login = () => {
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
-
+    const rideEmsg = new URLSearchParams(location.search).get('emsg');
 
     ScrollToTop();
 
@@ -174,6 +174,7 @@ const Login = () => {
                 <div className="container">
                     <div className="auth_area">
                         <form onSubmit={handalSubmitLogin} ref={formRef}>
+                            { rideEmsg && <div className='info_box-msg'>{rideEmsg}</div> }
                             <h4>Log In</h4>
                             <p>Welcome back! Please enter your details.</p>
                             <div className="auth_box padding_top-30">
