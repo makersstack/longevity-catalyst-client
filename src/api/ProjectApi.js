@@ -51,6 +51,15 @@ export const projectApi = {
       method: 'POST',
       data: operationData
     }),
+
+  VoteOperation: async (operationData) =>
+    axiosBaseQuery({
+      url: `/vote/project`,
+      method: 'POST',
+      data: operationData
+    }),
+
+
    
 };
 
