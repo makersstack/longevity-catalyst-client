@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
@@ -17,6 +16,7 @@ import LikeButton from '../../components/LikeShare/LikeButton';
 import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
+import VoteButtons from '../VoteSystem/VoteButtons';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
 import SocailModal from './SocailModal';
@@ -211,14 +211,7 @@ const ProjectFeed = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="post_arrow">
-                    <button type="button">
-                      <BiUpvote />
-                    </button>
-                    <button>
-                      <BiDownvote />
-                    </button>
-                  </div>
+                <VoteButtons projectId={project.id} VoteByUser={project?.VoteByUser} />
                 </div>
                 {/* card body */}
                 <div className="card_body">

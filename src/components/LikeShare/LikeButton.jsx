@@ -7,7 +7,7 @@ import useAuth from '../../hooks/UseAuth';
 
 const LikeButton = ({ projectId,isLikedByUser }) => {
   const [liked, setLiked] = useState(false);
-  const [lLodgin, SetlLodgin] = useState(false);
+  const [spninng, SetSpninng] = useState(false);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
@@ -15,23 +15,9 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
     setLiked(isLikedByUser);
   }, [isLikedByUser]);
 
-  // useEffect(() => {
-  //   const setDefaultLiked = async () => {
-  //     if(isLoggedIn){
-  //       try {
-  //         const res = await projectApi.getLikeStateByUser(projectId);
-  //         console.log(res);
-  //       } catch (error) {
-  //         console.error('Error fetching like status:', error);
-  //       }
-  //     }
-  //   };
-
-  //   setDefaultLiked();
-  // }, [projectId,isLoggedIn]);
-
+ 
   const handleLike = async () => {
-    SetlLodgin(true);
+    SetSpninng(true);
     if (!isLoggedIn) {
       navigate('/login?emsg=Please login to like projects');
     } else {
@@ -42,7 +28,7 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
         }
         const response = await projectApi.likeOperation(operationData);
         setLiked(!liked);
-        SetlLodgin(false);
+        SetSpninng(false);
       } catch (error) {
         console.error('Error toggling like:', error);
       }
@@ -53,7 +39,7 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
   return (
     <button onClick={handleLike} className={liked ? 'project_effective_button liked' : 'project_effective_button'}>
       
-      {lLodgin ? <AiOutlineLoading3Quarters  className='spinning_icon'/> : <AiOutlineLike />}
+      {spninng ? <AiOutlineLoading3Quarters  className='spinning_icon'/> : <AiOutlineLike />}
      
       {liked ? 'Liked' : 'Like'}
     </button>

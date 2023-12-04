@@ -944,7 +944,16 @@ input:disabled {
 .spinning_icon {
   animation: rotate 2s linear infinite;
 }
-
+.voteStActive {
+  background: rgba(77, 77, 77, 0.1) !important;
+  border-radius: 50px;
+  padding: 6px 15px;
+  line-height: 16px;
+}
+.voteStActive svg {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */
