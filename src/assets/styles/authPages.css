@@ -192,6 +192,14 @@
 .auth_box .plan-content {
   margin-top: 10px;
 }
+.info_box-msg {
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px 12px;
+  border: 1px solid #fbe193;
+  border-radius: 0.25rem;
+  margin-bottom: 20px;
+}
 
 /* ----------------------------------- */
 /* RESPONSIVE CSS   */

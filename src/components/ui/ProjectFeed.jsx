@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
@@ -15,6 +14,7 @@ import LikeButton from '../../components/likeShare/LikeButton';
 import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
+import VoteButtons from '../VoteSystem/VoteButtons';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
 import SocailModal from './SocailModal';
@@ -209,14 +209,7 @@ const ProjectFeed = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="post_arrow">
-                    <button type="button">
-                      <BiUpvote />
-                    </button>
-                    <button>
-                      <BiDownvote />
-                    </button>
-                  </div>
+                <VoteButtons projectId={project.id} VoteByUser={project?.VoteByUser} />
                 </div>
                 {/* card body */}
                 <div className="card_body">
@@ -234,20 +227,21 @@ const ProjectFeed = () => {
                 <div className="card_footer">
                   {/* project resource */}
                   <div className="project_resourse">
-                    <LikeButton projectId={2} userId={2} />
+                    <LikeButton projectId={project.id} isLikedByUser={project?.isLikedByUser} />
                     <div className="project_reso_details">
                       <div className="likded_users">
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
-                        <Link to="/">
-                          <img src={avatersFor.user} alt={`userImage`} />
-                        </Link>
+                        {project?.likedUsers.slice(-3).map((likedUser, index) => (
+                          <Link to={likedUser?.username} key={index}>
+                            <img src={likedUser?.profileImage || avatersFor.user} alt={likedUser?.username} />
+                          </Link>
+                        ))}
+
                       </div>
-                      <p>and {project.likesCount} people liked this post.</p>
+                      {
+                        project?.totalLikes !== 0 ? project?.totalLikes <= 3 ? <p>liked this post.</p> : <p> and {project?.totalLikes - 3} people liked this post.</p> : <p>Nobody has liked this yet.</p>
+                      }
+                    
+                     
                     </div>
 
                     {/* For Share */}
