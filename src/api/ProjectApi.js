@@ -2,30 +2,30 @@ import { axiosBaseQuery } from '../helpers/axios/baseQuery';
 
 export const projectApi = {
   getAllProjects: async (filters, paginationOptions) => {
-      const searchQuery = filters.searchTerm ? `searchTerm=${encodeURIComponent(filters.searchTerm)}` : '';
+    const searchQuery = filters.searchTerm ? `searchTerm=${encodeURIComponent(filters.searchTerm)}` : '';
 
-      const filterQueries = Object.entries(filters)
-        .filter(([key, value]) => key !== 'searchTerm' && value !== '')
-        .map(([key, value]) => {
-          if (Array.isArray(value)) {
-            return value.map((val) => `${key}=${encodeURIComponent(val)}`).join('&');
-          }
-          return `${key}=${encodeURIComponent(value)}`;
-        })
-        .join('&');
+    const filterQueries = Object.entries(filters)
+      .filter(([key, value]) => key !== 'searchTerm' && value !== '')
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value.map((val) => `${key}=${encodeURIComponent(val)}`).join('&');
+        }
+        return `${key}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
 
-      const { page, limit } = paginationOptions;
+    const { page, limit } = paginationOptions;
 
-      const paginationQuery = `page=${page}&limit=${limit}`;
+    const paginationQuery = `page=${page}&limit=${limit}`;
 
-      const queryParams = [paginationQuery, searchQuery, filterQueries, ].filter(Boolean).join('&');
+    const queryParams = [paginationQuery, searchQuery, filterQueries,].filter(Boolean).join('&');
 
-      const modifyUrl = `/projects${queryParams?`?${queryParams}` : ''}`;
+    const modifyUrl = `/projects${queryParams ? `?${queryParams}` : ''}`;
 
-      return await axiosBaseQuery({
-        url: modifyUrl,
-        method: 'GET',
-      });
+    return await axiosBaseQuery({
+      url: modifyUrl,
+      method: 'GET',
+    });
   },
 
   getSingleProject: async (projectId) =>
@@ -57,28 +57,52 @@ export const projectApi = {
       method: 'POST',
       data: projectData,
     }),
-    // For comment
-    createComment: async (projectData) =>
-    axiosBaseQuery({
-      url: '/project/create',
-      method: 'POST',
-      data: projectData,
-    }), 
 
-    updateComment: async (projectData) =>
+  // For comment
+  addComment: async (commentText, projectId) =>
     axiosBaseQuery({
-      url: '/project/create',
+      url: `/project/${projectId}/comment`,
       method: 'POST',
-      data: projectData,
-    }), 
+      data: commentText,
+    }),
 
-    deleteComment: async (projectData) =>
+  getAllCommentByPost: async (projectId, paginationOptions) => {
+    const { limit } = paginationOptions;
+    return await axiosBaseQuery({
+      url: `/project/${projectId}/comments?limit=${limit}`,
+      method: "GET",
+    })
+  },
+
+  updateComment: async (projectData) =>
     axiosBaseQuery({
       url: '/project/create',
       method: 'POST',
       data: projectData,
     }),
-    // For Reply
+
+  deleteComment: async (projectData) =>
+    axiosBaseQuery({
+      url: '/project/create',
+      method: 'POST',
+      data: projectData,
+    }),
+  // For Reply
+  addReply: async (commentText, projectId) =>
+    axiosBaseQuery({
+      url: `/project/${projectId}/comment`,
+      method: 'POST',
+      data: commentText,
+    }),
+
+  getAllReplyByComment: async (projectId, paginationOptions) => {
+    const { limit } = paginationOptions;
+    return await axiosBaseQuery({
+      url: `/project/${projectId}/comments?limit=${limit}`,
+      method: "GET",
+    })
+  },
+
 };
 
 export default projectApi;

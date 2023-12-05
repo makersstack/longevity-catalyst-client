@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { LiaHeart } from 'react-icons/lia';
-import { MdOutlineAddComment } from 'react-icons/md';
 import { PiLinkSimpleHorizontalLight } from 'react-icons/pi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import UserProfileImage2 from "../../assets/images/user-1.png";
 import AddReplay from './AddReplay';
 
-const Replay = ({ data,addNewReplay }) => {
+const Replay = ({ data, addNewReplay }) => {
     const [isAddReplay,setIsAddReplay] = useState(false);
     const openReplayBoxHandeler = () =>{
         setIsAddReplay(!isAddReplay);
@@ -20,10 +17,10 @@ const Replay = ({ data,addNewReplay }) => {
             <div className="comment_card_head">
                 <div className="commenter_info">
                     <Link to="/user/username">
-                        <img className='user_thum_style' src={UserProfileImage2} alt="userImage" />
+                        <img className='user_thum_style' src={data?.User.profileImage} alt="userImage" />
                     </Link>
                     <div className="post_user_fet">
-                        <Link to="/user/Esther Howard" className="user_name">{data.name}</Link>
+                        <Link to="/user/Esther Howard" className="user_name">{data?.User?.full_name}</Link>
                     </div>
                     <span className="comment_time">5 hr. ago</span>
                 </div>
@@ -31,14 +28,14 @@ const Replay = ({ data,addNewReplay }) => {
             </div>
             {/* card body  */}
             <div className="comment_card_body">
-                {data.replay}
+                {data.replyText}
 
             </div>
             {/* card footer  */}
             <div className="comment_card_footer ">
                 <div className="devide_buttons_wraper">
                     <div className="comment_box_buttons">
-                        <div className="post_arrow">
+                        {/* <div className="post_arrow">
                             <button type="button">
                                 <BiUpvote />
                             </button>
@@ -46,10 +43,10 @@ const Replay = ({ data,addNewReplay }) => {
                             <button>
                                 <BiDownvote />
                             </button>
-                        </div>
-                        <button className="project_effective_button replay_btn" onClick={openReplayBoxHandeler}>
+                        </div> */}
+                        {/* <button className="project_effective_button replay_btn" onClick={openReplayBoxHandeler}>
                             <MdOutlineAddComment /> <span>Replay</span>
-                        </button>
+                        </button> */}
                         <button className="project_effective_button">
                             <RiShareForwardFill /> Share
                         </button>
