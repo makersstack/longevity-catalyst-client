@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/dashboardMenu.css';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
+import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import RanderNav from './RanderNav';
 
 const DashboardMenu = ({ isActiveMenu }) => {
@@ -20,7 +21,8 @@ const DashboardMenu = ({ isActiveMenu }) => {
             {/* <!-- Menu Profile --> */}
             <div className="dashboard_menu_profile">
                 <button className='profile_img' onClick={() => navigation(`/${userInfo.username}`)}>
-                    <img src={`${avatarSrc}`} alt={userInfo.full_name || "Annette Black"} />
+                    <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInfo.full_name || "Annette Black"} />
+
                 </button>
                 <div className="">
                     <button className='profile_text truncate-text' onClick={() => navigation(`/${userInfo?.username}`)}>

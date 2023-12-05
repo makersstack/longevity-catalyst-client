@@ -4,14 +4,18 @@ import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
 import useAuth from '../../hooks/UseAuth';
+import formatNumber from '../../utils/NumberCountFormate';
 
-const VoteButtons = ({ projectId, VoteByUser }) => {
+const VoteButtons = ({ projectId, VoteByUser,voteCounts }) => {
     const [voteStUp, setVoteStUp] = useState(false);
     const [voteStDown, setvoteStDown] = useState(false);
     const [upSpninng, SetUpSpninng] = useState(false);
     const [downSpninng, SetDownSpninng] = useState(false);
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
+
+    const [upCount, setUpCount] = useState(voteCounts.up);
+    const [downCount, setdownCount] = useState(voteCounts.down);
 
     useEffect(() => {
         if (VoteByUser === "up") {
@@ -36,7 +40,11 @@ const VoteButtons = ({ projectId, VoteByUser }) => {
                     status: !voteStUp
                 }
                 const response = await projectApi.VoteOperation(operationData);
-                console.log(response);
+          
+                if(response.data.success){
+                    setUpCount(response.data.data.up);
+                    setdownCount(response.data.data.down);
+                }
 
                 setVoteStUp(!voteStUp);
                 setvoteStDown(false);
@@ -59,7 +67,10 @@ const VoteButtons = ({ projectId, VoteByUser }) => {
                     status: !voteStDown
                 }
                 const response = await projectApi.VoteOperation(operationData);
-                console.log(response);
+                if(response.data.success){
+                    setUpCount(response.data.data.up);
+                    setdownCount(response.data.data.down);
+                }
 
                 setvoteStDown(!voteStDown);
                 setVoteStUp(false);
@@ -71,11 +82,13 @@ const VoteButtons = ({ projectId, VoteByUser }) => {
     }
     return (
         <div className="post_arrow">
-            <button type="button" onClick={handelUpVote} className={voteStUp ? 'voteStActive' : ''}>
+            <button type="button" onClick={handelUpVote} className={`project_effective_button al_voteBtn ${voteStUp ? 'voteStActive' : ''}`}>
                 {upSpninng ? <AiOutlineLoading3Quarters className='spinning_icon' /> : <BiUpvote />}
+                <span className='al_voteCount'>{formatNumber(upCount)}</span>
             </button>
-            <button onClick={handelDownVote} className={voteStDown ? 'voteStActive' : ''}>
+            <button onClick={handelDownVote} className={`project_effective_button al_voteBtn ${voteStDown ? 'voteStActive' : ''}`}>
                 {downSpninng ? <AiOutlineLoading3Quarters className='spinning_icon' /> : <BiDownvote />}
+                <span className='al_voteCount'>{formatNumber(downCount)}</span>
             </button>
         </div>
     );
