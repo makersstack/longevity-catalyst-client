@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
@@ -9,11 +9,14 @@ import { avatersFor } from '../constants/avaters';
 import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 const ProjectDetails = () => {
+  useEffect(() => {
+    document.title = 'Project Details - Longevity Catalyst';
+  }, []);
   ScrollToTop();
   const [loading, setLoading] = useState(true)
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams(); 
-  const navigate = useNavigate();
+
 
 
   useEffect(() => {
@@ -22,8 +25,6 @@ const ProjectDetails = () => {
         const response = await projectApi.getSingleProject(projectId);
         if (response && response.data && response.data.success) {
           setProjectData(response.data.data); 
-        } else{
-          navigate('/404');
         }
       } catch (error) {
         console.error('Error fetching project:', error);
@@ -34,7 +35,7 @@ const ProjectDetails = () => {
     };
 
     fetchSingleProject(); 
-  }, [navigate, projectId]);
+  }, [projectId]);
 
   return (
 

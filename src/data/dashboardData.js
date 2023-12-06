@@ -16,7 +16,7 @@ export const menuData = [
       submenu: [
           {
               id: 2.1,
-              title: 'All Project',
+              title: 'My Projects',
               route: '/dashboard/project/all',
           },
           {

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import '../../assets/styles/dashboard.css';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
 
 const Dashboard = () => {
+    useEffect(() => {
+        document.title = "Dashboard - Longevity Catalyst";
+      }, []);
     ScrollToTop();
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);

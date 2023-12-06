@@ -19,6 +19,9 @@ import useAuth from '../hooks/UseAuth';
 import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 const ContributorProfile = () => {
+  useEffect(() => {
+    document.title = "Contributor Profile - Longevity Catalyst";
+  }, []);
   ScrollToTop();
   const navigation = useNavigate();
   const { isLoggedIn, userInfo } = useAuth();

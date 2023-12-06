@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollToTop from '../utils/RouteChange';
 
 const PageNotFound = () => {
+    useEffect(() => {
+        document.title = '404 Page not Found - Longevity Catalyst';
+      }, []);
     ScrollToTop();
     return (
         <div className='auto-fit' style={{textAlign:'center', padding:'90px 0'}}>

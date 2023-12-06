@@ -14,8 +14,10 @@ const VoteButtons = ({ projectId, VoteByUser,voteCounts }) => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
 
-    const [upCount, setUpCount] = useState(voteCounts.up);
-    const [downCount, setdownCount] = useState(voteCounts.down);
+    const [upCount, setUpCount] = useState(voteCounts?.up || 0);
+    const [downCount, setdownCount] = useState(voteCounts?.down || 0);
+
+   
 
     useEffect(() => {
         if (VoteByUser === "up") {

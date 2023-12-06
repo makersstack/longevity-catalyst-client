@@ -1,27 +1,45 @@
 import React, { useEffect, useRef, useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { projectApi } from '../../api';
+import categoryApi from '../../api/CategoryApi';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
-import DatePickerInput from "../../components/ui/DatePickerInput";
+import DatePickerInput from '../../components/ui/DatePickerInput';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
-
-import categoryApi from '../../api/CategoryApi';
 import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 
-const AddProject = () => {
+const EditProject = () => {
     useEffect(() => {
-        document.title = "Add Project - Longevity Catalyst";
+        document.title = "Edit Project - Longevity Catalyst";
       }, []);
    
 
     const [isLoading, setIsLoading] = useState();
     const { userInfo } = useAuth();
+    const projectId = useParams().projectId;
+    const [projectData, setProjectData] = useState({});
+
+    useEffect(() => {
+        const fetchSingleProject = async () => {
+            try {
+                const response = await projectApi.getSingleProject(projectId);
+                if (response && response.data && response.data.success) {
+                    setProjectData(response.data.data);
+                }
+            } catch (error) {
+                console.error('Error fetching project:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchSingleProject();
+        console.log(projectData);
+    
+    }, [projectId]);
+
 
 
 
@@ -121,6 +139,21 @@ const AddProject = () => {
     };
     //ED:- get onchange/onblure validation 
 
+
+    // set the default project data 
+    useEffect(() => {
+        if(projectData?.project_keywords){
+            set_project_keywords({"lists": JSON.parse(projectData?.project_keywords)});
+        }
+        
+        // set_required_skill_list(projectData.required_skill_list);
+        // set_expected_cost(projectData.expected_cost);
+        // set_final_deliverable_details(projectData.final_deliverable_details);
+        // set_relevant_literature_link(projectData.relevant_literature_link);
+      
+        
+    }, [projectData]);
+   
 
     const handelProjectSubmit = async (event) => {
         event.preventDefault();
@@ -223,36 +256,39 @@ const AddProject = () => {
         }
 
 
+      
+
 
 
         if (isValid) {
-            try {
-                setIsLoading(true);
-                const promise = projectApi.createProject(formDataObject)
+            console.log('d');
+            // try {
+            //     setIsLoading(true);
+            //     const promise = projectApi.createProject(formDataObject)
 
-                await toast.promise(promise, {
-                    loading: 'Submitting...',
-                    success: (response) => {
-                        if (response?.data?.success) {
-                            setIsLoading(false);
-                            navigate('/dashboard/project/all');
-                            return 'Submit Has bin successful!';
-                        } else {
-                            return 'Unexpected error occurred';
-                        }
-                    },
-                    error: (error) => {
-                        if (error.response) {
-                            return "Error!"
-                        }
-                    }
-                })
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setIsLoading(false);
-                console.log('finally');
-            }
+            //     await toast.promise(promise, {
+            //         loading: 'Submitting...',
+            //         success: (response) => {
+            //             if (response?.data?.success) {
+            //                 setIsLoading(false);
+            //                 navigate('/dashboard/project/all');
+            //                 return 'Submit Has bin successful!';
+            //             } else {
+            //                 return 'Unexpected error occurred';
+            //             }
+            //         },
+            //         error: (error) => {
+            //             if (error.response) {
+            //                 return "Error!"
+            //             }
+            //         }
+            //     })
+            // } catch (error) {
+            //     console.log(error);
+            // } finally {
+            //     setIsLoading(false);
+            //     console.log('finally');
+            // }
         }
     }
 
@@ -278,7 +314,7 @@ const AddProject = () => {
         fetchData(); // Invoke the fetchData function
     }, []);
 
-    console.log(primaryCateOption);
+   
 
 
     return (
@@ -295,7 +331,7 @@ const AddProject = () => {
                             <button className='dasMenuBtn' onClick={handelDashMenu}>
                                 <AiOutlineMenuUnfold />
                             </button>
-                            <h3 className="title">Add Project</h3>
+                            <h3 className="title">Edit Project  </h3>
 
                         </div>
                         <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
@@ -313,6 +349,7 @@ const AddProject = () => {
                                         placeholder="Project Name"
                                         onBlur={handleBlur}
                                         onChange={handleInputChange}
+                                        value={projectData?.project_name}
                                     />
                                     {errorMsg.project_name && <div className='error-msg'>{errorMsg.project_name}</div>}
                                 </div>
@@ -350,6 +387,7 @@ const AddProject = () => {
                                         placeholder="Affiliation"
                                         onBlur={handleBlur}
                                         onChange={handleInputChange}
+                                        value={projectData?.affiliation}
                                     />
                                     {errorMsg.affiliation && <div className='error-msg'>{errorMsg.affiliation}</div>}
                                 </div>
@@ -367,7 +405,10 @@ const AddProject = () => {
                                     placeholder="Description"
                                     onBlur={handleBlur}
                                     onChange={handleInputChange}
-                                ></textarea>
+                                    value={projectData?.project_desc}
+                                >
+                                  
+                                </textarea>
                                 {errorMsg.project_desc && <div className='error-msg'>{errorMsg.project_desc}</div>}
                             </div>
                             <div className="two_columns">
@@ -428,6 +469,7 @@ const AddProject = () => {
                                         name="address"
                                         id="address"
                                         placeholder="65 Hansen Way"
+                                        value={projectData?.address}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -438,6 +480,7 @@ const AddProject = () => {
                                         name="address_line"
                                         id="address_line"
                                         placeholder="Apartment 4"
+                                        value={projectData?.address_line}
                                     />
                                 </div>
                             </div>
@@ -450,6 +493,7 @@ const AddProject = () => {
                                         name="city_town"
                                         id="city_town"
                                         placeholder="Palo Alto"
+                                        value={projectData?.city_town}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -460,6 +504,7 @@ const AddProject = () => {
                                         name="state_region_province"
                                         id="testate_region_provincext"
                                         placeholder="California"
+                                        value={projectData?.state_region_province}
                                     />
                                 </div>
                             </div>
@@ -472,6 +517,7 @@ const AddProject = () => {
                                         name="zip_code"
                                         id="zip_code"
                                         placeholder="94304"
+                                        value={projectData?.zip_code}
                                     />
                                 </div>
                                 {/* <!-- Single Input --> */}
@@ -482,6 +528,7 @@ const AddProject = () => {
                                         name="country"
                                         id="country"
                                         placeholder="United States"
+                                        value={projectData?.country}
                                     />
                                 </div>
                             </div>
@@ -627,7 +674,7 @@ const AddProject = () => {
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
-                                    <input name="relevant_link" id="relevant_link" placeholder="https://" />
+                                    <input name="relevant_link" id="relevant_link" placeholder="https://" value={projectData?.relevant_link}/>
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -651,17 +698,16 @@ const AddProject = () => {
                                         id="other_included"
                                         rows="2"
                                         placeholder="Answer here.."
+                                        value={projectData?.other_included}
                                     >
                                     </textarea>
                                 </div>
                             </div>
                             <hr className='inputhr' />
                             <div className="form_submit al_submit_button">
-                                <button type="reset" className="btn btn-submit btn-light">
-                                    Cancel
-                                </button>
+                             
                                 <button type="submit" className="btn btn-submit btn-dark">
-                                    Submit
+                                    Update
                                 </button>
 
                             </div>
@@ -671,5 +717,7 @@ const AddProject = () => {
             </div>
         </section>
     );
+
 };
-export default AddProject;
+
+export default EditProject;

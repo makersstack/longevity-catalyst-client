@@ -10,6 +10,10 @@ import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditUserProfile = () => {
+    useEffect(() => {
+        document.title = "Update Profile - Longevity Catalyst";
+      }, []);
+
     ScrollToTop();
 
     const { userInfo } = useAuth();
