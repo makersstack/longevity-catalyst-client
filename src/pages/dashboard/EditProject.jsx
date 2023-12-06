@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { projectApi } from '../../api';
 import categoryApi from '../../api/CategoryApi';
 import ListInput from '../../components/common/ListInput';
@@ -38,13 +38,13 @@ const EditProject = () => {
         fetchSingleProject();
         console.log(projectData);
     
-    }, [projectId]);
+    }, [projectData, projectId]);
 
 
 
 
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     ScrollToTop();
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
