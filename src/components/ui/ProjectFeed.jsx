@@ -15,6 +15,7 @@ import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
 import VoteButtons from '../VoteSystem/VoteButtons';
+import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
 import SocailModal from './SocailModal';
@@ -29,6 +30,7 @@ const ProjectFeed = () => {
   const [page, setPage] = useState(1);
   const [isSideBarActive, setSideBarActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -197,7 +199,7 @@ const ProjectFeed = () => {
                   <div className="post_auth_info">
                     <div className="profile_image">
                       <button onClick={() => navigation(`${project?.User?.username}`)}>
-                        <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
+                        <ImageTagWithFallback src={project?.User?.profileImage} fallbackSrc={avatersFor.user}  alt={project?.User?.username} />
                       </button>
                     </div>
                     <div className="post_user_fet">
@@ -209,7 +211,7 @@ const ProjectFeed = () => {
                       </div>
                     </div>
                   </div>
-                <VoteButtons projectId={project.id} VoteByUser={project?.VoteByUser} />
+                <VoteButtons projectId={project.id} VoteByUser={project?.VoteByUser} voteCounts={project?.voteCounts} />
                 </div>
                 {/* card body */}
                 <div className="card_body">
@@ -232,11 +234,11 @@ const ProjectFeed = () => {
                       <div className="likded_users">
                         {project?.likedUsers.slice(-3).map((likedUser, index) => (
                           <Link to={likedUser?.username} key={index}>
-                            <img src={likedUser?.profileImage || avatersFor.user} alt={likedUser?.username} />
+                           <ImageTagWithFallback src={likedUser?.profileImage} fallbackSrc={avatersFor.user}  alt={likedUser?.username} />
                           </Link>
                         ))}
 
-                      </div>
+                      </div>  
                       {
                         project?.totalLikes !== 0 ? project?.totalLikes <= 3 ? <p>liked this post.</p> : <p> and {project?.totalLikes - 3} people liked this post.</p> : <p>Nobody has liked this yet.</p>
                       }

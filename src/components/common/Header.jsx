@@ -11,6 +11,7 @@ import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
 import CustomSelect from '../ui/CustomSelect';
 import SignupModal from '../ui/SignupModal';
+import ImageTagWithFallback from './ImageTagWithFallback';
 
 const Header = () => {
   const { handleLogout, isLoggedIn, userInfo } = useAuth();
@@ -131,12 +132,12 @@ const Header = () => {
                   {getLinkText()}
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
-                  <img
-                    src={avatarSrc}
-                    alt="Avater"
-                    className="profile-image"
-                    onClick={toggleDropdown}
-                  />
+
+                  <button className="profile-image" onClick={toggleDropdown}>
+                    <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInfo?.username} />
+
+                  </button>
+
                   {isDropdownOpen && (
                     <div className="dropdown-content">
                       <div className="user_dropdown_menu">
