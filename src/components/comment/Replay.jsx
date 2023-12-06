@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LiaHeart } from 'react-icons/lia';
 import { PiLinkSimpleHorizontalLight } from 'react-icons/pi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import AddReplay from './AddReplay';
 
 const Replay = ({ data, addNewReplay }) => {
-    const [isAddReplay,setIsAddReplay] = useState(false);
-    const openReplayBoxHandeler = () =>{
-        setIsAddReplay(!isAddReplay);
-    }
     return (
 
         <div className="comment_card replay_card">
@@ -29,7 +24,6 @@ const Replay = ({ data, addNewReplay }) => {
             {/* card body  */}
             <div className="comment_card_body">
                 {data.replyText}
-
             </div>
             {/* card footer  */}
             <div className="comment_card_footer ">
@@ -44,9 +38,6 @@ const Replay = ({ data, addNewReplay }) => {
                                 <BiDownvote />
                             </button>
                         </div> */}
-                        {/* <button className="project_effective_button replay_btn" onClick={openReplayBoxHandeler}>
-                            <MdOutlineAddComment /> <span>Replay</span>
-                        </button> */}
                         <button className="project_effective_button">
                             <RiShareForwardFill /> Share
                         </button>
@@ -62,9 +53,9 @@ const Replay = ({ data, addNewReplay }) => {
                         </button>
                     </div>
                 </div>
-                {
-                    isAddReplay && <AddReplay addNewReplay={addNewReplay} openReplayBoxHandele={openReplayBoxHandeler} />
-                }
+                {/* {
+                    isAddReplay && <AddReplay addNewReplay={addNewReplay} setIsAddReplay={setIsAddReplay} />
+                } */}
             </div>
 
         </div>

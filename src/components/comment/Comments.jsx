@@ -12,7 +12,6 @@ const Comments = ({ data }) => {
     const { userInfo } = useAuth();
     const isAuthor = userInfo && userInfo.id === data?.User?.id;
     const { setIsLoading } = useLoading();
-    const { id } = data?.id;
 
     const [replyLimit, setReplyLimit] = useState(2);
     const [moreCount, setMoreCount] = useState(0);
@@ -20,27 +19,34 @@ const Comments = ({ data }) => {
     const [isAddReplay, setIsAddReplay] = useState(false);
     const handleShowMoreClick = () => {
         setReplyLimit((prevLimit) => prevLimit + 5);
+        // TODO ALIFUR
         setMoreCount((prevCount) => data?.Replies?.length - replyLimit);
-    };
+    };  
+    const [replies, setReplies] = useState(data?.Replies || []);
+    const { projectId, id } = data;
 
-    const addNewReply = async (formDataObject) => {
+    const addNewReplay = async (formDataObject) => {
         try {
             setIsLoading(true);
-            const response = await projectApi.addReply(formDataObject, id);
 
-            const newReply = response?.data;
-            console.log(newReply);
+            if (!projectId || !id) {
+                throw new Error('Project ID or Comment ID not provided');
+            }
+            const response = await projectApi.addReply(formDataObject, projectId, id);
+            const newReply = response?.data?.data;
+            setReplies(prevReplies => [...prevReplies, newReply]);
             // Do others 
         } catch (error) {
-            console.error('Error adding comment:', error);
+            throw new Error('Error adding comment:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
     const toggleOpenReplyBox = () => {
-        setIsAddReplay(!isAddReplay);
+        setIsAddReplay(prevState => !prevState);
         setOpenCmnt(true);
+        // TODO ALIFUR
         // setMoreCount((prevCount) => data?.Replies?.length - replyLimit);
     };
 
@@ -55,11 +61,13 @@ const Comments = ({ data }) => {
                 <div className="comment_card_head">
                     <div className="commenter_info">
                         <Link to="/user/username">
+                            {/* TODO ALIFUR */}
                             <img className='user_thum_style' src={data.User?.profileImage} alt="userImage" />
                         </Link>
                         <div className="post_user_fet">
                             <Link to="/user/Esther Howard" className="user_name">{data.User?.username}</Link>
                         </div>
+                        {/* TODO ALIFUR */}
                         <span className="comment_time">5 hr. ago</span>
                     </div>
                 </div>
@@ -82,13 +90,13 @@ const Comments = ({ data }) => {
                         </div>
                     </div>
                     {
-                        isAddReplay && <AddReplay addNewReplay={addNewReply} toggleOpenReplyBox={toggleOpenReplyBox} />
+                        isAddReplay && <AddReplay addNewReplay={addNewReplay} setIsAddReplay={setIsAddReplay} />
                     }
 
                     {
-                        isOpenCmnt && <> {data.Replies.length !== 0 ? (
-                            data.Replies.slice(0, replyLimit).map((singleData) => (
-                                <Replay key={singleData.id} data={singleData} addNewReply={addNewReply} />
+                        isOpenCmnt && <> {replies.length !== 0 ? (
+                            replies.slice(0, replyLimit).map((singleData) => (
+                                <Replay key={singleData.id} data={singleData} />
                             ))
                         ) : (
                             <> No Replies yet ..</>

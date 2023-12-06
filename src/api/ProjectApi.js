@@ -88,11 +88,11 @@ export const projectApi = {
       data: projectData,
     }),
   // For Reply
-  addReply: async (commentText, projectId, commentId) =>
+  addReply: async (replyText, projectId, commentId) =>
     axiosBaseQuery({
-      url: `/project/${projectId}/comment/:commentId/reply`,
+      url: `/project/${projectId}/comment/${commentId}/reply`,
       method: 'POST',
-      data: commentText,
+      data: replyText,
     }),
 
   getAllReplyByComment: async (projectId, paginationOptions) => {
