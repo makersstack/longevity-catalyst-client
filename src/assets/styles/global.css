@@ -922,6 +922,26 @@ input:disabled {
   visibility: visible;
   top: 50px;
 }
+.delete_modal_body {
+  padding: 20px 15px;
+}
+.delete_modal_title {
+  padding-bottom: 10px;
+  font-size: 28px;
+  font-weight: 600;
+}
+.modal_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  padding-top: 30px;
+}
+.btn-danger {
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 8px;
+}
 
 @keyframes spinning {
   0% {

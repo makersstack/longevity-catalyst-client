@@ -10,7 +10,7 @@ import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 const ProjectDetails = () => {
   ScrollToTop();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams(); 
   const navigate = useNavigate();
@@ -153,7 +153,7 @@ const ProjectDetails = () => {
 
                     {/* comment box  */}
                     <div className="details_block">
-                      <CommentBox />
+                      <CommentBox projectId={projectData?.id} />
                     </div>
                   </div>
                 </div>

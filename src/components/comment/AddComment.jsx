@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-const AddComment = ({addNewComment}) => {
-  const initialFormData = {
-    commentText: '',
-  };
+const AddComment = ({ addNewComment }) => {
 
   const [isOpenForm, setOpenForm] = useState(false);
-  const [formData, setFormData] = useState(initialFormData);
   const [errorMsg, setErrorMsg] = useState({});
 
   const handelOpenCommentForm = (event) => {
@@ -18,30 +14,29 @@ const AddComment = ({addNewComment}) => {
   const handelCloseCommentForm = (event) => {
     event.preventDefault();
     setOpenForm(false);
-    setFormData(initialFormData); // Reset the form data
     setErrorMsg({});
   };
 
   const handelSubmitComment = (event) => {
     event.preventDefault();
     setErrorMsg({});
-    const formData = new FormData(event.target);
-    const formDataObject = {};
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
-    });
     let isValid = true;
-    if (formDataObject.commentText.length === 0) {
+    const formCommentData = new FormData(event.target);
+    const formDataObject = {};
+    formCommentData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+    if (formDataObject.commentText.trim().length === 0) {
       setErrorMsg((prevErrorMsg) => ({
         ...prevErrorMsg,
         commentText: "Write something in the box!",
       }));
       isValid = false;
     }
+    
     if (isValid) {
       addNewComment(formDataObject);
       setOpenForm(false);
-      setFormData(initialFormData); // Reset the form data
       setErrorMsg({});
     }
   };
@@ -61,8 +56,6 @@ const AddComment = ({addNewComment}) => {
               id=""
               rows="5"
               placeholder="Write a comment..."
-              value={formData.commentText}
-              onChange={(e) => setFormData({ commentText: e.target.value })}
             ></textarea>
             {errorMsg.commentText && <div className="error-msg">{errorMsg.commentText}</div>}
             <div className="add_comment_f_btns">

@@ -1,19 +1,31 @@
-import queryString from 'query-string';
 import { axiosBaseQuery } from '../helpers/axios/baseQuery';
 
 export const projectApi = {
-  getAllProjects: async (queryParams) => {
-    try {
-      const queryStringified = queryString.stringify(queryParams);
-      const url = `/projects${queryStringified ? `?${queryStringified}` : ''}`;
+  getAllProjects: async (filters, paginationOptions) => {
+    const searchQuery = filters.searchTerm ? `searchTerm=${encodeURIComponent(filters.searchTerm)}` : '';
 
-      return await axiosBaseQuery({
-        url,
-        method: 'GET',
-      });
-    } catch (error) {
-      throw new Error('Error fetching projects:', error);
-    }
+    const filterQueries = Object.entries(filters)
+      .filter(([key, value]) => key !== 'searchTerm' && value !== '')
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value.map((val) => `${key}=${encodeURIComponent(val)}`).join('&');
+        }
+        return `${key}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+
+    const { page, limit } = paginationOptions;
+
+    const paginationQuery = `page=${page}&limit=${limit}`;
+
+    const queryParams = [paginationQuery, searchQuery, filterQueries,].filter(Boolean).join('&');
+
+    const modifyUrl = `/projects${queryParams ? `?${queryParams}` : ''}`;
+
+    return await axiosBaseQuery({
+      url: modifyUrl,
+      method: 'GET',
+    });
   },
 
   getSingleProject: async (projectId) =>
@@ -45,24 +57,52 @@ export const projectApi = {
       method: 'POST',
       data: projectData,
     }),
-  likeOperation: async (operationData) =>
+
+  // For comment
+  addComment: async (commentText, projectId) =>
     axiosBaseQuery({
-      url: `/like/project`,
+      url: `/project/${projectId}/comment`,
       method: 'POST',
-      data: operationData
+      data: commentText,
     }),
 
-  VoteOperation: async (operationData) =>
+  getAllCommentByPost: async (projectId, paginationOptions) => {
+    const { limit } = paginationOptions;
+    return await axiosBaseQuery({
+      url: `/project/${projectId}/comments?limit=${limit}`,
+      method: "GET",
+    })
+  },
+
+  updateComment: async (projectData) =>
     axiosBaseQuery({
-      url: `/vote/project`,
+      url: '/project/create',
       method: 'POST',
-      data: operationData
+      data: projectData,
     }),
 
+  deleteComment: async (projectData) =>
+    axiosBaseQuery({
+      url: '/project/create',
+      method: 'POST',
+      data: projectData,
+    }),
+  // For Reply
+  addReply: async (replyText, projectId, commentId) =>
+    axiosBaseQuery({
+      url: `/project/${projectId}/comment/${commentId}/reply`,
+      method: 'POST',
+      data: replyText,
+    }),
 
-   
+  getAllReplyByComment: async (projectId, paginationOptions) => {
+    const { limit } = paginationOptions;
+    return await axiosBaseQuery({
+      url: `/project/${projectId}/comments?limit=${limit}`,
+      method: "GET",
+    })
+  },
+
 };
-
-
 
 export default projectApi;

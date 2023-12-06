@@ -1,33 +1,32 @@
 import React, { useState } from 'react';
 
-const AddReplay = ({ addNewReplay,openReplayBoxHandele }) => {
-    const initialFormData = {
-        replayText: '',
-    };
+const AddReplay = ({ addNewReplay, setIsAddReplay }) => {
 
-    const [formData, setFormData] = useState(initialFormData);
     const [errorMsg, setErrorMsg] = useState({});
 
-
+    const onCancle = () => {
+        setIsAddReplay(false);
+    }
+    
     const handelSubmitReplay = (event) => {
         event.preventDefault();
         setErrorMsg({});
+        let isValid = true;
         const formData = new FormData(event.target);
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
-        let isValid = true;
-        if (formDataObject.replayText.length === 0) {
+        if (formDataObject.replyText.trim().length === 0) {
             setErrorMsg((prevErrorMsg) => ({
                 ...prevErrorMsg,
-                replayText: "Write something in the box!",
+                replyText: "Write something in the box!",
             }));
             isValid = false;
         }
         if (isValid) {
             addNewReplay(formDataObject);
-            setFormData(initialFormData); // Reset the form data
+            setIsAddReplay(false);
             setErrorMsg({});
         }
     };
@@ -36,11 +35,11 @@ const AddReplay = ({ addNewReplay,openReplayBoxHandele }) => {
         <>
             <div className="al_add_comment_box">
                 <form onSubmit={handelSubmitReplay}>
-                    <input type="text" placeholder="Write a replay..." value={formData.replayText} name="replayText" className={errorMsg.replayText ? 'border-warning' : ''} onChange={(e) => setFormData({ replayText: e.target.value })} />
+                    <input type="text" placeholder="Write a replay..."  name="replyText" className={errorMsg.replyText ? 'border-warning' : ''} />
 
-                    {errorMsg.replayText && <div className="error-msg">{errorMsg.replayText}</div>}
+                    {errorMsg.replyText && <div className="error-msg">{errorMsg.replyText}</div>}
                     <div className="add_comment_f_btns">
-                        <button onClick={openReplayBoxHandele} className="btn btn-light">
+                        <button onClick={onCancle} className="btn btn-light">
                             Cancel
                         </button>
                         <button type="submit" className="btn btn-dark no-shadow">

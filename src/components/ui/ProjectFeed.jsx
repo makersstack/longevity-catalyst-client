@@ -6,13 +6,11 @@ import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
-
-
 import '../../assets/styles/projectFeed.css';
 
 import { projectApi } from '../../api';
 
-import LikeButton from '../../components/LikeShare/LikeButton';
+import LikeButton from '../../components/likeShare/LikeButton';
 import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import dateTimeHel from '../../utils/dateTimeHel';
@@ -41,14 +39,32 @@ const ProjectFeed = () => {
     setSelectedTopOption(value);
   };
 
+  const [filters, setFilters] = useState({
+    search: '',
+    textsearch: '',
+    selectedCategory: '',
+    selectedTopic: '',
+    selectedDuration: '',
+    selectedRequiredSkills: [],
+    selectedFundingStatus: '',
+    selectedLanguage: '',
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjects(page, 3);
+        const paginationOptions = {
+          page,
+          limit: 5,
+        };
+        const response = await projectApi.getAllProjects(filters, paginationOptions);
+
         const projectsData = response?.data?.data || [];
-        setProjects(projectsData); // Set projects state with the extracted data
+        setProjects(projectsData);
+
         setFilteredProjects(projectsData);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -56,12 +72,13 @@ const ProjectFeed = () => {
       }
     };
 
-    fetchData(); // Invoke the fetchData function
-  }, [page]);
+    fetchData();
+  }, [filters, page]);
 
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
+
   // Sidebar Content
   function filterProjects(filters, projects) {
     const {
@@ -74,30 +91,12 @@ const ProjectFeed = () => {
       selectedLanguage,
     } = filters;
     return projects.filter((project) => {
-      // Apply your filter logic here based on the filter criteria
-      // For example, you can use if statements to check each filter
-      if (search && !project.project_name.toLowerCase().includes(search.toLowerCase())) {
-        console.log(search);
-        return false;
-      }
-
       if (selectedCategory && project.project_keywords !== selectedCategory) {
-        return false;
+        console.log(selectedCategory);
       }
-
       return true;
     });
   }
-
-  const [filters, setFilters] = useState({
-    search: '',
-    selectedCategory: '',
-    selectedTopic: '',
-    selectedDuration: '',
-    selectedRequiredSkills: [],
-    selectedFundingStatus: '',
-    selectedLanguage: '',
-  });
 
   useEffect(() => {
     const filtered = filterProjects(filters, projects);
@@ -121,10 +120,9 @@ const ProjectFeed = () => {
       );
     });
 
-    if (filterType !== 'textsearch') {
+    if (filterType !== 'searchTerm') {
       setSideBarActive(!isSideBarActive);
     }
-
   };
   // For modal
   const [isModalOpen, setIsModalOpen] = useState(false);
