@@ -13,7 +13,7 @@ const ProjectDetails = () => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
   ScrollToTop();
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams(); 
 
@@ -154,7 +154,7 @@ const ProjectDetails = () => {
 
                     {/* comment box  */}
                     <div className="details_block">
-                      <CommentBox />
+                      <CommentBox projectId={projectData?.id} />
                     </div>
                   </div>
                 </div>

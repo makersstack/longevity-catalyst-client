@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { LoadingProvider } from "../contex/LoadingContext";
+import { LoadingContext } from "../contex/LoadingContext";
 
 const useLoading = () => {
-  useContext(LoadingProvider);
+  return useContext(LoadingContext);
 }
 export default useLoading;

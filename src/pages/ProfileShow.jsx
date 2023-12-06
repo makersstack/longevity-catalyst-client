@@ -9,8 +9,10 @@ import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import SidebarFilters from '../components/filter/SidebarFilters';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
 import ProjectCard from '../components/project/ProjectCard';
+import Loader from '../components/ui/Loader';
 import { avatersFor } from '../constants/avaters';
 import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';
+import useLoading from '../hooks/useLoading';
 import ScrollToTop from '../utils/RouteChange';
 
 const ProfileShow = ({ rating }) => {
@@ -18,14 +20,12 @@ const ProfileShow = ({ rating }) => {
     document.title = 'Profile - Longevity Catalyst';
   }, []);
   ScrollToTop();
-
+  const { isLoading, setIsLoading } = useLoading();
   const { username } = useParams()
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
   const [userInformatin, setUserInformatin] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const ProfileShow = ({ rating }) => {
     };
 
     fetchData(); // Invoke the fetchData function
-  }, [username]);
+  }, [setIsLoading, username]);
 
 
   // Top Filter
@@ -145,43 +145,44 @@ const ProfileShow = ({ rating }) => {
               filters={filters}
             />
             {/* project show container */}
-            <div className="project_show_container">
-              <div className="profile_user_info other_profile">
-                <div className="image_block">
-                  <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInformatin?.full_name} />
-                </div>
-                <div className="info_block">
-                  <h3>{userInformatin?.full_name}</h3>
-                  <div className="user_title">{userInformatin?.bio}</div>
-                  <div className="profile_info_ratings">
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiOutlineStar /></span>
+            {isLoading ? (
+              <Loader />
+            ) : (
+
+
+              <div className="project_show_container">
+                <div className="profile_user_info other_profile">
+                  <div className="image_block">
+                    <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInformatin?.full_name} />
                   </div>
-                  <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
+                  <div className="info_block">
+                    <h3>{userInformatin?.full_name}</h3>
+                    <div className="user_title">{userInformatin?.bio}</div>
+                    <div className="profile_info_ratings">
+                      <span><AiFillStar /></span>
+                      <span><AiFillStar /></span>
+                      <span><AiFillStar /></span>
+                      <span><AiFillStar /></span>
+                      <span><AiOutlineStar /></span>
+                    </div>
+                    <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
+                  </div>
+                </div>
+                <TopFilterButtons options={topFilterOptionsByUser}
+                  selectedOption={selectedTopOption}
+                  onOptionChange={handleTopOptionChange} />
+                {/* project show container */}
+                <div className="project_show_cash">
+                  {filteredProjects.length !== 0 ? (
+                    filteredProjects.map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))
+                  ) : (
+                    <p>No projects found</p>
+                  )}
                 </div>
               </div>
-              <TopFilterButtons options={topFilterOptionsByUser}
-                selectedOption={selectedTopOption}
-                onOptionChange={handleTopOptionChange} />
-              {/* project show container */}
-              <div className="project_show_cash">
-
-                {filteredProjects.length !== 0 ? (
-                  filteredProjects.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
-                  ))
-
-                ) : (
-                  <p>No projects found.</p>
-                )}
-
-              </div>
-
-            </div>
-
+            )}
           </div>
         </div>
       </section>
@@ -189,4 +190,4 @@ const ProfileShow = ({ rating }) => {
   );
 };
 
-export default ProfileShow;
+export default ProfileShow

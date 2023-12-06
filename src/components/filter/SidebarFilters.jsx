@@ -222,7 +222,7 @@ const SidebarFilters = ({
               <button className='side_bar_head_btn sideCloseBtn' onClick={handelSideBarButton}>  <AiOutlineClose /> </button>
             </div>
             <div className='side_bar_inputs_box'>
-              {search && <SearchField onSearchChange={(value) => onPageChange('textsearch', value)} value={searchValue} />}
+              {search && <SearchField onSearchChange={(value) => onPageChange('searchTerm', value)} value={searchValue} />}
               {categories && (
                 <Categories
                   categoryOptions={categories}

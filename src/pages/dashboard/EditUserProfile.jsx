@@ -17,7 +17,6 @@ const EditUserProfile = () => {
     ScrollToTop();
 
     const { userInfo } = useAuth();
-    console.log(userInfo);
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
         { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },

@@ -46,9 +46,9 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (accessToken) {
-            fetchUserInfo(accessToken); // Fetch user info only when accessToken is available
+            fetchUserInfo(accessToken); 
         } else {
-            setUserInfo(null); // Reset userInfo if accessToken is not available
+            setUserInfo(null); 
         }
     }, [accessToken, fetchUserInfo]);
 
