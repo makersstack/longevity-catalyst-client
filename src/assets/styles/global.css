@@ -974,6 +974,16 @@ input:disabled {
 .al_voteCount {
   font-size: 16px;
 }
+.al_pHeader_buttons_area {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  align-items: center;
+  gap: 3px;
+}
+.project_more_btn {
+  padding: 7px !important;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

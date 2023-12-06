@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ui/ProjectFeed';
@@ -7,6 +7,9 @@ import TrustSlider from '../components/ui/TrustSlider';
 import ScrollToTop from '../utils/RouteChange';
 
 const Home = () => {
+  useEffect(() => {
+    document.title = 'Home - Longevity Catalyst';
+  }, []);
   ScrollToTop();
 
   return (

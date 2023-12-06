@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { CiLocationOn } from "react-icons/ci";
-import { FaBell, FaRegCommentDots, FaUserAlt, FaWifi } from 'react-icons/fa';
+import { FaBell, FaWifi } from 'react-icons/fa';
 import { FiBriefcase, FiCalendar } from 'react-icons/fi';
-import { HiArrowNarrowRight, HiDotsVertical } from 'react-icons/hi';
+import { HiDotsVertical } from 'react-icons/hi';
 import { IoEyeOutline, IoHomeOutline } from "react-icons/io5";
-import { RiShareForwardFill } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { projectApi } from '../api';
 import "../assets/styles/profileShow.css";
 import TopFilterButtons from '../components/filter/TopFilterButtons';
-import LikeButton from '../components/likeShare/LikeButton';
-import SocailModal from '../components/ui/SocailModal';
+import ProjectCard from '../components/project/ProjectCard';
 import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
-import { baseUrl } from '../globals';
 import useAuth from '../hooks/UseAuth';
 import ScrollToTop from '../utils/RouteChange';
-import dateTimeHel from '../utils/dateTimeHel';
 const ContributorProfile = () => {
+  useEffect(() => {
+    document.title = "Contributor Profile - Longevity Catalyst";
+  }, []);
   ScrollToTop();
-  const navigation = useNavigate();
   const { isLoggedIn, userInfo } = useAuth();
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
 
@@ -52,16 +49,8 @@ const ContributorProfile = () => {
   const handleLoadMore = () => {
     alert("Processing... Project Filters, Search Terms, and Pagination!");
   };
-  // For modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
   return (
     <section className="full_width_contributer_section">
@@ -262,82 +251,7 @@ const ContributorProfile = () => {
 
             <div className="project_show_cash">
               {projects.map((project) => (
-                <div className="card" key={project.id}>
-                  {/* card header */}
-                  <div className="card_header">
-                    <div className="post_auth_info">
-                      <div className="profile_image">
-                        <button onClick={() => navigation(`/${project?.User?.username}`)}>
-                          <img src={project?.User?.profileImage || avatersFor.user} alt={project?.User?.username} />
-                        </button>
-                      </div>
-                      <div className="post_user_fet">
-                        <button onClick={() => navigation(`/${project?.User?.username}`)} className="user_name">
-                          {project?.User?.full_name}
-                        </button>
-                        <div className="post-features">
-                          <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="post_arrow">
-                      <button type="button">
-                        <BiUpvote />
-                      </button>
-                      <button>
-                        <BiDownvote />
-                      </button>
-                    </div>
-                  </div>
-                  {/* card body */}
-                  <div className="card_body">
-                    <Link to={`/project/${project.id}`}>
-                      <h4 className="card_title">{project.project_name}</h4>
-                    </Link>
-                    <p className="card_text">
-                      {project.project_desc}
-                    </p>
-                    <Link to={`/project/${project.id}`} className='al_project_learn_more'>
-                      Learn more <HiArrowNarrowRight />
-                    </Link>
-                  </div>
-                  {/* card footer */}
-                  <div className="card_footer">
-                    {/* project resource */}
-                    <div className="project_resourse">
-                      <LikeButton projectId={2} userId={2} />
-                      <div className="project_reso_details">
-                        <div className="likded_users">
-                          <Link to="/">
-                            <img src={avatersFor.user} alt={`userImage`} />
-                          </Link>
-                          <Link to="/">
-                            <img src={avatersFor.user} alt={`userImage`} />
-                          </Link>
-                          <Link to="/">
-                            <img src={avatersFor.user} alt={`userImage`} />
-                          </Link>
-                        </div>
-                        <p>and {project.likesCount} people liked this post.</p>
-                      </div>
-                      {/* For Share */}
-                      <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
-                      <button className="project_effective_button" onClick={openModal}>
-                        <RiShareForwardFill /> Share
-                      </button>
-                    </div>
-                    {/* comment features */}
-                    <div className="project_comment_features">
-                      <button className="project_effective_button">
-                        <FaRegCommentDots /> Comment
-                      </button>
-                      <div className="post-features">
-                        <Link to="/">{project.commentsCount} Comments</Link> <span></span>
-                        <Link to="/">{project.sharesCount} Shares</Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ProjectCard key={project.id} project={project} />
               ))}
               {isLoading ? (
                 <p>Loading...</p>

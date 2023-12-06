@@ -15,7 +15,8 @@ const ListInput = ({ type, getValue, setValue, dots = false, isLimit = false, ma
             ...getValue,
             lists,
         });
-    }, [lists, setValue]);
+        console.log(lists);
+    }, [lists, setValue, setValue]);
     const SetKeywordFunc = () => {
         if (isLimit && lists.length >= KEYWORD_LENGTH) {
             setErrorMsg(`Can't take upto ${KEYWORD_LENGTH} !`);

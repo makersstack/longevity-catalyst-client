@@ -13,6 +13,7 @@ import SignUp from "../pages/auth/SignUp";
 import AddProject from "../pages/dashboard/AddProject";
 import AllProject from "../pages/dashboard/AllProject";
 import Dashboard from "../pages/dashboard/Dashboard";
+import EditProject from "../pages/dashboard/EditProject";
 import EditUserProfile from "../pages/dashboard/EditUserProfile";
 import PasswordChange from "../pages/dashboard/PasswordChange";
 
@@ -30,6 +31,7 @@ const AppRoutes = () => {
       <Route path="/about" element={<AboutUs />} />
       <Route path="/faqs" element={<FAQ />} />
       <Route path="/:username" element={<ProfileShow />} />
+      <Route path="/project/:projectId" element={<ProjectDetails />} />
 
       <Route element={<IfAuthCheck />}>
         <Route path="/login" element={<Login />} />
@@ -37,11 +39,11 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<RequireAuth />}>
-        <Route path="/project/:projectId" element={<ProjectDetails />} />
         <Route path="/dashboard/contributor/:username" element={<ContributorProfile />} />
         <Route path="/dashboard/home" element={<Dashboard />} />
         <Route path="/dashboard/project/all" element={<AllProject />} />
         <Route path="/dashboard/project/add" element={<AddProject />} />
+        <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
         <Route path="/dashboard/profile/view" element={<ContributorProfile />} />
         <Route path="/dashboard/profile/update" element={<EditUserProfile />} />
         <Route path="/dashboard/password/change" element={<PasswordChange />} />

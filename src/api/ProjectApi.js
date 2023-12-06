@@ -102,6 +102,19 @@ export const projectApi = {
       method: "GET",
     })
   },
+  likeOperation: async (operationData) =>
+    axiosBaseQuery({
+      url: `/like/project`,
+      method: 'POST',
+      data: operationData
+    }),
+
+  VoteOperation: async (operationData) =>
+    axiosBaseQuery({
+      url: `/vote/project`,
+      method: 'POST',
+      data: operationData
+    }),
 
 };
 

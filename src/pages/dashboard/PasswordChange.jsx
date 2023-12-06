@@ -6,6 +6,10 @@ import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
 
 const PasswordChange = () => {
+    useEffect(() => {
+        document.title = "Change Password - Longevity Catalyst";
+      }, []);
+  
     ScrollToTop();
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);

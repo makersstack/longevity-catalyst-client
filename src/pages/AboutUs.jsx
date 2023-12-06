@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/about.css';
 import Newsletter from '../components/ui/Newsletter';
@@ -7,6 +7,9 @@ import { baseUrl } from '../globals';
 import ScrollToTop from '../utils/RouteChange';
 
 const AboutUs = () => {
+  useEffect(() => {
+    document.title = "About Us - Longevity Catalyst";
+  }, []);
   ScrollToTop();
   return (
     <>
