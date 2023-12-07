@@ -21,7 +21,7 @@ const ProfileShow = ({ rating }) => {
   }, []);
   ScrollToTop();
   const { isLoading, setIsLoading } = useLoading();
-  const { username } = useParams()
+  const { username } = useParams();
 
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);

@@ -49,6 +49,7 @@ const AuthProvider = ({ children }) => {
             fetchUserInfo(accessToken); 
         } else {
             setUserInfo(null); 
+            removeUserInfo(authKey);
         }
     }, [accessToken, fetchUserInfo]);
 

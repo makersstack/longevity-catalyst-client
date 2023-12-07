@@ -13,6 +13,18 @@ const instance = axios.create({
   },
   withCredentials: true,
 });
+let isRefreshing = false;
+let failedQueue = [];
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
 
 instance.interceptors.request.use(
   function (config) {
@@ -35,20 +47,40 @@ instance.interceptors.response.use(
     return responseObject;
   },
   async function (error) {
-    // const navigation = useNavigate();
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = token;
+            return instance(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
+
       try {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = getLocalStorage(authKey);
         const newAccessToken = await refreshToken(accessToken);
         setToLocalStorage(authKey, newAccessToken);
-        // error.config.headers.Authorization = `accessToken ${newAccessToken}`;
+        processQueue(null, newAccessToken);
+
+        originalRequest.headers.Authorization = newAccessToken;
         return instance(originalRequest);
       } catch (refreshError) {
-        console.error('Error refreshing access token:', refreshError);
+        processQueue(refreshError, null);
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
-    } 
+    }
+    return Promise.reject(error);
   }
 );
 
