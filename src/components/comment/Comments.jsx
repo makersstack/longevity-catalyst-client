@@ -79,7 +79,7 @@ const Comments = ({ data }) => {
                         <div className="comment_box_buttons">
                             <button onClick={toggleOpenComments} className="box_open_close_icon"> {isOpenCmnt ? '-' : '+'}  </button>
                             <button className="project_effective_button replay_btn" onClick={toggleOpenReplyBox}>
-                                <MdOutlineAddComment /> <span>Replay</span>
+                                <MdOutlineAddComment /> <span>Reply</span>
                             </button>
                             {
                                 isAuthor && (
