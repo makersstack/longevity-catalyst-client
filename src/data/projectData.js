@@ -124,28 +124,28 @@ const faqsData = [
 export const onsiteOption = [
   {
     key: 'onsite-1',
-    value: 'on',
+    value: true,
     label: 'on',
     inputName: 'onsite_work',
   },
   {
     key: 'onsite-2',
-    value: 'off',
+    value: false,
     label: 'off',
     inputName: 'onsite_work',
-    checked: true
+    
   }
 ];
 export const ProjectHardDeadlineOption = [
   {
     key: 'hardDeadline-1',
-    value: 'on',
+    value: true,
     label: 'on',
     inputName: 'hardDeadline',
   },
   {
     key: 'hardDeadline-2',
-    value: 'off',
+    value: false,
     label: 'off',
     inputName: 'hardDeadline',
   }
