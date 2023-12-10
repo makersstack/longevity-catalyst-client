@@ -1,36 +1,49 @@
-import React, { useEffect, useRef } from 'react';
+// import React, { useState } from 'react';
+// import { projectApi } from '../../api';
 
-const MegaMenu = ({ isOpen, onClose }) => {
-  const menuRef = useRef(null);
+// const MegaMenu = ({ isOpen, onClose, searchTerm, handleSearch }) => {
+//   const [projects, setProjects] = useState([]);
+//   const [projectLimit, setProjectLimit] = useState(2);
+//   const 
+//   useEffect(() => {
+//     // Simulating fetching projects from an API
+//     const fetchProjects = async () => {
+//       try {
+//         // setIsLoading(true);
+//         const paginationOptions = {
+//           limit: projectLimit,
+//         };
+//         const response = await projectApi.getAllProjects(filters, paginationOptions);
+//         setProjects(response.data.data.data); 
+//       } catch (error) {
+//         console.error('Error fetching projects:', error);
+//       }
+//     };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
+//     if (isOpen) {
+//       fetchProjects();
+//     }
+//   }, [isOpen]);
 
-    document.addEventListener('mousedown', handleClickOutside);
+//   const filteredProjects = projects.filter((project) =>
+//     project.name.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
+//   const setSearchProjectLink = () => {
+//     console.log('Test Data');
+//   }
+//   return (
+//     <div className='meghamenu_header'>
+//        <ul>
+//         {filteredProjects.map((project) => (
+//           <li key={project.id}>{project.name}</li>
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+//         ))}
+//       </ul>
+//       <div onClick={setSearchProjectLink}>
+          
+//       </div>
+//     </div>
+//   );
+// };
 
-  const handleItemClick = (itemName) => {
-    console.log('Clicked on:', itemName);
-    onClose();
-  };
-
-  return (
-    <div ref={menuRef} className='meghamenu_header'>
-      <ul>
-        <li onClick={() => handleItemClick('Item 1')}>Item 1</li>
-        <li onClick={() => handleItemClick('Item 2')}>Item 2</li>
-        {/* Add more menu items */}
-      </ul>
-    </div>
-  );
-};
-
-export default MegaMenu;
+// export default MegaMenu;
