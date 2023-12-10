@@ -14,6 +14,21 @@ import SignupModal from '../ui/SignupModal';
 import ImageTagWithFallback from './ImageTagWithFallback';
 
 const Header = () => {
+  // For Search Menu
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const [searchTerm, setSearchTerm] = useState('');
+
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  // };
+  // const handleSearchTermFocus = () =>{
+  //   setIsMenuOpen(true);
+  // }
+  // const handleMenuClose = () => {
+  //   setIsMenuOpen(false);
+  // };
+
+  // For Auth
   const { handleLogout, isLoggedIn, userInfo } = useAuth();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -75,6 +90,7 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
   const location = useLocation();
 
   const getLinkText = () => {
@@ -95,7 +111,6 @@ const Header = () => {
     }
   }
 
-
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
 
   return (
@@ -107,21 +122,32 @@ const Header = () => {
               <img src={logo} alt="logo" />
             </Link>
           </div>
-          <div className={`header_search ${isOpenSearchBox ? 'active_header_search' : ''}`}>
+          <div className="header_search">
             <form action="#" method="post">
               <span className='header_search_icon'>
                 <BiSearch />
               </span>
               <input
                 type="text"
-                name="search-text"
-                placeholder="Project titles"
+                placeholder="Search projects..."
+                // value={searchTerm}
+                // onFocus={handleSearchTermFocus}
+                // onChange={handleSearch}
               />
               <div className="search_category custom-select">
                 <CustomSelect />
               </div>
+              {/* {isMenuOpen && (
+                <MegaMenu
+                  isOpen={isMenuOpen}
+                  onClose={handleMenuClose}
+                  searchTerm={searchTerm}
+                  handleSearch={handleSearch}
+                />
+              )} */}
             </form>
           </div>
+
           <div className="header_buttons">
             <button className='dropdown-button res-search-btn' onClick={handelSearchBox}>
               <BiSearch />

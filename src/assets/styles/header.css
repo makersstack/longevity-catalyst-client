@@ -29,6 +29,7 @@ header {
   justify-content: space-between;
   align-content: center;
   align-items: center;
+  position: relative;
 }
 .header_search input {
   border: none;

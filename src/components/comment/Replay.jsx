@@ -3,27 +3,32 @@ import { LiaHeart } from 'react-icons/lia';
 import { PiLinkSimpleHorizontalLight } from 'react-icons/pi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { avatersFor } from '../../constants/avaters';
+import dateTimeHel from '../../utils/dateTimeHel';
 
 const Replay = ({ data, addNewReplay }) => {
-    return (
 
+    const avatarSrc = data?.profileImage || avatersFor.user;
+    return (
         <div className="comment_card replay_card">
             {/* card head  */}
             <div className="comment_card_head">
                 <div className="commenter_info">
-                    <Link to="/user/username">
-                        <img className='user_thum_style' src={data?.User.profileImage} alt="userImage" />
+                    <Link to={data?.username}>
+                        <img className='user_thum_style' src={avatarSrc} alt="userImage" />
                     </Link>
                     <div className="post_user_fet">
-                        <Link to="/user/Esther Howard" className="user_name">{data?.User?.full_name}</Link>
+                        <Link to="/user/Esther Howard" className="user_name">{data?.username}</Link>
                     </div>
-                    <span className="comment_time">5 hr. ago</span>
+                    <span className="comment_time">
+                        {dateTimeHel.calculateDurationFromNow(data?.createdAt)}
+                    </span>
                 </div>
-                <span className="comment_date">27 April 2023</span>
+                {/* <span className="comment_date"></span> */}
             </div>
             {/* card body  */}
             <div className="comment_card_body">
-                {data.replyText}
+                {data?.replyText}
             </div>
             {/* card footer  */}
             <div className="comment_card_footer ">
