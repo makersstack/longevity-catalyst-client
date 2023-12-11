@@ -43,7 +43,7 @@ const AddReplay = ({ addNewReplay, setIsAddReplay }) => {
                             Cancel
                         </button>
                         <button type="submit" className="btn btn-dark no-shadow">
-                            Replay
+                            Reply
                         </button>
                     </div>
                 </form>
