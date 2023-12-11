@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { MdOutlineAddComment } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
 import useAuth from '../../hooks/UseAuth';
 import useLoading from '../../hooks/useLoading';
+import dateTimeHel from '../../utils/dateTimeHel';
 import AddReplay from './AddReplay';
 import EditDeleteComment from './EditDeleteComment';
 import Replay from './Replay';
 const Comments = ({ data }) => {
-    const { userInfo } = useAuth();
+    const { userInfo, isLoggedIn } = useAuth();
     const isAuthor = userInfo && userInfo.id === data?.User?.id;
     const { setIsLoading } = useLoading();
-
+    const navigate = useNavigate();
     const [replyLimit, setReplyLimit] = useState(2);
     const [moreCount, setMoreCount] = useState(0);
     const [isOpenCmnt, setOpenCmnt] = useState(false);
@@ -44,6 +45,9 @@ const Comments = ({ data }) => {
     };
 
     const toggleOpenReplyBox = () => {
+        if(!isLoggedIn){
+            navigate('/login?emsg=Please login to reply projects');
+          }
         setIsAddReplay(prevState => !prevState);
         setOpenCmnt(true);
         // TODO ALIFUR
@@ -60,15 +64,16 @@ const Comments = ({ data }) => {
             <div className="comment_card">
                 <div className="comment_card_head">
                     <div className="commenter_info">
-                        <Link to="/user/username">
-                            {/* TODO ALIFUR */}
-                            <img className='user_thum_style' src={data.User?.profileImage} alt="userImage" />
+                        <Link to={`/${data?.User?.username}`}>
+                            <img className='user_thum_style' src={data?.User?.profileImage} alt="userImage" />
                         </Link>
                         <div className="post_user_fet">
-                            <Link to="/user/Esther Howard" className="user_name">{data.User?.username}</Link>
+                            <Link to={`/${data?.User?.username}`} className="user_name">{data?.User?.username}</Link>
+
                         </div>
-                        {/* TODO ALIFUR */}
-                        <span className="comment_time">5 hr. ago</span>
+                        <span className="comment_time">
+                            {dateTimeHel.calculateDurationFromNow(data.createdAt)}
+                        </span>
                     </div>
                 </div>
                 <div className="comment_card_body">

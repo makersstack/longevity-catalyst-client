@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/UseAuth';
 
 const AddComment = ({ addNewComment }) => {
 
   const [isOpenForm, setOpenForm] = useState(false);
   const [errorMsg, setErrorMsg] = useState({});
 
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
   const handelOpenCommentForm = (event) => {
-    event.preventDefault();
-    setOpenForm(true);
+    if (!isLoggedIn) {
+      navigate('/login?emsg=Please login to comment projects');
+    } else {
+      event.preventDefault();
+      setOpenForm(true);
+    }
   };
 
   const handelCloseCommentForm = (event) => {
@@ -18,13 +27,16 @@ const AddComment = ({ addNewComment }) => {
   };
 
   const handelSubmitComment = (event) => {
+    if(!isLoggedIn){
+      navigate('/login?emsg=Please login to comment projects');
+    }
     event.preventDefault();
     setErrorMsg({});
     let isValid = true;
     const formCommentData = new FormData(event.target);
     const formDataObject = {};
     formCommentData.forEach((value, key) => {
-        formDataObject[key] = value;
+      formDataObject[key] = value;
     });
     if (formDataObject.commentText.trim().length === 0) {
       setErrorMsg((prevErrorMsg) => ({
@@ -33,7 +45,7 @@ const AddComment = ({ addNewComment }) => {
       }));
       isValid = false;
     }
-    
+
     if (isValid) {
       addNewComment(formDataObject);
       setOpenForm(false);

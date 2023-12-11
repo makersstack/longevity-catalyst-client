@@ -7,18 +7,17 @@ import { avatersFor } from '../../constants/avaters';
 import dateTimeHel from '../../utils/dateTimeHel';
 
 const Replay = ({ data, addNewReplay }) => {
-
-    const avatarSrc = data?.profileImage || avatersFor.user;
+    const avatarSrc = data?.User?.profileImage || avatersFor.user;
     return (
         <div className="comment_card replay_card">
             {/* card head  */}
             <div className="comment_card_head">
                 <div className="commenter_info">
-                    <Link to={data?.username}>
+                    <Link to={`/${data?.User?.username}`}>
                         <img className='user_thum_style' src={avatarSrc} alt="userImage" />
                     </Link>
                     <div className="post_user_fet">
-                        <Link to="/user/Esther Howard" className="user_name">{data?.username}</Link>
+                        <Link to={`/${data?.User?.username}`} className="user_name">{data?.User.username}</Link>
                     </div>
                     <span className="comment_time">
                         {dateTimeHel.calculateDurationFromNow(data?.createdAt)}
