@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { RxCrossCircled } from 'react-icons/rx';
 
-const ListInput = ({ type, getValue, setValue, dots = false, isLimit = false, max = 5, onChange, onBlur, alName, placeholder }) => {
+const ListInput = ({defaultValueArray, type, getValue, setValue, dots = false, isLimit = false, max = 5, onChange, onBlur, alName, placeholder }) => {
     const [lists, setLists] = useState([]);
     const [keywordInput, setKeywordInput] = useState('');
 
@@ -15,8 +15,13 @@ const ListInput = ({ type, getValue, setValue, dots = false, isLimit = false, ma
             ...getValue,
             lists,
         });
-        console.log(lists);
-    }, [lists, setValue, setValue]);
+    }, [lists, setValue]);
+
+    useEffect(() => {
+        if (defaultValueArray) {
+            setLists(defaultValueArray);
+        }
+    }, [defaultValueArray]);
     const SetKeywordFunc = () => {
         if (isLimit && lists.length >= KEYWORD_LENGTH) {
             setErrorMsg(`Can't take upto ${KEYWORD_LENGTH} !`);

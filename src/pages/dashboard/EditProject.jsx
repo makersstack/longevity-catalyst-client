@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { projectApi } from '../../api';
 import categoryApi from '../../api/CategoryApi';
 import ListInput from '../../components/common/ListInput';
@@ -9,13 +10,14 @@ import DatePickerInput from '../../components/ui/DatePickerInput';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 import useAuth from '../../hooks/UseAuth';
+import useCheckedOptions from '../../hooks/useCheckedOptions';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditProject = () => {
     useEffect(() => {
         document.title = "Edit Project - Longevity Catalyst";
-      }, []);
-   
+    }, []);
+
 
     const [isLoading, setIsLoading] = useState();
     const { userInfo } = useAuth();
@@ -36,15 +38,14 @@ const EditProject = () => {
             }
         };
         fetchSingleProject();
-        console.log(projectData);
-    
-    }, [projectData, projectId]);
+
+    }, [projectId]);
 
 
 
 
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     ScrollToTop();
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
@@ -87,6 +88,12 @@ const EditProject = () => {
             const newValue = type === 'checkbox' ? checked : type === 'file' ? files[0] : value;
             validateField(name, newValue);
         }
+
+        const { name, value } = event.target;
+        setProjectData({
+            ...projectData,
+            [name]: value,
+        });
 
 
 
@@ -141,19 +148,65 @@ const EditProject = () => {
 
 
     // set the default project data 
+    const [project_keywords_default, set_project_keywords_default] = useState([]);
+    const [required_skill_list_default, set_required_skill_list_default] = useState([]);
+    const [expected_cost_default, set_expected_cost_default] = useState([]);
+    const [final_deliverable_details_default, set_final_deliverable_details_default] = useState([]);
+    const [relevant_literature_link_default, set_relevant_literature_link_default] = useState([]);
+    // radio options chnaged
+    const { options: onsiteOptionDefault, updateCheckedValue: setOnsiteOptionDefault } = useCheckedOptions(
+        onsiteOption
+    )
+    const { options: projectTypeOptionDefault, updateCheckedValue: setProjectTypeOptionDefault } = useCheckedOptions(
+        projectTypeOption
+      );
+    const { options: projectNatureOptionDefault, updateCheckedValue: setProjectNatureOptionnDefault } = useCheckedOptions(
+        projectNatureOption
+    )
+
+    const {options: projectProjectExperienceOptionDefault, updateCheckedValue: setProjectExperienceOptionDefault} = useCheckedOptions(
+        projectExperienceOption
+    )
+
+    const { options: projectHardDeadlineOptionDefault, updateCheckedValue: setProjectHardDeadlineOptionDefault } = useCheckedOptions(
+        ProjectHardDeadlineOption
+    )
+    const { options: expectedTimeProjectOptionDefault, updateCheckedValue: setexpectedTimeProjectOptionDefault } = useCheckedOptions(
+        expectedTimeProjectOption
+    )
+    const { options: haveProjectBudgetOptionDefault, updateCheckedValue: sethaveProjectBudgetOptionDefault } = useCheckedOptions(
+        haveProjectBudgetOption
+    )
+    const { options:readyToStartOptionDefault, updateCheckedValue: setreadyToStartOptionDefault } = useCheckedOptions(
+        readyToStartOption
+    )
     useEffect(() => {
-        if(projectData?.project_keywords){
-            set_project_keywords({"lists": JSON.parse(projectData?.project_keywords)});
+        if (projectData?.project_keywords) {
+            set_project_keywords_default(JSON.parse(projectData?.project_keywords));
         }
-        
-        // set_required_skill_list(projectData.required_skill_list);
-        // set_expected_cost(projectData.expected_cost);
-        // set_final_deliverable_details(projectData.final_deliverable_details);
-        // set_relevant_literature_link(projectData.relevant_literature_link);
-      
-        
+        if (projectData?.required_skill_list) {
+            set_required_skill_list_default(JSON.parse(projectData?.required_skill_list));
+        }
+        if (projectData?.expected_cost) {
+            set_expected_cost_default(JSON.parse(projectData?.expected_cost));
+        }
+        if (projectData?.final_deliverable_details) {
+            set_final_deliverable_details_default(JSON.parse(projectData?.final_deliverable_details));
+        }
+        if (projectData?.relevant_literature_link) {
+            set_relevant_literature_link_default(JSON.parse(projectData?.relevant_literature_link));
+        }
+
+        setOnsiteOptionDefault(projectData?.onsite_work);
+        setProjectTypeOptionDefault(projectData?.projecType);
+        setProjectNatureOptionnDefault(projectData?.projectNature);
+        setProjectExperienceOptionDefault(projectData?.projectExperience);  
+        setProjectHardDeadlineOptionDefault(projectData?.hardDeadline);
+        setexpectedTimeProjectOptionDefault(projectData?.expectedTimeProject);
+        sethaveProjectBudgetOptionDefault(projectData?.haveProjectBudget);
+        setreadyToStartOptionDefault(projectData?.readyToStart);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectData]);
-   
 
     const handelProjectSubmit = async (event) => {
         event.preventDefault();
@@ -210,7 +263,6 @@ const EditProject = () => {
                 ...prevErrorMsg,
                 project_keywords: 'Project Keywords is Required!',
             }));
-            console.log('get errror');
             isValid = false;
         }
         if (!('projecType' in formDataObject)) {
@@ -241,7 +293,7 @@ const EditProject = () => {
             }));
             isValid = false;
         }
-        if (formDataObject.primary_category.trim().length === 0 ) {
+        if (formDataObject.primary_category.trim().length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
                 primary_category: ' Primary Category is Required!',
@@ -255,40 +307,35 @@ const EditProject = () => {
             }
         }
 
-
-      
-
-
-
         if (isValid) {
-            console.log('d');
-            // try {
-            //     setIsLoading(true);
-            //     const promise = projectApi.createProject(formDataObject)
 
-            //     await toast.promise(promise, {
-            //         loading: 'Submitting...',
-            //         success: (response) => {
-            //             if (response?.data?.success) {
-            //                 setIsLoading(false);
-            //                 navigate('/dashboard/project/all');
-            //                 return 'Submit Has bin successful!';
-            //             } else {
-            //                 return 'Unexpected error occurred';
-            //             }
-            //         },
-            //         error: (error) => {
-            //             if (error.response) {
-            //                 return "Error!"
-            //             }
-            //         }
-            //     })
-            // } catch (error) {
-            //     console.log(error);
-            // } finally {
-            //     setIsLoading(false);
-            //     console.log('finally');
-            // }
+            try {
+                setIsLoading(true);
+                const promise = projectApi.updateProject(formDataObject, projectId);
+
+                await toast.promise(promise, {
+                    loading: 'Updating...',
+                    success: (response) => {
+                        if (response?.data?.success) {
+                            setIsLoading(false);
+                            navigate('/dashboard/project/all');
+                            return 'Update successful!';
+                        } else {
+                            return 'Unexpected error occurred';
+                        }
+                    },
+                    error: (error) => {
+                        if (error.response) {
+                            return "Error!"
+                        }
+                    }
+                })
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+                console.log('finally');
+            }
         }
     }
 
@@ -314,7 +361,7 @@ const EditProject = () => {
         fetchData(); // Invoke the fetchData function
     }, []);
 
-   
+
 
 
     return (
@@ -349,14 +396,14 @@ const EditProject = () => {
                                         placeholder="Project Name"
                                         onBlur={handleBlur}
                                         onChange={handleInputChange}
-                                        value={projectData?.project_name}
+                                        value={projectData.project_name}
                                     />
                                     {errorMsg.project_name && <div className='error-msg'>{errorMsg.project_name}</div>}
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="user_name"> What is your name?<span>*</span> </label>
-                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value={userInfo?.full_name}/>
+                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value={userInfo?.full_name} />
                                     {errorMsg.user_name && <div className='error-msg'>{errorMsg.user_name}</div>}
                                 </div>
                             </div>
@@ -407,7 +454,7 @@ const EditProject = () => {
                                     onChange={handleInputChange}
                                     value={projectData?.project_desc}
                                 >
-                                  
+
                                 </textarea>
                                 {errorMsg.project_desc && <div className='error-msg'>{errorMsg.project_desc}</div>}
                             </div>
@@ -418,7 +465,7 @@ const EditProject = () => {
                                         Provide up to (5) keywords engineers can use to find your
                                         project.<span>*</span>
                                     </label>
-                                    <ListInput alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter" />
+                                    <ListInput defaultValueArray={project_keywords_default} alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter" />
                                     {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
                                 </div>
 
@@ -430,7 +477,7 @@ const EditProject = () => {
                                     <div className="onsite_check">
 
                                         {
-                                            onsiteOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                            onsiteOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                         }
 
 
@@ -445,7 +492,7 @@ const EditProject = () => {
                                         <span>*</span>
                                     </label>
                                     <select name="primary_category" id="primary_category" onChange={handleInputChange}>
-                                        <option value="">Select</option>
+                                        <option value={projectData?.Category?.id}>{projectData?.Category?.category_name}</option>
                                         {
                                             primaryCateOption.map(singleData => <option key={singleData.id} value={singleData.id}>{singleData.category_name}</option>)
                                         }
@@ -469,6 +516,7 @@ const EditProject = () => {
                                         name="address"
                                         id="address"
                                         placeholder="65 Hansen Way"
+                                        onChange={handleInputChange}
                                         value={projectData?.address}
                                     />
                                 </div>
@@ -480,6 +528,7 @@ const EditProject = () => {
                                         name="address_line"
                                         id="address_line"
                                         placeholder="Apartment 4"
+                                        onChange={handleInputChange}
                                         value={projectData?.address_line}
                                     />
                                 </div>
@@ -493,6 +542,7 @@ const EditProject = () => {
                                         name="city_town"
                                         id="city_town"
                                         placeholder="Palo Alto"
+                                        onChange={handleInputChange}
                                         value={projectData?.city_town}
                                     />
                                 </div>
@@ -504,6 +554,7 @@ const EditProject = () => {
                                         name="state_region_province"
                                         id="testate_region_provincext"
                                         placeholder="California"
+                                        onChange={handleInputChange}
                                         value={projectData?.state_region_province}
                                     />
                                 </div>
@@ -517,6 +568,7 @@ const EditProject = () => {
                                         name="zip_code"
                                         id="zip_code"
                                         placeholder="94304"
+                                        onChange={handleInputChange}
                                         value={projectData?.zip_code}
                                     />
                                 </div>
@@ -528,6 +580,7 @@ const EditProject = () => {
                                         name="country"
                                         id="country"
                                         placeholder="United States"
+                                        onChange={handleInputChange}
                                         value={projectData?.country}
                                     />
                                 </div>
@@ -541,7 +594,7 @@ const EditProject = () => {
                                     </label>
 
                                     {
-                                        projectTypeOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        projectTypeOptionDefault.map(singleData => <RadioButton defaultCheckValue={projectData?.projecType} key={singleData.key} radionData={singleData} />)
                                     }
                                     {errorMsg.projecType && <div className='error-msg'>{errorMsg.projecType}</div>}
 
@@ -551,7 +604,7 @@ const EditProject = () => {
                                     <label > Describe the nature of your project. </label>
 
                                     {
-                                        projectNatureOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        projectNatureOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
                                 </div>
                             </div>
@@ -564,7 +617,7 @@ const EditProject = () => {
                                     </label>
 
                                     {
-                                        projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        projectProjectExperienceOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
                                     {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
 
@@ -577,7 +630,7 @@ const EditProject = () => {
                                     >List the skills that this project will require.
                                     </label>
 
-                                    <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                    <ListInput defaultValueArray={required_skill_list_default} type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
                                 </div>
 
@@ -600,7 +653,7 @@ const EditProject = () => {
                                     </label>
 
                                     {
-                                        ProjectHardDeadlineOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        projectHardDeadlineOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
                                     {errorMsg.hardDeadline && <div className='error-msg'>{errorMsg.hardDeadline}</div>}
 
@@ -615,7 +668,7 @@ const EditProject = () => {
                                         How long do you expect this project to take ?
                                     </label>
                                     {
-                                        expectedTimeProjectOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        expectedTimeProjectOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
 
                                 </div>
@@ -627,7 +680,7 @@ const EditProject = () => {
                                     </label>
 
                                     {
-                                        haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        haveProjectBudgetOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
                                     {errorMsg.haveProjectBudget && <div className='error-msg'>{errorMsg.haveProjectBudget}</div>}
 
@@ -643,7 +696,7 @@ const EditProject = () => {
                                     </label>
 
 
-                                    <ListInput type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                    <ListInput defaultValueArray={expected_cost_default} type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
 
                                 </div>
@@ -653,7 +706,7 @@ const EditProject = () => {
                                         What will you be ready to start this project?
                                     </label>
                                     {
-                                        readyToStartOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        readyToStartOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                     }
 
                                 </div>
@@ -667,14 +720,14 @@ const EditProject = () => {
                                     </label>
 
 
-                                    <ListInput type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                    <ListInput defaultValueArray={final_deliverable_details_default} type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
 
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
                                     <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
-                                    <input name="relevant_link" id="relevant_link" placeholder="https://" value={projectData?.relevant_link}/>
+                                    <input onChange={handleInputChange} name="relevant_link" id="relevant_link" placeholder="https://" value={projectData?.relevant_link} />
                                 </div>
                             </div>
                             <div className="two_columns">
@@ -685,7 +738,7 @@ const EditProject = () => {
                                         project match.
                                     </label>
 
-                                    <ListInput type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                    <ListInput defaultValueArray={relevant_literature_link_default} type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
                                 </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
@@ -699,13 +752,14 @@ const EditProject = () => {
                                         rows="2"
                                         placeholder="Answer here.."
                                         value={projectData?.other_included}
+                                        onChange={handleInputChange}
                                     >
                                     </textarea>
                                 </div>
                             </div>
                             <hr className='inputhr' />
                             <div className="form_submit al_submit_button">
-                             
+
                                 <button type="submit" className="btn btn-submit btn-dark">
                                     Update
                                 </button>

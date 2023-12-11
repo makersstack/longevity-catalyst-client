@@ -58,6 +58,13 @@ export const projectApi = {
       data: projectData,
     }),
 
+  updateProject: async (projectData, projectId) =>
+    axiosBaseQuery({
+      url: `/projects/${projectId}/update`,
+      method: 'PATCH',
+      data: projectData,
+    }),
+
   // For comment
   addComment: async (commentText, projectId) =>
     axiosBaseQuery({
