@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/UseAuth';
 
 const AddReplay = ({ addNewReplay, setIsAddReplay }) => {
-
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState({});
 
     const onCancle = () => {
         setIsAddReplay(false);
     }
-    
+
     const handelSubmitReplay = (event) => {
+        if (!isLoggedIn) {
+            navigate('/login?emsg=Please login to reply projects');
+        }
         event.preventDefault();
         setErrorMsg({});
         let isValid = true;
@@ -35,7 +41,7 @@ const AddReplay = ({ addNewReplay, setIsAddReplay }) => {
         <>
             <div className="al_add_comment_box">
                 <form onSubmit={handelSubmitReplay}>
-                    <input type="text" placeholder="Write a replay..."  name="replyText" className={errorMsg.replyText ? 'border-warning' : ''} />
+                    <input type="text" placeholder="Write a replay..." name="replyText" className={errorMsg.replyText ? 'border-warning' : ''} />
 
                     {errorMsg.replyText && <div className="error-msg">{errorMsg.replyText}</div>}
                     <div className="add_comment_f_btns">
