@@ -1,7 +1,8 @@
 // SidebarFilters.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import categoryApi from '../../api/CategoryApi';
 
 // Search field component
 function SearchField({ onSearchChange, value }) {
@@ -30,7 +31,34 @@ function SearchField({ onSearchChange, value }) {
 
 
 // Categories component
-function Categories({ categoryOptions, onCategoryChange, value }) {
+function Categories({ onCategoryChange, value }) {
+
+  const [selectOptions,setSelectOptions] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const response = await categoryApi.getAllCategories();
+        const primary_category = response?.data?.data || [];
+
+        if (isMounted) {
+          setSelectOptions(primary_category);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false; // Update isMounted flag on unmount
+      // Any cleanup if needed (e.g., clearing timeouts/intervals)
+    };
+  }, []);
+
   return (
     <div className="input_box">
       <label htmlFor="p-categories">Categories</label>
@@ -40,9 +68,10 @@ function Categories({ categoryOptions, onCategoryChange, value }) {
         onChange={(e) => onCategoryChange(e.target.value)}
         value={value}
       >
-        {categoryOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        <option value="">All Categories</option>
+        {selectOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.category_name}
           </option>
         ))}
       </select>
@@ -225,7 +254,6 @@ const SidebarFilters = ({
               {search && <SearchField onSearchChange={(value) => onPageChange('searchTerm', value)} value={searchValue} />}
               {categories && (
                 <Categories
-                  categoryOptions={categories}
                   onCategoryChange={(value) => onPageChange('selectedCategory', value)}
                   value={filters.selectedCategory}
                 />

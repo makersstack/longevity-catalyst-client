@@ -99,7 +99,6 @@ const CustomSelect = ({ setSelectValue }) => {
   }, []);
 
   useEffect(() => {
-    console.log(primaryCateOption);
     const transformedData = primaryCateOption.map((category, index) => ({
       value: category.id,
       label: category.category_name,
