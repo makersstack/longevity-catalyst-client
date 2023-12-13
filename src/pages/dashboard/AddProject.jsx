@@ -278,7 +278,7 @@ const AddProject = () => {
         fetchData(); // Invoke the fetchData function
     }, []);
 
-    console.log(primaryCateOption);
+  
 
 
     return (

@@ -22,6 +22,12 @@ body {
   background: #fff;
   color: #646464;
 }
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+}
 accordion-header h3,
 accordion-header span,
 svg,
@@ -900,23 +906,7 @@ input:disabled {
   padding-top: 20px;
 }
 /* For Header */
-.header_search_menu {
-  position: relative;
-}
-.meghamenu_header {
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  width: 100%;
-  opacity: 1;
-  visibility: visible;
-  background: #efefef;
-  transition: 0.3s all ease-in;
-  max-width: 590px;
-  padding: 15px 20px;
-  margin: 0 auto;
-}
+
 .delete_modal_body {
   padding: 20px 15px;
 }

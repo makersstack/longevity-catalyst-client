@@ -9,25 +9,11 @@ import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
-import CustomSelect from '../ui/CustomSelect';
+import HeaderSearch from '../ui/HeaderSearch';
 import SignupModal from '../ui/SignupModal';
 import ImageTagWithFallback from './ImageTagWithFallback';
 
 const Header = () => {
-  // For Search Menu
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [searchTerm, setSearchTerm] = useState('');
-
-  // const handleSearch = (event) => {
-  //   setSearchTerm(event.target.value);
-  // };
-  // const handleSearchTermFocus = () =>{
-  //   setIsMenuOpen(true);
-  // }
-  // const handleMenuClose = () => {
-  //   setIsMenuOpen(false);
-  // };
-
   // For Auth
   const { handleLogout, isLoggedIn, userInfo } = useAuth();
 
@@ -60,9 +46,7 @@ const Header = () => {
 
   const [isOpenSearchBox, setOpenSearchBox] = useState(false);
   const handelSearchBox = () => {
-    console.log("Before state update:", isOpenSearchBox);
     setOpenSearchBox(!isOpenSearchBox);
-    console.log("After state update:", isOpenSearchBox);
   }
 
 
@@ -82,6 +66,19 @@ const Header = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         closeDropdown();
       }
+      // outsite click of search button
+      const headerSearchElement = document.querySelector('.header_search'); 
+      const isSearchButton = event.target.classList.contains('res-search-btn');
+      const isChildOfButton = event.target.closest('.res-search-btn');
+      if (
+        headerSearchElement &&
+        !headerSearchElement.contains(event.target) &&
+        !event.target.classList.contains('header_search') &&
+        !(isSearchButton || isChildOfButton)
+      ) {
+        setOpenSearchBox(false);
+      }
+      // -- 
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -122,30 +119,8 @@ const Header = () => {
               <img src={logo} alt="logo" />
             </Link>
           </div>
-          <div className="header_search">
-            <form action="#" method="post">
-              <span className='header_search_icon'>
-                <BiSearch />
-              </span>
-              <input
-                type="text"
-                placeholder="Search projects..."
-                // value={searchTerm}
-                // onFocus={handleSearchTermFocus}
-                // onChange={handleSearch}
-              />
-              <div className="search_category custom-select">
-                <CustomSelect />
-              </div>
-              {/* {isMenuOpen && (
-                <MegaMenu
-                  isOpen={isMenuOpen}
-                  onClose={handleMenuClose}
-                  searchTerm={searchTerm}
-                  handleSearch={handleSearch}
-                />
-              )} */}
-            </form>
+          <div className={`header_search ${isOpenSearchBox ? 'active_header_search' : ''}`}>
+            <HeaderSearch />
           </div>
 
           <div className="header_buttons">
