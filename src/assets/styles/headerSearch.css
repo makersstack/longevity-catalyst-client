@@ -1,0 +1,137 @@
+/* style the header search form  */
+.header_search {
+  max-width: 632px;
+  border-radius: 0.8rem;
+  border: 0.1rem solid #d0d5dd;
+  background: #fff;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(16, 24, 40, 0.05);
+  width: 100%;
+  padding: 5px 9px;
+  position: relative;
+}
+.header_search:hover {
+  border-color: #383838;
+}
+.header_search form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+.header_search input {
+  border: none;
+  box-shadow: none;
+  padding: 5px 10px;
+  color: #383838;
+}
+
+.header_search_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-width: 30px;
+  width: 100%;
+}
+.header_search_icon svg {
+  color: rgba(152, 162, 179, 1);
+  font-size: 24px;
+}
+.search_category {
+  position: relative;
+  max-width: 120px;
+  width: 100%;
+}
+.search_category select {
+  border-radius: 0.8rem;
+  background: #f1f1f1;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  height: 100%;
+  padding-right: 1.1rem;
+  color: #595959;
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+  appearance: none;
+  padding-right: 3rem;
+  width: unset;
+}
+.header_search_menu {
+  position: relative;
+}
+.meghamenu_header {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  opacity: 1;
+  visibility: visible;
+  background: #efefef;
+  transition: 0.3s all ease-in;
+  /* max-width: 590px; */
+  /* padding: 15px 20px; */
+  margin: 0 auto;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(16, 24, 40, 0.05);
+}
+
+.meghamenu_header .item_title,
+.meghamenu_header ul li {
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meghamenu_header ul li {
+  border-bottom: 1px solid gainsboro;
+}
+.meghamenu_header ul li:last-child {
+  border-bottom: none;
+}
+.item_info_head {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.meghamenu_header .item_title {
+  font-size: 1.7rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 2rem;
+  color: #383838;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.meghamenu_header ul li a {
+  padding: 10px 15px;
+  transition: 0.3s;
+  display: block;
+}
+.meghamenu_header ul li a:hover {
+  color: #333;
+  background-color: #d0d5dd;
+}
+.item_arrow {
+  flex: 0 0 5%;
+  font-size: 17px;
+  color: #333;
+}
+
+.item_description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}

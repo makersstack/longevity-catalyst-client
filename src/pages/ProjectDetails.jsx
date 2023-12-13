@@ -13,9 +13,10 @@ const ProjectDetails = () => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
   ScrollToTop();
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
-  const { projectId } = useParams(); 
+  const { projectId } = useParams();
 
 
 
@@ -24,24 +25,25 @@ const ProjectDetails = () => {
       try {
         const response = await projectApi.getSingleProject(projectId);
         if (response && response.data && response.data.success) {
-          setProjectData(response.data.data); 
+          setProjectData(response.data.data);
         }
       } catch (error) {
         console.error('Error fetching project:', error);
-        
+
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    fetchSingleProject(); 
+    fetchSingleProject();
   }, [projectId]);
 
   return (
 
     <div>
+
       {
-        loading ? (<div className='al_loader_container'><div className="loader"></div></div>) : (
+        projectData && (
           <section className="full_widht_project_details_area section_padding">
             <div className="container">
               <div className="project_details_wrapper">
@@ -77,16 +79,16 @@ const ProjectDetails = () => {
                       {/* single block */}
                       {/* [todo] */}
                       {/* {projectData?.required_skill_list && (
-                        <div className="details_block">
-                          <h5 className="block_title">Experience Required :</h5>
-                          {
-                            JSON.parse(projectData?.required_skill_list).map((skill, index) => (
-                              <p key={index}>{skill}</p>
-                            ))
-                          }
+                    <div className="details_block">
+                      <h5 className="block_title">Experience Required :</h5>
+                      {
+                        JSON.parse(projectData?.required_skill_list).map((skill, index) => (
+                          <p key={index}>{skill}</p>
+                        ))
+                      }
 
-                        </div>
-                      )} */}
+                    </div>
+                  )} */}
 
 
                       {/* single block */}
@@ -256,8 +258,10 @@ const ProjectDetails = () => {
               </div>
             </div>
           </section>
+
         )
       }
+
 
     </div>
   );
