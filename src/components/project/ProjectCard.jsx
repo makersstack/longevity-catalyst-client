@@ -7,8 +7,8 @@ import { avatersFor } from '../../constants/avaters';
 import { baseUrl } from '../../globals';
 import formatNumber from '../../utils/NumberCountFormate';
 import dateTimeHel from '../../utils/dateTimeHel';
-import LikeButton from '../LikeShare/LikeButton';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from '../ui/SocailModal';
 import MoreOptionButtons from './MoreOptionButtons';
 import VoteButtons from './VoteButtons';
@@ -92,9 +92,12 @@ const ProjectCard = ({ project }) => {
                 </div>
                 {/* comment features */}
                 <div className="project_comment_features">
-                    <button className="project_effective_button">
+                    {/* <button className="project_effective_button">
+                        <FaRegCommentDots /> Comment */}
+                    <Link to={`/project/${project.id}`} className='project_effective_button'>
                         <FaRegCommentDots /> Comment
-                    </button>
+                    </Link>
+                    {/* </button> */}
                     <div className="post-features">
                         <Link to="/">{project.commentsCount} Comments</Link> <span></span>
                         <Link to="/">{project.sharesCount} Shares</Link>

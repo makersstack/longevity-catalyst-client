@@ -144,9 +144,7 @@ const ProjectDetails = () => {
                           </p>
                         </div>
                       )}
-
                       {/* single block add comment button  */}
-
                     </div>
                   </div>
                   {/* project details outer box  */}

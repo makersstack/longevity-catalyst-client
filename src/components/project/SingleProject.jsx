@@ -4,6 +4,7 @@ import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { RiShareForwardFill } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
+import dateTimeHel from '../../utils/dateTimeHel'
 import VoteControl from './VoteControl'
 
 const SingleProject = ({ project }) => {
@@ -13,21 +14,21 @@ const SingleProject = ({ project }) => {
   const navigation = useNavigate();
   return (
     <>
-      <div className="card" key={project.id}>
+      <div className="card" key={project?.id}>
         {/* card header */}
         <div className="card_header">
           <div className="post_auth_info">
             <div className="profile_image">
-              <button onClick={() => navigation(`/user/${project.author}`)}>
-                <img src={project.profileImageUrl} alt="userProfile" />
+              <button onClick={() => navigation(`/user/${project?.author}`)}>
+                <img src={project?.profileImageUrl} alt="userProfile" />
               </button>
             </div>
             <div className="post_user_fet">
-              <button onClick={() => navigation(`/user/${project.author}`)} className="user_name">
-                {project.author}
+              <button onClick={() => navigation(`/user/${project?.author}`)} className="user_name">
+                {project?.author}
               </button>
               <div className="post-features">
-                <FaUserAlt /> Friends <span></span> 5 hours ago
+                <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project?.createdAt)}
               </div>
             </div>
           </div>
@@ -37,9 +38,9 @@ const SingleProject = ({ project }) => {
         </div>
         {/* card body */}
         <div className="card_body">
-          <h4 className="card_title">{project.projectName}</h4>
+          <h4 className="card_title">{project?.projectName}</h4>
           <p className="card_text">
-            {project.projectDescription}
+            {project?.projectDescription}
           </p>
           <Link to="single-project">
             Learn more <HiArrowNarrowRight />
@@ -64,7 +65,7 @@ const SingleProject = ({ project }) => {
                   <img src={project.profileImageUrl} alt={`userImage`} />
                 </Link>
               </div>
-              <p>and {project.likesCount} people liked this post.</p>
+              <p>and {project?.likesCount} people liked this post.</p>
             </div>
             <button className="project_effective_button">
               <RiShareForwardFill /> Share
@@ -76,8 +77,8 @@ const SingleProject = ({ project }) => {
               <FaRegCommentDots /> Comment
             </button>
             <div className="post-features">
-              <Link to="/">{project.commentsCount} Comments</Link> <span></span>
-              <Link to="/">{project.sharesCount} Shares</Link>
+              <p>{project.commentsCount} Comments</p> <span></span>
+              <p>{project.sharesCount} Shares</p>
             </div>
           </div>
         </div>
