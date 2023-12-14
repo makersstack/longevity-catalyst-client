@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import categoryApi from '../../api/CategoryApi';
 
 export const customStyles = {
   control: (provided, state) => ({
@@ -42,9 +43,9 @@ export const customStyles = {
     cursor: 'pointer',
     backgroundColor: state.isSelected ? '#383838' : '#F1F1F1',
     color: state.isSelected ? 'white' : '#383838',
-    fontSize: '14px', 
+    fontSize: '14px',
     '&:hover': {
-      backgroundColor: state.isSelected ? '#383838' : 'lightgray', 
+      backgroundColor: state.isSelected ? '#383838' : 'lightgray',
     },
     singleValue: (provided, state) => ({
       ...provided,
@@ -53,24 +54,68 @@ export const customStyles = {
   }),
 };
 
+
+
 export const headerSelectOptions = [
-  { value: 'explore', label: 'Explore'},
+  { value: 'explore', label: 'Explore' },
   { value: 'ct_1', label: 'Machine Learning' },
   { value: 'ct_2', label: 'Blockchain Technology' },
   { value: 'ct_3', label: 'Mobile App Development' },
   { value: 'ct_4', label: 'Data Science' },
   { value: 'ct_5', label: 'Cybersecurity' },
-  { value: 'ct_6', label: 'Smart Home Automation'},
+  { value: 'ct_6', label: 'Smart Home Automation' },
 ];
 
-const CustomSelect = () => {
+const CustomSelect = ({ setSelectValue }) => {
+  const handelChangeSelect = (event) => {
+    setSelectValue(event.value);
+  }
+  // fetching ui data 
+  const [primaryCateOption, setprimaryCateOption] = useState([]);
+  const [selectOptions,setSelectOptions] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const response = await categoryApi.getAllCategories();
+        const primary_category = response?.data?.data || [];
+
+        if (isMounted) {
+          setprimaryCateOption(primary_category);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false; // Update isMounted flag on unmount
+      // Any cleanup if needed (e.g., clearing timeouts/intervals)
+    };
+  }, []);
+
+  useEffect(() => {
+    const transformedData = primaryCateOption.map((category, index) => ({
+      value: category.id,
+      label: category.category_name,
+    }));
+    setSelectOptions(transformedData);
+
+  }, [primaryCateOption]);
+
+
   return (
     <Select
       styles={customStyles}
-      options={headerSelectOptions}
+      options={selectOptions}
       isSearchable={false}
       placeholder="Explore"
-      defaultValue={headerSelectOptions[0]}
+      onChange={handelChangeSelect}
+      defaultValue={{ value: '', label: 'Explore' }}
     />
   );
 };

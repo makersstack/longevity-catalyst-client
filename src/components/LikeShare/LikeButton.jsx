@@ -6,7 +6,7 @@ import { projectApi } from '../../api';
 import useAuth from '../../hooks/UseAuth';
 
 
-const LikeButton = ({ projectId,isLikedByUser }) => {
+const LikeButton = ({ projectId, isLikedByUser }) => {
   const [liked, setLiked] = useState(false);
   const [spninng, SetSpninng] = useState(false);
   const { isLoggedIn } = useAuth();
@@ -16,7 +16,7 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
     setLiked(isLikedByUser);
   }, [isLikedByUser]);
 
- 
+
   const handleLike = async () => {
     SetSpninng(true);
     if (!isLoggedIn) {
@@ -27,7 +27,7 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
           projectId: projectId,
           status: !liked
         }
-        const response = await projectApi.likeOperation(operationData);
+        await projectApi.likeOperation(operationData);
         setLiked(!liked);
         SetSpninng(false);
       } catch (error) {
@@ -39,9 +39,9 @@ const LikeButton = ({ projectId,isLikedByUser }) => {
 
   return (
     <button onClick={handleLike} className={liked ? 'project_effective_button liked' : 'project_effective_button'}>
-      
-      {spninng ? <AiOutlineLoading3Quarters  className='spinning_icon'/> : <AiOutlineLike />}
-     
+
+      {spninng ? <AiOutlineLoading3Quarters className='spinning_icon' /> : <AiOutlineLike />}
+
       {liked ? 'Liked' : 'Like'}
     </button>
   );

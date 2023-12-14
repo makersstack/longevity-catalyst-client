@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
+import { requirdSkillCheckData, topFilterOptionsPage1, topicOptions } from '../../data/filterData';
 
 import '../../assets/styles/projectFeed.css';
 
@@ -155,12 +155,12 @@ const ProjectFeed = () => {
       <div className="project_show_wrapper">
         <SidebarFilters
           search={true}
-          categories={categoryOptions}
+          categories={true}
           topic={topicOptions}
-          duration={durationOptions}
+          duration={true}
           requiredSkills={true}
-          fundingStatus={statusOptions}
-          language={languageOptions}
+          fundingStatus={true}
+          language={true}
           onPageChange={handlePageChange}
           requirdSkillCheckData={requirdSkillCheckData}
           filters={filters}

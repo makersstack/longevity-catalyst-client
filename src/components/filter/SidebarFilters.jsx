@@ -1,7 +1,9 @@
 // SidebarFilters.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import categoryApi from '../../api/CategoryApi';
+import { expectedTimeProjectOption, projectExperienceOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
 // Search field component
 function SearchField({ onSearchChange, value }) {
@@ -30,7 +32,34 @@ function SearchField({ onSearchChange, value }) {
 
 
 // Categories component
-function Categories({ categoryOptions, onCategoryChange, value }) {
+function Categories({ onCategoryChange, value }) {
+
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const response = await categoryApi.getAllCategories();
+        const primary_category = response?.data?.data || [];
+
+        if (isMounted) {
+          setSelectOptions(primary_category);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false; // Update isMounted flag on unmount
+      // Any cleanup if needed (e.g., clearing timeouts/intervals)
+    };
+  }, []);
+
   return (
     <div className="input_box">
       <label htmlFor="p-categories">Categories</label>
@@ -40,9 +69,10 @@ function Categories({ categoryOptions, onCategoryChange, value }) {
         onChange={(e) => onCategoryChange(e.target.value)}
         value={value}
       >
-        {categoryOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+        <option value="">All Categories</option>
+        {selectOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.category_name}
           </option>
         ))}
       </select>
@@ -51,13 +81,27 @@ function Categories({ categoryOptions, onCategoryChange, value }) {
 }
 
 // Topic component
-function Topic({ topicOptions, onTopicChange, value }) {
+function Topic({ onTopicChange, value }) {
   return (
     <div className="input_box">
-      <label>Topic</label>
+      <label>Project Type</label>
       <div className="topic_options">
-        {topicOptions.map((option, index) => (
-          <label className="plan basic-plan" htmlFor={`opt${index}`} key={option.value}>
+        <label className="plan basic-plan" htmlFor={`opt-default-1`} >
+          <input
+            defaultChecked={value === ""}
+            type="radio"
+            name="topic"
+            id={`opt-default-1`}
+            onChange={() => onTopicChange("")}
+          />
+          <div className="plan-content">
+            <div className="plan-details">
+              <p>All</p>
+            </div>
+          </div>
+        </label>
+        {projectTypeOption.map((option, index) => (
+          <label className="plan basic-plan" htmlFor={`opt${index}`} key={option.key}>
             <input
               defaultChecked={value === option.value}
               type="radio"
@@ -78,7 +122,7 @@ function Topic({ topicOptions, onTopicChange, value }) {
 }
 
 // Duration component
-function Duration({ durationOptions, onDurationChange, value }) {
+function Duration({ onDurationChange, value }) {
   return (
     <div className="input_box">
       <label htmlFor="p-dura">Duration</label>
@@ -88,8 +132,9 @@ function Duration({ durationOptions, onDurationChange, value }) {
         onChange={(e) => onDurationChange(e.target.value)}
         value={value}
       >
-        {durationOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+        <option value="">All</option>
+        {expectedTimeProjectOption.map((option) => (
+          <option key={option.key} value={option.value}>
             {option.label}
           </option>
         ))}
@@ -109,7 +154,7 @@ function RequiredSkills({ onSkillsChange, requirdSkillCheckData }) {
       : checkedSkills.filter((skill) => skill !== name);
 
     setCheckedSkills(updatedSkills);
-    onSkillsChange(updatedSkills); 
+    onSkillsChange(updatedSkills);
   };
 
   return (
@@ -143,12 +188,28 @@ function RequiredSkills({ onSkillsChange, requirdSkillCheckData }) {
 }
 
 // Funding Status component
-function FundingStatus({ onFundingStatusChange, fundingStatusOptions, value }) {
+function FundingStatus({ onFundingStatusChange, value }) {
   return (
     <div className="input_box">
-      <label>Funding Status</label>
+      <label>Required Experience</label>
       <div className="funding_status">
-        {fundingStatusOptions.map((status, index) => (
+
+        <label className="plan basic-plan" htmlFor={`st-opt-default-1`} >
+          <input
+            defaultChecked={value === ""}
+            type="radio"
+            name="fundingStatus"
+            id={`st-opt-default-1`}
+            onChange={() => onFundingStatusChange("")}
+          />
+          <div className="plan-content">
+            <div className="plan-details">
+              <p>All</p>
+            </div>
+          </div>
+        </label>
+
+        {projectExperienceOption.map((status, index) => (
           <label className="plan basic-plan" htmlFor={`st-opt${index}`} key={index}>
             <input
               defaultChecked={value === status.value}
@@ -170,18 +231,19 @@ function FundingStatus({ onFundingStatusChange, fundingStatusOptions, value }) {
 }
 
 // Language component
-function Language({ languageOptions, onLanguageChange, value }) {
+function Language({ onLanguageChange, value }) {
   return (
     <div className="input_box">
-      <label htmlFor="Language">Language</label>
+      <label htmlFor="Language">Start On</label>
       <select
         name="Language"
         id="Language"
         onChange={(e) => onLanguageChange(e.target.value)}
         value={value}
       >
-        {languageOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+        <option value="">All</option>
+        {readyToStartOption.map((option) => (
+          <option key={option.key} value={option.value}>
             {option.label}
           </option>
         ))}
@@ -225,7 +287,6 @@ const SidebarFilters = ({
               {search && <SearchField onSearchChange={(value) => onPageChange('searchTerm', value)} value={searchValue} />}
               {categories && (
                 <Categories
-                  categoryOptions={categories}
                   onCategoryChange={(value) => onPageChange('selectedCategory', value)}
                   value={filters.selectedCategory}
                 />
@@ -239,7 +300,6 @@ const SidebarFilters = ({
               )}
               {duration && (
                 <Duration
-                  durationOptions={duration}
                   onDurationChange={(value) => onPageChange('selectedDuration', value)}
                   value={filters.selectedDuration}
                 />
@@ -252,14 +312,13 @@ const SidebarFilters = ({
               )}
               {fundingStatus && (
                 <FundingStatus
-                  fundingStatusOptions={fundingStatus}
                   onFundingStatusChange={(value) => onPageChange('selectedFundingStatus', value)}
                   value={filters.selectedFundingStatus}
                 />
               )}
               {language && (
                 <Language
-                  languageOptions={language}
+
                   onLanguageChange={(value) => onPageChange('selectedLanguage', value)}
                   value={filters.selectedLanguage}
                 />
