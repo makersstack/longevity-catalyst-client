@@ -84,11 +84,11 @@ const VoteButtons = ({ projectId, VoteByUser,voteCounts }) => {
     }
     return (
         <div className="post_arrow">
-            <button type="button" onClick={handelUpVote} className={`project_effective_button al_voteBtn ${voteStUp ? 'voteStActive' : ''}`}>
+            <button type="button" onClick={handelUpVote} className={`project_effective_button al_voteBtn btnVoteUp ${voteStUp ? 'voteStActive' : ''}`}>
                 {upSpninng ? <AiOutlineLoading3Quarters className='spinning_icon' /> : <BiUpvote />}
                 <span className='al_voteCount'>{formatNumber(upCount)}</span>
             </button>
-            <button onClick={handelDownVote} className={`project_effective_button al_voteBtn ${voteStDown ? 'voteStActive' : ''}`}>
+            <button type="button" onClick={handelDownVote} className={`project_effective_button al_voteBtn btnVoteDown ${voteStDown ? 'voteStActive' : ''}`}>
                 {downSpninng ? <AiOutlineLoading3Quarters className='spinning_icon' /> : <BiDownvote />}
                 <span className='al_voteCount'>{formatNumber(downCount)}</span>
             </button>

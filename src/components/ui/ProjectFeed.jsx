@@ -40,6 +40,8 @@ const ProjectFeed = () => {
   });
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -57,11 +59,16 @@ const ProjectFeed = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchData();
+    return () => {
+      isMounted = false;
+    };
   }, [filters, page]);
 
   const handleLoadMore = () => {

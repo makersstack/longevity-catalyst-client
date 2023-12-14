@@ -9,8 +9,6 @@ import VoteControl from './VoteControl'
 
 const SingleProject = ({ project }) => {
 
-
-
   const navigation = useNavigate();
   return (
     <>

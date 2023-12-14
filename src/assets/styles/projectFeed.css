@@ -176,10 +176,29 @@
   transition: 0.3s;
   border-radius: 50px;
 }
-.project_effective_button.liked,
+.project_effective_button.liked {
+  background: #3498db17;
+  color: #3498db;
+}
 .project_effective_button:hover {
   background: #00000018;
   color: #000;
+}
+.project_effective_button.btnVoteUp.voteStActive {
+  color: #2ecc71;
+  background: #2ecc7023;
+}
+.project_effective_button.btnVoteUp.voteStActive svg {
+  color: #2ecc71;
+  fill: #2ecc71;
+}
+.project_effective_button.btnVoteDown.voteStActive {
+  color: #e74c3c;
+  background: #e74d3c1c;
+}
+.project_effective_button.btnVoteDown.voteStActive svg {
+  color: #e74c3c;
+  fill: #e74c3c;
 }
 .project_comment_features {
   display: flex;

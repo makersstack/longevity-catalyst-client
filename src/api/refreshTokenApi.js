@@ -1,5 +1,3 @@
-// refreshToken.js
-
 import axios from 'axios';
 import { apiKey } from '../globals';
 

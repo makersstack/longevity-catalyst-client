@@ -99,8 +99,8 @@ const ProjectCard = ({ project }) => {
                     </Link>
                     {/* </button> */}
                     <div className="post-features">
-                        <Link to="/">{project.commentsCount} Comments</Link> <span></span>
-                        <Link to="/">{project.sharesCount} Shares</Link>
+                        <p>{project.commentsCount} Comments</p> <span></span>
+                        <p>{project.sharesCount} Shares</p>
                     </div>
                 </div>
             </div>
