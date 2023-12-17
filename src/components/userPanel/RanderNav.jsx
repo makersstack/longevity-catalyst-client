@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi2';
-import { NavLink, Navigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { menuData } from '../../data/dashboardData';
 import useAuth from '../../hooks/UseAuth';
 
 const RanderNav = () => {
   const { handleLogout } = useAuth();
-  
+  const navigate = useNavigate();
   const [isOpenState, setIsOpenState] = useState({});
 
   const toggleDropdown = (itemId) => {
@@ -18,7 +18,7 @@ const RanderNav = () => {
 
   const LogOuthandel = () => {
     handleLogout();
-    return <Navigate to="/login" />
+    navigate('/login');
   }
   return (
     <div className='dashboard_nav'>

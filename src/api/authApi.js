@@ -1,6 +1,5 @@
 import { axiosBaseQuery } from "../helpers/axios/baseQuery";
 
-
 export const authApi = {
   login: async (credentials) =>
     axiosBaseQuery({
@@ -8,7 +7,7 @@ export const authApi = {
       method: "POST",
       data: credentials,
     }),
-    signup: async (userData) =>
+  signup: async (userData) =>
     axiosBaseQuery({
       url: "/auth/signup",
       method: "POST",
@@ -17,11 +16,15 @@ export const authApi = {
 
   getUserProfile: async (userId) =>
     axiosBaseQuery({
-      url: `/users/profile/${userId}`, 
+      url: `/users/profile/${userId}`,
       method: "GET",
     }),
+  logoutUser: async () =>
+    axiosBaseQuery({
+      url: `/auth/logout`,
+      method: "POST",
+    }),
 
-  // Other auth-related API functions
 };
 
 export default authApi;

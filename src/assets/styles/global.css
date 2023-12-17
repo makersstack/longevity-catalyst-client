@@ -949,13 +949,6 @@ input:disabled {
 .spinning_icon {
   animation: rotate 2s linear infinite;
 }
-.voteStActive {
-  background: rgba(77, 77, 77, 0.1) !important;
-}
-.voteStActive svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-}
 .al_voteCount {
   font-size: 16px;
 }

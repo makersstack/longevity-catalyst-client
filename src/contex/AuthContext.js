@@ -1,7 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { authApi } from '../api';
 import { authKey } from '../constants/storageKey';
-import { removeUserInfo } from '../services/auth.service';
+import { logoutRequest, removeUserInfo } from '../services/auth.service';
 import { decodedToken } from '../utils/jwt';
 import { getLocalStorage, setToLocalStorage } from '../utils/local-storage';
 
@@ -19,7 +19,8 @@ const AuthProvider = ({ children }) => {
         setToLocalStorage(authKey, accessToken);
     }, []);
 
-    const handleLogout = useCallback(() => {
+    const handleLogout = useCallback(async () => {
+        await logoutRequest();
         setAccessToken(null);
         setIsLoggedIn(false);
         removeUserInfo(authKey);
@@ -27,11 +28,11 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const fetchUserInfo = useCallback(async (token) => {
-        const { userId }  = decodedToken(token);
+        const { userId } = decodedToken(token);
         const response = await authApi.getUserProfile(userId);
         setUserInfo(response.data.data);
     }, []);
-    
+
     const getStoredUserInfo = useCallback(() => {
         const storedToken = getLocalStorage(authKey);
         if (storedToken) {
@@ -46,9 +47,9 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (accessToken) {
-            fetchUserInfo(accessToken); 
+            fetchUserInfo(accessToken);
         } else {
-            setUserInfo(null); 
+            setUserInfo(null);
             removeUserInfo(authKey);
         }
     }, [accessToken, fetchUserInfo]);

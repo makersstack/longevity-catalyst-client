@@ -9,5 +9,5 @@ export const getLocalStorage = (key) => {
   if(!key || typeof window === 'undefined') {
     return ""
   }
-  return localStorage.getItem(key)
+  return localStorage.getItem(key);
 }
