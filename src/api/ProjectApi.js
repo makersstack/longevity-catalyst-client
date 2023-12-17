@@ -45,11 +45,34 @@ export const projectApi = {
     }
   },
 
-  getAllProjectsByUsername: async (username) =>
-    axiosBaseQuery({
-      url: `/projects/user/${username}`,
-      method: "GET",
-    }),
+  getAllProjectsByUsername: async (username, filters, paginationOptions) => {
+    const searchQuery = filters.searchTerm ? `searchTerm=${encodeURIComponent(filters.searchTerm)}` : '';
+
+    const filterQueries = Object.entries(filters)
+      .filter(([key, value]) => key !== 'searchTerm' && value !== '')
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value.map((val) => `${key}=${encodeURIComponent(val)}`).join('&');
+        }
+        return `${key}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+
+    const { page, limit } = paginationOptions;
+
+    const paginationQuery = `page=${page}&limit=${limit}`;
+
+    const queryParams = [paginationQuery, searchQuery, filterQueries,].filter(Boolean).join('&');
+
+    const modifyUrl = `/projects/user/${username}${queryParams ? `?${queryParams}` : ''}`;
+
+    return await axiosBaseQuery({
+      url: modifyUrl,
+      method: 'GET',
+    });
+  },
+
+
 
   createProject: async (projectData) =>
     axiosBaseQuery({
