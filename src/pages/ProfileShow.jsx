@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BiSolidUpvote } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ import TopFilterButtons from '../components/filter/TopFilterButtons';
 import ProjectCard from '../components/project/ProjectCard';
 import Loader from '../components/ui/Loader';
 import { avatersFor } from '../constants/avaters';
-import { categoryOptions, durationOptions, languageOptions, requirdSkillCheckData, statusOptions, topFilterOptionsByUser, topicOptions } from '../data/filterData';
+import { requirdSkillCheckData, topFilterOptionsByUser, topicOptions } from '../data/filterData';
 import useLoading from '../hooks/useLoading';
 import ScrollToTop from '../utils/RouteChange';
 
@@ -26,34 +26,54 @@ const ProfileShow = ({ rating }) => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [projects, setProjects] = useState([]);
   const [userInformatin, setUserInformatin] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isSideBarActive, setSideBarActive] = useState(false);
 
+  const [filters, setFilters] = useState({
+    search: '',
+    textsearch: '',
+    selectedCategory: '',
+    selectedTopic: '',
+    selectedDuration: '',
+    selectedRequiredSkills: [],
+    selectedFundingStatus: '',
+    selectedLanguage: '',
+  });
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjectsByUsername(username);
-        if (response?.data?.success) {
-          const projectsData = response?.data?.data || [];
-          setProjects(projectsData);
-          setFilteredProjects(projectsData);
-          projectsData.forEach(project => {
-            const user = project.User;
-            setUserInformatin(user);
-          });
-        } else {
-          // navigation('/404');
-        }
+        const paginationOptions = {
+          page,
+          limit: 5,
+        };
+        const response = await projectApi.getAllProjectsByUsername(username, filters, paginationOptions);
+        const projectsData = response?.data?.data || [];
+        setProjects(projectsData);
+        setFilteredProjects(projectsData);
+     
+        projectsData.forEach(project => {
+          const user = project.User;
+          setUserInformatin(user);
+        });
+
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
-    fetchData(); // Invoke the fetchData function
-  }, [setIsLoading, username]);
-
+    fetchData();
+    return () => {
+      isMounted = false;
+    };
+  }, [filters, page, username, setIsLoading]);
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
@@ -91,21 +111,14 @@ const ProfileShow = ({ rating }) => {
       return true;
     });
   }
-  const [filters, setFilters] = useState({
-    search: '',
-    selectedCategory: '',
-    selectedTopic: '',
-    selectedDuration: '',
-    selectedRequiredSkills: [],
-    selectedFundingStatus: '',
-    selectedLanguage: '',
-  });
 
-  useEffect(() => {
-    const filtered = filterProjects(filters, projects);
-    setFilteredProjects(filtered);
 
-  }, [filters, projects]);
+  // useEffect(() => {
+  //   const filtered = filterProjects(filters, projects);
+  //   setFilteredProjects(filtered);
+  //   console.log(filtered);
+
+  // }, [filters, projects]);
 
   const handlePageChange = (filterType, value) => {
     console.log('onPageChange called with:', filterType, value);
@@ -125,6 +138,37 @@ const ProfileShow = ({ rating }) => {
       );
     });
   };
+
+    // for Side bar
+    const sideBarRef = useRef();
+    const handelSideBarButton = (e) => {
+      e.preventDefault();
+      setSideBarActive(!isSideBarActive);
+    }
+  
+    useEffect(() => {
+      if (isSideBarActive) {
+        document.body.classList.add('sitebaractivebody');
+      } else {
+        document.body.classList.remove('sitebaractivebody');
+      }
+    }, [isSideBarActive]);
+  
+    useEffect(() => {
+      const handleOutsideClick = (event) => {
+        if (sideBarRef.current && !sideBarRef.current.contains(event.target)) {
+          setSideBarActive(false);
+        }
+      };
+  
+      document.addEventListener('mousedown', handleOutsideClick);
+  
+      return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+      };
+    }, [sideBarRef]);
+
+
   const avatarSrc = userInformatin?.profileImage || avatersFor.user;
 
   return (
@@ -134,15 +178,18 @@ const ProfileShow = ({ rating }) => {
           <div className="project_show_wrapper">
             <SidebarFilters
               search={true}
-              categories={categoryOptions}
+              categories={true}
               topic={topicOptions}
-              duration={durationOptions}
+              duration={true}
               requiredSkills={true}
-              fundingStatus={statusOptions}
-              language={languageOptions}
+              fundingStatus={true}
+              language={true}
               onPageChange={handlePageChange}
               requirdSkillCheckData={requirdSkillCheckData}
               filters={filters}
+              isSideBarActive={isSideBarActive}
+              handelSideBarButton={handelSideBarButton}
+              sideBarRef={sideBarRef}
             />
             {/* project show container */}
             {isLoading ? (

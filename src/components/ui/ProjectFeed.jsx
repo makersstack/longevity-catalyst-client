@@ -53,7 +53,6 @@ const ProjectFeed = () => {
 
         const projectsData = response?.data?.data || [];
         setProjects(projectsData);
-
         setFilteredProjects(projectsData);
 
       } catch (error) {
