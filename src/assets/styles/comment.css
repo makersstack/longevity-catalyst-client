@@ -18,11 +18,15 @@
   font-size: 20px;
 }
 .user_thum_style {
-  width: 100%;
-  max-width: 44px;
-  height: 100%;
-  max-height: 44px;
-  border-radius: 50px;
+  /* width: 100%; */
+  /* max-width: 44px; */
+  /* height: 100%; */
+  /* max-height: 44px; */
+  /* border-radius: 50px; */
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 /* comment card  */
 .comment_card_head {
