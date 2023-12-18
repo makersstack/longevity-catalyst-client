@@ -23,7 +23,7 @@ const CommentBox = ({ projectId }) => {
         setCommentData(commentArray);
         const totalCommentCount = response.data.data.meta.total - commentLimit;
         setMoreCount(totalCommentCount > 0 ? totalCommentCount : 0);
-
+        // console.log("commentData", commentData);
       } else {
         console.error('Invalid data format: Expected an object with comment data');
       }
@@ -60,6 +60,32 @@ const CommentBox = ({ projectId }) => {
     }
   };
 
+  const handleDeleteComment = async (id) => {
+    try {
+      setIsLoading(true);
+
+      if (!id) {
+        throw new Error('Comment ID not provided');
+      }
+      const response = await projectApi.deleteComment(id);
+      const deleteSt = response?.data;
+      if (deleteSt?.success) {
+        fetchCommentsByProject();
+      }
+      // Do others 
+    } catch (error) {
+      throw new Error('Error Deleting comment:', error);
+    } finally {
+      setIsLoading(false);
+      return true;
+    }
+    // setIsModalOpen(false);
+  }
+
+  const otherOperationData = {
+    handleDeleteComment
+  }
+
   return (
     <>
       <Loader />
@@ -69,7 +95,7 @@ const CommentBox = ({ projectId }) => {
       {commentData.length > 0 ? (
         <>
           {commentData.map((comment) => (
-            <Comments key={comment.id} data={comment} />
+            <Comments key={comment.id} data={comment} othersOperationData={otherOperationData} />
           ))}
           {moreCount > 0 && (
             <div className="devide_buttons_wraper">
@@ -83,7 +109,7 @@ const CommentBox = ({ projectId }) => {
           )}
         </>
       ) : (
-        <>No comments yet.</>
+        <p style={{marginTop: '10px'}}>No comments yet.</p>
       )}
     </>
   );

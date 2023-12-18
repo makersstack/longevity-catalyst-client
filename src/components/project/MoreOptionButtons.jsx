@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
 import { MdEditNote, MdOutlineDeleteSweep } from 'react-icons/md';
 import { RxDotsVertical } from 'react-icons/rx';
+import Modal from 'react-responsive-modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const MoreOptionButtons = ({ projectId, openModal }) => {
+const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
+
 
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -35,6 +37,40 @@ const MoreOptionButtons = ({ projectId, openModal }) => {
     }, []);
 
 
+    // deleting project 
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const openDeleteModal = () => {
+        setIsDeleteModalOpen(true);
+    };
+    const closeDeleteModal = () => {
+        setIsDeleteModalOpen(false);
+    };
+
+    const DeleteModal = () => {
+        return (
+            <Modal open={openDeleteModal} onClose={closeDeleteModal} center>
+                <div className="delete_modal_body">
+                    <h2 className='delete_modal_title'>Delete Confirmation</h2>
+                    <p>Are you sure you want to delete this Project?</p>
+                    <div className="modal_btns">
+                        <button onClick={closeDeleteModal} className='btn btn-dark no-shadow'>Cancel</button>
+                        <button onClick={() => handelDeletePoject(projectId)} className='btn btn-danger btn-dark no-shadow'>Delete</button>
+                    </div>
+                </div>
+            </Modal>
+        );
+    };
+
+
+    const handelDeletePoject = async (projectId) => {
+       const response = await ButtonsOperation.DeleteProject(projectId);
+       if(response){
+        setIsDeleteModalOpen(false);
+      }
+    }
+
+
+
 
 
 
@@ -59,7 +95,7 @@ const MoreOptionButtons = ({ projectId, openModal }) => {
                                         <span className='al_menu_icon' style={{ fontSize: '18px' }}> <MdEditNote /> </span>
                                         <span>Edit</span>
                                     </button>
-                                    <button >
+                                    <button onClick={openDeleteModal}>
                                         <span className='al_menu_icon' style={{ fontSize: '18px' }}> <MdOutlineDeleteSweep /> </span>
                                         <span>Delete</span>
                                     </button>
@@ -73,6 +109,13 @@ const MoreOptionButtons = ({ projectId, openModal }) => {
                     </div>
                 </div>
             )}
+
+            {isDeleteModalOpen && (
+                <>
+                    <DeleteModal />
+                </>
+            )
+            }
         </div>
 
 

@@ -3,7 +3,8 @@ import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 import Modal from 'react-responsive-modal';
 
-const EditDeleteComment = () => {
+const EditDeleteComment = ({commentId,othersOperationData}) => {
+  const { handleDeleteComment } = othersOperationData;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -13,8 +14,11 @@ const EditDeleteComment = () => {
   };
 
 
-  const handleDeleteComment = () => {
-    setIsModalOpen(false);
+  const DeleteComment = async (id) => {
+    const response = await handleDeleteComment(id);
+    if(response){
+      setIsModalOpen(false);
+    }
   }
 
   const DeleteModal = () => {
@@ -25,7 +29,7 @@ const EditDeleteComment = () => {
           <p>Are you sure you want to delete this comment?</p>
           <div className="modal_btns">
             <button onClick={closeModal} className='btn btn-dark no-shadow'>Cancel</button>
-            <button onClick={handleDeleteComment} className='btn btn-danger btn-dark no-shadow'>Delete</button>
+            <button onClick={()=>DeleteComment(commentId)} className='btn btn-danger btn-dark no-shadow'>Delete</button>
           </div>
         </div>
       </Modal>

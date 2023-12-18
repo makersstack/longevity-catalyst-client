@@ -29,7 +29,7 @@ const processQueue = (error, token = null) => {
 instance.interceptors.request.use(
   function (config) {
     const accessToken = getLocalStorage(authKey);
-    console.log(accessToken);
+    // console.log(accessToken);
     if (accessToken) {
       config.headers.Authorization = accessToken;
     }

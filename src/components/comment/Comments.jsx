@@ -9,9 +9,9 @@ import dateTimeHel from '../../utils/dateTimeHel';
 import AddReplay from './AddReplay';
 import EditDeleteComment from './EditDeleteComment';
 import Replay from './Replay';
-const Comments = ({ data }) => {
+const Comments = ({ data, othersOperationData }) => {
     const { userInfo, isLoggedIn } = useAuth();
-    const isAuthor = userInfo && userInfo.id === data?.User?.id;
+    const isAuthor = userInfo && userInfo.id === data?.userId;
     const { setIsLoading } = useLoading();
     const navigate = useNavigate();
     const [replyLimit, setReplyLimit] = useState(2);
@@ -22,7 +22,7 @@ const Comments = ({ data }) => {
         setReplyLimit((prevLimit) => prevLimit + 5);
         // TODO ALIFUR
         setMoreCount((prevCount) => data?.Replies?.length - replyLimit);
-    };  
+    };
     const [replies, setReplies] = useState(data?.Replies || []);
     const { projectId, id } = data;
 
@@ -44,10 +44,33 @@ const Comments = ({ data }) => {
         }
     };
 
+    const handleDeleteReplay = async (id) => {
+        try {
+            setIsLoading(true);
+            if (!id) {
+                throw new Error('Replay ID not provided');
+            }
+            const response = await projectApi.deleteReplay(id);
+            const deleteSt = response?.data;
+            if (deleteSt?.success) {
+                if (response?.data?.data?.id) {
+                    const updateRepalyData = replies.filter(reply => reply.id !== response?.data?.data?.id);
+                    setReplies(updateRepalyData);
+                }
+            }
+            // Do others 
+        } catch (error) {
+            throw new Error('Error Deleting comment:', error);
+        } finally {
+            setIsLoading(false);
+            return true;
+        }
+    }
+
     const toggleOpenReplyBox = () => {
-        if(!isLoggedIn){
+        if (!isLoggedIn) {
             navigate('/login?emsg=Please login to reply projects');
-          }
+        }
         setIsAddReplay(prevState => !prevState);
         setOpenCmnt(true);
         // TODO ALIFUR
@@ -57,6 +80,10 @@ const Comments = ({ data }) => {
     const toggleOpenComments = () => {
         setOpenCmnt(!isOpenCmnt);
     };
+
+    const replayOperationData = {
+        handleDeleteReplay
+    }
 
     // Edit Comment Functionality
     return (
@@ -88,7 +115,7 @@ const Comments = ({ data }) => {
                             </button>
                             {
                                 isAuthor && (
-                                    <EditDeleteComment />
+                                    <EditDeleteComment commentId={id} othersOperationData={othersOperationData} />
                                 )
                             }
 
@@ -101,10 +128,10 @@ const Comments = ({ data }) => {
                     {
                         isOpenCmnt && <> {replies.length !== 0 ? (
                             replies.slice(0, replyLimit).map((singleData) => (
-                                <Replay key={singleData.id} data={singleData} />
+                                <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
                             ))
                         ) : (
-                            <> No Replies yet ..</>
+                            <p style={{ marginTop: '10px', marginLeft: '20px' }}>No replay yet.</p>
                         )}
                         </>
                     }

@@ -88,6 +88,12 @@ export const projectApi = {
       data: projectData,
     }),
 
+  deleteProject: async (projectId) =>
+    axiosBaseQuery({
+      url: `/projects/${projectId}/delete`,
+      method: 'delete',
+    }),
+
   // For comment
   addComment: async (commentText, projectId) =>
     axiosBaseQuery({
@@ -111,11 +117,10 @@ export const projectApi = {
       data: projectData,
     }),
 
-  deleteComment: async (projectData) =>
+  deleteComment: async (commentId) =>
     axiosBaseQuery({
-      url: '/project/create',
-      method: 'POST',
-      data: projectData,
+      url: '/project/comment/delete/' + commentId,
+      method: 'delete',
     }),
   // For Reply
   addReply: async (replyText, projectId, commentId) =>
@@ -123,6 +128,11 @@ export const projectApi = {
       url: `/project/${projectId}/comment/${commentId}/reply`,
       method: 'POST',
       data: replyText,
+    }),
+  deleteReplay: async (replayId) =>
+    axiosBaseQuery({
+      url: '/project/replay/delete/' + replayId,
+      method: 'delete',
     }),
 
   getAllReplyByComment: async (projectId, paginationOptions) => {
