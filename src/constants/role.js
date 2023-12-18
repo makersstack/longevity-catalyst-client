@@ -1,6 +1,7 @@
-export const USER_ROLE = {
-  STUDENT: "student",
-  FACULTY: "faculty",
+export const ENUM_USER_ROLE = {
+  SUPER_ADMIN: "superadmin",
   ADMIN: "admin",
-  SUPER_ADMIN: "super_admin"
-};
+  CONTRIBUTOR: "contributor",
+  RESEARCHER: "researcher",
+  REGULARUSER: "user",
+}

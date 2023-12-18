@@ -29,9 +29,8 @@ const processQueue = (error, token = null) => {
 instance.interceptors.request.use(
   function (config) {
     const accessToken = getLocalStorage(authKey);
-    // console.log(accessToken);
     if (accessToken) {
-      config.headers.Authorization = accessToken;
+      config.headers.authorization = accessToken;
     }
     return config;
   },
@@ -55,7 +54,7 @@ instance.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = token;
+            originalRequest.headers.authorization = token;
             return instance(originalRequest);
           })
           .catch((err) => {
@@ -72,7 +71,7 @@ instance.interceptors.response.use(
         setToLocalStorage(authKey, newAccessToken);
         processQueue(null, newAccessToken);
 
-        originalRequest.headers.Authorization = newAccessToken;
+        originalRequest.headers.authorization = newAccessToken;
         return instance(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);

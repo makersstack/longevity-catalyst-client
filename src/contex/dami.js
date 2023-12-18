@@ -9,35 +9,36 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
 
+    const [accessToken, setAccessToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
 
-    const fetchUserInfo = useCallback(async (accessToken) => {
-        const { userId } = decodedToken(accessToken);
-        const response = await authApi.getUserProfile(userId);
-        setUserInfo(response.data.data);
-    }, []);
-
-    const handleLoginSuccess = useCallback(({ accessToken }) => {
+    const handleLoginSuccess = useCallback(({ token }) => {
+        setAccessToken(token);
         setIsLoggedIn(true);
-        setToLocalStorage(authKey, accessToken);
-        fetchUserInfo(accessToken);
-    }, [fetchUserInfo]);
-
-    const getStoredUserInfo = useCallback(() => {
-        const accessToken = getLocalStorage(authKey);
-        if (accessToken) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
+        setToLocalStorage(authKey, token);
     }, []);
 
     const handleLogout = useCallback(async () => {
         await logoutRequest();
+        setAccessToken(null);
         setIsLoggedIn(false);
         removeUserInfo(authKey);
         setUserInfo(null);
+    }, []);
+
+    const fetchUserInfo = useCallback(async (token) => {
+        const { userId } = decodedToken(token);
+        const response = await authApi.getUserProfile(userId);
+        setUserInfo(response.data.data);
+    }, []);
+
+    const getStoredUserInfo = useCallback(() => {
+        const storedToken = getLocalStorage(authKey);
+        if (storedToken) {
+            setAccessToken(storedToken);
+            setIsLoggedIn(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -45,14 +46,13 @@ const AuthProvider = ({ children }) => {
     }, [getStoredUserInfo]);
 
     useEffect(() => {
-        const accessToken = getLocalStorage(authKey);
         if (accessToken) {
             fetchUserInfo(accessToken);
         } else {
             setUserInfo(null);
-            removeUserInfo(authKey);
+            // removeUserInfo(authKey);
         }
-    }, [fetchUserInfo]);
+    }, [accessToken, fetchUserInfo]);
 
 
     const authContextValue = {
