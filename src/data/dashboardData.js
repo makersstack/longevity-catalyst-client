@@ -56,3 +56,41 @@ export const menuData = [
       route: '/login',
   }
 ];
+
+export const menuDataForUser = [
+  {
+      id: 1,
+      title: 'Dashboard',
+      icon: <LuBarChart2 />,
+      route: '/dashboard/home'
+  },
+  {
+      id: 2,
+      title: 'Profile',
+      icon: <LuUsers />,
+      submenu: [
+        {
+            id: 2.1,
+            title: 'View Profile',
+            route: '/dashboard/profile/view',
+        },
+        {
+            id: 2.2,
+            title: 'Update Profile',
+            route: '/dashboard/profile/update',
+        },
+    ],
+  },
+  {
+      id: 3,
+      title: 'Change Password',
+      icon: <LuLock />,
+      route: '/dashboard/password/change'
+  },
+  {
+      id: 4,
+      title: 'Logout',
+      icon: <PiSignOut />,
+      route: '/login',
+  }
+];

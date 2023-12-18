@@ -9,6 +9,7 @@ import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
+import useLoading from '../../hooks/useLoading';
 import HeaderSearch from '../ui/HeaderSearch';
 import SignupModal from '../ui/SignupModal';
 import ImageTagWithFallback from './ImageTagWithFallback';
@@ -16,7 +17,7 @@ import ImageTagWithFallback from './ImageTagWithFallback';
 const Header = () => {
   // For Auth
   const { handleLogout, isLoggedIn, userInfo } = useAuth();
-
+  const { setIsLoading } = useLoading();
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -67,7 +68,7 @@ const Header = () => {
         closeDropdown();
       }
       // outsite click of search button
-      const headerSearchElement = document.querySelector('.header_search'); 
+      const headerSearchElement = document.querySelector('.header_search');
       const isSearchButton = event.target.classList.contains('res-search-btn');
       const isChildOfButton = event.target.closest('.res-search-btn');
       if (
@@ -97,16 +98,18 @@ const Header = () => {
       return 'Dashboard';
     }
   };
+  
   useEffect(() => {
     closeDropdown();
   }, [location.pathname]);
 
-  if (isLoggedIn) {
-    // For User
-    if (!userInfo) {
-      return <div>Loading...</div>;
+  useEffect(() => {
+    if (isLoggedIn && !userInfo) {
+        setIsLoading(true);
+    } else {
+        setIsLoading(false);
     }
-  }
+}, [isLoggedIn, setIsLoading, userInfo]);
 
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
 
