@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { projectApi } from '../../api';
@@ -11,10 +12,10 @@ import ProjectCard from '../../components/project/ProjectCard';
 const AllProject = () => {
     useEffect(() => {
         document.title = "My Projects - Longevity Catalyst";
-      }, []);
+    }, []);
     ScrollToTop();
 
-    const {userInfo} = useAuth();
+    const { userInfo } = useAuth();
     const userName = userInfo?.username;
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
@@ -34,7 +35,7 @@ const AllProject = () => {
         selectedRequiredSkills: [],
         selectedFundingStatus: '',
         selectedLanguage: '',
-      });
+    });
 
     useEffect(() => {
         const fetchLatestProjects = async () => {
@@ -43,7 +44,7 @@ const AllProject = () => {
                 const paginationOptions = {
                     page,
                     limit: 5,
-                  };
+                };
                 const response = await projectApi.getAllProjectsByUsername(userName, filters, paginationOptions);
                 const newProjects = response.data.data || [];
                 setProjects(newProjects);
@@ -54,11 +55,11 @@ const AllProject = () => {
             }
         }
         fetchLatestProjects();
-    }, [userName,page,filters]);
+    }, [userName, page, filters]);
 
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
-      };
+    };
 
 
 
@@ -79,7 +80,7 @@ const AllProject = () => {
                             <div className="project_show_cash">
                                 {/* Render project cards */}
                                 {projects.map((project) => (
-                                   <ProjectCard key={project.id} project={project} />
+                                    <ProjectCard key={project.id} project={project} />
                                 ))}
                                 {isLoading ? (
                                     <p>Loading...</p>
