@@ -90,7 +90,7 @@ const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
                                 <span>Copy Link</span>
                             </button>
                             {
-                                location.pathname.startsWith('/dashboard') && <>
+                                location.pathname.startsWith('/dashboard/project') && <>
                                     <button onClick={() => navigate(`/dashboard/project/edit/${projectId}`)} >
                                         <span className='al_menu_icon' style={{ fontSize: '18px' }}> <MdEditNote /> </span>
                                         <span>Edit</span>

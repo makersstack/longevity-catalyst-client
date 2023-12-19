@@ -1,0 +1,149 @@
+.skeleton {
+  background-color: #e2e5e7 !important;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  ) !important;
+  background-size: 40px 100% !important;
+  background-repeat: no-repeat !important;
+  /* background-position: left -40px top 0 !important; */
+  -webkit-animation: shine 1s ease infinite !important;
+  animation: shine 1s ease infinite !important;
+}
+@-webkit-keyframes shine {
+  to {
+    background-position: right -40px top 0;
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: right -40px top 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.skeleton_whiteBg {
+  background-color: #fff;
+}
+
+/* project card  */
+.al_projectCardSkeleton {
+  -webkit-animation: pulse 1s ease infinite !important;
+  animation: pulse 1s ease infinite !important;
+}
+
+.al_projectCardSkeleton .post_auth_info {
+  flex: 0 0 50%;
+}
+
+.al_projectCardSkeleton .post_user_fet {
+  width: 100%;
+  flex: 0 0 70%;
+}
+.al_projectCardSkeleton .profile_image {
+  width: 100%;
+  height: 50px;
+  border-radius: 50px;
+  flex: 0 0 30%;
+  max-width: 50px;
+}
+
+.al_projectCardSkeleton .user_name {
+  width: 100%;
+  height: 13px;
+  max-width: 200px;
+  border-radius: 6px;
+}
+.al_projectCardSkeleton .post-features {
+  width: 100%;
+  max-width: 270px;
+  height: 13px;
+  margin-top: 8px;
+  border-radius: 6px;
+  justify-content: flex-end;
+  /* gap: 0; */
+}
+.al_projectCardSkeleton .al_pHeader_buttons_area {
+  flex: 0 0 50%;
+  gap: 15px;
+}
+.al_projectCardSkeleton .al_voteBtn {
+  width: 60px;
+  height: 35px;
+  border-radius: 50px;
+}
+.al_projectCardSkeleton .project_more_btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+}
+
+.al_projectCardSkeleton .card_text {
+  width: 100%;
+  padding: 0;
+  height: 100px;
+  border-radius: 6px;
+  margin: 0;
+}
+.al_projectCardSkeleton .card_title {
+  height: 35px;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.al_projectCardSkeleton .al_project_learn_more {
+  width: 100%;
+  height: 12px;
+  margin-top: 22px;
+  max-width: 200px;
+  border-radius: 50px;
+}
+.al_projectCardSkeleton .project_resourse {
+  height: 60px;
+  width: 100%;
+}
+
+.al_projectCardSkeleton .project_effective_button {
+  width: 86px;
+  height: 100%;
+}
+.al_projectCardSkeleton .likded_users {
+  margin: 0;
+}
+
+.al_projectCardSkeleton .likded_users div {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  object-fit: cover;
+  border: 2px solid #ffff;
+}
+.al_projectCardSkeleton .likded_users div:not(:first-child) {
+  margin-left: -10px;
+}
+.al_projectCardSkeleton .al_sk_project_reso {
+  width: 100%;
+  height: 8px;
+  min-width: 200px;
+  border-radius: 50px;
+}
+.al_projectCardSkeleton .post-features p {
+  width: 100%;
+  height: 10px;
+  max-width: 80px;
+  border-radius: 6px;
+}
