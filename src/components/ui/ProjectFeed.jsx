@@ -52,7 +52,8 @@ const ProjectFeed = () => {
         const response = await projectApi.getAllProjects(filters, paginationOptions);
 
         const projectsData = response?.data?.data || [];
-        setProjects(projectsData);
+        // setProjects(projectsData);
+        setProjects((prevData) => [...prevData, ...projectsData]);
         setFilteredProjects(projectsData);
 
       } catch (error) {

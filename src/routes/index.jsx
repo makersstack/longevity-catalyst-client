@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import IfAuthCheck from "../hooks/IfAuthCheck";
-import RequireAuth from "../hooks/RequireAuth";
+import { IfAuthCheck, RequireAuth } from "../middleware/AuthMiddleware";
 import AboutUs from "../pages/AboutUs";
 import ContributorProfile from "../pages/ContributorProfile";
 import FAQ from "../pages/FAQ";
@@ -41,9 +40,13 @@ const AppRoutes = () => {
       <Route element={<RequireAuth />}>
         <Route path="/dashboard/contributor/:username" element={<ContributorProfile />} />
         <Route path="/dashboard/home" element={<Dashboard />} />
-        <Route path="/dashboard/project/all" element={<AllProject />} />
-        <Route path="/dashboard/project/add" element={<AddProject />} />
-        <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
+
+        {/* <Route element={<RoleCheck allowedRoles={['contributor', 'researcher']} paramToCheck={true} />}> */}
+          <Route path="/dashboard/project/all" element={<AllProject />} />
+          <Route path="/dashboard/project/add" element={<AddProject />} />
+          <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
+        {/* </Route> */}
+
         <Route path="/dashboard/profile/view" element={<ContributorProfile />} />
         <Route path="/dashboard/profile/update" element={<EditUserProfile />} />
         <Route path="/dashboard/password/change" element={<PasswordChange />} />

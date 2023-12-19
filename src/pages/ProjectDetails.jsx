@@ -6,23 +6,24 @@ import CommentBox from '../components/comment/CommentBox';
 
 import { PiCheckThin } from 'react-icons/pi';
 import { avatersFor } from '../constants/avaters';
+import useLoading from '../hooks/useLoading';
 import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 const ProjectDetails = () => {
+  // eslint-disable-next-line no-unused-vars
+  const { setIsLoading } = useLoading();
+  const [projectData, setProjectData] = useState(null);
+  const { projectId } = useParams();
+
   useEffect(() => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
   ScrollToTop();
-  // eslint-disable-next-line no-unused-vars
-  const [loading, setLoading] = useState(true);
-  const [projectData, setProjectData] = useState(null);
-  const { projectId } = useParams();
-
-
 
   useEffect(() => {
     const fetchSingleProject = async () => {
       try {
+        setIsLoading(true);
         const response = await projectApi.getSingleProject(projectId);
         if (response && response.data && response.data.success) {
           setProjectData(response.data.data);
@@ -31,17 +32,15 @@ const ProjectDetails = () => {
         console.error('Error fetching project:', error);
 
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchSingleProject();
-  }, [projectId]);
+  }, [setIsLoading, projectId]);
 
   return (
-
     <div>
-
       {
         projectData && (
           <section className="full_widht_project_details_area section_padding">

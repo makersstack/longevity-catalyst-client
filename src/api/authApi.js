@@ -19,7 +19,14 @@ export const authApi = {
       url: `/users/profile/${userId}`,
       method: "GET",
     }),
+
   logoutUser: async () =>
+    axiosBaseQuery({
+      url: `/auth/logout`,
+      method: "POST",
+    }),
+
+  changlePassword: async () =>
     axiosBaseQuery({
       url: `/auth/logout`,
       method: "POST",
