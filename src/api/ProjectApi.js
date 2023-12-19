@@ -103,18 +103,24 @@ export const projectApi = {
     }),
 
   getAllCommentByPost: async (projectId, paginationOptions) => {
-    const { limit } = paginationOptions;
+    const { limit,page } = paginationOptions;
     return await axiosBaseQuery({
-      url: `/project/${projectId}/comments?limit=${limit}`,
+      url: `/project/${projectId}/comments?limit=${limit}&page=${page}`,
       method: "GET",
     })
   },
 
-  updateComment: async (projectData) =>
+  updateComment: async (commentId,commentData) =>
     axiosBaseQuery({
-      url: '/project/create',
-      method: 'POST',
-      data: projectData,
+      url: `/project/comment/${commentId}/update`,
+      method: 'PATCH',
+      data: commentData,
+    }),
+  updateReplay: async (replayId,commentData) =>
+    axiosBaseQuery({
+      url: `/project/replay/${replayId}/update`,
+      method: 'PATCH',
+      data: commentData,
     }),
 
   deleteComment: async (commentId) =>
@@ -135,10 +141,10 @@ export const projectApi = {
       method: 'delete',
     }),
 
-  getAllReplyByComment: async (projectId, paginationOptions) => {
-    const { limit } = paginationOptions;
+  getAllReplyByComment: async (commentId, paginationOptions) => {
+    const { limit,page } = paginationOptions;
     return await axiosBaseQuery({
-      url: `/project/${projectId}/comments?limit=${limit}`,
+      url: `/project/${commentId}/replay?limit=${limit}&page=${page}`,
       method: "GET",
     })
   },
