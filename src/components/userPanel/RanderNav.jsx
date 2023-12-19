@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi2';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { menuData } from '../../data/dashboardData';
 import useAuth from '../../hooks/UseAuth';
 
 const RanderNav = () => {
-  const { handleLogout } = useAuth();
+  const { handleLogout, menuData } = useAuth();
   const navigate = useNavigate();
   const [isOpenState, setIsOpenState] = useState({});
 
@@ -45,7 +44,7 @@ const RanderNav = () => {
                 )}
               </li>
             ) : (
-               <li>
+              <li>
                 <NavLink to={item.route} onClick={item.title === 'Logout' ? LogOuthandel : undefined}>
                   <span className='al_menu_icon'>{item.icon}</span>
                   <span>{item.title}</span>
