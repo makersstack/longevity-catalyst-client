@@ -9,6 +9,7 @@ import { projectApi } from '../../api';
 import SidebarFilters from '../filter/SidebarFilters';
 import TopFilterButtons from '../filter/TopFilterButtons';
 import ProjectCard from '../project/ProjectCard';
+import ProjectCardSkeleton from '../project/ProjectCardSkeleton';
 
 
 const ProjectFeed = () => {
@@ -19,6 +20,8 @@ const ProjectFeed = () => {
   const [page, setPage] = useState(1);
   const [isSideBarActive, setSideBarActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [moreCount, setMoreCount] = useState(0);
+  const [totalProjecs, setTotalProjecs] = useState(0);
 
 
   // Top Filter
@@ -50,10 +53,21 @@ const ProjectFeed = () => {
           limit: 5,
         };
         const response = await projectApi.getAllProjects(filters, paginationOptions);
+        const resSt = response?.data;
+        if (resSt?.success) {
+          const projectsData = response?.data?.data || [];
+          if (page === 1) {
+            setProjects(projectsData);
+            setFilteredProjects(projectsData);
+          } else {
+            setProjects((prevProjects) => [...prevProjects, ...projectsData]);
+            setFilteredProjects((prevProjects) => [...prevProjects, ...projectsData]);
+          }
 
-        const projectsData = response?.data?.data || [];
-        setProjects(projectsData);
-        setFilteredProjects(projectsData);
+          const totalPr = response.data.meta.total;
+          setTotalProjecs(totalPr);
+        }
+
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -69,6 +83,19 @@ const ProjectFeed = () => {
       isMounted = false;
     };
   }, [filters, page]);
+
+  useEffect(() => {
+    setMoreCount(totalProjecs - projects.length);
+ 
+
+  }, [totalProjecs, projects]);
+
+  useEffect(() => {
+    setPage(1);
+    setProjects([]);
+    setFilteredProjects([]);
+    setMoreCount(0);
+  }, [filters]);
 
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
@@ -177,15 +204,30 @@ const ProjectFeed = () => {
           {/* project show container */}
           <div className="project_show_cash">
             {/* Render project cards */}
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+
+            {filteredProjects.length !== 0 && (
+              filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))
+            )}
+            
+            {!isLoading && filteredProjects.length === 0 && (
+              <p>No projects found</p>
+            )}
+
             {isLoading ? (
-              <p>Loading...</p>
+              <>
+                {[1, 2, 3].map((item) => (
+                  <ProjectCardSkeleton key={item} />
+                ))}
+              </>
+
             ) : (
-              <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                Load More
-              </button>
+              moreCount > 0 && (
+                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                  Load More
+                </button>
+              )
             )}
           </div>
 
