@@ -47,7 +47,7 @@ const MegaMenu = ({ isOpen, filters }) => {
                             <li key={project.id}>
                                 <Link to={`/project/${project.id}`} >
                                     <span className='item_info_head'>
-                                        <p className='item_title'>{project?.project_name} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque pariatur veniam cupiditate corrupti tempora ea numquam accusamus, quia quam modi dicta rem, explicabo voluptatibus blanditiis ducimus commodi placeat! Eos, unde? </p>
+                                        <p className='item_title'>{project?.project_name} </p>
                                         <IoArrowForwardSharp className='item_arrow' />
                                     </span>
                                     <p className='item_description'>{project?.project_desc}</p>
