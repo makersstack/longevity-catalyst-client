@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { authApi } from '../api';
 import { authKey } from '../constants/storageKey';
+import { menuDataForContributor, menuDataForUser } from '../data/dashboardData';
 import { logoutRequest, removeUserInfo } from '../services/auth.service';
 import { decodedToken } from '../utils/jwt';
 import { getLocalStorage, setToLocalStorage } from '../utils/local-storage';
@@ -11,6 +12,7 @@ const AuthProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+    const [menuData, setMenuData] = useState([]);
 
     const fetchUserInfo = useCallback(async (accessToken) => {
         const { userId } = decodedToken(accessToken);
@@ -26,12 +28,21 @@ const AuthProvider = ({ children }) => {
 
     const getStoredUserInfo = useCallback(() => {
         const accessToken = getLocalStorage(authKey);
-        if (accessToken) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
+        setIsLoggedIn(!!accessToken);
     }, []);
+
+    useEffect(() => {
+        const fetchMenuData = () => {
+            let fetchedMenuData = [];
+            if (userInfo && (userInfo.role === 'contributor' || userInfo.role === 'researcher')) {
+                fetchedMenuData = menuDataForContributor;
+            } else {
+                fetchedMenuData = menuDataForUser;
+            }
+            setMenuData(fetchedMenuData);
+        };
+        fetchMenuData();
+    }, [userInfo]);
 
     const handleLogout = useCallback(async () => {
         await logoutRequest();
@@ -59,7 +70,8 @@ const AuthProvider = ({ children }) => {
         isLoggedIn,
         handleLoginSuccess,
         handleLogout,
-        userInfo
+        userInfo,
+        menuData
     };
 
     return (

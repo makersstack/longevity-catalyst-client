@@ -46,6 +46,7 @@ const ContributorProfile = () => {
     }
     fetchLatestProjects();
   }, [userInfo.username]);
+  
   const handleLoadMore = () => {
     alert("Processing... Project Filters, Search Terms, and Pagination!");
   };

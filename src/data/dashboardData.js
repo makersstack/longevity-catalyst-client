@@ -2,7 +2,7 @@ import { LuBarChart2, LuLock, LuUsers } from "react-icons/lu";
 import { PiSignOut } from "react-icons/pi";
 import { RxLayers } from "react-icons/rx";
 
-export const menuData = [
+export const menuDataForContributor = [
   {
       id: 1,
       title: 'Dashboard',

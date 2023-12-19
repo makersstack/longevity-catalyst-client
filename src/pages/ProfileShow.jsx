@@ -195,8 +195,6 @@ const ProfileShow = ({ rating }) => {
             {isLoading ? (
               <Loader />
             ) : (
-
-
               <div className="project_show_container">
                 <div className="profile_user_info other_profile">
                   <div className="image_block">

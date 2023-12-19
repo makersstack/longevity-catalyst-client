@@ -2,10 +2,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import ScrollToTop from '../../utils/RouteChange';
 
 const PasswordChange = () => {
+    const navigate = useNavigate();
     useEffect(() => {
         document.title = "Change Password - Longevity Catalyst";
       }, []);
@@ -58,7 +60,7 @@ const PasswordChange = () => {
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
-        console.log(formData);
+        // console.log(formData);
 
         // validation 
         let isValid = true;
@@ -108,6 +110,10 @@ const PasswordChange = () => {
                 setIsLoading(false); // Set loading back to false after the form submission
             }
         }
+    }
+
+    const handelChangePasswordCancle = () => {
+        navigate('/dashboard/home');
     }
 
 
@@ -190,7 +196,7 @@ const PasswordChange = () => {
                             <hr className='inputhr' />
 
                             <div className="form_submit al_submit_button">
-                                <button type="reset" className="btn btn-submit btn-light">
+                                <button type="reset" className="btn btn-submit btn-light" onClick={handelChangePasswordCancle}>
                                     Cancel
                                 </button>
                                 <button type="submit" className="btn btn-submit btn-dark">
