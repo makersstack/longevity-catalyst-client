@@ -4,7 +4,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import Modal from 'react-responsive-modal';
 
 const EditDeleteReplay = ({ replayId, othersOperationData }) => {
-    const { handleDeleteReplay } = othersOperationData;
+    const { handleDeleteReplay,setIsEditReplay } = othersOperationData;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => {
         setIsModalOpen(true);
@@ -36,7 +36,7 @@ const EditDeleteReplay = ({ replayId, othersOperationData }) => {
         );
     };
     const handelOpenCommentForm = () => {
-        return true;
+        setIsEditReplay(true);
     }
     return (
         <>

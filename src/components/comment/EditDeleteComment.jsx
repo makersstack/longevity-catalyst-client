@@ -4,7 +4,7 @@ import { RiDeleteBin5Line } from 'react-icons/ri';
 import Modal from 'react-responsive-modal';
 
 const EditDeleteComment = ({commentId,othersOperationData}) => {
-  const { handleDeleteComment } = othersOperationData;
+  const { handleDeleteComment,setIsEditComment } = othersOperationData;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -36,7 +36,7 @@ const EditDeleteComment = ({commentId,othersOperationData}) => {
     );
   };
   const handelOpenCommentForm = () => {
-    return true;
+    setIsEditComment(true);
   }
   return (
     <>

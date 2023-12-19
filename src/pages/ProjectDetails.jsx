@@ -153,9 +153,14 @@ const ProjectDetails = () => {
 
 
                     {/* comment box  */}
-                    <div className="details_block">
-                      <CommentBox projectId={projectData?.id} />
-                    </div>
+                    {
+                      projectData?.id && (
+                        <div className="details_block">
+                          <CommentBox projectId={projectData?.id} />
+                        </div>
+                      )
+                    }
+
                   </div>
                 </div>
                 {/* Sidebar */}
