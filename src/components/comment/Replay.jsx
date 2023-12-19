@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
 import dateTimeHel from '../../utils/dateTimeHel';
 import EditDeleteReplay from './EditDeleteReplay';
+import EditReplayFrom from './EditReplayFrom';
 
-const Replay = ({ data,replayOperationData }) => {
+const Replay = ({ data, replayOperationData }) => {
     const { userInfo } = useAuth();
     const isReplayAuthor = (userInfo && userInfo.id === data?.User?.id) || false;
     const avatarSrc = data?.User?.profileImage || avatersFor.user;
+
+    const [isEditReplay, setIsEditReplay] = useState(false);
+    const editDeleteOperationData = {
+        handleDeleteReplay: replayOperationData.handleDeleteReplay,
+        setIsEditReplay
+    }
+  const editOperationData = {
+    handelEidtReplay: replayOperationData.handelEidtReplay,
+    replayId: data?.id,
+    defaultValue: data?.replyText,
+    setIsEditReplay
+  }
+   
+
     return (
         <div className="comment_card replay_card">
             {/* card head  */}
@@ -28,13 +43,22 @@ const Replay = ({ data,replayOperationData }) => {
             </div>
             {/* card body  */}
             <div className="comment_card_body">
-                {data?.replyText}
+
+                {
+                    isEditReplay ? (
+                        <EditReplayFrom  editReplayOperationData={editOperationData}/>
+                    ) : (
+                        data?.replyText
+                    )
+                }
+
+
             </div>
             {/* card footer  */}
             <div className="comment_card_footer ">
                 <div className="devide_buttons_wraper">
                     <div className="comment_box_buttons">
-                      
+
                         {/* <div className="post_arrow">
                             <button type="button">
                                 <BiUpvote />
@@ -49,7 +73,7 @@ const Replay = ({ data,replayOperationData }) => {
                         </button> */}
                         {
                             isReplayAuthor && (
-                                <EditDeleteReplay replayId={data.id} othersOperationData={replayOperationData}/>
+                                <EditDeleteReplay replayId={data.id} othersOperationData={editDeleteOperationData} />
                             )
                         }
 
@@ -63,7 +87,7 @@ const Replay = ({ data,replayOperationData }) => {
                         </button>
                     </div> */}
                 </div>
-               
+
             </div>
 
         </div>

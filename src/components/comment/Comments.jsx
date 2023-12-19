@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MdOutlineAddComment } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
@@ -7,6 +7,7 @@ import useAuth from '../../hooks/UseAuth';
 import useLoading from '../../hooks/useLoading';
 import dateTimeHel from '../../utils/dateTimeHel';
 import AddReplay from './AddReplay';
+import EditCommentFrom from './EditCommentFrom';
 import EditDeleteComment from './EditDeleteComment';
 import Replay from './Replay';
 const Comments = ({ data, othersOperationData }) => {
@@ -14,28 +15,76 @@ const Comments = ({ data, othersOperationData }) => {
     const isAuthor = userInfo && userInfo.id === data?.userId;
     const { setIsLoading } = useLoading();
     const navigate = useNavigate();
-    const [replyLimit, setReplyLimit] = useState(2);
+
     const [moreCount, setMoreCount] = useState(0);
     const [isOpenCmnt, setOpenCmnt] = useState(false);
     const [isAddReplay, setIsAddReplay] = useState(false);
+
+    const [page, setPage] = useState(1);
+    const [totalReplies, setTotalReplies] = useState(0);
+    const [limit] = useState(3);
+    const { projectId, id: commentId } = data;
+    const [repliesData, setRepliesData] = useState([]);
+
+    const fetchReplayByComment = useCallback(async (cId) => {
+        try {
+            setIsLoading(true);
+            const paginationOptions = {
+                page: page,
+                limit: limit,
+            };
+            const response = await projectApi.getAllReplyByComment(cId, paginationOptions);
+            if (typeof response.data.data.data === 'object' && response.data.data.data !== null) {
+                const repliesArray =response.data.data.data;
+                if (page === 1) {
+                    setRepliesData(repliesArray);
+                } else {
+                    setRepliesData((repliesData) => [...repliesData, ...repliesArray]);
+                }
+
+                const totalReply = response.data.data.meta.total;
+                setTotalReplies(totalReply);
+            } else {
+                console.error('Invalid data format: Expected an object with replay data');
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+
+    }, [limit, commentId, setIsLoading, page]);
+
+    useEffect(() => {
+        setMoreCount(totalReplies - repliesData.length);
+
+    }, [totalReplies, repliesData])
+
+
+
     const handleShowMoreClick = () => {
-        setReplyLimit((prevLimit) => prevLimit + 5);
-        // TODO ALIFUR
-        setMoreCount((prevCount) => data?.Replies?.length - replyLimit);
+        setPage((prevPage) => prevPage + 1);
+        fetchReplayByComment(commentId);
+      
     };
-    const [replies, setReplies] = useState(data?.Replies || []);
-    const { projectId, id } = data;
 
     const addNewReplay = async (formDataObject) => {
         try {
             setIsLoading(true);
 
-            if (!projectId || !id) {
+            if (!projectId || !commentId) {
                 throw new Error('Project ID or Comment ID not provided');
             }
-            const response = await projectApi.addReply(formDataObject, projectId, id);
-            const newReply = response?.data?.data;
-            setReplies(prevReplies => [...prevReplies, newReply]);
+            const response = await projectApi.addReply(formDataObject, projectId, commentId);
+
+            const newReply = response?.data;
+            if (newReply?.success) {
+                setPage(1);
+                fetchReplayByComment(commentId);
+                setOpenCmnt(true);
+            }
+
+
             // Do others 
         } catch (error) {
             throw new Error('Error adding comment:', error);
@@ -53,10 +102,12 @@ const Comments = ({ data, othersOperationData }) => {
             const response = await projectApi.deleteReplay(id);
             const deleteSt = response?.data;
             if (deleteSt?.success) {
-                if (response?.data?.data?.id) {
-                    const updateRepalyData = replies.filter(reply => reply.id !== response?.data?.data?.id);
-                    setReplies(updateRepalyData);
-                }
+                // if (response?.data?.data?.id) {
+                //     const updateRepalyData = repliesData.filter(reply => reply.id !== response?.data?.data?.id);
+                //     setRepliesData(updateRepalyData);
+                // }
+                setPage(1);
+                fetchReplayByComment(commentId);
             }
             // Do others 
         } catch (error) {
@@ -66,26 +117,74 @@ const Comments = ({ data, othersOperationData }) => {
             return true;
         }
     }
+    const handelEidtReplay = async (replayId, formDataObject) => {
+        try {
+            setIsLoading(true);
+            const response = await projectApi.updateReplay(replayId, formDataObject);
+            const newSt = response?.data;
+            const newReplay = response?.data?.data;
+
+            if (newSt?.success && newReplay) {
+                const updatedReplies = repliesData.map(reply => {
+                    if (reply.id === newReplay.id) {
+                        return newReplay;
+                    }
+                    return reply;
+                });
+
+                setRepliesData(updatedReplies);
+            }
+
+
+        } catch (error) {
+            console.error('Error Editing Replay:', error);
+        } finally {
+            setIsLoading(false);
+        }
+        return true;
+    };
+
+
 
     const toggleOpenReplyBox = () => {
         if (!isLoggedIn) {
             navigate('/login?emsg=Please login to reply projects');
         }
-        setIsAddReplay(prevState => !prevState);
-        setOpenCmnt(true);
-        // TODO ALIFUR
-        // setMoreCount((prevCount) => data?.Replies?.length - replyLimit);
+        setIsAddReplay(!isAddReplay);
     };
 
     const toggleOpenComments = () => {
         setOpenCmnt(!isOpenCmnt);
+        if (!isOpenCmnt) {
+            fetchReplayByComment(commentId);
+            setPage((prevPage) => prevPage + 1);
+        } else {
+            setPage(1);
+        }
     };
 
+    const [isEditComment, setIsEditComment] = useState(false);
+
+    const EditDelteOperationData = {
+        handleDeleteComment: othersOperationData.handleDeleteComment,
+        setIsEditComment
+    }
+
     const replayOperationData = {
-        handleDeleteReplay
+        handleDeleteReplay,
+        handelEidtReplay
+    }
+
+    const editOperationData = {
+        EditComment: othersOperationData.EidtComment,
+        defaultValue: data.commentText,
+        commentId: commentId,
+        setIsEditComment
     }
 
     // Edit Comment Functionality
+
+
     return (
         <>
             <div className="comment_card">
@@ -104,7 +203,14 @@ const Comments = ({ data, othersOperationData }) => {
                     </div>
                 </div>
                 <div className="comment_card_body">
-                    <p>{data.commentText}</p>
+                    {
+                        isEditComment ? (
+                            <EditCommentFrom editOperationData={editOperationData} />
+                        ) : (
+                            <p>{data.commentText}</p>
+                        )
+                    }
+
                 </div>
                 <div className="comment_card_footer">
                     <div className="devide_buttons_wraper">
@@ -115,7 +221,7 @@ const Comments = ({ data, othersOperationData }) => {
                             </button>
                             {
                                 isAuthor && (
-                                    <EditDeleteComment commentId={id} othersOperationData={othersOperationData} />
+                                    <EditDeleteComment commentId={commentId} othersOperationData={EditDelteOperationData} />
                                 )
                             }
 
@@ -126,8 +232,8 @@ const Comments = ({ data, othersOperationData }) => {
                     }
 
                     {
-                        isOpenCmnt && <> {replies.length !== 0 ? (
-                            replies.slice(0, replyLimit).map((singleData) => (
+                        isOpenCmnt && <> {repliesData.length !== 0 ? (
+                            repliesData.map((singleData) => (
                                 <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
                             ))
                         ) : (

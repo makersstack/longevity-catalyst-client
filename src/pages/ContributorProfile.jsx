@@ -30,12 +30,27 @@ const ContributorProfile = () => {
 
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters] = useState({
+    search: '',
+    textsearch: '',
+    selectedCategory: '',
+    selectedTopic: '',
+    selectedDuration: '',
+    selectedRequiredSkills: [],
+    selectedFundingStatus: '',
+    selectedLanguage: '',
+});
+const [page,setPage] = useState(1);
 
   useEffect(() => {
     const fetchLatestProjects = async () => {
       setIsLoading(true);
       try {
-        const response = await projectApi.getAllProjectsByUsername(userInfo.username);
+        const paginationOptions = {
+          page,
+          limit: 5,
+      };
+        const response = await projectApi.getAllProjectsByUsername(userInfo.username,filters,paginationOptions);
         const newProjects = response.data.data || [];
         setProjects((prevProjects) => [...prevProjects, ...newProjects]);
       } catch (error) {
@@ -45,10 +60,9 @@ const ContributorProfile = () => {
       }
     }
     fetchLatestProjects();
-  }, [userInfo.username]);
-  
+  }, [userInfo.username,filters,page]);
   const handleLoadMore = () => {
-    alert("Processing... Project Filters, Search Terms, and Pagination!");
+    setPage((prevPage) => prevPage + 1);
   };
 
 
