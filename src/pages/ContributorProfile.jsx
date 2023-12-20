@@ -9,6 +9,7 @@ import { projectApi } from '../api';
 import "../assets/styles/profileShow.css";
 import TopFilterButtons from '../components/filter/TopFilterButtons';
 import ProjectCard from '../components/project/ProjectCard';
+import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
 import useAuth from '../hooks/UseAuth';
@@ -41,6 +42,8 @@ const ContributorProfile = () => {
     selectedLanguage: '',
   });
   const [page, setPage] = useState(1);
+  const [moreCount, setMoreCount] = useState(0);
+  const [totalProjecs, setTotalProjecs] = useState(0);
 
   useEffect(() => {
     const fetchLatestProjects = async () => {
@@ -51,8 +54,19 @@ const ContributorProfile = () => {
           limit: 5,
         };
         const response = await projectApi.getAllProjectsByUsername(userInfo.username, filters, paginationOptions);
-        const newProjects = response.data.data || [];
-        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+        const resSt = response?.data;
+        if (resSt?.success) {
+          const newProjects = response.data.data || [];
+
+          if (page === 1) {
+            setProjects(newProjects);
+          } else {
+            setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+          }
+
+          const totalPr = response.data.meta.total;
+          setTotalProjecs(totalPr);
+        }
       } catch (error) {
         throw new Error("Error fetching projects", error);
       } finally {
@@ -64,6 +78,17 @@ const ContributorProfile = () => {
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
+
+  useEffect(() => {
+    setMoreCount(totalProjecs - projects.length);
+
+  }, [totalProjecs, projects]);
+
+  useEffect(() => {
+    setPage(1);
+    setProjects([]);
+    setMoreCount(0);
+  }, [filters]);
 
 
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
@@ -265,15 +290,29 @@ const ContributorProfile = () => {
             />
 
             <div className="project_show_cash">
-              {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
+              {projects.length !== 0 && (
+                projects.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
+                ))
+              )}
+
+              {!isLoading && projects.length === 0 && (
+                <p>No projects found</p>
+              )}
+
               {isLoading ? (
-                <p>Loading...</p>
+                <>
+                  {[1, 2].map((item) => (
+                    <ProjectCardSkeleton key={item} />
+                  ))}
+                </>
+
               ) : (
-                <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                  Load More
-                </button>
+                moreCount > 0 && (
+                  <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                    Load More
+                  </button>
+                )
               )}
             </div>
           </div>

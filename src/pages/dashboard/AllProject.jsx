@@ -8,6 +8,7 @@ import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 // import calculateDurationFromNow from '../../utils/durationCalculate';
 import ProjectCard from '../../components/project/ProjectCard';
+import ProjectCardSkeleton from '../../components/project/ProjectCardSkeleton';
 
 const AllProject = () => {
     useEffect(() => {
@@ -26,6 +27,8 @@ const AllProject = () => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
+    const [moreCount, setMoreCount] = useState(0);
+    const [totalProjecs, setTotalProjecs] = useState(0);
     const [filters] = useState({
         search: '',
         textsearch: '',
@@ -46,8 +49,23 @@ const AllProject = () => {
                     limit: 5,
                 };
                 const response = await projectApi.getAllProjectsByUsername(userName, filters, paginationOptions);
-                const newProjects = response.data.data || [];
-                setProjects(newProjects);
+
+                const resSt = response?.data;
+                if (resSt?.success) {
+                    const newProjects = response.data.data || [];
+
+                    if (page === 1) {
+                        setProjects(newProjects);
+                    } else {
+                        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+                    }
+
+                    const totalPr = response.data.meta.total;
+                    setTotalProjecs(totalPr);
+                }
+
+
+
             } catch (error) {
                 throw new Error("Error fetching projects", error);
             } finally {
@@ -56,6 +74,11 @@ const AllProject = () => {
         }
         fetchLatestProjects();
     }, [userName, page, filters]);
+
+    useEffect(() => {
+        setMoreCount(totalProjecs - projects.length);
+
+    }, [totalProjecs, projects])
 
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
@@ -107,15 +130,29 @@ const AllProject = () => {
                         <div className='dashboard_all_projectBody'>
                             <div className="project_show_cash">
                                 {/* Render project cards */}
-                                {projects.map((project) => (
-                                    <ProjectCard key={project.id} project={project} othersOperationData={othersOperationData} />
-                                ))}
+                                {projects.length !== 0 && (
+                                    projects.map((project) => (
+                                        <ProjectCard key={project.id} project={project} />
+                                    ))
+                                )}
+
+                                {!isLoading && projects.length === 0 && (
+                                    <p>No projects found</p>
+                                )}
+
                                 {isLoading ? (
-                                    <p>Loading...</p>
+                                    <>
+                                        {[1, 2].map((item) => (
+                                            <ProjectCardSkeleton key={item} />
+                                        ))}
+                                    </>
+
                                 ) : (
-                                    <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                                        Load More
-                                    </button>
+                                    moreCount > 0 && (
+                                        <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                                            Load More
+                                        </button>
+                                    )
                                 )}
                             </div>
                         </div>
