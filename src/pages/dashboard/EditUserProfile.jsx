@@ -89,13 +89,13 @@ const EditUserProfile = () => {
             }));
             isValid = false;
         }
-        if (formDataObject.email.length === 0) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                email: 'Email address is Required',
-            }));
-            isValid = false;
-        }
+        // if (formDataObject.email.length === 0) {
+        //     setErrorMsg(prevErrorMsg => ({
+        //         ...prevErrorMsg,
+        //         email: 'Email address is Required',
+        //     }));
+        //     isValid = false;
+        // }
 
 
 

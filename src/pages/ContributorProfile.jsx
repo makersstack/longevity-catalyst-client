@@ -39,8 +39,8 @@ const ContributorProfile = () => {
     selectedRequiredSkills: [],
     selectedFundingStatus: '',
     selectedLanguage: '',
-});
-const [page,setPage] = useState(1);
+  });
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchLatestProjects = async () => {
@@ -49,8 +49,8 @@ const [page,setPage] = useState(1);
         const paginationOptions = {
           page,
           limit: 5,
-      };
-        const response = await projectApi.getAllProjectsByUsername(userInfo.username,filters,paginationOptions);
+        };
+        const response = await projectApi.getAllProjectsByUsername(userInfo.username, filters, paginationOptions);
         const newProjects = response.data.data || [];
         setProjects((prevProjects) => [...prevProjects, ...newProjects]);
       } catch (error) {
@@ -60,7 +60,7 @@ const [page,setPage] = useState(1);
       }
     }
     fetchLatestProjects();
-  }, [userInfo.username,filters,page]);
+  }, [userInfo.username, filters, page]);
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -82,24 +82,24 @@ const [page,setPage] = useState(1);
                       <img src={avatarSrc} alt="user" />
                     </div>
                     <div className="info_block">
-                      <h3>{userInfo.full_name}</h3>
-                      <div className="user_title">Programmer</div>
+                      <h3 className='userProfile_title'>{userInfo.full_name}</h3>
+                      <div className="user_title">As an {userInfo?.role}</div>
                       <span className="follow_st">
-                        <Link to="/">5000 follower </Link> .
+                        <Link to="/">500 follower</Link>. &nbsp;
                         <Link to="/">200 following</Link>
                       </span>
                       <div className="profile_buttons">
-                        <Link to="/" className="btn btn-dark no-shadow">
+                        <button type='button' className="btn btn-dark no-shadow">
                           <FaBell />
                           Notify
-                        </Link>
-                        <Link to="/" className="btn btn-gray">
+                        </button>
+                        <button type='button' className="btn btn-gray">
                           <FaWifi />
                           Follow
-                        </Link>
-                        <Link to="/" className="btn_more_bar">
+                        </button>
+                        <button type='button' className="btn_more_bar">
                           <HiDotsVertical />
-                        </Link>
+                        </button>
                         {/* <button className="btn_more_bar" >
                           <HiDotsVertical />
                         </button> */}
@@ -112,14 +112,14 @@ const [page,setPage] = useState(1);
 
                   <div className="side_bar_card_head">
                     <span className="head_title">Intro</span>
-                    <Link to="/" className="btn btn-gray btn-sm">Edit</Link>
+                    <Link to='/dashboard/profile/update' className="btn btn-gray btn-sm">Edit</Link>
                   </div>
 
                   <div className="side_bar_card_body">
                     <p>
-                      Software engineer, dad, husband, former video game
-                      programmer, and member of The Church of Jesus Christ of
-                      Latter-day Saints.
+                     {
+                      userInfo?.bio
+                     }
                     </p>
                     <span className="divider"></span>
                     <ul>
