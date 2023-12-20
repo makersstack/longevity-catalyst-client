@@ -96,7 +96,6 @@ const Login = () => {
         formDataObject.identifier = formDataObject.username;
         // delete formDataObject.username;
 
-
         // After validation, perform the form submission with loading message
         if (isValid) {
             try {
@@ -105,7 +104,7 @@ const Login = () => {
                     withCredentials: true
                 });
                 await toast.promise(promise, {
-                    loading: 'Login...', // Display a loading message
+                    loading: 'Login...', 
                     success: (response) => {
                         if (response?.data?.success) {
                             // document.querySelector('body').classList.remove('loading_BG');

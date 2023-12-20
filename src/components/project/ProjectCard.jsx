@@ -9,7 +9,7 @@ import formatNumber from '../../utils/NumberCountFormate';
 import dateTimeHel from '../../utils/dateTimeHel';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
 
-import LikeButton from '../LikeShare/LikeButton';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from '../ui/SocailModal';
 import MoreOptionButtons from './MoreOptionButtons';
 import VoteButtons from './VoteButtons';

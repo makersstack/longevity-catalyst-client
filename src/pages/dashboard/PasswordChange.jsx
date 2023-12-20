@@ -2,22 +2,46 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../../api';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
 
 const PasswordChange = () => {
     const navigate = useNavigate();
+    const { handleLogout } = useAuth();
     useEffect(() => {
         document.title = "Change Password - Longevity Catalyst";
-      }, []);
-  
+    }, []);
+
     ScrollToTop();
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
+    const [showOldPassword, setShowOldPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
+    const togglePasswordVisibility = (type) => {
+        switch (type) {
+            case 'oldPassword':
+                setShowOldPassword(prevState => !prevState);
+                break;
+            case 'newPassword':
+                setShowNewPassword(prevState => !prevState);
+                break;
+            case 'confirmPassword':
+                setShowConfirmPassword(prevState => !prevState);
+                break;
+            default:
+                break;
+        }
+    };
 
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
@@ -45,14 +69,13 @@ const PasswordChange = () => {
         }
     };
 
-
     useEffect(() => {
         handleLoadingState();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
 
-    const handelChangePassword = (e) => {
+    const handelChangePassword = async (e) => {
         e.preventDefault();
         setErrorMsg({});
         const formData = new FormData(e.target);
@@ -60,8 +83,6 @@ const PasswordChange = () => {
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
-        // console.log(formData);
-
         // validation 
         let isValid = true;
         if (formDataObject.oldPassword.length === 0) {
@@ -94,20 +115,23 @@ const PasswordChange = () => {
             }
         }
 
-
-
         if (isValid) {
             const loadingToast = toast.loading('Changing Password...');
             try {
+                const promise = await authApi.changlePassword(formDataObject);
                 setIsLoading(true);
-                toast.success('Password Updated');
+                if (promise?.data?.statusCode === 200) {
+                    toast.success('Password Updated');
+                    handleLogout();
+                    navigate('/login');
+                } else if (promise?.error?.status === 400) {
+                    toast.warning('Old password is incorrect');
+                }
             } catch (error) {
-                console.error('Error', error);
-                toast.error('Request failed...');
-                // console.log('');
+                toast.error('Password is incorrect');
             } finally {
                 toast.dismiss(loadingToast);
-                setIsLoading(false); // Set loading back to false after the form submission
+                setIsLoading(false);
             }
         }
     }
@@ -141,15 +165,18 @@ const PasswordChange = () => {
                                         <span>*</span>
                                     </label>
                                 </div>
-                                <div className='list_input'>
+                                <div className='list_input list_input_pass'>
                                     <input
                                         className={errorMsg.oldPassword ? 'border-warring' : ''}
-                                        type="password"
+                                        type={showOldPassword ? 'text' : 'password'}
                                         name="oldPassword"
                                         id="oldPassword"
                                         autoComplete='off'
                                         placeholder="Type Current Password"
                                     />
+                                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('oldPassword')}>
+                                        {showOldPassword ? <RiEyeCloseFill /> : <RiEyeFill />} {/* Show/hide eye icons */}
+                                    </button>
                                     {errorMsg.oldPassword && <div className='error-msg'>{errorMsg.oldPassword}</div>}
                                 </div>
                             </div>
@@ -162,14 +189,17 @@ const PasswordChange = () => {
                                         <span>*</span>
                                     </label>
                                 </div>
-                                <div className='list_input'>
+                                <div className='list_input list_input_pass'>
                                     <input
                                         className={errorMsg.newPassword ? 'border-warring' : ''}
-                                        type="password"
+                                        type={showNewPassword ? 'text' : 'password'}
                                         name="newPassword"
                                         id="newPassword"
                                         placeholder="Type New Password"
                                     />
+                                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('newPassword')}>
+                                        {showNewPassword ? <RiEyeCloseFill /> : <RiEyeFill />} {/* Show/hide eye icons */}
+                                    </button>
                                     {errorMsg.newPassword && <div className='error-msg'>{errorMsg.newPassword}</div>}
                                 </div>
                             </div>
@@ -181,14 +211,17 @@ const PasswordChange = () => {
                                         <span>*</span>
                                     </label>
                                 </div>
-                                <div className='list_input'>
+                                <div className='list_input list_input_pass'>
                                     <input
                                         className={errorMsg.confirmPassword ? 'border-warring' : ''}
-                                        type="password"
+                                        type={showConfirmPassword ? 'text' : 'password'}
                                         name="confirmPassword"
                                         id="confirmPassword"
                                         placeholder="Type Confirm Password"
                                     />
+                                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('confirmPassword')}>
+                                        {showConfirmPassword ? <RiEyeCloseFill /> : <RiEyeFill />} 
+                                    </button>
                                     {errorMsg.confirmPassword && <div className='error-msg'>{errorMsg.confirmPassword}</div>}
                                 </div>
                             </div>
@@ -202,7 +235,6 @@ const PasswordChange = () => {
                                 <button type="submit" className="btn btn-submit btn-dark">
                                     Save
                                 </button>
-
                             </div>
                         </form>
                     </div>
