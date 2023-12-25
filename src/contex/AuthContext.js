@@ -71,7 +71,8 @@ const AuthProvider = ({ children }) => {
         handleLoginSuccess,
         handleLogout,
         userInfo,
-        menuData
+        menuData,
+        setUserInfo
     };
 
     return (
