@@ -113,7 +113,6 @@ const SignUp = () => {
 
         // Start proccsing image 
         const profilePictureFile = formData.get("profileImage");
-        // console.log('Find for image path',profilePictureFile);
 
         if (profilePictureFile.name.length !== 0) {
             setProfilePic(profilePictureFile);

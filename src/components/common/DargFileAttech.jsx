@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FiUploadCloud } from 'react-icons/fi';
 
-const DargFileAttech = ({ errorMsg, setProfilePic }) => {
+const DargFileAttech = ({ errorMsg, setProfilePic, resetPreview }) => {
     const [dragging, setDragging] = useState(false);
     const [filePreview, setFilePreview] = useState(null);
     const fileInputRef = useRef(null);
@@ -10,6 +10,13 @@ const DargFileAttech = ({ errorMsg, setProfilePic }) => {
         e.preventDefault();
         setDragging(true);
     };
+
+    useEffect(() => {
+        if (resetPreview) {
+            setFilePreview(null);
+        }
+    }, [resetPreview]);
+
 
     const handleDragLeave = () => {
         setDragging(false);
