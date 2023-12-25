@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { authApi } from '../../api';
 import CheckBoxButton from '../../components/common/CheckBoxButton';
 import DargFileAttech from '../../components/common/DargFileAttech';
 import TextEditor from '../../components/common/TextEditor';
@@ -12,11 +13,11 @@ import ScrollToTop from '../../utils/RouteChange';
 const EditUserProfile = () => {
     useEffect(() => {
         document.title = "Update Profile - Longevity Catalyst";
-      }, []);
+    }, []);
 
     ScrollToTop();
 
-    const { userInfo } = useAuth();
+    const { userInfo,setUserInfo } = useAuth();
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
         { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },
@@ -28,6 +29,8 @@ const EditUserProfile = () => {
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
+    const [resetPreview, setResetPreview] = useState(false);
+    // const navigate = useNavigate();
 
 
 
@@ -67,9 +70,8 @@ const EditUserProfile = () => {
     const [bioText, setBioText] = useState('');
     const [profilePic, setProfilePic] = useState({});
 
-    console.log(profilePic);
-
-    const handelProfileSubmit = (e) => {
+   
+    const handelProfileSubmit = async (e) => {
         e.preventDefault();
         setErrorMsg({});
         const formData = new FormData(e.target);
@@ -78,8 +80,7 @@ const EditUserProfile = () => {
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
-        console.log(formData);
-
+     
         // validation 
         let isValid = true;
         if (formDataObject.full_name.length === 0) {
@@ -89,29 +90,68 @@ const EditUserProfile = () => {
             }));
             isValid = false;
         }
-        // if (formDataObject.email.length === 0) {
-        //     setErrorMsg(prevErrorMsg => ({
-        //         ...prevErrorMsg,
-        //         email: 'Email address is Required',
-        //     }));
-        //     isValid = false;
-        // }
+
+        // Start proccsing image 
+        const profilePictureFile = formData.get("profileImage");
+
+        if (profilePictureFile.name.length !== 0) {
+            setProfilePic(profilePictureFile);
+        }
+        let isImageValid = false;
+        if (profilePic.name) {
+            // image validation 
+
+            if (!['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'].includes(profilePic.type)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    profileImage: 'Please Select PNG/JPG/GIF/SVG file !',
+                }));
+                isValid = false;
+            }
+            else if (profilePic.size > 1048576) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    profileImage: 'Max 1MB file can Upload !',
+                }));
+                isValid = false;
+            }
+            else {
+                isImageValid = true;
+            }
+        }
+        if (isImageValid) {
+            formDataObject.profileImage = profilePic;
+            formData.append('profileImage', profilePic);
+        }
+        else {
+            formDataObject.profileImage = '';
+        }
+        delete formDataObject.profileImage;
+
+
 
 
 
         if (isValid) {
             const loadingToast = toast.loading('Updating...');
-            try {
-                setIsLoading(true);
-                toast.success('Profile Updated');
-            } catch (error) {
-                console.error('Error', error);
-                toast.error('Request failed...');
-                // console.log('');
-            } finally {
-                toast.dismiss(loadingToast);
-                setIsLoading(false); // Set loading back to false after the form submission
+            const response = await authApi.updateUser(userInfo.username, formData);
+            const getError = response.error;
+            if (getError) {
+                toast.error(getError.data.message);
             }
+            else {
+                const { data } = response;
+                if(data.success){
+                    toast.success(data.message);
+                    setUserInfo(response.data.data);
+                    setResetPreview(true);
+                }else{
+                    toast.error("Something went wrong");
+                }
+            }
+            toast.dismiss(loadingToast);
+            setIsLoading(false); 
+            setResetPreview(false);
         }
     }
 
@@ -132,7 +172,7 @@ const EditUserProfile = () => {
                             <h3 className="title">Update Profile</h3>
                         </div>
 
-                        <form onSubmit={handelProfileSubmit} ref={formRef} className="add_project_form">
+                        <form onSubmit={handelProfileSubmit} ref={formRef} encType="multipart/form-data" className="add_project_form">
 
                             {/* <!-- Single Input --> */}
                             <div className="form_control list_input_box">
@@ -148,7 +188,7 @@ const EditUserProfile = () => {
                                         name="full_name"
                                         id="full_name"
                                         placeholder="Full Name"
-                                        value={userInfo?.full_name}
+                                        defaultValue={userInfo?.full_name}
                                     />
                                     {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
                                 </div>
@@ -217,7 +257,7 @@ const EditUserProfile = () => {
                                     <div className="show_old_avater">
                                         <img src={userInfo?.profileImage || avatersFor.user} alt="profile_img" />
                                     </div>
-                                    <DargFileAttech errorMsg={errorMsg} setProfilePic={setProfilePic} />
+                                    <DargFileAttech errorMsg={errorMsg} resetPreview={resetPreview} setProfilePic={setProfilePic} />
                                 </div>
                                 {errorMsg.pro_pic && <div className='error-msg'>{errorMsg.pro_pic}</div>}
                             </div>
@@ -228,18 +268,18 @@ const EditUserProfile = () => {
                             {/* <!-- Single Input --> */}
                             <div className="form_control list_input_box">
                                 <div className='list_lebel'>
-                                    <label htmlFor="github">
-                                        Github Profile
+                                    <label htmlFor="company">
+                                        Company
                                     </label>
                                 </div>
                                 <div className='list_input'>
                                     <input
                                         className={errorMsg.github ? 'border-warring' : ''}
                                         type="text"
-                                        name="github"
-                                        id="github"
+                                        name="company"
+                                        id="company"
                                         placeholder="http://gitthub.com"
-                                        value={userInfo?.github}
+                                        defaultValue={userInfo?.company}
                                     />
                                     {errorMsg.github && <div className='error-msg'>{errorMsg.github}</div>}
                                 </div>

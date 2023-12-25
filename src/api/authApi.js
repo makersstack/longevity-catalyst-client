@@ -32,6 +32,14 @@ export const authApi = {
       method: "PATCH",
       data: passData
     }),
+
+  updateUser: async (username, userData) =>
+    axiosBaseQuery({
+      url: `/users/${username}/update`,
+      method: "PATCH",
+      data: userData,
+    }),
+
 };
 
 export default authApi;
