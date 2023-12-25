@@ -19,7 +19,7 @@ const MegaMenu = ({ isOpen, filters }) => {
                 };
                 const response = await projectApi.getAllProjects(filters, paginationOptions);
                 setProjects(response.data.data);
-                // console.log(response);
+
             } catch (error) {
                 console.error('Error fetching projects:', error);
             } finally {

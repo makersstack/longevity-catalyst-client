@@ -9,22 +9,21 @@ import AuthHeader from '../../components/auth/AuthHeader';
 import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
+import useAuth from '../../hooks/UseAuth';
 import ScrollToTop from '../../utils/RouteChange';
-import { checkAuth } from '../../utils/fakeAuth';
 import PageNotFound from '../PageNotFound';
 
 const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
-
-    const [getAuthF, setAuthF] = useState(checkAuth());
+    const { isLoggedIn } = useAuth();
     const [profilePic, setProfilePic] = useState({});
 
     useEffect(() => {
-        if (getAuthF) {
+        if (isLoggedIn) {
             navigate('/user/dashboard');
         }
-    }, [navigate, getAuthF]);
+    }, [navigate, isLoggedIn]);
 
     ScrollToTop();
     const mes = {};
@@ -57,7 +56,6 @@ const SignUp = () => {
         handleLoadingState();
     }, [isLoading])
     const [skillValue, setSkillValues] = useState([]);
-    // console.log(skillValue);
     const handalSubmitSignUp = async (e) => {
         e.preventDefault();
         setErrorMsg({});
@@ -71,7 +69,7 @@ const SignUp = () => {
 
         // validation 
         let isValid = true;
-        
+
         if (formDataObject.full_name.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
@@ -161,8 +159,8 @@ const SignUp = () => {
                 setIsLoading(true);
                 const promise = authApi.signup(formData);
                 await toast.promise(promise, {
-                    loading: 'Signing Up...', 
-                    
+                    loading: 'Signing Up...',
+
                     success: (response) => {
                         if (response.data.success) {
                             // document.querySelector('body').classList.remove('loading_BG');
