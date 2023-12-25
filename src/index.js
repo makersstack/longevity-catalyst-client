@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import ErrorBoundary from './ErrorHandling/ErrorBoundary';
 import AuthProvider from './contex/AuthContext';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </React.StrictMode>,
+  <ErrorBoundary>
+    <React.StrictMode>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </React.StrictMode>
+  </ErrorBoundary>,
   document.getElementById('root')
 );
 

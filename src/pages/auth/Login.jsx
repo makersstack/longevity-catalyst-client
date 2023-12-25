@@ -151,14 +151,11 @@ const Login = () => {
                         position: 'top-right', // Set the position to top-right
                     },
                 });
-                // console.log(responseApi);
             } catch (error) {
-                // console.error('Error', error);
-                console.log('');
+                console.error('An error occurred:', error);
             } finally {
-                setIsLoading(false); // Set loading back to false after the form submission
+                setIsLoading(false); 
             }
-            // console.log(formDataObject);
         }
 
     }
