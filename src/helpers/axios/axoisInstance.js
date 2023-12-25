@@ -4,6 +4,11 @@ import { authKey } from "../../constants/storageKey";
 import { apiKey } from "../../globals";
 import { getLocalStorage, setToLocalStorage } from "../../utils/local-storage";
 
+
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
+
+
 const instance = axios.create({
   baseURL: apiKey,
   timeout: 60000,
@@ -83,5 +88,9 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const axiosCancelToken = () => {
+  source.cancel("Operation canceled due to unmounting.");
+};
 
 export default instance;
