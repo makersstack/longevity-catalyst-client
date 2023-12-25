@@ -906,7 +906,6 @@ input:disabled {
   padding-top: 20px;
 }
 /* For Header */
-
 .delete_modal_body {
   padding: 20px 15px;
 }
@@ -927,7 +926,66 @@ input:disabled {
   color: #fff;
   border-radius: 8px;
 }
-
+/* For user Details */
+.userProfile_title {
+  text-transform: capitalize;
+}
+.main_dashboard_content {
+  padding: 30px;
+}
+.single_confiramation {
+  margin-bottom: 30px;
+}
+.email_confirmation {
+  text-align: center;
+  max-width: 550px;
+  margin: 0 auto;
+}
+.single_confiramation img {
+  width: 120px;
+  height: 100px;
+  object-fit: contain;
+}
+.email_confirmation h4 {
+  font-size: 28px;
+  padding: 15px 0 10px 0;
+}
+.email_confirmation p {
+  padding-bottom: 15px;
+}
+.email_confirmation p span {
+  color: #2ecc71;
+  font-weight: 500;
+}
+.email_confirmation p.info_small {
+  color: #222;
+  font-size: 14px;
+  display: block;
+  padding-top: 20px;
+}
+.email_confirmation p.info_small button {
+  color: #2ecc71;
+  font-weight: 500;
+}
+.email_confirmation p.info_small button:hover {
+  text-decoration: underline;
+}
+/* For Password */
+.list_input_pass {
+  position: relative;
+}
+.list_input_pass .password-toggle-btn {
+  position: absolute;
+  top: 5px;
+  height: 35px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
+  color: #344054b2;
+  font-size: 18px;
+}
 @keyframes spinning {
   0% {
     transform: scale(1);
