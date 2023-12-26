@@ -125,7 +125,6 @@ const SignUp = () => {
         }
         if (isImageValid) {
             formDataObject.profileImage = profilePic;
-
             formData.append('profileImage', profilePic);
         }
         else {
@@ -201,7 +200,7 @@ const SignUp = () => {
         );
     } else {
         return (
-            <PageNotFound />
+            <PageNotFound showInfoText="404 Page Not Found" />
         );
     }
 

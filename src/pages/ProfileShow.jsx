@@ -14,6 +14,7 @@ import { avatersFor } from '../constants/avaters';
 import { requirdSkillCheckData, topFilterOptionsByUser, topicOptions } from '../data/filterData';
 import useLoading from '../hooks/useLoading';
 import ScrollToTop from '../utils/RouteChange';
+import PageNotFound from './PageNotFound';
 
 const ProfileShow = ({ rating }) => {
   useEffect(() => {
@@ -30,6 +31,7 @@ const ProfileShow = ({ rating }) => {
   const [isSideBarActive, setSideBarActive] = useState(false);
   const [moreCount, setMoreCount] = useState(0);
   const [totalProjecs, setTotalProjecs] = useState(0);
+  const [isUserFound, setIsUserFound] = useState(false);
 
   const [filters, setFilters] = useState({
     search: '',
@@ -47,42 +49,38 @@ const ProfileShow = ({ rating }) => {
 
     const fetchData = async () => {
       setIsLoading(true);
-      try {
-        const paginationOptions = {
-          page,
-          limit: 5,
-        };
-        const response = await projectApi.getAllProjectsByUsername(username, filters, paginationOptions);
-        const projectsData = response?.data?.data || [];
-        const resSt = response?.data;
-        if (resSt?.success) {
-          const newProjects = response.data.data || [];
 
+      const paginationOptions = {
+        page,
+        limit: 5,
+      };
+      const response = await projectApi.getAllProjectsByUsername(username, filters, paginationOptions);
+      const getError = response?.error;
+      if (getError) {
+        if (getError.status === 404) {
+          setIsUserFound(true);
+        }
+      } else {
+        const resData = response?.data;
+        if (resData?.success) {
+          const newProjects = resData.data.projects || [];
           if (page === 1) {
-            setProjects(projectsData);
-            setFilteredProjects(projectsData);
+            setProjects(newProjects);
+            setFilteredProjects(newProjects);
           } else {
             setProjects((prevProjects) => [...prevProjects, ...newProjects]);
             setFilteredProjects((prevProjects) => [...prevProjects, ...newProjects]);
-
           }
-
-          const totalPr = response.data.meta.total;
+          const totalPr = response?.data?.meta?.total;
           setTotalProjecs(totalPr);
-        }
-
-        projectsData.forEach(project => {
-          const user = project.User;
-          setUserInformatin(user);
-        });
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
+          setUserInformatin(resData?.data?.userData);
         }
       }
+
+      if (isMounted) {
+        setIsLoading(false);
+      }
+
     };
 
     fetchData();
@@ -190,77 +188,84 @@ const ProfileShow = ({ rating }) => {
 
   return (
     <>
-      <section className="project_show_section single_page_project_show">
-        <div className="container">
-          <div className="project_show_wrapper">
-            <SidebarFilters
-              search={true}
-              categories={true}
-              topic={topicOptions}
-              duration={true}
-              requiredSkills={true}
-              fundingStatus={true}
-              language={true}
-              onPageChange={handlePageChange}
-              requirdSkillCheckData={requirdSkillCheckData}
-              filters={filters}
-              isSideBarActive={isSideBarActive}
-              handelSideBarButton={handelSideBarButton}
-              sideBarRef={sideBarRef}
-            />
-            {/* project show container */}
-            <div className="project_show_container">
-              <div className="profile_user_info other_profile">
-                <div className="image_block">
-                  <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInformatin?.full_name} />
-                </div>
-                <div className="info_block">
-                  <h3>{userInformatin?.full_name}</h3>
-                  <div className="user_title">{userInformatin?.bio}</div>
-                  <div className="profile_info_ratings">
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiFillStar /></span>
-                    <span><AiOutlineStar /></span>
+      {
+        isUserFound ? (
+          <PageNotFound showInfoText="User Not Found" />
+        ) : (
+          <section className="project_show_section single_page_project_show">
+            <div className="container">
+              <div className="project_show_wrapper">
+                <SidebarFilters
+                  search={true}
+                  categories={true}
+                  topic={topicOptions}
+                  duration={true}
+                  requiredSkills={true}
+                  fundingStatus={true}
+                  language={true}
+                  onPageChange={handlePageChange}
+                  requirdSkillCheckData={requirdSkillCheckData}
+                  filters={filters}
+                  isSideBarActive={isSideBarActive}
+                  handelSideBarButton={handelSideBarButton}
+                  sideBarRef={sideBarRef}
+                />
+                {/* project show container */}
+                <div className="project_show_container">
+                  <div className="profile_user_info other_profile">
+                    <div className="image_block">
+                      <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInformatin?.full_name} />
+                    </div>
+                    <div className="info_block">
+                      <h3>{userInformatin?.full_name}</h3>
+                      <div className="user_title" dangerouslySetInnerHTML={{ __html: userInformatin?.bio }} />
+                      <div className="profile_info_ratings">
+                        <span><AiFillStar /></span>
+                        <span><AiFillStar /></span>
+                        <span><AiFillStar /></span>
+                        <span><AiFillStar /></span>
+                        <span><AiOutlineStar /></span>
+                      </div>
+                      <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
+                    </div>
                   </div>
-                  <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
+                  <TopFilterButtons options={topFilterOptionsByUser}
+                    selectedOption={selectedTopOption}
+                    onOptionChange={handleTopOptionChange} />
+                  {/* project show container */}
+                  <div className="project_show_cash">
+                    {filteredProjects.length !== 0 && (
+                      filteredProjects.map((project) => (
+                        <ProjectCard key={project.id} project={project} />
+                      ))
+                    )}
+
+                    {!isLoading && filteredProjects.length === 0 && (
+                      <p>No projects found</p>
+                    )}
+
+                    {isLoading ? (
+                      <>
+                        {[1, 2, 3].map((item) => (
+                          <ProjectCardSkeleton key={item} />
+                        ))}
+                      </>
+
+                    ) : (
+                      moreCount > 0 && (
+                        <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                          Load More
+                        </button>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
-              <TopFilterButtons options={topFilterOptionsByUser}
-                selectedOption={selectedTopOption}
-                onOptionChange={handleTopOptionChange} />
-              {/* project show container */}
-              <div className="project_show_cash">
-                {filteredProjects.length !== 0 && (
-                  filteredProjects.map((project) => (
-                    <ProjectCard key={project.id} project={project} />
-                  ))
-                )}
-
-                {!isLoading && filteredProjects.length === 0 && (
-                  <p>No projects found</p>
-                )}
-
-                {isLoading ? (
-                  <>
-                    {[1, 2, 3].map((item) => (
-                      <ProjectCardSkeleton key={item} />
-                    ))}
-                  </>
-
-                ) : (
-                  moreCount > 0 && (
-                    <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                      Load More
-                    </button>
-                  )
-                )}
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        )
+      }
+
     </>
   );
 };

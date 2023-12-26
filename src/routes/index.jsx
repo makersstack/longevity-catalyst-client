@@ -52,8 +52,8 @@ const AppRoutes = () => {
         <Route path="/dashboard/password/change" element={<PasswordChange />} />
       </Route>
 
-      <Route path="/404" element={<PageNotFound />} />
-      <Route path="*" element={<PageNotFound />} />
+      <Route path="/404" element={<PageNotFound  showInfoText={'404 Page not Found'}/>} />
+      <Route path="*" element={<PageNotFound  showInfoText={'Page not Found'}/>} />
     </Routes>
   );
 };
