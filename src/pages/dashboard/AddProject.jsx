@@ -177,7 +177,6 @@ const AddProject = () => {
                 ...prevErrorMsg,
                 project_keywords: 'Project Keywords is Required!',
             }));
-            console.log('get errror');
             isValid = false;
         }
         if (!('projecType' in formDataObject)) {
@@ -248,10 +247,9 @@ const AddProject = () => {
                     }
                 })
             } catch (error) {
-                console.log(error);
+                console.error(error);
             } finally {
                 setIsLoading(false);
-                console.log('finally');
             }
         }
     }

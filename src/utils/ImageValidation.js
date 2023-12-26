@@ -21,19 +21,3 @@ const ValidateImageSize = (selectedImage, maxWidth, maxHeight) => {
 
 export default ValidateImageSize;
 
-// Example usage
-// const selectedImage = /* provide the selected image */;
-// const maxWidth = 800;
-// const maxHeight = 800;
-
-// ValidateImageSize(selectedImage, maxWidth, maxHeight)
-//     .then((isValid) => {
-//         if (isValid) {
-//             console.log('Image dimensions are valid');
-//         } else {
-//             console.log('Image dimensions are invalid');
-//         }
-//     })
-//     .catch((error) => {
-//         console.error('Error occurred during image validation:', error);
-//     });

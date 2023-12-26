@@ -20,6 +20,7 @@ const AllProject = () => {
     const userName = userInfo?.username;
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
+    const [isUserFound, setIsUserFound] = useState(false);
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
@@ -43,34 +44,30 @@ const AllProject = () => {
     useEffect(() => {
         const fetchLatestProjects = async () => {
             setIsLoading(true);
-            try {
-                const paginationOptions = {
-                    page,
-                    limit: 5,
-                };
-                const response = await projectApi.getAllProjectsByUsername(userName, filters, paginationOptions);
-
-                const resSt = response?.data;
-                if (resSt?.success) {
-                    const newProjects = response.data.data || [];
-
-                    if (page === 1) {
-                        setProjects(newProjects);
-                    } else {
-                        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
-                    }
-
-                    const totalPr = response.data.meta.total;
-                    setTotalProjecs(totalPr);
+            const paginationOptions = {
+                page,
+                limit: 5,
+            };
+            const response = await projectApi.getAllProjectsByUsername(userName, filters, paginationOptions);
+            const getError = response?.error;
+            if (getError) {
+               console.error(getError);
+              } else {
+                const resData = response?.data;
+                if (resData?.success) {
+                  const newProjects = resData.data.projects || [];
+                  if (page === 1) {
+                    setProjects(newProjects);
+                  } else {
+                    setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+                  }
+                  const totalPr = response?.data?.meta?.total;
+                  setTotalProjecs(totalPr);
                 }
+              }
+              
+            setIsLoading(false);
 
-
-
-            } catch (error) {
-                throw new Error("Error fetching projects", error);
-            } finally {
-                setIsLoading(false);
-            }
         }
         fetchLatestProjects();
     }, [userName, page, filters]);
@@ -115,51 +112,53 @@ const AllProject = () => {
     }
 
     return (
-        <section className="full_widht_auth_section">
-            <div className="container">
-                <div className="dashboard">
-                    <DashboardMenu isActiveMenu={isActiveMenu} />
-                    <div className="dashboard_add_project">
-                        {/* <!-- Add Project head --> */}
-                        <div className="add_project_head">
-                            <button className='dasMenuBtn' onClick={handelDashMenu}>
-                                <AiOutlineMenuUnfold />
-                            </button>
-                            <h3 className="title">All Projects  </h3>
-                        </div>
-                        <div className='dashboard_all_projectBody'>
-                            <div className="project_show_cash">
-                                {/* Render project cards */}
-                                {projects.length !== 0 && (
-                                    projects.map((project) => (
-                                        <ProjectCard key={project.id} project={project} />
-                                    ))
-                                )}
+        <>
+            <section className="full_widht_auth_section">
+                <div className="container">
+                    <div className="dashboard">
+                        <DashboardMenu isActiveMenu={isActiveMenu} />
+                        <div className="dashboard_add_project">
+                            {/* <!-- Add Project head --> */}
+                            <div className="add_project_head">
+                                <button className='dasMenuBtn' onClick={handelDashMenu}>
+                                    <AiOutlineMenuUnfold />
+                                </button>
+                                <h3 className="title">All Projects  </h3>
+                            </div>
+                            <div className='dashboard_all_projectBody'>
+                                <div className="project_show_cash">
+                                    {/* Render project cards */}
+                                    {projects.length !== 0 && (
+                                        projects.map((project) => (
+                                            <ProjectCard key={project.id} project={project} />
+                                        ))
+                                    )}
 
-                                {!isLoading && projects.length === 0 && (
-                                    <p>No projects found</p>
-                                )}
+                                    {!isLoading && projects.length === 0 && (
+                                        <p>No projects found</p>
+                                    )}
 
-                                {isLoading ? (
-                                    <>
-                                        {[1, 2].map((item) => (
-                                            <ProjectCardSkeleton key={item} />
-                                        ))}
-                                    </>
+                                    {isLoading ? (
+                                        <>
+                                            {[1, 2].map((item) => (
+                                                <ProjectCardSkeleton key={item} />
+                                            ))}
+                                        </>
 
-                                ) : (
-                                    moreCount > 0 && (
-                                        <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
-                                            Load More
-                                        </button>
-                                    )
-                                )}
+                                    ) : (
+                                        moreCount > 0 && (
+                                            <button onClick={handleLoadMore} className='btn btn-dark' disabled={isLoading}>
+                                                Load More
+                                            </button>
+                                        )
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 };
 

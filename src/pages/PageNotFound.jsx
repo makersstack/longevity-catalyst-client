@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ScrollToTop from '../utils/RouteChange';
 
-const PageNotFound = () => {
+const PageNotFound = ({showInfoText}) => {
     useEffect(() => {
-        document.title = '404 Page not Found - Longevity Catalyst';
-      }, []);
+        document.title = showInfoText+' - Longevity Catalyst';
+      }, [showInfoText]);
     ScrollToTop();
     return (
         <div className='auto-fit' style={{textAlign:'center', padding:'90px 0'}}>
-           <h1 >Page not Found !</h1>
-           <Link to='/' className='btn btn-dark '>
+           <h1 >{showInfoText} </h1>
+           <Link to='/' className='btn btn-dark ' style={{marginTop:'20px', display:'inline-block'}}>
                 Go to Home
             </Link>
         </div>
