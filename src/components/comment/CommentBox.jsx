@@ -13,6 +13,7 @@ const CommentBox = ({ projectId }) => {
   const [moreCount, setMoreCount] = useState(0);
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
+
   const fetchCommentsByProject = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -41,6 +42,7 @@ const CommentBox = ({ projectId }) => {
     }
 
   }, [limit, projectId, setIsLoading, page]);
+  
   useEffect(() => {
     setMoreCount(totalComment - commentData.length);
   }, [totalComment, commentData])

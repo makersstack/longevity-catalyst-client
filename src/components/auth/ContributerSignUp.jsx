@@ -4,20 +4,16 @@ import { HiCheck } from 'react-icons/hi';
 import skillApi from '../../api/SkillApi';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues  }) => {
+const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
     const [skillCheckBox, setSkillCheckBox] = useState([]);
     
     useEffect(() => {
         const fetchSkills = async () => {
-            try {
-                const response = await skillApi.getAllSkills();
-                const skills = response.data.data;
+            const response = await skillApi.getAllSkills();
+            const skills = response.data.data;
 
-                // Set the fetched skills to state
-                setSkillCheckBox(skills);
-            } catch (error) {
-                console.error('Error fetching skills:', error);
-            }
+            // Set the fetched skills to state
+            setSkillCheckBox(skills);
         };
         fetchSkills();
     }, []);
@@ -26,7 +22,7 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues  }) => {
     const handleCheckboxChange = (e) => {
         const isChecked = e.target.checked;
         setSkillValues(isChecked)
-      };
+    };
 
     return (
         <>
@@ -70,26 +66,30 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues  }) => {
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
 
-            <div className="auth_box">
-                <label>Skills</label>
-                {
-                    skillCheckBox.map((checkData) => (
-                        <label key={checkData.id} className={`plan basic-plan`} htmlFor={`ch-${checkData.id}-${checkData.id}`}>
-                            <input type="checkbox" name={`skillId_${checkData.id}`} id={`ch-${checkData.id}-${checkData.id}`} onChange={handleCheckboxChange} />
-                            <div className="plan-content">
-                                <div className="plan-details">
-                                    <div className="plan-checked-icon">
-                                        <span className=' check_icon '>
-                                            < HiCheck />
-                                        </span>
+            {
+                skillCheckBox.length > 0 && (
+                    <div className="auth_box">
+                        <label>Skills</label>
+                        {
+                            skillCheckBox.map((checkData) => (
+                                <label key={checkData.id} className={`plan basic-plan`} htmlFor={`ch-${checkData.id}-${checkData.id}`}>
+                                    <input type="checkbox" name={`skillId_${checkData.id}`} id={`ch-${checkData.id}-${checkData.id}`} onChange={handleCheckboxChange} />
+                                    <div className="plan-content">
+                                        <div className="plan-details">
+                                            <div className="plan-checked-icon">
+                                                <span className=' check_icon '>
+                                                    < HiCheck />
+                                                </span>
+                                            </div>
+                                            <p>{checkData.skillName}</p>
+                                        </div>
                                     </div>
-                                    <p>{checkData.skillName}</p>
-                                </div>
-                            </div>
-                        </label>
-                    ))
-                }
-            </div>
+                                </label>
+                            ))
+                        }
+                    </div>
+                )
+            }
 
             <div className="auth_box">
                 <label htmlFor="company">Company / Institution</label>

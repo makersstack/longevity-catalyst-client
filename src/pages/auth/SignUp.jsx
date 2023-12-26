@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +7,9 @@ import AuthHeader from '../../components/auth/AuthHeader';
 import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
+import Loader from '../../components/ui/Loader';
 import useAuth from '../../hooks/UseAuth';
+import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
 import PageNotFound from '../PageNotFound';
 
@@ -17,6 +17,7 @@ const SignUp = () => {
     const { type } = useParams();
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
+    const { setIsLoading } = useLoading();
     const [profilePic, setProfilePic] = useState({});
 
     useEffect(() => {
@@ -39,28 +40,15 @@ const SignUp = () => {
 
     }, [errorMsg]);
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleLoadingState = () => {
-        const body = document.querySelector('body');
-        if (isLoading) {
-            body.classList.add('loading_BG');
-            // Add your custom code here for the loading state
-        } else {
-            return body.classList.remove('loading_BG');
-            // Add your custom code here for when loading is finished
-        }
-    };
-
-    useEffect(() => {
-        handleLoadingState();
-    }, [isLoading])
+    // eslint-disable-next-line no-unused-vars
     const [skillValue, setSkillValues] = useState([]);
+
     const handalSubmitSignUp = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        
         setErrorMsg({});
         const formData = new FormData(e.target);
-
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -116,7 +104,6 @@ const SignUp = () => {
         }
         let isImageValid = false;
         if (profilePic.name) {
-            // image validation 
 
             if (!['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'].includes(profilePic.type)) {
                 setErrorMsg(prevErrorMsg => ({
@@ -145,57 +132,29 @@ const SignUp = () => {
         }
         delete formDataObject.profileImage;
 
-        // formData.delete('profileImage');
-
-        // end proccsing image 
-
-        // After validation, perform the form submission with loading message
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = authApi.signup(formData);
-                await toast.promise(promise, {
-                    loading: 'Signing Up...',
-
-                    success: (response) => {
-                        if (response.data.success) {
-                            // document.querySelector('body').classList.remove('loading_BG');
-                            setIsLoading(false);
-                            navigate('/login');
-                            return 'Sign Up Successfully Done !';
-                        } else {
-                            return 'Unexpected error occurred';
-                        }
-                    },
-                    error: (error) => {
-                        if (error.response) {
-                            if (error.response.status === 409) {
-                                const resMsg = error.response.data.message.replace('Error: ', '');
-                                const [field, msg] = resMsg.split('.');
-                                setErrorMsg(prevErrorMsg => ({
-                                    ...prevErrorMsg,
-                                    [field]: msg,
-                                }));
-                                return `Sign up failed: ${msg}`;
-                            } else {
-                                console.error('Request failed with status code', error.response.status);
-                                return 'Request failed';
-                            }
-                        } else {
-                            console.error('Error', error.message);
-                            return `Error: ${error.message}`;
-                        }
-                    },
-                    style: {
-                        duration: 6000,
-                        position: 'top-right', // Set the position to top-right
-                    },
-                });
+                const response = await authApi.signup(formData);
+                const getError = response.error;
+                if (getError) {
+                    toast.error(getError.data.message);
+                } else {
+                    if (response.data.success) {
+                        navigate('/login');
+                        toast.success("Sign Up Successfully Done !");
+                    } else {
+                        toast.error("Something went wrong");
+                    }
+                }
             } catch (error) {
-                setIsLoading(false);
+                console.error('Error during signup:', error);
+                toast.error("An error occurred during sign up.");
             } finally {
-                setIsLoading(false); // Set loading back to false after the form submission
+                setIsLoading(false);
             }
+        } else {
+            setIsLoading(false);
         }
 
     }
@@ -204,6 +163,7 @@ const SignUp = () => {
     if (type === 'user' || type === 'contributor' || type === 'researcher') {
         return (
             <>
+                <Loader />
                 <AuthHeader />
                 <section className="full_widht_auth_section">
                     <div className="container">
@@ -226,7 +186,6 @@ const SignUp = () => {
                                 <button type="submit" className="auth_submit btn btn-dark btn-full">
                                     Sign Up
                                 </button>
-
 
                             </form>
                             <p className="have_auth_msg">

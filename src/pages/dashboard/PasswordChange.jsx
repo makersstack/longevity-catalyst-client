@@ -140,7 +140,6 @@ const PasswordChange = () => {
         navigate('/dashboard/home');
     }
 
-
     return (
         <section className="full_widht_auth_section">
             <div className="container">
