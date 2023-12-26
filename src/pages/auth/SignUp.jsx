@@ -62,7 +62,6 @@ const SignUp = () => {
         const formData = new FormData(e.target);
 
         const formDataObject = {};
-        console.log(formDataObject);
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
@@ -139,8 +138,6 @@ const SignUp = () => {
         }
         if (isImageValid) {
             formDataObject.profileImage = profilePic;
-            // console.log("For checking", formDataObject.profileImage);
-            // console.log("For checking", profilePic);
             formData.append('profileImage', profilePic);
         }
         else {
@@ -174,9 +171,7 @@ const SignUp = () => {
                         if (error.response) {
                             if (error.response.status === 409) {
                                 const resMsg = error.response.data.message.replace('Error: ', '');
-                                // console.log(resMsg);
                                 const [field, msg] = resMsg.split('.');
-                                // console.log(field);
                                 setErrorMsg(prevErrorMsg => ({
                                     ...prevErrorMsg,
                                     [field]: msg,
@@ -196,15 +191,11 @@ const SignUp = () => {
                         position: 'top-right', // Set the position to top-right
                     },
                 });
-                // console.log(responseApi);
             } catch (error) {
-                // console.error('Error', error);
-                // console.log(error);
                 setIsLoading(false);
             } finally {
                 setIsLoading(false); // Set loading back to false after the form submission
             }
-            // console.log(formDataObject);
         }
 
     }
@@ -250,7 +241,7 @@ const SignUp = () => {
         );
     } else {
         return (
-            <PageNotFound />
+            <PageNotFound showInfoText="404 Page Not Found" />
         );
     }
 

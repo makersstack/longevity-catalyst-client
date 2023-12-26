@@ -129,9 +129,6 @@ const EditUserProfile = () => {
         delete formDataObject.profileImage;
 
 
-
-
-
         if (isValid) {
             const loadingToast = toast.loading('Updating...');
             const response = await authApi.updateUser(userInfo.username, formData);

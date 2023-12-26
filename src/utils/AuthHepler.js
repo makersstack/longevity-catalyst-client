@@ -5,7 +5,6 @@ const SetAuth = (data) => {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         retVal = true;
-        console.log(data.accessToken);
       } else {
         // Handle the case when data is not in the expected format
         console.error('Invalid data format');
