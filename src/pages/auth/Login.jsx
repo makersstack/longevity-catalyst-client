@@ -5,11 +5,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import AuthHeader from '../../components/auth/AuthHeader';
+import Loader from '../../components/ui/Loader';
 import SignupModal from '../../components/ui/SignupModal';
 import useAuth from '../../hooks/UseAuth';
+import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const { setIsLoading } = useLoading();
     const navigate = useNavigate();
     const { handleLoginSuccess } = useAuth();
     const location = useLocation();
@@ -49,29 +52,10 @@ const Login = () => {
     }, [errorMsg]);
 
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleLoadingState = () => {
-        const body = document.querySelector('body');
-        if (isLoading) {
-            body.classList.add('loading_BG');
-            // Add your custom code here for the loading state
-        } else {
-            body.classList.remove('loading_BG');
-            // Add your custom code here for when loading is finished
-        }
-    };
-
-    useEffect(() => {
-        handleLoadingState();
-    }, [isLoading]);
-
-
-
     const handalSubmitLogin = async (e) => {
         e.preventDefault();
-
         setErrorMsg({});
+
         const formData = new FormData(e.target);
         const formDataObject = {};
         formData.forEach((value, key) => {
@@ -94,73 +78,39 @@ const Login = () => {
             isValid = false;
         }
         formDataObject.identifier = formDataObject.username;
-        // delete formDataObject.username;
 
-        // After validation, perform the form submission with loading message
         if (isValid) {
             try {
                 setIsLoading(true);
-                const promise = authApi.login(formDataObject, {
+                const response = await authApi.login(formDataObject, {
                     withCredentials: true
                 });
-                await toast.promise(promise, {
-                    loading: 'Login...', 
-                    success: (response) => {
-                        if (response?.data?.success) {
-                            // document.querySelector('body').classList.remove('loading_BG');
+                const getError = response.error;
 
-                            setIsLoading(false);
+                if (getError) {
+                    toast.error(getError.data.message);
+                } else {
+                    if (response.data.success) {
+                        handleLoginSuccess({ accessToken: response.data.data.accessToken });
 
-                            // setAuth({accessToken: response.data.data.accessToken});
-
-                            handleLoginSuccess({ accessToken: response.data.data.accessToken });
-
-                            navigate(from, { replace: true });
-
-                            return 'Sign In Successfully Done !';
-
-                        } else {
-                            return 'Unexpected error occurred';
-                        }
-                    },
-                    error: (error) => {
-                        if (error.response) {
-                            if (error.response.status === 401) {
-                                const resMsg = error.response.data.message.replace('Error: ', '');
-                                const [msg] = resMsg.split('.');
-                                setErrorMsg(prevErrorMsg => ({
-                                    ...prevErrorMsg,
-                                    username: 'Invalid Username',
-                                }));
-                                setErrorMsg(prevErrorMsg => ({
-                                    ...prevErrorMsg,
-                                    password: 'Invalid Password',
-                                }));
-                                return `Sign In failed: ${msg}`;
-                            } else {
-                                console.error('Request failed with status code', error.response.status);
-                                return 'Request failed';
-                            }
-                        } else {
-                            console.error('Error', error.message);
-                            return `Error: ${error.message}`;
-                        }
-                    },
-                    style: {
-                        duration: 6000,
-                        position: 'top-right', // Set the position to top-right
-                    },
-                });
+                        navigate(from, { replace: true });
+                        toast.success("Sign In Successfully Done !");
+                    } else {
+                        toast.error("Something went wrong");
+                    }
+                }
             } catch (error) {
                 console.error('An error occurred:', error);
             } finally {
-                setIsLoading(false); 
+                setIsLoading(false);
             }
         }
 
     }
+
     return (
         <>
+            <Loader />
             {/* <!-- ST:- Auth header menu  --> */}
             <AuthHeader />
 
@@ -170,7 +120,7 @@ const Login = () => {
                 <div className="container">
                     <div className="auth_area">
                         <form onSubmit={handalSubmitLogin} ref={formRef}>
-                            { rideEmsg && <div className='info_box-msg'>{rideEmsg}</div> }
+                            {rideEmsg && <div className='info_box-msg'>{rideEmsg}</div>}
                             <h4>Log In</h4>
                             <p>Welcome back! Please enter your details.</p>
                             <div className="auth_box padding_top-30">

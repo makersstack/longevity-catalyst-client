@@ -8,16 +8,18 @@ import TextEditor from '../../components/common/TextEditor';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
+import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditUserProfile = () => {
+    const { setIsLoading } = useLoading();
     useEffect(() => {
         document.title = "Update Profile - Longevity Catalyst";
     }, []);
 
     ScrollToTop();
 
-    const { userInfo,setUserInfo } = useAuth();
+    const { userInfo, setUserInfo } = useAuth();
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
         { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },
@@ -32,9 +34,6 @@ const EditUserProfile = () => {
     const [resetPreview, setResetPreview] = useState(false);
     // const navigate = useNavigate();
 
-
-
-
     useEffect(() => {
         if (Object.keys(errorMsg).length !== 0) {
             if (formRef.current) {
@@ -47,32 +46,16 @@ const EditUserProfile = () => {
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleLoadingState = () => {
-        const body = document.querySelector('body');
-        if (isLoading) {
-            body.classList.add('loading_BG');
-            // Add your custom code here for the loading state
-        } else {
-            body.classList.remove('loading_BG');
-            // Add your custom code here for when loading is finished
-        }
-    };
-
-
-    useEffect(() => {
-        handleLoadingState();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading]);
 
 
     const [bioText, setBioText] = useState('');
     const [profilePic, setProfilePic] = useState({});
 
-   
+
     const handelProfileSubmit = async (e) => {
         e.preventDefault();
+
+        setIsLoading(true);
         setErrorMsg({});
         const formData = new FormData(e.target);
         formData.append('bio', bioText);
@@ -80,7 +63,7 @@ const EditUserProfile = () => {
         formData.forEach((value, key) => {
             formDataObject[key] = value;
         });
-     
+
         // validation 
         let isValid = true;
         if (formDataObject.full_name.length === 0) {
@@ -129,11 +112,8 @@ const EditUserProfile = () => {
         delete formDataObject.profileImage;
 
 
-
-
-
         if (isValid) {
-            const loadingToast = toast.loading('Updating...');
+            setIsLoading(true);
             const response = await authApi.updateUser(userInfo.username, formData);
             const getError = response.error;
             if (getError) {
@@ -141,20 +121,18 @@ const EditUserProfile = () => {
             }
             else {
                 const { data } = response;
-                if(data.success){
+                if (data.success) {
                     toast.success(data.message);
                     setUserInfo(response.data.data);
                     setResetPreview(true);
-                }else{
+                } else {
                     toast.error("Something went wrong");
                 }
             }
-            toast.dismiss(loadingToast);
-            setIsLoading(false); 
             setResetPreview(false);
+            setIsLoading(false);
         }
     }
-
 
     return (
         <section className="full_widht_auth_section">
