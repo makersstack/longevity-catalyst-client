@@ -26,10 +26,11 @@ export const authApi = {
       method: "POST",
     }),
 
-  changlePassword: async () =>
+  changlePassword: async (formDataObject) =>
     axiosBaseQuery({
-      url: `/auth/logout`,
-      method: "POST",
+      url: `/auth/profile/changepass`,
+      method: "PATCH",
+      data: formDataObject
     }),
 
   updateUser: async (username, userData) =>
