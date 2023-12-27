@@ -35,7 +35,7 @@ const Comments = ({ data, othersOperationData }) => {
             };
             const response = await projectApi.getAllReplyByComment(cId, paginationOptions);
             if (typeof response.data.data.data === 'object' && response.data.data.data !== null) {
-                const repliesArray =response.data.data.data;
+                const repliesArray = response.data.data.data;
                 if (page === 1) {
                     setRepliesData(repliesArray);
                 } else {
@@ -56,7 +56,17 @@ const Comments = ({ data, othersOperationData }) => {
     }, [limit, commentId, setIsLoading, page]);
 
     useEffect(() => {
-        setMoreCount(totalReplies - repliesData.length);
+        let isMounted = true;
+        try {
+            if (isMounted) {
+                setMoreCount(totalReplies - repliesData.length);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+        return () => {
+            isMounted = false;
+        };
 
     }, [totalReplies, repliesData])
 
@@ -65,7 +75,7 @@ const Comments = ({ data, othersOperationData }) => {
     const handleShowMoreClick = () => {
         setPage((prevPage) => prevPage + 1);
         fetchReplayByComment(commentId);
-      
+
     };
 
     const addNewReplay = async (formDataObject) => {

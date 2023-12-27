@@ -85,12 +85,12 @@ const Login = () => {
                 const response = await authApi.login(formDataObject, {
                     withCredentials: true
                 });
-                const getError = response.error;
+                const getError = response?.error;
 
                 if (getError) {
                     toast.error(getError.data.message);
                 } else {
-                    if (response.data.success) {
+                    if (response?.data?.success) {
                         handleLoginSuccess({ accessToken: response.data.data.accessToken });
 
                         navigate(from, { replace: true });
