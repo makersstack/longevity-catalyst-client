@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa';
+import { FaRegCommentDots } from 'react-icons/fa';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { RiShareForwardFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,14 +9,15 @@ import formatNumber from '../../utils/NumberCountFormate';
 import dateTimeHel from '../../utils/dateTimeHel';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
 
+import { MdPublic } from 'react-icons/md';
 import LikeButton from '../likeShare/LikeButton';
 import SocailModal from '../ui/SocailModal';
 import MoreOptionButtons from './MoreOptionButtons';
 import VoteButtons from './VoteButtons';
 
-const ProjectCard = ({ project,othersOperationData }) => {
+const ProjectCard = ({ project, othersOperationData }) => {
 
-   
+
     const navigation = useNavigate();
     // For modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,13 +45,13 @@ const ProjectCard = ({ project,othersOperationData }) => {
                             {project?.User?.full_name}
                         </button>
                         <div className="post-features">
-                            <FaUserAlt /> Friends <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
+                            <MdPublic /> Public <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
                         </div>
                     </div>
                 </div>
                 <div className="al_pHeader_buttons_area">
                     <VoteButtons projectId={project.id} VoteByUser={project?.VoteByUser} voteCounts={project?.voteCounts} />
-                    <MoreOptionButtons projectId={project.id} openModal={openModal} ButtonsOperation={othersOperationData}/>
+                    <MoreOptionButtons projectId={project.id} openModal={openModal} ButtonsOperation={othersOperationData} />
                 </div>
 
             </div>

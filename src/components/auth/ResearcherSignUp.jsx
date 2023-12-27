@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
 import DargFileAttech from '../common/DargFileAttech';
 
 const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = (type) => {
+        switch (type) {
+            case 'Password':
+                setShowPassword(prevState => !prevState);
+                break;
+            default:
+                break;
+        }
+    };
+    
     return (
         <>
             <div className="auth_box padding_top-30">
@@ -32,14 +45,19 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Password*</label>
+                <div className="list_input_pass">
                 <input
                     className={errorMsg.password ? 'border-warring' : ''}
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     id="password"
                     placeholder="Type Your password"
                 />
+                <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
+                    {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
+                </button>
+            </div>
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
             <div className="auth_box">

@@ -11,6 +11,7 @@ import Loader from '../../components/ui/Loader';
 import useAuth from '../../hooks/UseAuth';
 import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
+import { validatePassword } from '../../utils/utilitis';
 import PageNotFound from '../PageNotFound';
 
 const SignUp = () => {
@@ -43,10 +44,10 @@ const SignUp = () => {
     // eslint-disable-next-line no-unused-vars
     const [skillValue, setSkillValues] = useState([]);
 
+
     const handalSubmitSignUp = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        
+
         setErrorMsg({});
         const formData = new FormData(e.target);
         const formDataObject = {};
@@ -80,10 +81,11 @@ const SignUp = () => {
             }));
             isValid = false;
         }
-        if (formDataObject.password.length === 0) {
+        const passwordError = validatePassword(formDataObject.password);
+        if (passwordError) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                password: 'Password is Required',
+                password: passwordError,
             }));
             isValid = false;
         }
@@ -153,9 +155,7 @@ const SignUp = () => {
             } finally {
                 setIsLoading(false);
             }
-        } else {
-            setIsLoading(false);
-        }
+        } 
 
     }
 

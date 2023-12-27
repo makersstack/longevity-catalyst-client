@@ -10,6 +10,7 @@ import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import useAuth from '../../hooks/UseAuth';
 import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
+import { validatePassword } from '../../utils/utilitis';
 
 const PasswordChange = () => {
     const navigate = useNavigate();
@@ -76,10 +77,11 @@ const PasswordChange = () => {
             }));
             isValid = false;
         }
-        if (formDataObject.newPassword.length === 0) {
+        const passwordError = validatePassword(formDataObject.newPassword);
+        if (passwordError) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                newPassword: 'New Password is Required',
+                newPassword: passwordError,
             }));
             isValid = false;
         }
@@ -89,14 +91,18 @@ const PasswordChange = () => {
                 confirmPassword: 'Confirm Password is Required',
             }));
             isValid = false;
-        } else {
-            if (formDataObject.newPassword !== formDataObject.confirmPassword) {
-                setErrorMsg(prevErrorMsg => ({
-                    ...prevErrorMsg,
-                    confirmPassword: 'Confirm Password does not match',
-                }));
-                isValid = false;
-            }
+        } else if (formDataObject.newPassword !== formDataObject.confirmPassword) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                confirmPassword: 'Confirm Password does not match',
+            }));
+            isValid = false;
+        } else if (formDataObject.oldPassword === formDataObject.newPassword) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                newPassword: 'New password should be different from the old password.',
+            }));
+            isValid = false;
         }
 
         if (isValid) {
@@ -159,11 +165,10 @@ const PasswordChange = () => {
                                             type={showOldPassword ? 'text' : 'password'}
                                             name="oldPassword"
                                             id="oldPassword"
-                                            autoComplete='off'
                                             placeholder="Type Current Password"
                                         />
                                         <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('oldPassword')}>
-                                            {showOldPassword ? <RiEyeCloseFill /> : <RiEyeFill />} {/* Show/hide eye icons */}
+                                            {showOldPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
                                         </button>
                                         {errorMsg.oldPassword && <div className='error-msg'>{errorMsg.oldPassword}</div>}
                                     </div>
