@@ -1,11 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import { IfAuthCheck, RequireAuth } from "../middleware/AuthMiddleware";
 import AboutUs from "../pages/AboutUs";
-import ContributorProfile from "../pages/ContributorProfile";
 import FAQ from "../pages/FAQ";
 import Home from "../pages/Home";
 import PageNotFound from "../pages/PageNotFound";
-import ProfileShow from "../pages/ProfileShow";
+import ProfileDetails from "../pages/ProfileDetails";
 import ProjectDetails from "../pages/ProjectDetails";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
@@ -20,16 +19,10 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* <Route path="/*" element={<PublicRoutes />} />
-      <Route path="/user/*" element={<PrivetRoutes />} />
-      <Route path="/project/*" element={<GlobalRoute />} />
-      <Route path="*" element={<PageNotFound />} /> */}
-
-
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<AboutUs />} />
       <Route path="/faqs" element={<FAQ />} />
-      <Route path="/:username" element={<ProfileShow />} />
+      <Route path="/:username" element={<ProfileDetails />} />
       <Route path="/project/:projectId" element={<ProjectDetails />} />
 
       <Route element={<IfAuthCheck />}>
@@ -38,22 +31,16 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<RequireAuth />}>
-        <Route path="/dashboard/contributor/:username" element={<ContributorProfile />} />
         <Route path="/dashboard/home" element={<Dashboard />} />
-
-        {/* <Route element={<RoleCheck allowedRoles={['contributor', 'researcher']} paramToCheck={true} />}> */}
-          <Route path="/dashboard/project/all" element={<AllProject />} />
-          <Route path="/dashboard/project/add" element={<AddProject />} />
-          <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
-        {/* </Route> */}
-
-        <Route path="/dashboard/profile/view" element={<ContributorProfile />} />
+        <Route path="/dashboard/project/all" element={<AllProject />} />
+        <Route path="/dashboard/project/add" element={<AddProject />} />
+        <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
         <Route path="/dashboard/profile/update" element={<EditUserProfile />} />
         <Route path="/dashboard/password/change" element={<PasswordChange />} />
       </Route>
 
-      <Route path="/404" element={<PageNotFound  showInfoText={'404 Page not Found'}/>} />
-      <Route path="*" element={<PageNotFound  showInfoText={'Page not Found'}/>} />
+      <Route path="/404" element={<PageNotFound showInfoText={'404 Page not Found'} />} />
+      <Route path="*" element={<PageNotFound showInfoText={'Page not Found'} />} />
     </Routes>
   );
 };

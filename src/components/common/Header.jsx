@@ -150,7 +150,7 @@ const Header = () => {
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
                           </Link>
-                          <Link to='/dashboard/profile/view' >
+                          <Link to={`/${userInfo?.username}`}>
                             <span className='al_menu_icon'> <FaRegUser /> </span>
                             <span>Profile</span>
                           </Link>
