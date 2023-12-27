@@ -200,8 +200,8 @@ const ProfileDetails = () => {
                                 <FiBriefcase />
                               </div>
                               <p>
-                                <span>Software Engineer</span>
-                                <b>Present</b>
+                                <span> Work At </span>
+                                <b>{userInformatin?.company}</b>
                               </p>
                             </li>
                             <li>
