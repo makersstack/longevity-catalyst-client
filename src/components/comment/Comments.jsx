@@ -4,8 +4,8 @@ import { MdOutlineAddComment } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
 import useAuth from '../../hooks/UseAuth';
-import useLoading from '../../hooks/useLoading';
 import dateTimeHel from '../../utils/dateTimeHel';
+import CommentSkeleton from '../skeleton/CommentSkeleton';
 import AddReplay from './AddReplay';
 import EditCommentFrom from './EditCommentFrom';
 import EditDeleteComment from './EditDeleteComment';
@@ -13,7 +13,7 @@ import Replay from './Replay';
 const Comments = ({ data, othersOperationData }) => {
     const { userInfo, isLoggedIn } = useAuth();
     const isAuthor = userInfo && userInfo.id === data?.userId;
-    const { setIsLoading } = useLoading();
+    const [loading, setIsLoading] = useState();
     const navigate = useNavigate();
 
     const [moreCount, setMoreCount] = useState(0);
@@ -242,14 +242,19 @@ const Comments = ({ data, othersOperationData }) => {
                     }
 
                     {
-                        isOpenCmnt && <> {repliesData.length !== 0 ? (
-                            repliesData.map((singleData) => (
-                                <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
-                            ))
-                        ) : (
-                            <p style={{ marginTop: '10px', marginLeft: '20px' }}>No replay yet.</p>
-                        )}
-                        </>
+                        loading ? ([1, 2].map((item) => (
+                            <CommentSkeleton key={item} cTClass={"replaySkt"} />
+                        ))) :
+                            isOpenCmnt && <> {
+                                repliesData.length !== 0 ? (
+                                    repliesData.map((singleData) => (
+                                        <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
+                                    ))
+                                ) : (
+                                    <p style={{ marginTop: '10px', marginLeft: '20px' }}>No replay yet.</p>
+                                )
+                            }
+                            </>
                     }
 
                 </div>
