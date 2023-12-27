@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { projectApi } from '../../api';
 import '../../assets/styles/comment.css';
-import useLoading from '../../hooks/useLoading';
-import Loader from '../ui/Loader';
 import AddComment from './AddComment';
 import Comments from './Comments';
 
 const CommentBox = ({ projectId }) => {
-  const { setIsLoading } = useLoading();
+  const [Loading, setIsLoading] = useState();
   const [commentData, setCommentData] = useState([]);
   const [totalComment, setTotalComment] = useState(0);
   const [moreCount, setMoreCount] = useState(0);
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
 
+
+  console.log(Loading);
   const fetchCommentsByProject = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -126,7 +126,6 @@ const CommentBox = ({ projectId }) => {
 
   return (
     <>
-      <Loader />
       <div className="details_block commnet_add_box">
         <AddComment addNewComment={addNewComment} projectId={projectId} />
       </div>

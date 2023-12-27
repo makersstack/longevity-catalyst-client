@@ -20,7 +20,7 @@ const AllProject = () => {
     const userName = userInfo?.username;
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
-    const [isUserFound, setIsUserFound] = useState(false);
+    // const [isUserFound, setIsUserFound] = useState(false);
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
@@ -51,21 +51,21 @@ const AllProject = () => {
             const response = await projectApi.getAllProjectsByUsername(userName, filters, paginationOptions);
             const getError = response?.error;
             if (getError) {
-               console.error(getError);
-              } else {
+                console.error(getError);
+            } else {
                 const resData = response?.data;
                 if (resData?.success) {
-                  const newProjects = resData.data.projects || [];
-                  if (page === 1) {
-                    setProjects(newProjects);
-                  } else {
-                    setProjects((prevProjects) => [...prevProjects, ...newProjects]);
-                  }
-                  const totalPr = response?.data?.meta?.total;
-                  setTotalProjecs(totalPr);
+                    const newProjects = resData.data.projects || [];
+                    if (page === 1) {
+                        setProjects(newProjects);
+                    } else {
+                        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
+                    }
+                    const totalPr = response?.data?.meta?.total;
+                    setTotalProjecs(totalPr);
                 }
-              }
-              
+            }
+
             setIsLoading(false);
 
         }
@@ -80,7 +80,6 @@ const AllProject = () => {
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
     };
-
 
     //   delete operation 
     const DeleteProject = async (projectId) => {
@@ -129,14 +128,13 @@ const AllProject = () => {
                                     {/* Render project cards */}
                                     {projects.length !== 0 && (
                                         projects.map((project) => (
-                                            <ProjectCard key={project.id} project={project} othersOperationData={othersOperationData}  />
+                                            <ProjectCard key={project.id} project={project} othersOperationData={othersOperationData} />
                                         ))
                                     )}
 
                                     {!isLoading && projects.length === 0 && (
                                         <p>No projects found</p>
                                     )}
-
                                     {isLoading ? (
                                         <>
                                             {[1, 2].map((item) => (
