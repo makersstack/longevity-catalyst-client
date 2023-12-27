@@ -33,8 +33,9 @@ export const menuDataForContributor = [
       submenu: [
         {
             id: 3.1,
+            key: "viewProfile",
             title: 'View Profile',
-            route: '/dashboard/profile/view',
+            route: '/',
         },
         {
             id: 3.2,
@@ -72,7 +73,8 @@ export const menuDataForUser = [
         {
             id: 2.1,
             title: 'View Profile',
-            route: '/dashboard/profile/view',
+            key: "viewProfile",
+            route: '/',
         },
         {
             id: 2.2,

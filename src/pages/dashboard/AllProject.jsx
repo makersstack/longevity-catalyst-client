@@ -130,7 +130,7 @@ const AllProject = () => {
                                     {/* Render project cards */}
                                     {projects.length !== 0 && (
                                         projects.map((project) => (
-                                            <ProjectCard key={project.id} project={project} />
+                                            <ProjectCard key={project.id} project={project} othersOperationData={othersOperationData} />
                                         ))
                                     )}
 
