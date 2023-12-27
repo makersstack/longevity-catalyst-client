@@ -95,7 +95,9 @@ const AllProject = () => {
                 if (response?.data?.data?.id) {
                     const updateProjectData = projects.filter(project => project.id !== response?.data?.data?.id);
                     setProjects(updateProjectData);
+                    setTotalProjecs((totalProjecs) => totalProjecs - 1);
                 }
+              
             }
             // Do others 
         } catch (error) {
