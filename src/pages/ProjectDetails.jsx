@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import { PiCheckThin } from 'react-icons/pi';
 import { Link, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
-
-import { PiCheckThin } from 'react-icons/pi';
+import ProjectDetailsSkeleton from '../components/skeleton/ProjectDetailsSkeleton';
 import { avatersFor } from '../constants/avaters';
-import useLoading from '../hooks/useLoading';
 import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
+
 const ProjectDetails = () => {
-  // eslint-disable-next-line no-unused-vars
-  const { setIsLoading } = useLoading();
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
+
   ScrollToTop();
 
   useEffect(() => {
     const fetchSingleProject = async () => {
       try {
-        setIsLoading(true);
+        setLoading(true);
         const response = await projectApi.getSingleProject(projectId);
         if (response && response.data && response.data.success) {
           setProjectData(response.data.data);
@@ -32,16 +32,16 @@ const ProjectDetails = () => {
         console.error('Error fetching project:', error);
 
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchSingleProject();
-  }, [setIsLoading, projectId]);
+  }, [projectId, setLoading]);
 
   return (
-    <div>
-      {
+    <>
+      {loading ? (<ProjectDetailsSkeleton />) : (
         projectData && (
           <section className="full_widht_project_details_area section_padding">
             <div className="container">
@@ -78,18 +78,16 @@ const ProjectDetails = () => {
                       {/* single block */}
                       {/* [todo] */}
                       {/* {projectData?.required_skill_list && (
-                    <div className="details_block">
-                      <h5 className="block_title">Experience Required :</h5>
-                      {
-                        JSON.parse(projectData?.required_skill_list).map((skill, index) => (
-                          <p key={index}>{skill}</p>
-                        ))
-                      }
+                  <div className="details_block">
+                    <h5 className="block_title">Experience Required :</h5>
+                    {
+                      JSON.parse(projectData?.required_skill_list).map((skill, index) => (
+                        <p key={index}>{skill}</p>
+                      ))
+                    }
 
-                    </div>
-                  )} */}
-
-
+                  </div>
+                )} */}
                       {/* single block */}
                       {projectData?.final_deliverable_details && (
                         <div className="details_block">
@@ -262,12 +260,9 @@ const ProjectDetails = () => {
               </div>
             </div>
           </section>
-
-        )
-      }
-
-
-    </div>
+        ) 
+      )  }
+    </>
   );
 };
 
