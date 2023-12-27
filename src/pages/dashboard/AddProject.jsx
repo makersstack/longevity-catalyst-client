@@ -30,13 +30,13 @@ const AddProject = () => {
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
 
-    useEffect(() => {
-        if (Object.keys(errorMsg).length !== 0) {
-            if (formRef.current) {
-                formRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    }, [errorMsg]);
+    // useEffect(() => {
+    //     if (Object.keys(errorMsg).length !== 0) {
+    //         if (formRef.current) {
+    //             formRef.current.scrollIntoView({ behavior: 'smooth' });
+    //         }
+    //     }
+    // }, [errorMsg]);
 
     const handleInputChange = (event) => {
 
@@ -86,7 +86,6 @@ const AddProject = () => {
     const [relevant_literature_link, set_relevant_literature_link] = useState({});
 
     const handleBlur = (event) => {
-
         if ('alname' in event.target.dataset) {
             const name = event.target.dataset.alname;
             const value = project_keywords;

@@ -7,10 +7,12 @@ import categoryApi from '../../api/CategoryApi';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DatePickerInput from '../../components/ui/DatePickerInput';
+import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 import useAuth from '../../hooks/UseAuth';
 import useCheckedOptions from '../../hooks/useCheckedOptions';
+import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/RouteChange';
 
 const EditProject = () => {
@@ -19,7 +21,7 @@ const EditProject = () => {
     }, []);
 
 
-    const [isLoading, setIsLoading] = useState();
+    const { setIsLoading } = useLoading();
     const { userInfo } = useAuth();
     const projectId = useParams().projectId;
     const [projectData, setProjectData] = useState({});
@@ -27,6 +29,7 @@ const EditProject = () => {
     useEffect(() => {
         const fetchSingleProject = async () => {
             try {
+                setIsLoading(true);
                 const response = await projectApi.getSingleProject(projectId);
                 if (response && response.data && response.data.success) {
                     setProjectData(response.data.data);
@@ -39,10 +42,7 @@ const EditProject = () => {
         };
         fetchSingleProject();
 
-    }, [projectId]);
-
-
-
+    }, [projectId, setIsLoading]);
 
 
     const navigate = useNavigate();
@@ -58,23 +58,6 @@ const EditProject = () => {
     //         }
     //     }
     // }, [errorMsg]);
-
-
-    const handleLoadingState = () => {
-        const body = document.querySelector('body');
-        if (isLoading) {
-            body.classList.add('loading_BG');
-            // Add your custom code here for the loading state
-        } else {
-            body.classList.remove('loading_BG');
-            // Add your custom code here for when loading is finished
-        }
-    };
-
-    useEffect(() => {
-        handleLoadingState();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoading]);
 
 
     const handleInputChange = (event) => {
@@ -94,8 +77,6 @@ const EditProject = () => {
             ...projectData,
             [name]: value,
         });
-
-
 
     };
 
@@ -159,12 +140,12 @@ const EditProject = () => {
     )
     const { options: projectTypeOptionDefault, updateCheckedValue: setProjectTypeOptionDefault } = useCheckedOptions(
         projectTypeOption
-      );
+    );
     const { options: projectNatureOptionDefault, updateCheckedValue: setProjectNatureOptionnDefault } = useCheckedOptions(
         projectNatureOption
     )
 
-    const {options: projectProjectExperienceOptionDefault, updateCheckedValue: setProjectExperienceOptionDefault} = useCheckedOptions(
+    const { options: projectProjectExperienceOptionDefault, updateCheckedValue: setProjectExperienceOptionDefault } = useCheckedOptions(
         projectExperienceOption
     )
 
@@ -177,7 +158,7 @@ const EditProject = () => {
     const { options: haveProjectBudgetOptionDefault, updateCheckedValue: sethaveProjectBudgetOptionDefault } = useCheckedOptions(
         haveProjectBudgetOption
     )
-    const { options:readyToStartOptionDefault, updateCheckedValue: setreadyToStartOptionDefault } = useCheckedOptions(
+    const { options: readyToStartOptionDefault, updateCheckedValue: setreadyToStartOptionDefault } = useCheckedOptions(
         readyToStartOption
     )
     useEffect(() => {
@@ -200,12 +181,12 @@ const EditProject = () => {
         setOnsiteOptionDefault(projectData?.onsite_work);
         setProjectTypeOptionDefault(projectData?.projecType);
         setProjectNatureOptionnDefault(projectData?.projectNature);
-        setProjectExperienceOptionDefault(projectData?.projectExperience);  
+        setProjectExperienceOptionDefault(projectData?.projectExperience);
         setProjectHardDeadlineOptionDefault(projectData?.hardDeadline);
         setexpectedTimeProjectOptionDefault(projectData?.expectedTimeProject);
         sethaveProjectBudgetOptionDefault(projectData?.haveProjectBudget);
         setreadyToStartOptionDefault(projectData?.readyToStart);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectData]);
 
     const handelProjectSubmit = async (event) => {
@@ -308,28 +289,20 @@ const EditProject = () => {
         }
 
         if (isValid) {
-
             try {
                 setIsLoading(true);
-                const promise = projectApi.updateProject(formDataObject, projectId);
-
-                await toast.promise(promise, {
-                    loading: 'Updating...',
-                    success: (response) => {
-                        if (response?.data?.success) {
-                            setIsLoading(false);
-                            navigate('/dashboard/project/all');
-                            return 'Update successful!';
-                        } else {
-                            return 'Unexpected error occurred';
-                        }
-                    },
-                    error: (error) => {
-                        if (error.response) {
-                            return "Error!"
-                        }
-                    }
-                })
+                const response = await projectApi.updateProject(formDataObject, projectId);
+                const getError = response?.error;
+                if (getError) {
+                    toast.error(getError.message);
+                }
+                if (response?.data?.success) {
+                    setIsLoading(false);
+                    navigate('/dashboard/project/all');
+                    toast.success('Update successful!');
+                } else {
+                    toast.error('Unexpected error occurred');
+                }
             } catch (error) {
                 console.error(error);
             } finally {
@@ -357,418 +330,418 @@ const EditProject = () => {
             }
         };
 
-        fetchData(); // Invoke the fetchData function
+        fetchData(); 
     }, []);
 
-
-
-
     return (
-        <section className="full_widht_auth_section">
+        <>
+            <Loader />
+            <section className="full_widht_auth_section">
 
-            <div className="container">
-                <div className="dashboard">
-                    {/* <!-- Dashboard Menu --> */}
-                    <DashboardMenu isActiveMenu={isActiveMenu} />
-                    {/* <!-- Add Project --> */}
-                    <div className="dashboard_add_project">
-                        {/* <!-- Add Project head --> */}
-                        <div className="add_project_head">
-                            <button className='dasMenuBtn' onClick={handelDashMenu}>
-                                <AiOutlineMenuUnfold />
-                            </button>
-                            <h3 className="title">Edit Project  </h3>
+                <div className="container">
+                    <div className="dashboard">
+                        {/* <!-- Dashboard Menu --> */}
+                        <DashboardMenu isActiveMenu={isActiveMenu} />
+                        {/* <!-- Add Project --> */}
+                        <div className="dashboard_add_project">
+                            {/* <!-- Add Project head --> */}
+                            <div className="add_project_head">
+                                <button className='dasMenuBtn' onClick={handelDashMenu}>
+                                    <AiOutlineMenuUnfold />
+                                </button>
+                                <h3 className="title">Edit Project  </h3>
 
-                        </div>
-                        <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
-                            <div className="two_columns">
+                            </div>
+                            <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="project_name">
+                                            What is the name of your project?<span>*</span>
+                                        </label>
+                                        <input
+                                            className={errorMsg.project_name ? 'border-warring' : ''}
+                                            type="text"
+                                            name="project_name"
+                                            id="project_name"
+                                            placeholder="Project Name"
+                                            onBlur={handleBlur}
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData.project_name}
+                                        />
+                                        {errorMsg.project_name && <div className='error-msg'>{errorMsg.project_name}</div>}
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="user_name"> What is your name?<span>*</span> </label>
+                                        <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly defaultValue={userInfo?.full_name} />
+                                        {errorMsg.user_name && <div className='error-msg'>{errorMsg.user_name}</div>}
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="user_email"> What is your email?<span>*</span> </label>
+                                        <input
+                                            className={errorMsg.user_email ? 'border-warring' : ''}
+                                            type="email"
+                                            id="user_email"
+                                            placeholder="Email"
+                                            disabled readOnly
+                                            defaultValue={userInfo?.email}
+                                        />
+                                        {errorMsg.user_email && <div className='error-msg'>{errorMsg.user_email}</div>}
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="affiliation">
+                                            What is your affiliation?<span>*</span>
+                                        </label>
+                                        <input
+                                            className={errorMsg.affiliation ? 'border-warring' : ''}
+                                            type="text"
+                                            name="affiliation"
+                                            id="affiliation"
+                                            placeholder="Affiliation"
+                                            onBlur={handleBlur}
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.affiliation}
+                                        />
+                                        {errorMsg.affiliation && <div className='error-msg'>{errorMsg.affiliation}</div>}
+                                    </div>
+                                </div>
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control">
-                                    <label htmlFor="project_name">
-                                        What is the name of your project?<span>*</span>
+                                    <label htmlFor="project_desc">
+                                        Provide a brief description of your project.<span>*</span>
                                     </label>
-                                    <input
-                                        className={errorMsg.project_name ? 'border-warring' : ''}
-                                        type="text"
-                                        name="project_name"
-                                        id="project_name"
-                                        placeholder="Project Name"
+                                    <textarea
+                                        className={errorMsg.project_desc ? 'border-warring' : ''}
+                                        name="project_desc"
+                                        id="project_desc"
+                                        rows="2"
+                                        placeholder="Description"
                                         onBlur={handleBlur}
                                         onChange={handleInputChange}
-                                        value={projectData.project_name}
-                                    />
-                                    {errorMsg.project_name && <div className='error-msg'>{errorMsg.project_name}</div>}
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="user_name"> What is your name?<span>*</span> </label>
-                                    <input className={errorMsg.user_name ? 'border-warring' : ''} type="text" id="user_name" placeholder="Name" disabled readOnly value={userInfo?.full_name} />
-                                    {errorMsg.user_name && <div className='error-msg'>{errorMsg.user_name}</div>}
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="user_email"> What is your email?<span>*</span> </label>
-                                    <input
-                                        className={errorMsg.user_email ? 'border-warring' : ''}
-                                        type="email"
-                                        id="user_email"
-                                        placeholder="Email"
-                                        disabled readOnly
-                                        value={userInfo?.email}
-                                    />
-                                    {errorMsg.user_email && <div className='error-msg'>{errorMsg.user_email}</div>}
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="affiliation">
-                                        What is your affiliation?<span>*</span>
-                                    </label>
-                                    <input
-                                        className={errorMsg.affiliation ? 'border-warring' : ''}
-                                        type="text"
-                                        name="affiliation"
-                                        id="affiliation"
-                                        placeholder="Affiliation"
-                                        onBlur={handleBlur}
-                                        onChange={handleInputChange}
-                                        value={projectData?.affiliation}
-                                    />
-                                    {errorMsg.affiliation && <div className='error-msg'>{errorMsg.affiliation}</div>}
-                                </div>
-                            </div>
-                            {/* <!-- Single Input --> */}
-                            <div className="form_control">
-                                <label htmlFor="project_desc">
-                                    Provide a brief description of your project.<span>*</span>
-                                </label>
-                                <textarea
-                                    className={errorMsg.project_desc ? 'border-warring' : ''}
-                                    name="project_desc"
-                                    id="project_desc"
-                                    rows="2"
-                                    placeholder="Description"
-                                    onBlur={handleBlur}
-                                    onChange={handleInputChange}
-                                    value={projectData?.project_desc}
-                                >
+                                        defaultValue={projectData?.project_desc}
+                                    >
 
-                                </textarea>
-                                {errorMsg.project_desc && <div className='error-msg'>{errorMsg.project_desc}</div>}
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="project_keywords">
-                                        Provide up to (5) keywords engineers can use to find your
-                                        project.<span>*</span>
-                                    </label>
-                                    <ListInput defaultValueArray={project_keywords_default} alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter" />
-                                    {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
+                                    </textarea>
+                                    {errorMsg.project_desc && <div className='error-msg'>{errorMsg.project_desc}</div>}
                                 </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="project_keywords">
+                                            Provide up to (5) keywords engineers can use to find your
+                                            project.<span>*</span>
+                                        </label>
+                                        <ListInput defaultValueArray={project_keywords_default} alName={'project_keywords'} getValue={project_keywords} setValue={set_project_keywords} onBlur={handleBlur} isLimit={true} max={5} placeholder="Enter a keyword and press Enter" />
+                                        {errorMsg.project_keywords && <div className='error-msg'>{errorMsg.project_keywords}</div>}
+                                    </div>
 
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label>
+                                            Will this project require any onsite work?
+                                        </label>
+                                        <div className="onsite_check">
+
+                                            {
+                                                onsiteOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="primary_category">
+                                            Primary Category:
+                                            <span>*</span>
+                                        </label>
+                                        <select name="primary_category" id="primary_category" onChange={handleInputChange}>
+                                            <option value={projectData?.Category?.id}>{projectData?.Category?.category_name}</option>
+                                            {
+                                                primaryCateOption.map(singleData => <option key={singleData.id} value={singleData.id}>{singleData.category_name}</option>)
+                                            }
+
+                                        </select>
+                                        {errorMsg.primary_category && <div className='error-msg'>{errorMsg.primary_category}</div>}
+                                    </div>
+
+
+                                </div>
+                                {/* <!-- Form Sub Title Text --> */}
+                                <p className="form_subtitle">
+                                    Please provide your affiliation's address.
+                                </p>
                                 {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label>
-                                        Will this project require any onsite work?
-                                    </label>
-                                    <div className="onsite_check">
+                                <div className="two_columns">
+                                    <div className="form_control">
+                                        <label htmlFor="address"> Address </label>
+                                        <input
+                                            type="text"
+                                            name="address"
+                                            id="address"
+                                            placeholder="65 Hansen Way"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.address}
+                                        />
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="address_line">Address Line 2 </label>
+                                        <input
+                                            type="text"
+                                            name="address_line"
+                                            id="address_line"
+                                            placeholder="Apartment 4"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.address_line}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="city_town">City / Town </label>
+                                        <input
+                                            type="text"
+                                            name="city_town"
+                                            id="city_town"
+                                            placeholder="Palo Alto"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.city_town}
+                                        />
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="state_region_province">State / Region / Province </label>
+                                        <input
+                                            type="text"
+                                            name="state_region_province"
+                                            id="testate_region_provincext"
+                                            placeholder="California"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.state_region_province}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="zip_code">Zip / Post Code </label>
+                                        <input
+                                            type="number"
+                                            name="zip_code"
+                                            id="zip_code"
+                                            placeholder="94304"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.zip_code}
+                                        />
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="country">Country </label>
+                                        <input
+                                            type="text"
+                                            name="country"
+                                            id="country"
+                                            placeholder="United States"
+                                            onChange={handleInputChange}
+                                            defaultValue={projectData?.country}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label >
+                                            Is this an individual or team project?
+                                            <span>*</span>
+                                        </label>
 
                                         {
-                                            onsiteOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                            projectTypeOptionDefault.map(singleData => <RadioButton defaultCheckValue={projectData?.projecType} key={singleData.key} radionData={singleData} />)
                                         }
+                                        {errorMsg.projecType && <div className='error-msg'>{errorMsg.projecType}</div>}
 
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label > Describe the nature of your project. </label>
+
+                                        {
+                                            projectNatureOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label >
+                                            How much experience will this project require? <span>*</span>
+                                        </label>
+
+                                        {
+                                            projectProjectExperienceOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+                                        {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
+
+                                    </div>
+
+
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="required_skill_list"
+                                        >List the skills that this project will require.
+                                        </label>
+
+                                        <ListInput defaultValueArray={required_skill_list_default} type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="p_deadline"> What is your project deadline? </label>
+                                        <DatePickerInput id='p_deadline' name='p_deadline' />
+                                    </div>
+
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label>
+                                            Is there a hard deadline for this project ? <span>*</span>
+                                        </label>
+
+                                        {
+                                            projectHardDeadlineOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+                                        {errorMsg.hardDeadline && <div className='error-msg'>{errorMsg.hardDeadline}</div>}
 
                                     </div>
                                 </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="primary_category">
-                                        Primary Category:
-                                        <span>*</span>
-                                    </label>
-                                    <select name="primary_category" id="primary_category" onChange={handleInputChange}>
-                                        <option value={projectData?.Category?.id}>{projectData?.Category?.category_name}</option>
+
+                                <div className="two_columns">
+
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label >
+                                            How long do you expect this project to take ?
+                                        </label>
                                         {
-                                            primaryCateOption.map(singleData => <option key={singleData.id} value={singleData.id}>{singleData.category_name}</option>)
+                                            expectedTimeProjectOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                         }
 
-                                    </select>
-                                    {errorMsg.primary_category && <div className='error-msg'>{errorMsg.primary_category}</div>}
-                                </div>
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label >
+                                            Do you have a budget for this project or will it rely on
+                                            volunteer work / platform sponsorship?<span>*</span>
+                                        </label>
 
+                                        {
+                                            haveProjectBudgetOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+                                        {errorMsg.haveProjectBudget && <div className='error-msg'>{errorMsg.haveProjectBudget}</div>}
 
-                            </div>
-                            {/* <!-- Form Sub Title Text --> */}
-                            <p className="form_subtitle">
-                                Please provide your affiliation's address.
-                            </p>
-                            {/* <!-- Single Input --> */}
-                            <div className="two_columns">
-                                <div className="form_control">
-                                    <label htmlFor="address"> Address </label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        id="address"
-                                        placeholder="65 Hansen Way"
-                                        onChange={handleInputChange}
-                                        value={projectData?.address}
-                                    />
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="address_line">Address Line 2 </label>
-                                    <input
-                                        type="text"
-                                        name="address_line"
-                                        id="address_line"
-                                        placeholder="Apartment 4"
-                                        onChange={handleInputChange}
-                                        value={projectData?.address_line}
-                                    />
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="city_town">City / Town </label>
-                                    <input
-                                        type="text"
-                                        name="city_town"
-                                        id="city_town"
-                                        placeholder="Palo Alto"
-                                        onChange={handleInputChange}
-                                        value={projectData?.city_town}
-                                    />
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="state_region_province">State / Region / Province </label>
-                                    <input
-                                        type="text"
-                                        name="state_region_province"
-                                        id="testate_region_provincext"
-                                        placeholder="California"
-                                        onChange={handleInputChange}
-                                        value={projectData?.state_region_province}
-                                    />
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="zip_code">Zip / Post Code </label>
-                                    <input
-                                        type="number"
-                                        name="zip_code"
-                                        id="zip_code"
-                                        placeholder="94304"
-                                        onChange={handleInputChange}
-                                        value={projectData?.zip_code}
-                                    />
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="country">Country </label>
-                                    <input
-                                        type="text"
-                                        name="country"
-                                        id="country"
-                                        placeholder="United States"
-                                        onChange={handleInputChange}
-                                        value={projectData?.country}
-                                    />
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label >
-                                        Is this an individual or team project?
-                                        <span>*</span>
-                                    </label>
-
-                                    {
-                                        projectTypeOptionDefault.map(singleData => <RadioButton defaultCheckValue={projectData?.projecType} key={singleData.key} radionData={singleData} />)
-                                    }
-                                    {errorMsg.projecType && <div className='error-msg'>{errorMsg.projecType}</div>}
-
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label > Describe the nature of your project. </label>
-
-                                    {
-                                        projectNatureOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                </div>
-                            </div>
-
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label >
-                                        How much experience will this project require? <span>*</span>
-                                    </label>
-
-                                    {
-                                        projectProjectExperienceOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                    {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
+                                    </div>
 
                                 </div>
 
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="expected_cost"
+                                        >What is your budget or the expected cost of this project ?
+                                        </label>
 
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="required_skill_list"
-                                    >List the skills that this project will require.
-                                    </label>
 
-                                    <ListInput defaultValueArray={required_skill_list_default} type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                        <ListInput defaultValueArray={expected_cost_default} type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+
+
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label >
+                                            What will you be ready to start this project?
+                                        </label>
+                                        {
+                                            readyToStartOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="final_deliverable_details">
+                                            Please describe the final deliverable in as much detail as
+                                            possible.
+                                        </label>
+
+
+                                        <ListInput defaultValueArray={final_deliverable_details_default} type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+
+
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
+                                        <input onChange={handleInputChange} name="relevant_link" id="relevant_link" placeholder="https://" defaultValue={projectData?.relevant_link} />
+                                    </div>
+                                </div>
+                                <div className="two_columns">
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="relevant_literature_link">
+                                            Provide links to any relevant literature that may help your
+                                            project match.
+                                        </label>
+
+                                        <ListInput defaultValueArray={relevant_literature_link_default} type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                    </div>
+                                    {/* <!-- Single Input --> */}
+                                    <div className="form_control">
+                                        <label htmlFor="other_included">
+                                            Anything else that should be included with your project’s
+                                            description?
+                                        </label>
+                                        <textarea
+                                            name="other_included"
+                                            id="other_included"
+                                            rows="2"
+                                            placeholder="Answer here.."
+                                            defaultValue={projectData?.other_included}
+                                            onChange={handleInputChange}
+                                        >
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <hr className='inputhr' />
+                                <div className="form_submit al_submit_button">
+
+                                    <button type="submit" className="btn btn-submit btn-dark">
+                                        Update
+                                    </button>
 
                                 </div>
-
-
-                            </div>
-
-
-
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="p_deadline"> What is your project deadline? </label>
-                                    <DatePickerInput id='p_deadline' name='p_deadline' />
-                                </div>
-
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label>
-                                        Is there a hard deadline for this project ? <span>*</span>
-                                    </label>
-
-                                    {
-                                        projectHardDeadlineOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                    {errorMsg.hardDeadline && <div className='error-msg'>{errorMsg.hardDeadline}</div>}
-
-                                </div>
-                            </div>
-
-                            <div className="two_columns">
-
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label >
-                                        How long do you expect this project to take ?
-                                    </label>
-                                    {
-                                        expectedTimeProjectOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label >
-                                        Do you have a budget for this project or will it rely on
-                                        volunteer work / platform sponsorship?<span>*</span>
-                                    </label>
-
-                                    {
-                                        haveProjectBudgetOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-                                    {errorMsg.haveProjectBudget && <div className='error-msg'>{errorMsg.haveProjectBudget}</div>}
-
-                                </div>
-
-                            </div>
-
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="expected_cost"
-                                    >What is your budget or the expected cost of this project ?
-                                    </label>
-
-
-                                    <ListInput defaultValueArray={expected_cost_default} type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
-
-
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label >
-                                        What will you be ready to start this project?
-                                    </label>
-                                    {
-                                        readyToStartOptionDefault.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                    }
-
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="final_deliverable_details">
-                                        Please describe the final deliverable in as much detail as
-                                        possible.
-                                    </label>
-
-
-                                    <ListInput defaultValueArray={final_deliverable_details_default} type={'textarea'} alName={'final_deliverable_details'} getValue={final_deliverable_details} setValue={set_final_deliverable_details} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
-
-
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="relevant_link"> Provide a link to any relevant data. </label>
-                                    <input onChange={handleInputChange} name="relevant_link" id="relevant_link" placeholder="https://" value={projectData?.relevant_link} />
-                                </div>
-                            </div>
-                            <div className="two_columns">
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="relevant_literature_link">
-                                        Provide links to any relevant literature that may help your
-                                        project match.
-                                    </label>
-
-                                    <ListInput defaultValueArray={relevant_literature_link_default} type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
-                                </div>
-                                {/* <!-- Single Input --> */}
-                                <div className="form_control">
-                                    <label htmlFor="other_included">
-                                        Anything else that should be included with your project’s
-                                        description?
-                                    </label>
-                                    <textarea
-                                        name="other_included"
-                                        id="other_included"
-                                        rows="2"
-                                        placeholder="Answer here.."
-                                        value={projectData?.other_included}
-                                        onChange={handleInputChange}
-                                    >
-                                    </textarea>
-                                </div>
-                            </div>
-                            <hr className='inputhr' />
-                            <div className="form_submit al_submit_button">
-
-                                <button type="submit" className="btn btn-submit btn-dark">
-                                    Update
-                                </button>
-
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 
 };

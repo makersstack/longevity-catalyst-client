@@ -41,6 +41,7 @@ const AllProject = () => {
         selectedLanguage: '',
     });
 
+
     useEffect(() => {
         const fetchLatestProjects = async () => {
             setIsLoading(true);
@@ -80,10 +81,11 @@ const AllProject = () => {
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
     };
-
+  
     //   delete operation 
     const DeleteProject = async (projectId) => {
         try {
+            setProjects([]);
             setIsLoading(true);
             if (!projectId) {
                 throw new Error('Project ID not provided');
@@ -93,8 +95,7 @@ const AllProject = () => {
             if (deleteSt?.success) {
                 if (response?.data?.data?.id) {
                     const updateProjectData = projects.filter(project => project.id !== response?.data?.data?.id);
-                    setProjects(updateProjectData);
-                    setTotalProjecs((totalProjecs) => totalProjecs - 1);
+                    // setProjects(updateProjectData);
                 }
               
             }
