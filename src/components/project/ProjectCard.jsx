@@ -16,8 +16,6 @@ import MoreOptionButtons from './MoreOptionButtons';
 import VoteButtons from './VoteButtons';
 
 const ProjectCard = ({ project, othersOperationData }) => {
-
-
     const navigation = useNavigate();
     // For modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,10 +82,7 @@ const ProjectCard = ({ project, othersOperationData }) => {
                         {
                             project?.totalLikes && project?.totalLikes !== 0 ? project?.totalLikes <= 3 ? <p>liked this post.</p> : <p> and {formatNumber(project?.totalLikes - 3)} people liked this post.</p> : <p>Nobody has liked this yet.</p>
                         }
-
-
                     </div>
-
                     {/* For Share */}
                     <SocailModal isOpen={isModalOpen} closeModal={closeModal} postLink={`${baseUrl}project/${project.id}`} />
                     <button className="project_effective_button" onClick={openModal}>
