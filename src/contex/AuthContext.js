@@ -31,13 +31,44 @@ const AuthProvider = ({ children }) => {
         setIsLoggedIn(!!accessToken);
     }, []);
 
+
+  
+
     useEffect(() => {
+        const InjectUrlToMenuNavItem = (item) => {
+            if(item?.key && item.key === 'viewProfile') {
+                return {
+                    ...item,
+                    route: `/${userInfo?.username}`
+                }
+            }
+            if(item?.submenu && item.submenu.length > 0) {
+                item.submenu = item.submenu.map((subItem) => {
+                    if(subItem?.key && subItem.key === 'viewProfile') {
+                        return {
+                            ...subItem,
+                            route: `/${userInfo?.username}`
+                        }
+                    }
+                    return subItem
+                });
+            }
+            return item
+        }
+
         const fetchMenuData = () => {
             let fetchedMenuData = [];
             if (userInfo && (userInfo.role === 'contributor' || userInfo.role === 'researcher')) {
-                fetchedMenuData = menuDataForContributor;
+               const dataWithInjectUrl = menuDataForContributor.map((item) => {
+                    return InjectUrlToMenuNavItem(item);
+                });
+                fetchedMenuData = dataWithInjectUrl;
             } else {
-                fetchedMenuData = menuDataForUser;
+                const dataWithInjectUrl = menuDataForUser.map((item) => {
+                    return InjectUrlToMenuNavItem(item);
+                });
+
+                fetchedMenuData = dataWithInjectUrl;
             }
             setMenuData(fetchedMenuData);
         };
