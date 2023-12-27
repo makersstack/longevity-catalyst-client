@@ -48,11 +48,8 @@ const MoreOptionButtons = ({ projectId, openModal, ButtonsOperation }) => {
     };
 
     const handelDeletePoject = async (projectId) => {
-        const response = await ButtonsOperation.DeleteProject(projectId);
-        console.log(response);
-        // if (response) {
-        //     setIsDeleteModalOpen(false);
-        // }
+        closeDeleteModal();
+        await ButtonsOperation.DeleteProject(projectId);
     }
     
     const DeleteModal = () => {
