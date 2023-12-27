@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { projectApi } from '../../api';
 import '../../assets/styles/comment.css';
+import CommentSkeleton from '../skeleton/CommentSkeleton';
 import AddComment from './AddComment';
 import Comments from './Comments';
 
 const CommentBox = ({ projectId }) => {
-  const [Loading, setIsLoading] = useState();
+  const [loading, setIsLoading] = useState();
   const [commentData, setCommentData] = useState([]);
   const [totalComment, setTotalComment] = useState(0);
   const [moreCount, setMoreCount] = useState(0);
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
 
-
-  console.log(Loading);
   const fetchCommentsByProject = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -42,7 +41,7 @@ const CommentBox = ({ projectId }) => {
     }
 
   }, [limit, projectId, setIsLoading, page]);
-  
+
   useEffect(() => {
     setMoreCount(totalComment - commentData.length);
   }, [totalComment, commentData])
@@ -73,17 +72,17 @@ const CommentBox = ({ projectId }) => {
     }
   };
 
-  const EidtComment = async (commentID,formDataObject) => {
+  const EidtComment = async (commentID, formDataObject) => {
     try {
       setIsLoading(true);
-      const response = await projectApi.updateComment(commentID,formDataObject);
+      const response = await projectApi.updateComment(commentID, formDataObject);
 
       const newComment = response?.data;
 
       if (newComment?.success) {
         setPage(1);
         fetchCommentsByProject();
-        
+
       }
     } catch (error) {
       console.error('Error Editing comment:', error);
@@ -129,7 +128,11 @@ const CommentBox = ({ projectId }) => {
       <div className="details_block commnet_add_box">
         <AddComment addNewComment={addNewComment} projectId={projectId} />
       </div>
-      {commentData.length > 0 ? (
+      {loading ? <>
+        {[1, 2, 3].map((item) => (
+          <CommentSkeleton key={item} cTClass={"commentSkt"}/>
+        ))}
+      </> : (commentData.length > 0 ? (
         <>
           {commentData.map((comment) => (
             <Comments key={comment.id} data={comment} othersOperationData={otherOperationData} />
@@ -147,7 +150,7 @@ const CommentBox = ({ projectId }) => {
         </>
       ) : (
         <p style={{ marginTop: '10px' }}>No comments yet.</p>
-      )}
+      ))}
     </>
   );
 };

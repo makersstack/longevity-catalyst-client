@@ -1,4 +1,5 @@
 import axios from "axios";
+import { authApi } from "../../api";
 import refreshToken from "../../api/refreshTokenApi";
 import { authKey } from "../../constants/storageKey";
 import { apiKey } from "../../globals";
@@ -84,6 +85,8 @@ instance.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    } else if(error.response && error.response.data.message === "Refresh Token - expire" && !originalRequest._retry) {
+      await authApi.logoutUser();
     }
     return Promise.reject(error);
   }

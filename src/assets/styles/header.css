@@ -159,7 +159,7 @@ header {
     position: relative;
   }
   .header_search {
-    position: absolute;
+    position: absolute !important;
     width: 100%;
     left: 0;
     bottom: -63px;
@@ -186,11 +186,11 @@ header {
 }
 
 /* For 767px breakpoint and smaller */
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .header_buttons {
     gap: 0;
   }
-}
+} */
 
 /* For 576px breakpoint and smaller */
 @media (max-width: 576px) {

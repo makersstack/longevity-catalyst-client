@@ -261,3 +261,46 @@
   height: 40px;
   width: 100%;
 }
+/* For comment */
+.cmtSkt .sk_comment_head {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+.cmtSkt .sk_comment_user {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: block;
+}
+.cmtSkt .sk_comment_message .skeleton {
+  width: 100%;
+  max-width: 650px;
+  margin-top: 10px;
+}
+.cmtSkt .sk_comment_message .skeleton:last-child {
+  width: 100%;
+  max-width: 350px;
+}
+.cmtSkt .sk_comment_footer {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+.cmtSkt .sk_showBar {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: block;
+}
+.cmtSkt .sk_showBar {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: block;
+}
+.replaySkt {
+  margin-left: 35px !important;
+  margin-top: 5px !important;
+}

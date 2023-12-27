@@ -3,9 +3,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MdOutlineAddComment } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
+import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
-import useLoading from '../../hooks/useLoading';
 import dateTimeHel from '../../utils/dateTimeHel';
+import CommentSkeleton from '../skeleton/CommentSkeleton';
 import AddReplay from './AddReplay';
 import EditCommentFrom from './EditCommentFrom';
 import EditDeleteComment from './EditDeleteComment';
@@ -13,7 +14,7 @@ import Replay from './Replay';
 const Comments = ({ data, othersOperationData }) => {
     const { userInfo, isLoggedIn } = useAuth();
     const isAuthor = userInfo && userInfo.id === data?.userId;
-    const { setIsLoading } = useLoading();
+    const [loading, setIsLoading] = useState();
     const navigate = useNavigate();
 
     const [moreCount, setMoreCount] = useState(0);
@@ -193,7 +194,7 @@ const Comments = ({ data, othersOperationData }) => {
     }
 
     // Edit Comment Functionality
-
+    const avatarSrc = data?.User?.profileImage || avatersFor.user;
 
     return (
         <>
@@ -201,7 +202,7 @@ const Comments = ({ data, othersOperationData }) => {
                 <div className="comment_card_head">
                     <div className="commenter_info">
                         <Link to={`/${data?.User?.username}`}>
-                            <img className='user_thum_style' src={data?.User?.profileImage} alt="userImage" />
+                            <img className='user_thum_style' src={avatarSrc} alt="userImage" />
                         </Link>
                         <div className="post_user_fet">
                             <Link to={`/${data?.User?.username}`} className="user_name">{data?.User?.username}</Link>
@@ -242,14 +243,19 @@ const Comments = ({ data, othersOperationData }) => {
                     }
 
                     {
-                        isOpenCmnt && <> {repliesData.length !== 0 ? (
-                            repliesData.map((singleData) => (
-                                <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
-                            ))
-                        ) : (
-                            <p style={{ marginTop: '10px', marginLeft: '20px' }}>No replay yet.</p>
-                        )}
-                        </>
+                        loading ? ([1, 2].map((item) => (
+                            <CommentSkeleton key={item} cTClass={"replaySkt"} />
+                        ))) :
+                            isOpenCmnt && <> {
+                                repliesData.length !== 0 ? (
+                                    repliesData.map((singleData) => (
+                                        <Replay key={singleData.id} data={singleData} replayOperationData={replayOperationData} />
+                                    ))
+                                ) : (
+                                    <p style={{ marginTop: '10px', marginLeft: '20px' }}>No replay yet.</p>
+                                )
+                            }
+                            </>
                     }
 
                 </div>

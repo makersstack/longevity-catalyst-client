@@ -114,7 +114,7 @@ const ProjectFeed = () => {
     } = filters;
     return projects.filter((project) => {
       if (selectedCategory && project.project_keywords !== selectedCategory) {
-        console.log(selectedCategory);
+        
       }
       return true;
     });
