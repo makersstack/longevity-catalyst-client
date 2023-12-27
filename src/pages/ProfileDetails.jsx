@@ -183,8 +183,8 @@ const ProfileDetails = () => {
                                 <IoHomeOutline />
                               </div>
                               <p>
-                                <span>Lives in</span>
-                                <b>Home state Brazil</b>
+                                <span>Home state</span>
+                                <b>Brazil</b>
                               </p>
                             </li>
                             <li>
