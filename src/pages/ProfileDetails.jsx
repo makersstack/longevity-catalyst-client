@@ -14,6 +14,7 @@ import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
 import useAuth from '../hooks/UseAuth';
 import ScrollToTop from '../utils/RouteChange';
+import dateTimeHel from '../utils/dateTimeHel';
 import PageNotFound from './PageNotFound';
 
 const ProfileDetails = () => {
@@ -210,7 +211,8 @@ const ProfileDetails = () => {
                               </div>
                               <p>
                                 <span>Joined</span>
-                                <b>January 2010</b>
+                                <b>{ dateTimeHel.formatDateToString(userInformatin?.createdAt,{day:false})}</b>
+                                {/* <b>January 2010</b> */}
                               </p>
                             </li>
                           </ul>
