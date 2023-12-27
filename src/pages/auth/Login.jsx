@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
@@ -50,7 +51,17 @@ const Login = () => {
             }
         }
     }, [errorMsg]);
+    const [showPassword, setShowPassword] = useState(false);
 
+    const togglePasswordVisibility = (type) => {
+        switch (type) {
+            case 'Password':
+                setShowPassword(prevState => !prevState);
+                break;
+            default:
+                break;
+        }
+    };
 
     const handalSubmitLogin = async (e) => {
         e.preventDefault();
@@ -137,17 +148,22 @@ const Login = () => {
                             </div>
                             <div className="auth_box">
                                 <label htmlFor="password">Password*</label>
-                                <input
-                                    className={errorMsg.password ? 'border-warring' : ''}
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Type Your password"
+                                <div className="list_input_pass">
+                                    <input
+                                        className={errorMsg.password ? 'border-warring' : ''}
+                                        type={showPassword ? 'text' : 'password'}
+                                        name="password"
+                                        id="password"
+                                        placeholder="Type Your password"
 
-                                />
+                                    />
+                                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
+                                        {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />} 
+                                    </button>
+                                </div>
                                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
                             </div>
-                            <p>Must be at least 8 characters.</p>
+                            <p></p>
                             <button type="submit" className="auth_submit btn btn-dark btn-full">
                                 Log In
                             </button>

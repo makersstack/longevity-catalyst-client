@@ -5,11 +5,10 @@ import { RxDotsVertical } from 'react-icons/rx';
 import Modal from 'react-responsive-modal';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
-
-
+const MoreOptionButtons = ({ projectId, openModal, ButtonsOperation }) => {
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const dropdownRef = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
@@ -29,16 +28,18 @@ const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
             }
         };
 
+        if (isDeleteModalOpen === true) {
+            closeDropdown();
+        }
+
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [isDeleteModalOpen, isDropdownOpen]);
 
 
-    // deleting project 
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const openDeleteModal = () => {
         setIsDeleteModalOpen(true);
     };
@@ -46,6 +47,14 @@ const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
         setIsDeleteModalOpen(false);
     };
 
+    const handelDeletePoject = async (projectId) => {
+        const response = await ButtonsOperation.DeleteProject(projectId);
+        console.log(response);
+        // if (response) {
+        //     setIsDeleteModalOpen(false);
+        // }
+    }
+    
     const DeleteModal = () => {
         return (
             <Modal open={openDeleteModal} onClose={closeDeleteModal} center>
@@ -60,19 +69,6 @@ const MoreOptionButtons = ({ projectId, openModal,ButtonsOperation }) => {
             </Modal>
         );
     };
-
-
-    const handelDeletePoject = async (projectId) => {
-       const response = await ButtonsOperation.DeleteProject(projectId);
-       if(response){
-        setIsDeleteModalOpen(false);
-      }
-    }
-
-
-
-
-
 
     return (
         <div className="user-dropdown" ref={dropdownRef}>

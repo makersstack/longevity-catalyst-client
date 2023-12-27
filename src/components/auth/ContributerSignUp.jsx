@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import { HiCheck } from 'react-icons/hi';
+import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
 import skillApi from '../../api/SkillApi';
 import DargFileAttech from '../common/DargFileAttech';
 
 const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
     const [skillCheckBox, setSkillCheckBox] = useState([]);
-    
+
     useEffect(() => {
         const fetchSkills = async () => {
             const response = await skillApi.getAllSkills();
@@ -22,6 +23,16 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
     const handleCheckboxChange = (e) => {
         const isChecked = e.target.checked;
         setSkillValues(isChecked)
+    };
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = (type) => {
+        switch (type) {
+            case 'Password':
+                setShowPassword(prevState => !prevState);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -56,13 +67,18 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
             </div>
             <div className="auth_box">
                 <label htmlFor="password">Password</label>
-                <input
-                    className={errorMsg.password ? 'border-warring' : ''}
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Type Your password"
-                />
+                <div className="list_input_pass">
+                    <input
+                        className={errorMsg.password ? 'border-warring' : ''}
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        id="password"
+                        placeholder="Type Your password"
+                    />
+                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
+                        {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
+                    </button>
+                </div>
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
 
