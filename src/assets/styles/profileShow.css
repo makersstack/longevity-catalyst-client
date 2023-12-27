@@ -12,6 +12,9 @@
 .contributer_page_wrapper .project_side_ber_container {
   flex: 0 0 40%;
   padding: 20px;
+  position: inherit;
+  background: initial;
+  display: block;
 }
 .contributer_page_wrapper .project_show_container {
   flex: 0 0 60%;
@@ -28,6 +31,7 @@
   background: #fff;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
   padding: 50px 31px;
+  margin-top: 0;
 }
 .side_bar_card {
   margin-bottom: 25px;
@@ -210,4 +214,12 @@
 
 .rating .star.checked {
   color: #464646;
+}
+@media (max-width: 991px) {
+  .contributer_page_wrapper {
+    flex-direction: column;
+  }
+  .contributer_page_wrapper .al_resFilterBtn {
+    display: none;
+  }
 }
