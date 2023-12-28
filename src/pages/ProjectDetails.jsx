@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
+import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import ProjectDetailsSkeleton from '../components/skeleton/ProjectDetailsSkeleton';
 import { avatersFor } from '../constants/avaters';
 import ScrollToTop from '../utils/RouteChange';
@@ -56,7 +57,7 @@ const ProjectDetails = () => {
                       <div className="post_auth_info">
                         <div className="profile_image">
                           <Link to={`/${projectData?.User?.username}`}>
-                            <img src={projectData?.User?.profileImage || avatersFor.user} alt={projectData?.User?.full_name} />
+                            <ImageTagWithFallback src={projectData?.User?.profileImage} fallbackSrc={avatersFor.user} alt={projectData?.User?.full_name} />
                           </Link>
                         </div>
                         <div className="post_user_fet">

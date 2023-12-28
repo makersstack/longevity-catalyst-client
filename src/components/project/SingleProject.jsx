@@ -4,7 +4,9 @@ import { FaRegCommentDots, FaUserAlt } from 'react-icons/fa'
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { RiShareForwardFill } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
+import { avatersFor } from '../../constants/avaters'
 import dateTimeHel from '../../utils/dateTimeHel'
+import ImageTagWithFallback from '../common/ImageTagWithFallback'
 import VoteControl from './VoteControl'
 
 const SingleProject = ({ project }) => {
@@ -18,7 +20,7 @@ const SingleProject = ({ project }) => {
           <div className="post_auth_info">
             <div className="profile_image">
               <button onClick={() => navigation(`/user/${project?.author}`)}>
-                <img src={project?.profileImageUrl} alt="userProfile" />
+                <ImageTagWithFallback src={project?.profileImageUrl} fallbackSrc={avatersFor.user} alt={"userProfile"} />
               </button>
             </div>
             <div className="post_user_fet">
@@ -54,13 +56,13 @@ const SingleProject = ({ project }) => {
             <div className="project_reso_details">
               <div className="likded_users">
                 <Link to="/">
-                  <img src={project.profileImageUrl} alt={`userImage`} />
+                  <ImageTagWithFallback src={project?.profileImageUrl} fallbackSrc={avatersFor.user} alt={"userProfile"} />
                 </Link>
                 <Link to="/">
-                  <img src={project.profileImageUrl} alt={`userImage`} />
+                  <ImageTagWithFallback src={project?.profileImageUrl} fallbackSrc={avatersFor.user} alt={"userProfile"} />
                 </Link>
                 <Link to="/">
-                  <img src={project.profileImageUrl} alt={`userImage`} />
+                  <ImageTagWithFallback src={project?.profileImageUrl} fallbackSrc={avatersFor.user} alt={"userProfile"} />
                 </Link>
               </div>
               <p>and {project?.likesCount} people liked this post.</p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import loadImageWithFallback from '../../utils/loadImageWithFallback';
 
-const ImageTagWithFallback = ({ src, fallbackSrc, alt }) => {
+const ImageTagWithFallback = ({ src, fallbackSrc, alt, golClass }) => {
     const [imageUrl, setImageUrl] = useState(fallbackSrc);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const ImageTagWithFallback = ({ src, fallbackSrc, alt }) => {
       fetchImage();
     }, [src, fallbackSrc]);
 
-    return <img src={imageUrl} alt={alt} />;
+    return <img src={imageUrl} alt={alt} className={`${golClass ? golClass : ""}`} />;
 };
 
 export default ImageTagWithFallback;

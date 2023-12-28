@@ -6,6 +6,7 @@ import { projectApi } from '../../api';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/UseAuth';
 import dateTimeHel from '../../utils/dateTimeHel';
+import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import CommentSkeleton from '../skeleton/CommentSkeleton';
 import AddReplay from './AddReplay';
 import EditCommentFrom from './EditCommentFrom';
@@ -193,16 +194,13 @@ const Comments = ({ data, othersOperationData }) => {
         setIsEditComment
     }
 
-    // Edit Comment Functionality
-    const avatarSrc = data?.User?.profileImage || avatersFor.user;
-
     return (
         <>
             <div className="comment_card">
                 <div className="comment_card_head">
                     <div className="commenter_info">
                         <Link to={`/${data?.User?.username}`}>
-                            <img className='user_thum_style' src={avatarSrc} alt="userImage" />
+                        <ImageTagWithFallback src={data?.User?.profileImage} fallbackSrc={avatersFor.user} alt={data?.User?.username} golClass="user_thum_style" />
                         </Link>
                         <div className="post_user_fet">
                             <Link to={`/${data?.User?.username}`} className="user_name">{data?.User?.username}</Link>
