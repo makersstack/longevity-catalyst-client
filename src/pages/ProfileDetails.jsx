@@ -7,12 +7,12 @@ import { IoEyeOutline, IoHomeOutline } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
 import '../assets/styles/profileShow.css';
+import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
 import ProjectCard from '../components/project/ProjectCard';
 import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
-import useAuth from '../hooks/UseAuth';
 import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
 import PageNotFound from './PageNotFound';
@@ -28,7 +28,7 @@ const ProfileDetails = () => {
     
   }, [userInformatin]);
   ScrollToTop();
-  const { isLoggedIn } = useAuth();
+  // const { isLoggedIn } = useAuth();
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
 
   const handelSideBarButton = (e) => {
@@ -86,8 +86,6 @@ const ProfileDetails = () => {
         }
       }
 
-
-
       setIsLoading(false);
     }
     fetchLatestProjects();
@@ -107,8 +105,6 @@ const ProfileDetails = () => {
     setMoreCount(0);
   }, [filters]);
 
-
-  const avatarSrc = isLoggedIn ? (userInformatin?.profileImage || avatersFor.user) : null;
   return (
     <>
       {
@@ -126,7 +122,7 @@ const ProfileDetails = () => {
                       <div className="side_bar_card">
                         <div className="profile_user_info">
                           <div className="image_block">
-                            <img src={avatarSrc} alt="user" />
+                          <ImageTagWithFallback src={userInformatin?.profileImage} fallbackSrc={avatersFor.user} alt={userInformatin?.username} />
                           </div>
                           <div className="info_block">
                             <h3 className='userProfile_title'>{userInformatin.full_name}</h3>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { avatersFor } from '../../constants/avaters';
 import { instance as axoisInstance } from '../../helpers/axios/axoisInstance';
+import ImageTagWithFallback from '../common/ImageTagWithFallback';
 
 const fetchLikes = async (postId) => {
   try {
@@ -28,7 +30,7 @@ const ShowLikes = ({ postId }) => {
       <div className="liked_users">
         {likedUsers.slice(-3).map((user, index) => (
           <Link to="/" key={index}>
-            <img src={user.profileImageUrl} alt={`userImage`} />
+            <ImageTagWithFallback src={user.profileImageUrl} fallbackSrc={avatersFor.user} alt={"userImage"} />
           </Link>
         ))}
       </div>

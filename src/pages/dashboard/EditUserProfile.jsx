@@ -4,6 +4,7 @@ import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { authApi } from '../../api';
 import CheckBoxButton from '../../components/common/CheckBoxButton';
 import DargFileAttech from '../../components/common/DargFileAttech';
+import ImageTagWithFallback from '../../components/common/ImageTagWithFallback';
 import TextEditor from '../../components/common/TextEditor';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
@@ -236,15 +237,12 @@ const EditUserProfile = () => {
                                     </div>
                                     <div className='list_input upload_avater_withOld'>
                                         <div className="show_old_avater">
-                                            <img src={userInfo?.profileImage || avatersFor.user} alt="profile_img" />
+                                            <ImageTagWithFallback src={userInfo?.profileImage} fallbackSrc={avatersFor.user} alt={"userProfile"} />
                                         </div>
                                         <DargFileAttech errorMsg={errorMsg} resetPreview={resetPreview} setProfilePic={setProfilePic} />
                                     </div>
                                     {errorMsg.pro_pic && <div className='error-msg'>{errorMsg.pro_pic}</div>}
                                 </div>
-
-
-
 
                                 {/* <!-- Single Input --> */}
                                 <div className="form_control list_input_box">
