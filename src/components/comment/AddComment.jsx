@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 
 const AddComment = ({ addNewComment }) => {
 

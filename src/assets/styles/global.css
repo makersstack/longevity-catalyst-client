@@ -786,6 +786,9 @@ input:disabled {
 .sign_up_preference button {
   margin-top: 25px;
 }
+.sign_up_preference button:disabled {
+  opacity: 0.7;
+}
 /* For modal */
 /* Alifur Rahman*/
 /* --- fix some global css  */

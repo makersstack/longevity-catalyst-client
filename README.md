@@ -59,3 +59,14 @@ The project's folder structure is organized as follows:
 ## License
 
 This project is licensed under the [License Name] License - see the LICENSE.md file for details.
+
+## Solve some issues
+
+- No 02
+- No 06
+- No 09
+- No 10
+- No 11
+- No 16
+- No 17 Need to work
+- No 21

@@ -13,8 +13,9 @@ import ProjectCard from '../components/project/ProjectCard';
 import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
-import ScrollToTop from '../utils/RouteChange';
+import useAuth from '../hooks/useAuth';
 import dateTimeHel from '../utils/dateTimeHel';
+import ScrollToTop from '../utils/routeChange';
 import PageNotFound from './PageNotFound';
 
 const ProfileDetails = () => {
@@ -22,13 +23,15 @@ const ProfileDetails = () => {
   useEffect(() => {
     if (userInformatin.full_name) {
       document.title = `${userInformatin.full_name} - Longevity Catalyst`;
-    }else{
+    } else {
       document.title = "Profile - Longevity Catalyst";
     }
-    
+
   }, [userInformatin]);
   ScrollToTop();
-  // const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userInfo } = useAuth();
+  const getUserName = useParams();
+
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
 
   const handelSideBarButton = (e) => {
@@ -122,7 +125,7 @@ const ProfileDetails = () => {
                       <div className="side_bar_card">
                         <div className="profile_user_info">
                           <div className="image_block">
-                          <ImageTagWithFallback src={userInformatin?.profileImage} fallbackSrc={avatersFor.user} alt={userInformatin?.username} />
+                            <ImageTagWithFallback src={userInformatin?.profileImage} fallbackSrc={avatersFor.user} alt={userInformatin?.username} />
                           </div>
                           <div className="info_block">
                             <h3 className='userProfile_title'>{userInformatin.full_name}</h3>
@@ -155,7 +158,9 @@ const ProfileDetails = () => {
 
                         <div className="side_bar_card_head">
                           <span className="head_title">Intro</span>
-                          <Link to='/dashboard/profile/update' className="btn btn-gray btn-sm">Edit</Link>
+                          {isLoggedIn && userInfo && userInfo.username === getUserName.username && (
+                            <Link to='/dashboard/profile/update' className="btn btn-gray btn-sm">Edit</Link>
+                          )}
                         </div>
 
                         <div className="side_bar_card_body">
@@ -207,7 +212,7 @@ const ProfileDetails = () => {
                               </div>
                               <p>
                                 <span>Joined</span>
-                                <b>{ dateTimeHel.formatDateToString(userInformatin?.createdAt,{day:false})}</b>
+                                <b>{dateTimeHel.formatDateToString(userInformatin?.createdAt, { day: false })}</b>
                                 {/* <b>January 2010</b> */}
                               </p>
                             </li>

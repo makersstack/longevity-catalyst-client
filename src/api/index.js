@@ -1,10 +1,9 @@
 import authApi from "./authApi";
-import projectApi from './ProjectApi';
+import categoryApi from './categoryApi';
+import projectApi from './projectApi';
+import refreshToken from './refreshTokenApi';
+import skillApi from './skillApi';
 
 
-export { authApi, projectApi };
+export { authApi, categoryApi, projectApi, refreshToken, skillApi };
 
-
-// export const projectsApi ={
-//   allProjects: () => axoisInstance.get(`${(apiKey)}/projects`,)
-// }

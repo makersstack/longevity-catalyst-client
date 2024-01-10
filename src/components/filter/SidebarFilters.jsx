@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import categoryApi from '../../api/CategoryApi';
+import categoryApi from '../../api/categoryApi';
 import { expectedTimeProjectOption, projectExperienceOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
 // Search field component

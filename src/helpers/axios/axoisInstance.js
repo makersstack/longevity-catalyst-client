@@ -1,10 +1,10 @@
 import axios from "axios";
-import { authApi } from "../../api";
 import refreshToken from "../../api/refreshTokenApi";
 import { authKey } from "../../constants/storageKey";
 import { apiKey } from "../../globals";
+import { removeUserInfo } from "../../services/auth.service";
+import { logoutRequest } from "../../services/logout.service";
 import { getLocalStorage, setToLocalStorage } from "../../utils/local-storage";
-
 
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
@@ -31,6 +31,7 @@ const processQueue = (error, token = null) => {
   });
   failedQueue = [];
 };
+
 
 instance.interceptors.request.use(
   function (config) {
@@ -74,19 +75,33 @@ instance.interceptors.response.use(
       try {
         const accessToken = getLocalStorage(authKey);
         const newAccessToken = await refreshToken(accessToken);
-        setToLocalStorage(authKey, newAccessToken);
-        processQueue(null, newAccessToken);
+        if (newAccessToken) {
+          setToLocalStorage(authKey, newAccessToken);
+          processQueue(null, newAccessToken);
 
-        originalRequest.headers.authorization = newAccessToken;
-        return instance(originalRequest);
+          originalRequest.headers.authorization = newAccessToken;
+          return instance(originalRequest);
+        } else {
+          console.log("hello");
+          removeUserInfo(authKey);
+          logoutRequest();
+          window.location.reload();
+          return Promise.reject("Expired User logged out.");
+        }
       } catch (refreshError) {
+        removeUserInfo(authKey);
+        logoutRequest();
         processQueue(refreshError, null);
-        return Promise.reject(refreshError);
+        window.location.reload();
+        return Promise.reject("Expired User logged out.");
       } finally {
         isRefreshing = false;
       }
-    } else if(error.response && error.response.data.message === "Refresh Token - expire" && !originalRequest._retry) {
-      await authApi.logoutUser();
+    } else if (error.response && error.response.data.message === "Refresh Token - expire") {
+      removeUserInfo(authKey);
+      logoutRequest();
+      window.location.reload();
+      return Promise.reject("Expired. User logged out.");
     }
     return Promise.reject(error);
   }

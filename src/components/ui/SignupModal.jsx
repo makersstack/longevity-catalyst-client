@@ -6,6 +6,7 @@ import SignUpRadio from '../common/SignUpRadio';
 
 function SignupModal({ open, onClose, onSignUp }) {
   const [selectedValue, setSelectedValue] = useState('researcher');
+
   const radioOptions = [
     { value: 'researcher', label: 'Researcher sign-up' },
     { value: 'contributor', label: 'Contributor sign-up' },
@@ -16,8 +17,14 @@ function SignupModal({ open, onClose, onSignUp }) {
     setSelectedValue(value);
   };
 
-  const handleCreateAccountClick = () => {
+  const handleCreateAccountClick = (e) => {
+    e.preventDefault();
+
     onSignUp(selectedValue);
+    if (selectedValue === "") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
   };
   useEffect(() => {
     if (!open) {
@@ -26,7 +33,7 @@ function SignupModal({ open, onClose, onSignUp }) {
   }, [open]);
 
   return (
-    <Modal open={open} onClose={onClose} center>
+    <Modal open={open} onClose={onClose} center closeOnEsc={false} closeOnOverlayClick={false}>
       <div className="modal-wrapper">
         <div className="custom-modal" id="signup_references">
           <div className="modal-wrapper">
@@ -37,7 +44,7 @@ function SignupModal({ open, onClose, onSignUp }) {
               <h2 className="modal_title">Choose Your Preferences.</h2>
               <form className="sign_up_preference" action="#" method="post">
                 <SignUpRadio options={radioOptions} onRadioChange={handleRadioChange} selectedValue={selectedValue} />
-                <button type="button" onClick={handleCreateAccountClick} className="btn btn-dark btn-full no-shadow">
+                <button type="button" onClick={handleCreateAccountClick} className="btn btn-dark btn-full no-shadow" disabled={selectedValue === ""}>
                   Create Account
                 </button>
               </form>

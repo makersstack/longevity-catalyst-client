@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
-import { LoadingProvider } from './contex/LoadingContext';
+import { LoadingProvider } from './contexts/LoadingContext';
 import AppRoutes from './routes';
 
 const App = () => {

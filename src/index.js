@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import ErrorBoundary from './ErrorHandling/ErrorBoundary';
-import AuthProvider from './contex/AuthContext';
+import AuthProvider from './contexts/AuthContext';
+
 
 ReactDOM.render(
   <ErrorBoundary>

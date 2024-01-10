@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineLike, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 
 
 const LikeButton = ({ projectId, isLikedByUser }) => {

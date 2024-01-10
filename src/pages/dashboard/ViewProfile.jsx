@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import '../../assets/styles/dashboard.css';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 
 const ViewProfile = () => {
     ScrollToTop();
