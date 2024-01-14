@@ -13,7 +13,7 @@ import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
 import { requirdSkillCheckData, topFilterOptionsByUser, topicOptions } from '../data/filterData';
 import useLoading from '../hooks/useLoading';
-import ScrollToTop from '../utils/RouteChange';
+import ScrollToTop from '../utils/routeChange';
 import PageNotFound from './PageNotFound';
 
 const ProfileShow = ({ rating }) => {

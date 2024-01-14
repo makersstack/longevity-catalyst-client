@@ -97,6 +97,7 @@
   overflow: hidden;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  word-wrap: break-word;
 }
 .card_text {
   color: #667085;
@@ -107,6 +108,7 @@
   -webkit-line-clamp: 3;
   line-clamp: 3;
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 .card_body .al_project_learn_more {
   color: #333;

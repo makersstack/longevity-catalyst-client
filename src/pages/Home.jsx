@@ -4,13 +4,15 @@ import '../../src/assets/styles/home.css';
 import ProjectFeed from '../components/ui/ProjectFeed';
 import TradingProjectSlider from '../components/ui/TradingProjectSlider';
 import TrustSlider from '../components/ui/TrustSlider';
-import ScrollToTop from '../utils/RouteChange';
+import useAuth from '../hooks/useAuth';
+import ScrollToTop from '../utils/routeChange';
 
 const Home = () => {
   useEffect(() => {
     document.title = 'Home - Longevity Catalyst';
   }, []);
   ScrollToTop();
+  const { isLoggedIn } = useAuth();
 
   return (
     <>
@@ -25,9 +27,17 @@ const Home = () => {
               It's designed to accelerate progress in extending human lifespan by
               fostering collaboration, knowledge sharing, and problem-solving.
             </p>
-            <Link to='/' className="btn btn-dark btn-lg">
-              Get Started
-            </Link>
+            {
+              isLoggedIn ? (
+                <Link to='/#feedProjects' className="btn btn-dark btn-lg">
+                  Get Started
+                </Link>
+              ) : (
+                <Link to='/login' className="btn btn-dark btn-lg">
+                  Get Started
+                </Link>
+              )
+            }
           </div>
         </div>
       </section>
@@ -55,7 +65,7 @@ const Home = () => {
       {/* ED:- trust by area */}
 
       {/* ST:- Project show area */}
-      <section className="project_show_section home_project_show">
+      <section className="project_show_section home_project_show" id='feedProjects'>
         <div className="container">
           <ProjectFeed />
         </div>

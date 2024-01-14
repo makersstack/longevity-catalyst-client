@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiCheck } from 'react-icons/hi';
 import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
-import skillApi from '../../api/SkillApi';
+import skillApi from '../../api/skillApi';
 import DargFileAttech from '../common/DargFileAttech';
 
 const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
@@ -74,6 +74,7 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
                         name="password"
                         id="password"
                         placeholder="Type Your password"
+                        autoComplete='true'
                     />
                     <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
                         {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
@@ -139,7 +140,7 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
                     type="text"
                     name="github"
                     id="github"
-                    placeholder="https://github.com/alifur-rahman/"
+                    placeholder="https://github.com/username/"
                 />
             </div>
         </>

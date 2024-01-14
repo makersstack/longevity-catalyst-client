@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import categoryApi from '../../api/CategoryApi';
+import categoryApi from '../../api/categoryApi';
 
 export const customStyles = {
   control: (provided, state) => ({

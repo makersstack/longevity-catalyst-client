@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/dashboardMenu.css';
 import { avatersFor } from '../../constants/avaters';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import RanderNav from './RanderNav';
 

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { HiChevronDown } from 'react-icons/hi2';
 import { NavLink, useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/UseAuth';
+import { menuDataForContributor, menuDataForUser } from '../../data/dashboardData';
+import useAuth from '../../hooks/useAuth';
+import { getMenuDataForRole } from '../../services/menu.service';
 
 const RanderNav = () => {
-  const { handleLogout, menuData } = useAuth();
+  const { handleLogout, userInfo } = useAuth();
   const navigate = useNavigate();
   const [isOpenState, setIsOpenState] = useState({});
 
@@ -14,6 +16,8 @@ const RanderNav = () => {
       [itemId]: !prevState[itemId],
     }));
   };
+  
+  const menuData = getMenuDataForRole(userInfo, menuDataForContributor, menuDataForUser);
 
   const LogOuthandel = () => {
     handleLogout();

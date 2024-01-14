@@ -7,8 +7,8 @@ import CommentBox from '../components/comment/CommentBox';
 import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import ProjectDetailsSkeleton from '../components/skeleton/ProjectDetailsSkeleton';
 import { avatersFor } from '../constants/avaters';
-import ScrollToTop from '../utils/RouteChange';
 import dateTimeHel from '../utils/dateTimeHel';
+import ScrollToTop from '../utils/routeChange';
 
 const ProjectDetails = () => {
   const [projectData, setProjectData] = useState(null);

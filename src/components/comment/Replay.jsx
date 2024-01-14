@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { avatersFor } from '../../constants/avaters';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import dateTimeHel from '../../utils/dateTimeHel';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import EditDeleteReplay from './EditDeleteReplay';

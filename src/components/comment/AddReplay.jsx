@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 
 const AddReplay = ({ addNewReplay, setIsAddReplay }) => {
     const { isLoggedIn } = useAuth();

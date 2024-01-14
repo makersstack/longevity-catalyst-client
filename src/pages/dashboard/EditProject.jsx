@@ -3,17 +3,17 @@ import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
 import { projectApi } from '../../api';
-import categoryApi from '../../api/CategoryApi';
+import categoryApi from '../../api/categoryApi';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DatePickerInput from '../../components/ui/DatePickerInput';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useCheckedOptions from '../../hooks/useCheckedOptions';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 
 const EditProject = () => {
     useEffect(() => {

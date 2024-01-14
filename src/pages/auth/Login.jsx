@@ -8,9 +8,9 @@ import '../../assets/styles/authPages.css';
 import AuthHeader from '../../components/auth/AuthHeader';
 import Loader from '../../components/ui/Loader';
 import SignupModal from '../../components/ui/SignupModal';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const { setIsLoading } = useLoading();
@@ -89,7 +89,6 @@ const Login = () => {
             isValid = false;
         }
         formDataObject.identifier = formDataObject.username;
-
         if (isValid) {
             try {
                 setIsLoading(true);
@@ -99,7 +98,7 @@ const Login = () => {
                 const getError = response?.error;
 
                 if (getError) {
-                    toast.error(getError.data.message);
+                    toast.error(getError?.data?.message);
                 } else {
                     if (response?.data?.success) {
                         handleLoginSuccess({ accessToken: response.data.data.accessToken });
@@ -155,6 +154,7 @@ const Login = () => {
                                         name="password"
                                         id="password"
                                         placeholder="Type Your password"
+                                        autoComplete='true'
 
                                     />
                                     <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>

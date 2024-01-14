@@ -4,7 +4,7 @@ import '../assets/styles/about.css';
 import Newsletter from '../components/ui/Newsletter';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
-import ScrollToTop from '../utils/RouteChange';
+import ScrollToTop from '../utils/routeChange';
 
 const AboutUs = () => {
   useEffect(() => {

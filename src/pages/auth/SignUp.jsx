@@ -8,9 +8,9 @@ import ContributerSignUp from '../../components/auth/ContributerSignUp';
 import ResearcherSignUp from '../../components/auth/ResearcherSignUp';
 import UserSignUp from '../../components/auth/UserSignUp';
 import Loader from '../../components/ui/Loader';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 import { validatePassword } from '../../utils/utilitis';
 import PageNotFound from '../PageNotFound';
 

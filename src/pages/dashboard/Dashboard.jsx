@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import '../../assets/styles/dashboard.css';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
-import useAuth from '../../hooks/UseAuth';
-import ScrollToTop from '../../utils/RouteChange';
+import useAuth from '../../hooks/useAuth';
+import ScrollToTop from '../../utils/routeChange';
 
 const Dashboard = () => {
     const { userInfo } = useAuth();

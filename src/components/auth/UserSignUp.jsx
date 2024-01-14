@@ -52,6 +52,7 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
                         name="password"
                         id="password"
                         placeholder="Type Your password"
+                        autoComplete='true'
                     />
                     <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
                         {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}

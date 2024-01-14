@@ -3,7 +3,7 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BiDownvote, BiUpvote } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { projectApi } from '../../api';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import formatNumber from '../../utils/NumberCountFormate';
 
 const VoteButtons = ({ projectId, VoteByUser,voteCounts }) => {

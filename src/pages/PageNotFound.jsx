@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ScrollToTop from '../utils/RouteChange';
+import ScrollToTop from '../utils/routeChange';
 
 const PageNotFound = ({showInfoText}) => {
     useEffect(() => {

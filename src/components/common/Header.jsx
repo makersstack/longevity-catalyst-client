@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { FaChevronDown, FaRegUser } from 'react-icons/fa';
 import { HiOutlineCog } from 'react-icons/hi';
+import { IoIosNotifications } from "react-icons/io";
 import { LuBarChart2 } from 'react-icons/lu';
 import { PiSignOut } from 'react-icons/pi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { avatersFor } from '../../constants/avaters';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
 import HeaderSearch from '../ui/HeaderSearch';
 import SignupModal from '../ui/SignupModal';
@@ -25,7 +26,10 @@ const Header = () => {
     handleLogout();
     navigate('/login');
   }
+  const handleNotification = (e) => {
+    e.preventDefault()
 
+  }
   const openModal = () => {
     setModalOpen(true);
   };
@@ -98,21 +102,21 @@ const Header = () => {
       return 'Dashboard';
     }
   };
-  
+
   useEffect(() => {
     closeDropdown();
   }, [location.pathname]);
 
   useEffect(() => {
     if (isLoggedIn && !userInfo) {
-        setIsLoading(true);
+      setIsLoading(true);
     } else {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-}, [isLoggedIn, setIsLoading, userInfo]);
+  }, [isLoggedIn, setIsLoading, userInfo]);
 
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
-
+  const hideButton = location.pathname === '/dashboard/project/add';
   return (
     <header>
       <div className='container'>
@@ -127,19 +131,32 @@ const Header = () => {
           </div>
 
           <div className="header_buttons">
+            {
+              isLoggedIn && (
+                <button type='button' className='btn btn_notification' onClick={handleNotification}>
+                  <IoIosNotifications />
+                </button>
+              )
+            }
+
             <button className='dropdown-button res-search-btn' onClick={handelSearchBox}>
               <BiSearch />
             </button>
             {
               isLoggedIn ? <>
+                {
+                  !hideButton && (
+                    <Link to={'/dashboard/project/add'} className='btn btn-dark'>
+                      Add Project
+                    </Link>
+                  )
+                }
                 <Link to={location.pathname.startsWith('/dashboard/') ? '/' : '/dashboard/home'} className='btn btn-dark'>
                   {getLinkText()}
                 </Link>
                 <div className="user-dropdown" ref={dropdownRef}>
-
                   <button className="profile-image" onClick={toggleDropdown}>
                     <ImageTagWithFallback src={avatarSrc} fallbackSrc={avatersFor.user} alt={userInfo?.username} />
-
                   </button>
 
                   {isDropdownOpen && (

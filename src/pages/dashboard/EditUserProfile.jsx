@@ -9,9 +9,9 @@ import TextEditor from '../../components/common/TextEditor';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 
 const EditUserProfile = () => {
     const { setIsLoading } = useLoading();

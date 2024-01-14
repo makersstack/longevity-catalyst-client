@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 import { validatePassword } from '../../utils/utilitis';
 
 const PasswordChange = () => {

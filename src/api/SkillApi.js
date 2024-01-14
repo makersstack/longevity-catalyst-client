@@ -6,8 +6,6 @@ export const skillApi = {
       url: "/skills",
       method: "GET",
     }),
-
-  // Other auth-related API functions
 };
 
 export default skillApi;

@@ -10,11 +10,11 @@ import DatePickerInput from "../../components/ui/DatePickerInput";
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
-import categoryApi from '../../api/CategoryApi';
+import categoryApi from '../../api/categoryApi';
 import Loader from '../../components/ui/Loader';
-import useAuth from '../../hooks/UseAuth';
+import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
-import ScrollToTop from '../../utils/RouteChange';
+import ScrollToTop from '../../utils/routeChange';
 
 const AddProject = () => {
     useEffect(() => {
@@ -38,6 +38,9 @@ const AddProject = () => {
     //     }
     // }, [errorMsg]);
 
+    const handleFormCancel = () => {
+        navigate('/dashboard');
+    }
     const handleInputChange = (event) => {
 
         if ('alname' in event.target.dataset) {
@@ -126,10 +129,10 @@ const AddProject = () => {
 
         // validation 
         let isValid = true;
-        if (formDataObject.project_name.length === 0) {
+        if (formDataObject.project_name.length < 25 || formDataObject.project_name.length > 50) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
-                project_name: 'Project Name is Required!',
+                project_name: 'Project name should be 25 to 50 characters long.',
             }));
             isValid = false;
         }
@@ -620,7 +623,7 @@ const AddProject = () => {
                                 </div>
                                 <hr className='inputhr' />
                                 <div className="form_submit al_submit_button">
-                                    <button type="reset" className="btn btn-submit btn-light">
+                                    <button type="reset" className="btn btn-submit btn-light" onClick={handleFormCancel}>
                                         Cancel
                                     </button>
                                     <button type="submit" className="btn btn-submit btn-dark">
