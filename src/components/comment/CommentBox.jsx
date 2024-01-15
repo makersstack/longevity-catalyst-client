@@ -1,4 +1,7 @@
+
+
 import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { projectApi } from '../../api';
 import '../../assets/styles/comment.css';
 import CommentSkeleton from '../skeleton/CommentSkeleton';
@@ -12,10 +15,13 @@ const CommentBox = ({ projectId }) => {
   const [moreCount, setMoreCount] = useState(0);
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
+  const [resetCount, setResetCount] = useState(false);
+
 
   const fetchCommentsByProject = useCallback(async () => {
     try {
       setIsLoading(true);
+      setResetCount(true);
       const paginationOptions = {
         page: page,
         limit: limit,
@@ -28,9 +34,9 @@ const CommentBox = ({ projectId }) => {
         } else {
           setCommentData((prevPage) => [...prevPage, ...commentArray]);
         }
-
-        const totalComment = response.data.data.meta.total;
-        setTotalComment(totalComment);
+        const totalCommentres = await response.data.data.meta.total;
+        setTotalComment(totalCommentres);
+        
       } else {
         console.error('Invalid data format: Expected an object with comment data');
       }
@@ -40,61 +46,88 @@ const CommentBox = ({ projectId }) => {
       setIsLoading(false);
     }
 
-  }, [limit, projectId, setIsLoading, page]);
+  }, [limit, projectId, setIsLoading, page ]);
+
 
   useEffect(() => {
-    setMoreCount(totalComment - commentData.length);
-  }, [totalComment, commentData])
+    if(resetCount){
+      setMoreCount(totalComment - commentData.length);
+    }
+  }, [resetCount,totalComment, commentData]);
+
+
 
   useEffect(() => {
     fetchCommentsByProject();
+    
   }, [fetchCommentsByProject]);
 
-  const handleShowMoreClick = () => {
+  const handleShowMoreClick = () => { 
     setPage((prevPage) => prevPage + 1);
   };
 
   const addNewComment = async (formDataObject) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const response = await projectApi.addComment(formDataObject, projectId);
-
       const newComment = response?.data;
-
-      if (newComment?.success) {
-        setPage(1);
-        fetchCommentsByProject();
+      if (newComment) {
+        const newCommentData = newComment?.data;
+        const dats = [newCommentData];
+        setCommentData((commentData) => [...dats, ...commentData]);
+        // setPage(1);
+        // fetchCommentsByProject();
+      } else if (response.error) {
+        toast.error(response?.error?.data?.message);
       }
+
     } catch (error) {
       console.error('Error adding comment:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   const EidtComment = async (commentID, formDataObject) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
       const response = await projectApi.updateComment(commentID, formDataObject);
 
       const newComment = response?.data;
 
       if (newComment?.success) {
-        setPage(1);
-        fetchCommentsByProject();
+        const updatedCommentData = commentData.map((comment) => {
+          if (comment.id === commentID) {
+            // Update the textValue for the specific comment
+            return {
+              ...comment,
+              commentText: newComment?.data?.commentText
+            };
+          }
+          return comment;
+        });
 
+        // Set the state with the updated comment data
+        setCommentData(updatedCommentData);
+
+        // setPage(1);
+        // fetchCommentsByProject();
+
+      }
+      else if (response.error) {
+        toast.error(response?.error?.data?.message);
       }
     } catch (error) {
       console.error('Error Editing comment:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
     return true;
   };
 
   const handleDeleteComment = async (id) => {
     try {
-      setIsLoading(true);
+      // setIsLoading(true);
 
       if (!id) {
         throw new Error('Comment ID not provided');
@@ -102,18 +135,22 @@ const CommentBox = ({ projectId }) => {
       const response = await projectApi.deleteComment(id);
       const deleteSt = response?.data;
       if (deleteSt?.success) {
-        setPage(1);
-        fetchCommentsByProject();
-
-        // setCommentData(commentData.filter((comment) => comment.id !== id));
-        // setTotalComment(totalComment - 1);
-        // setMoreCount(moreCount - 1);
+        if (commentData.length === 1) {
+          setPage(1);
+          fetchCommentsByProject();
+        }
+        setResetCount(false);
+        setCommentData(commentData.filter((comment) => comment.id !== id));
+        
+      }
+      else if (response.error) {
+        toast.error(response?.error?.data?.message);
       }
       // Do others 
     } catch (error) {
       throw new Error('Error Deleting comment:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
       return true;
     }
   }
@@ -130,7 +167,7 @@ const CommentBox = ({ projectId }) => {
       </div>
       {loading ? <>
         {[1, 2, 3].map((item) => (
-          <CommentSkeleton key={item} cTClass={"commentSkt"}/>
+          <CommentSkeleton key={item} cTClass={"commentSkt"} />
         ))}
       </> : (commentData.length > 0 ? (
         <>
