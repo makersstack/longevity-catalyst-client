@@ -39,7 +39,7 @@ const AddProject = () => {
     // }, [errorMsg]);
 
     const handleFormCancel = () => {
-        navigate('/dashboard');
+        navigate('/dashboard/home');
     }
     const handleInputChange = (event) => {
 
@@ -59,7 +59,9 @@ const AddProject = () => {
         let error = '';
         switch (fieldName) {
             case 'project_name':
-                error = value.trim().length === 0 ? 'Project Title is required!' : '';
+                error = value.trim().length < 25 || value.trim().length > 50
+                    ? 'Project name should be 25 to 50 characters long!'
+                    : '';
                 break;
             case 'affiliation':
                 error = value.trim().length === 0 ? 'Project affiliation is required!' : '';

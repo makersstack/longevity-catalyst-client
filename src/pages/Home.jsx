@@ -6,6 +6,7 @@ import TradingProjectSlider from '../components/ui/TradingProjectSlider';
 import TrustSlider from '../components/ui/TrustSlider';
 import useAuth from '../hooks/useAuth';
 import ScrollToTop from '../utils/routeChange';
+import { scrollToSection } from '../utils/utilitis';
 
 const Home = () => {
   useEffect(() => {
@@ -29,9 +30,9 @@ const Home = () => {
             </p>
             {
               isLoggedIn ? (
-                <Link to='/#feedProjects' className="btn btn-dark btn-lg">
+                <button type='button' className="btn btn-dark btn-lg" onClick={() => scrollToSection('feedProjects')}>
                   Get Started
-                </Link>
+                </button>
               ) : (
                 <Link to='/login' className="btn btn-dark btn-lg">
                   Get Started

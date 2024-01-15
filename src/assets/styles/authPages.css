@@ -20,7 +20,9 @@
 .auth_box {
   padding: 10px 0;
 }
-
+.auth_box label span {
+  color: red;
+}
 .padding_top-30 {
   padding-top: 30px;
 }
