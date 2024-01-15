@@ -17,7 +17,7 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="full_name">Full Name</label>
+                <label htmlFor="full_name">Full Name<span>*</span></label>
                 <input
                     className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
@@ -28,7 +28,7 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Username<span>*</span></label>
                 <input
                     className={errorMsg.username ? 'border-warring' : ''}
                     type="text"
@@ -39,12 +39,12 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email<span>*</span></label>
                 <input className={errorMsg.email ? 'border-warring' : ''} type="email" name="email" id="email" placeholder="Email" />
                 {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">Password<span>*</span></label>
                 <div className="list_input_pass">
                     <input
                         className={errorMsg.password ? 'border-warring' : ''}
