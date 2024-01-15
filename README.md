@@ -69,4 +69,5 @@ This project is licensed under the [License Name] License - see the LICENSE.md f
 - No 11
 - No 16
 - No 17 Need to work
+- no 19 - Al - solved
 - No 21
