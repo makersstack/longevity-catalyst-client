@@ -27,6 +27,7 @@ const Comments = ({ data, othersOperationData }) => {
     const [limit] = useState(3);
     const { projectId, id: commentId } = data;
     const [repliesData, setRepliesData] = useState([]);
+    const [resetCount, setResetCount] = useState(false);
 
     const fetchReplayByComment = useCallback(async (cId) => {
         try {
@@ -46,6 +47,7 @@ const Comments = ({ data, othersOperationData }) => {
 
                 const totalReply = response.data.data.meta.total;
                 setTotalReplies(totalReply);
+                setResetCount(true);
             } else {
                 console.error('Invalid data format: Expected an object with replay data');
             }
@@ -61,7 +63,9 @@ const Comments = ({ data, othersOperationData }) => {
         let isMounted = true;
         try {
             if (isMounted) {
-                setMoreCount(totalReplies - repliesData.length);
+                if(resetCount){
+                   setMoreCount(totalReplies - repliesData.length); 
+                }
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -82,7 +86,7 @@ const Comments = ({ data, othersOperationData }) => {
 
     const addNewReplay = async (formDataObject) => {
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
 
             if (!projectId || !commentId) {
                 throw new Error('Project ID or Comment ID not provided');
@@ -91,8 +95,10 @@ const Comments = ({ data, othersOperationData }) => {
 
             const newReply = response?.data;
             if (newReply?.success) {
-                setPage(1);
-                fetchReplayByComment(commentId);
+                // setPage(1);
+                // fetchReplayByComment(commentId);
+                const dats = [newReply?.data];
+                setRepliesData((prevData) => [...dats, ...prevData]);
                 setOpenCmnt(true);
             }
 
@@ -101,37 +107,45 @@ const Comments = ({ data, othersOperationData }) => {
         } catch (error) {
             throw new Error('Error adding comment:', error);
         } finally {
-            setIsLoading(false);
+            // setIsLoading(false);
         }
     };
 
     const handleDeleteReplay = async (id) => {
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             if (!id) {
                 throw new Error('Replay ID not provided');
             }
             const response = await projectApi.deleteReplay(id);
             const deleteSt = response?.data;
             if (deleteSt?.success) {
-                // if (response?.data?.data?.id) {
-                //     const updateRepalyData = repliesData.filter(reply => reply.id !== response?.data?.data?.id);
-                //     setRepliesData(updateRepalyData);
-                // }
-                setPage(1);
-                fetchReplayByComment(commentId);
+                if (response?.data?.data?.id) {
+                    const updateRepalyData = repliesData.filter(reply => reply.id !== response?.data?.data?.id);
+                    setRepliesData(updateRepalyData);
+                }
+                // setPage(1);
+                // fetchReplayByComment(commentId);
+
+
+                if (repliesData.length === 1) {
+                    setPage(1);
+                    fetchReplayByComment(commentId);
+                }
+                setResetCount(false);
+
             }
             // Do others 
         } catch (error) {
             throw new Error('Error Deleting comment:', error);
         } finally {
-            setIsLoading(false);
+            // setIsLoading(false);
             return true;
         }
     }
     const handelEidtReplay = async (replayId, formDataObject) => {
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const response = await projectApi.updateReplay(replayId, formDataObject);
             const newSt = response?.data;
             const newReplay = response?.data?.data;
@@ -151,7 +165,7 @@ const Comments = ({ data, othersOperationData }) => {
         } catch (error) {
             console.error('Error Editing Replay:', error);
         } finally {
-            setIsLoading(false);
+            // setIsLoading(false);
         }
         return true;
     };
