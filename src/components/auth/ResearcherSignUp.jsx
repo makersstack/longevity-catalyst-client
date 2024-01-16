@@ -14,7 +14,6 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 break;
         }
     };
-<<<<<<< HEAD
     const [showBioChar, setShowBioChar] = useState(275);
     const [showBioCharMsg, setShowBioCharMsg] = useState(`${showBioChar} characters left`);
 
@@ -30,8 +29,6 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
     }
 
 
-=======
->>>>>>> main
     return (
         <>
             <div className="auth_box padding_top-30">
@@ -99,11 +96,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                     placeholder="I'm a Product Designer based in Dhaka, Bangladesh. I specialize in UX/UI design, brand strategy, and Webflow development.
             "
                 ></textarea>
-<<<<<<< HEAD
                 <div dangerouslySetInnerHTML={{ __html: showBioCharMsg }} />
-=======
-                {errorMsg.bio && <div className='error-msg'>{errorMsg.bio} </div>}
->>>>>>> main
             </div>
 
             <div className="auth_box">
