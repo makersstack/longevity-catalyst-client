@@ -8,6 +8,7 @@
   width: 100%;
   padding: 5px 9px;
   position: relative;
+  transform: translateX(50px);
 }
 .header_search:hover {
   border-color: #383838;

@@ -64,7 +64,7 @@ const MoreOptionButtons = ({ projectId, openModal, ButtonsOperation }) => {
                     </div>
                 </div>
             </Modal>
-        );
+        ); 
     };
 
     return (

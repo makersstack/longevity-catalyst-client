@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api';
 import CheckBoxButton from '../../components/common/CheckBoxButton';
 import DargFileAttech from '../../components/common/DargFileAttech';
@@ -15,12 +16,16 @@ import ScrollToTop from '../../utils/routeChange';
 
 const EditUserProfile = () => {
     const { setIsLoading } = useLoading();
+    const navigate = useNavigate();
     useEffect(() => {
         document.title = "Update Profile - Longevity Catalyst";
     }, []);
 
     ScrollToTop();
 
+    const handleFormCancel = () => {
+        navigate('/dashboard/home');
+    }
     const { userInfo, setUserInfo } = useAuth();
     const SkillCheckBox = [
         { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
@@ -266,7 +271,7 @@ const EditUserProfile = () => {
                                 <hr className='inputhr' />
 
                                 <div className="form_submit al_submit_button">
-                                    <button type="reset" className="btn btn-submit btn-light">
+                                    <button type="reset" className="btn btn-submit btn-light" onClick={handleFormCancel}>
                                         Cancel
                                     </button>
                                     <button type="submit" className="btn btn-submit btn-dark">
