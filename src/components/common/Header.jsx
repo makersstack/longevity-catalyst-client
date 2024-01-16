@@ -135,6 +135,7 @@ const Header = () => {
               isLoggedIn && (
                 <button type='button' className='btn btn_notification' onClick={handleNotification}>
                   <IoIosNotifications />
+                  <span>0</span>
                 </button>
               )
             }
@@ -163,9 +164,13 @@ const Header = () => {
                     <div className="dropdown-content">
                       <div className="user_dropdown_menu">
                         <div className="user_dropdown_menu_itme">
-                          <Link to='/dashboard/home' >
+                          <Link to='/dashboard/project/add' >
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
+                          </Link>
+                          <Link to='/dashboard/home' >
+                            <span className='al_menu_icon'> <LuBarChart2 /></span>
+                            <span>Add Project</span>
                           </Link>
                           <Link to={`/${userInfo?.username}`}>
                             <span className='al_menu_icon'> <FaRegUser /> </span>

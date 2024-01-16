@@ -125,40 +125,45 @@ const ProfileDetails = () => {
                       <div className="side_bar_card">
                         <div className="profile_user_info">
                           <div className="image_block">
-                            <ImageTagWithFallback src={userInformatin?.profileImage} fallbackSrc={avatersFor.user} alt={userInformatin?.username} />
+                            <ImageTagWithFallback src={userInformatin?.profileImage} fallbackSrc={avatersFor?.user} alt={userInformatin?.username} />
                           </div>
                           <div className="info_block">
                             <h3 className='userProfile_title'>{userInformatin.full_name}</h3>
                             <div className="user_title">As an {userInformatin?.role}</div>
                             <span className="follow_st">
-                              <Link to="/">0 follower</Link>. &nbsp;
-                              <Link to="/">0 following</Link>
+                              {/* <Link to="/">0 follower</Link>. &nbsp;
+                              <Link to="/">0 following</Link> */}
+                              <span className='user_title'>0 follower</span> &nbsp;&nbsp;
+                              <span className='user_title'>0 following</span>
                             </span>
-                            <div className="profile_buttons">
-                              <button type='button' className="btn btn-dark no-shadow">
-                                <FaBell />
-                                Notify
-                              </button>
-                              <button type='button' className="btn btn-gray">
-                                <FaWifi />
-                                Follow
-                              </button>
-                              <button type='button' className="btn_more_bar">
-                                <HiDotsVertical />
-                              </button>
-                              {/* <button className="btn_more_bar" >
+                            {
+                              userInfo?.username !== getUserName?.username && (
+                                <div className="profile_buttons">
+                                  <button type='button' className="btn btn-dark no-shadow">
+                                    <FaBell />
+                                    Notify
+                                  </button>
+                                  <button type='button' className="btn btn-gray">
+                                    <FaWifi />
+                                    Follow
+                                  </button>
+                                  <button type='button' className="btn_more_bar">
+                                    <HiDotsVertical />
+                                  </button>
+                                  {/* <button className="btn_more_bar" >
                                 <HiDotsVertical />
                               </button> */}
-                            </div>
+                                </div>
+                              )
+                            }
                           </div>
                         </div>
                       </div>
 
                       <div className="side_bar_card">
-
                         <div className="side_bar_card_head">
                           <span className="head_title">Intro</span>
-                          {isLoggedIn && userInfo && userInfo.username === getUserName.username && (
+                          {isLoggedIn && userInfo && userInfo?.username === getUserName?.username && (
                             <Link to='/dashboard/profile/update' className="btn btn-gray btn-sm">Edit</Link>
                           )}
                         </div>
@@ -197,25 +202,29 @@ const ProfileDetails = () => {
                                 <b>3.5M</b>
                               </p>
                             </li>
-                            <li>
-                              <div className="icon_box">
-                                <FiBriefcase />
-                              </div>
-                              <p>
-                                <span> Work At </span>
-                                <b>{userInformatin?.company}</b>
-                              </p>
-                            </li>
-                            <li>
-                              <div className="icon_box">
-                                <FiCalendar />
-                              </div>
-                              <p>
-                                <span>Joined</span>
-                                <b>{dateTimeHel.formatDateToString(userInformatin?.createdAt, { day: false })}</b>
-                                {/* <b>January 2010</b> */}
-                              </p>
-                            </li>
+                            {userInformatin?.company && (
+                              <li>
+                                <div className="icon_box">
+                                  <FiBriefcase />
+                                </div>
+                                <p>
+                                  <span> Work At </span>
+                                  <b>{userInformatin?.company}</b>
+                                </p>
+                              </li>
+                            )}
+                            {userInformatin?.createdAt && (
+                              <li>
+                                <div className="icon_box">
+                                  <FiCalendar />
+                                </div>
+                                <p>
+                                  <span>Joined</span>
+                                  <b>{dateTimeHel.formatDateToString(userInformatin?.createdAt, { day: false })}</b>
+                                  {/* <b>January 2010</b> */}
+                                </p>
+                              </li>
+                            )}
                           </ul>
                         </div>
                       </div>

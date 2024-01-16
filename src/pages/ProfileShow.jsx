@@ -76,11 +76,9 @@ const ProfileShow = ({ rating }) => {
           setUserInformatin(resData?.data?.userData);
         }
       }
-
       if (isMounted) {
         setIsLoading(false);
       }
-
     };
 
     fetchData();

@@ -153,11 +153,34 @@ header {
 /* For notification button */
 .btn_notification {
   font-size: 24px;
+  color: #323236;
+  position: relative;
+}
+.btn_notification span {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: red;
+  color: #fff;
+  font-weight: 300;
+  font-size: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+  position: absolute;
+  top: 10px;
+  right: 15px;
 }
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR HEADER  */
 /* --------------------------------- */
 /* For 991px breakpoint and smaller */
+@media (max-width: 1199px) {
+  .header_buttons .btn-dark {
+    display: none;
+  }
+}
 @media (max-width: 991px) {
   .header_wrapper {
     position: relative;
