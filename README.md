@@ -62,13 +62,17 @@ This project is licensed under the [License Name] License - see the LICENSE.md f
 
 ## Solve some issues
 
+- No 01 - AL - working
 - No 02
-- no 03 - Al - solved
+- no 03 - AL 
+- no 04 - SB - working
+- No 05 - AL 
 - No 06
+- No 08
 - No 09
 - No 10
 - No 11
 - No 16
 - No 17 Need to work
-- no 19 - Al - solved
+- no 19 - AL 
 - No 21
