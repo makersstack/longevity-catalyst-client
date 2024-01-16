@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FaFacebook, FaTwitter } from 'react-icons/fa';
+import { AiOutlineLink } from 'react-icons/ai';
+import { FaFacebookF, FaLinkedinIn, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import Modal from 'react-responsive-modal';
 
 const SocailModal = ({ isOpen, closeModal, postLink }) => {
   const [copied, setCopied] = useState(false);
-
   const copyToClipboard = () => {
     navigator.clipboard.writeText(postLink);
     setCopied(true);
@@ -18,12 +18,23 @@ const SocailModal = ({ isOpen, closeModal, postLink }) => {
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(postLink)}`;
     window.open(twitterShareUrl, '_blank');
   };
+
+  const shareOnLinkedin = () => {
+    const linkedinShareUrl = `https://www.linkedin.com/shareArticle?url=${encodeURIComponent(postLink)}`;
+    window.open(linkedinShareUrl, '_blank');
+  };
+  
+  const shareOnWhatsapp = () => {
+    const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(postLink)}`;
+    window.open(whatsappShareUrl, '_blank');
+  };
+
   useEffect(() => {
     if (!isOpen) {
       setCopied(false);
     }
   }, [isOpen]);
-  
+
   const bg = {
     overlay: {
       background: "rgba(0, 0, 0, 0.2)"
@@ -34,21 +45,37 @@ const SocailModal = ({ isOpen, closeModal, postLink }) => {
       <div className="modal-wrapper">
         <div className="custom-modal" id="socail_references">
           <div className='socail_modal'>
-            <h2>Share Post</h2>
+            <h4>Share This Post</h4>
+            <h5>Spread the word about this Post on LC</h5>
 
             <div className='socail_modal_list'>
-              <button onClick={shareOnFacebook}><FaFacebook /></button>
-              <button onClick={shareOnTwitter}><FaTwitter /></button>
-              {/* Add more social media share buttons as needed */}
-            </div>
-            <div className='socail_modal_body'>
-              <p>Or copy link</p>
-              <div className='copy_link'>
-                <input type="text" value={postLink} readOnly />
-                <button onClick={copyToClipboard}>{copied ? 'Copied!' : 'Copy Link'}</button>
+              <div className="socail_modal_list_single" onClick={closeModal}>
+                <button onClick={shareOnFacebook}><FaFacebookF />
+                </button>
+                <span>Facebook</span>
+              </div>
+              <div className="socail_modal_list_single" onClick={closeModal}>
+                <button onClick={shareOnLinkedin}><FaLinkedinIn />
+                </button>
+                <span>Linkedin</span>
+              </div>
+              <div className="socail_modal_list_single" onClick={closeModal}>
+                <button onClick={shareOnTwitter}><FaTwitter />
+                </button>
+                <span>Twitter</span>
+              </div>
+              <div className="socail_modal_list_single" onClick={closeModal}>
+                <button onClick={shareOnWhatsapp}><FaWhatsapp />
+                </button>
+                <span>WhatsApp</span>
+              </div>
+              <div className={copied ? "active socail_modal_list_single socail_modal_cp" : "socail_modal_list_single socail_modal_cp"}>
+                <button onClick={copyToClipboard}>
+                  <AiOutlineLink />
+                </button>
+                <span>{copied ? 'Link Copied' : 'Copy Link'}</span>
               </div>
             </div>
-            <button onClick={closeModal}></button>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import ImageTagWithFallback from '../common/ImageTagWithFallback';
 
 import { MdPublic } from 'react-icons/md';
 
-import LikeButton from '../LikeShare/LikeButton';
+import LikeButton from '../likeShare/LikeButton';
 import SocailModal from '../ui/SocailModal';
 import MoreOptionButtons from './MoreOptionButtons';
 import VoteButtons from './VoteButtons';

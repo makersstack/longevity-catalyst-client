@@ -842,11 +842,17 @@ input:disabled {
 .socail_modal {
   padding: 10px 20px;
 }
-.socail_modal h2 {
-  font-size: 24px;
+.socail_modal h4 {
+  font-size: 22px;
+  text-align: center;
   font-weight: 600;
-  color: #01001a;
-  text-align: left;
+  color: #62646a;
+}
+.socail_modal h5 {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 400;
+  color: #62646a;
 }
 .socail_modal_list {
   display: flex;
@@ -854,20 +860,31 @@ input:disabled {
   justify-content: center;
   column-gap: 20px;
   padding: 20px 0;
+  padding-top: 30px;
+}
+.socail_modal_list_single {
+  text-align: center;
+}
+.socail_modal_list_single span {
+  color: #62646a;
+  font-size: 14px;
+  display: block;
+  padding-top: 5px;
+}
+.socail_modal_list_single:hover span {
+  text-decoration: underline;
 }
 .socail_modal_list button {
   height: 50px;
   width: 50px;
   display: flex;
+  margin: 0 auto;
+  color: #fff;
   justify-content: center;
   align-items: center;
-  border: 1px solid gray;
+  border: 1px solid #62646a;
   border-radius: 50%;
-  font-size: 24px;
-}
-.socail_modal_list button:hover {
-  border-color: #007aff;
-  color: #007aff;
+  font-size: 22px;
 }
 .socail_modal_body {
   text-align: left;
@@ -878,29 +895,29 @@ input:disabled {
   color: #101828;
   padding-bottom: 5px;
 }
-.socail_modal_body .copy_link {
-  position: relative;
-  width: 100%;
+.socail_modal_list_single:nth-child(1) button {
+  background: rgb(62, 90, 153);
+  border-color: rgb(62, 90, 153);
 }
-.socail_modal_body .copy_link input {
-  width: 100%;
-  border: 1px solid gray;
-  outline: none;
-  box-shadow: none;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  padding-right: 50px;
+.socail_modal_list_single:nth-child(2) button {
+  background: rgb(6, 119, 181);
+  border-color: rgb(6, 119, 181);
 }
-.socail_modal_body .copy_link button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  padding-right: 15px;
-  color: #01001a;
-  font-weight: 600;
-  font-size: 14px;
+.socail_modal_list_single:nth-child(3) button {
+  background: rgb(96, 169, 221);
+  border-color: rgb(96, 169, 221);
+}
+.socail_modal_list_single:nth-child(4) button {
+  background: rgb(13, 159, 22);
+  border-color: rgb(13, 159, 22);
+}
+.socail_modal_cp button {
+  color: #62646a;
+}
+.active.socail_modal_cp button,
+.active.socail_modal_cp span {
+  color: rgb(13, 159, 22);
+  border-color: rgb(13, 159, 22);
 }
 /* For Dashboard Fetch All Project by user */
 .dashboard_all_projectBody {
@@ -1078,6 +1095,12 @@ input:disabled {
 
 /* For 576px breakpoint and smaller */
 @media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+  p {
+    font-size: 14px;
+  }
   h5 {
     font-size: 16px;
     line-height: 28px;

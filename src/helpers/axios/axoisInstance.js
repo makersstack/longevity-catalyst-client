@@ -82,7 +82,6 @@ instance.interceptors.response.use(
           originalRequest.headers.authorization = newAccessToken;
           return instance(originalRequest);
         } else {
-          console.log("hello");
           removeUserInfo(authKey);
           logoutRequest();
           window.location.reload();

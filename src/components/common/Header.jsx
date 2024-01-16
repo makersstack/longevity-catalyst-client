@@ -26,10 +26,6 @@ const Header = () => {
     handleLogout();
     navigate('/login');
   }
-  const handleNotification = (e) => {
-    e.preventDefault()
-
-  }
   const openModal = () => {
     setModalOpen(true);
   };
@@ -66,8 +62,22 @@ const Header = () => {
     setDropdownOpen(false);
   };
 
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
+  const notificationRef = useRef(null);
+
+  const handleNotification = () => {
+    setNotificationOpen(!isNotificationOpen);
+  };
+
+  const closeNotification = () => {
+    setNotificationOpen(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        closeNotification();
+      }
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         closeDropdown();
       }
@@ -133,9 +143,58 @@ const Header = () => {
           <div className="header_buttons">
             {
               isLoggedIn && (
-                <button type='button' className='btn btn_notification' onClick={handleNotification}>
-                  <IoIosNotifications />
-                </button>
+                <div ref={notificationRef} className='notification_area'>
+                  <button type='button' className='btn btn_notification' onClick={handleNotification}>
+                    <IoIosNotifications />
+                    <span>0</span>
+                  </button>
+                  {isNotificationOpen && (
+                    <div className="notification_menu">
+                      <div className="notification_content">
+                        <div className="notification_head">
+                          <h3><IoIosNotifications /> Notifications <span>(0)</span></h3>
+                        </div>
+                        <div className="notification_body">
+                          <div className="notification_item" onClick={closeNotification}>
+                            <div className="notification_item_icon">
+                              <img src={avatarSrc} alt="notification_icon" />
+                            </div>
+                            <div className="notification_item_text">
+                              <p><strong>Lorem ipsum,</strong> dolor sit amet consectetur adipisicing.</p>
+                              <div className="notification_dateTime">
+                                <p>1d</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="notification_item" onClick={closeNotification}>
+                            <div className="notification_item_icon">
+                              <img src={avatarSrc} alt="notification_icon" />
+                            </div>
+                            <div className="notification_item_text">
+                              <p><strong>Lorem ipsum,</strong> dolor sit amet consectetur adipisicing.</p>
+                              <div className="notification_dateTime">
+                                <p>1 week</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="notification_item" onClick={closeNotification}>
+                            <div className="notification_item_icon">
+                              <img src={avatarSrc} alt="notification_icon" />
+                            </div>
+                            <div className="notification_item_text">
+                              <p><strong>Lorem ipsum,</strong> dolor sit amet consectetur adipisicing.</p>
+                              <div className="notification_dateTime">
+                                <p>1 month</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <span className='idicator_icondiv'></span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
               )
             }
 
@@ -163,9 +222,13 @@ const Header = () => {
                     <div className="dropdown-content">
                       <div className="user_dropdown_menu">
                         <div className="user_dropdown_menu_itme">
-                          <Link to='/dashboard/home' >
+                          <Link to='/dashboard/project/add' >
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
+                          </Link>
+                          <Link to='/dashboard/home' >
+                            <span className='al_menu_icon'> <LuBarChart2 /></span>
+                            <span>Add Project</span>
                           </Link>
                           <Link to={`/${userInfo?.username}`}>
                             <span className='al_menu_icon'> <FaRegUser /> </span>
