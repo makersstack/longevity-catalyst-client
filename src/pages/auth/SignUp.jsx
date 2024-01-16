@@ -81,15 +81,7 @@ const SignUp = () => {
             }));
             isValid = false;
         }
-        
-        if (formDataObject.bio.length < 275 || formDataObject.bio.length > 275) {
-            const charactersLeft = 275 - formDataObject.bio.length;
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                bio: `${charactersLeft} ${charactersLeft !== 1 ? 'characters' : 'character'} left`,
-            }));
-            isValid = false;
-        }
+
         const passwordError = validatePassword(formDataObject.password);
         if (passwordError) {
             setErrorMsg(prevErrorMsg => ({
