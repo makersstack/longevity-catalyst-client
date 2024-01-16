@@ -14,6 +14,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 break;
         }
     };
+<<<<<<< HEAD
     const [showBioChar, setShowBioChar] = useState(275);
     const [showBioCharMsg, setShowBioCharMsg] = useState(`${showBioChar} characters left`);
 
@@ -29,10 +30,12 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
     }
 
 
+=======
+>>>>>>> main
     return (
         <>
             <div className="auth_box padding_top-30">
-                <label htmlFor="full_name">Full Name</label>
+                <label htmlFor="full_name">Full Name<span>*</span></label>
                 <input
                     className={errorMsg.full_name ? 'border-warring' : ''}
                     type="text"
@@ -43,7 +46,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                 {errorMsg.full_name && <div className='error-msg'>{errorMsg.full_name}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Username<span>*</span></label>
                 <input
                     className={errorMsg.username ? 'border-warring' : ''}
                     type="text"
@@ -51,28 +54,29 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                     id="username"
                     placeholder="Username"
                 />
-                {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
+                {errorMsg.username && <div className='error-msg'>{errorMsg.username}
+                </div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email<span>*</span></label>
                 <input className={errorMsg.email ? 'border-warring' : ''} type="email" name="email" id="email" placeholder="Email" />
                 {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
             </div>
             <div className="auth_box">
-                <label htmlFor="password">Password*</label>
+                <label htmlFor="password">Password<span>*</span></label>
                 <div className="list_input_pass">
-                <input
-                    className={errorMsg.password ? 'border-warring' : ''}
-                    type={showPassword ? 'text' : 'password'}
-                    name="password"
-                    id="password"
-                    placeholder="Type Your password"
-                    autoComplete='true'
-                />
-                <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
-                    {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
-                </button>
-            </div>
+                    <input
+                        className={errorMsg.password ? 'border-warring' : ''}
+                        type={showPassword ? 'text' : 'password'}
+                        name="password"
+                        id="password"
+                        placeholder="Type Your password"
+                        autoComplete='true'
+                    />
+                    <button type='button' className='password-toggle-btn' onClick={() => togglePasswordVisibility('Password')}>
+                        {showPassword ? <RiEyeCloseFill /> : <RiEyeFill />}
+                    </button>
+                </div>
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
             <div className="auth_box">
@@ -87,6 +91,7 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
             <div className="auth_box">
                 <label htmlFor="bio">Bio</label>
                 <textarea
+                    className={errorMsg.bio ? 'border-warring' : ''}
                     name="bio"
                     id="bio"
                     rows="6"
@@ -94,7 +99,11 @@ const ResearcherSignUp = ({ errorMsg, setProfilePic }) => {
                     placeholder="I'm a Product Designer based in Dhaka, Bangladesh. I specialize in UX/UI design, brand strategy, and Webflow development.
             "
                 ></textarea>
+<<<<<<< HEAD
                 <div dangerouslySetInnerHTML={{ __html: showBioCharMsg }} />
+=======
+                {errorMsg.bio && <div className='error-msg'>{errorMsg.bio} </div>}
+>>>>>>> main
             </div>
 
             <div className="auth_box">

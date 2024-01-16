@@ -19,9 +19,21 @@ const isPasswordValid = (password) => {
 
 export const validatePassword = (password) => {
   if (password.length === 0) {
-      return 'Password is Required';
+    return 'Password is Required';
   } else if (!isPasswordValid(password)) {
-      return 'Password must contain at least one uppercase letter, one number, and one of @#$% characters. It should be at least 8 characters long.';
+    return 'Password must contain at least one uppercase letter, one number, and one of "@#$%" characters. It should be at least 8 characters long.';
   }
   return ''; // Indicates no error
+};
+
+// For Scroll specific section
+export const scrollToSection = (sectionId) => {
+  const section = document.getElementById(sectionId);
+
+  if (section) {
+    window.scrollTo({
+      top: section.offsetTop - 20, 
+      behavior: 'smooth',
+    });
+  }
 };

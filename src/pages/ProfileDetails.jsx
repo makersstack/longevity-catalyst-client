@@ -131,8 +131,8 @@ const ProfileDetails = () => {
                             <h3 className='userProfile_title'>{userInformatin.full_name}</h3>
                             <div className="user_title">As an {userInformatin?.role}</div>
                             <span className="follow_st">
-                              <Link to="/">500 follower</Link>. &nbsp;
-                              <Link to="/">200 following</Link>
+                              <Link to="/">0 follower</Link>. &nbsp;
+                              <Link to="/">0 following</Link>
                             </span>
                             <div className="profile_buttons">
                               <button type='button' className="btn btn-dark no-shadow">
