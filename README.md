@@ -63,6 +63,7 @@ This project is licensed under the [License Name] License - see the LICENSE.md f
 ## Solve some issues
 
 - No 02
+- no 03 - Al - solved
 - No 06
 - No 09
 - No 10

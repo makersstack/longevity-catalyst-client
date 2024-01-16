@@ -35,6 +35,20 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
         }
     };
 
+    const [showBioChar, setShowBioChar] = useState(275);
+    const [showBioCharMsg, setShowBioCharMsg] = useState(`${showBioChar} characters left`);
+
+    const handelBioKeyUping = (e) => {
+        const { value } = e.target;
+        const bioLength = value.length;
+        setShowBioChar(275 - bioLength);
+        if(showBioChar < 0){
+            setShowBioCharMsg(`<span class="error-msg">Over Characters. Max 275 Characters</span>`);
+        }else{
+            setShowBioCharMsg(`${showBioChar} characters left`);
+        }
+    }
+
     return (
         <>
             <div className="auth_box padding_top-30">
@@ -123,10 +137,11 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
                     name="bio"
                     id="bio"
                     rows="6"
+                    onChange={handelBioKeyUping}
                     placeholder="I'm a Product Designer based in Dhaka, Bangladesh. I specialize in UX/UI design, brand strategy, and Webflow development.
                 "
                 ></textarea>
-                <p>275 characters left</p>
+                <div dangerouslySetInnerHTML={{ __html: showBioCharMsg }} />
             </div>
 
             <div className="auth_box">
