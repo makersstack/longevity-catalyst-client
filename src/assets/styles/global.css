@@ -152,6 +152,7 @@ input {
   box-shadow: 0 0.1rem 0.2rem 0 rgba(16, 24, 40, 0.05);
   padding: 1rem 1.4rem;
   width: 100%;
+  resize: none;
 }
 textarea:focus,
 input:focus:focus-visible {
