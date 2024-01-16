@@ -13,6 +13,20 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
                 break;
         }
     };
+    const [showBioChar, setShowBioChar] = useState(275);
+    const [showBioCharMsg, setShowBioCharMsg] = useState(`${showBioChar} characters left`);
+
+    const handelBioKeyUping = (e) => {
+        const { value } = e.target;
+        const bioLength = value.length;
+        setShowBioChar(275 - bioLength);
+        if(showBioChar < 0){
+            setShowBioCharMsg(`<span class="error-msg">Over Characters. Max 275 Characters</span>`);
+        }else{
+            setShowBioCharMsg(`${showBioChar} characters left`);
+        }
+    }
+
 
     return (
         <>
@@ -71,12 +85,14 @@ const UserSignUp = ({ errorMsg, setProfilePic }) => {
                 <label htmlFor="bio">Bio</label>
                 <textarea
                     name="bio"
+                    onChange={handelBioKeyUping}
                     id="bio"
                     rows="6"
                     placeholder="I'm a Product Designer based in Dhaka, Bangladesh. I specialize in UX/UI design, brand strategy, and Webflow development.
                       "
                 ></textarea>
-                <p>275 characters left</p>
+                {errorMsg.bio && <div className='error-msg'>{errorMsg.bio}</div>}
+                <div dangerouslySetInnerHTML={{ __html: showBioCharMsg }} />
             </div>
 
             <div className="auth_box">
