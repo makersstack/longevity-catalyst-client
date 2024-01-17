@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { CiLocationOn } from 'react-icons/ci';
-import { FaBell, FaWifi } from 'react-icons/fa';
 import { FiBriefcase, FiCalendar } from 'react-icons/fi';
-import { HiDotsVertical } from 'react-icons/hi';
 import { IoEyeOutline, IoHomeOutline } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
+import profileApi from '../api/profileApi';
 import '../assets/styles/profileShow.css';
 import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import TopFilterButtons from '../components/filter/TopFilterButtons';
+import OperationButtons from '../components/profile/OperationButtons';
 import ProjectCard from '../components/project/ProjectCard';
 import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
@@ -59,7 +59,26 @@ const ProfileDetails = () => {
   const [totalProjecs, setTotalProjecs] = useState(0);
 
   const { username } = useParams();
+  // get profile information 
+  useEffect(() => {
+    const fetchProfileInfo = async () => {
+      setIsLoading(true);
+      const response = await profileApi.GetUserInfoByUsername(username);
+      const getError = response?.error;
+      if (getError) {
+        if (getError.status === 404) {
+          setIsUserFound(true);
+        } else {
+          console.error(getError);
+        }
+      } else {
+        setUserInformatin(response?.data?.data);
+      }
+    }
+    fetchProfileInfo();
+  }, [username]);
 
+  // get projects 
   useEffect(() => {
     const fetchLatestProjects = async () => {
       setIsLoading(true);
@@ -68,16 +87,17 @@ const ProfileDetails = () => {
         page,
         limit: 5,
       };
-      const response = await projectApi.getAllProjectsByUsername(username, filters, paginationOptions);
+      const response = await projectApi.getAllProjectsByUsername(userInformatin.username, filters, paginationOptions);
       const getError = response?.error;
       if (getError) {
-        if (getError.status === 404) {
-          setIsUserFound(true);
-        }
+        // if (getError.status === 404) {
+        //   setIsUserFound(true);
+        // }
+        console.error(getError);
       } else {
         const resData = response?.data;
         if (resData?.success) {
-          const newProjects = resData.data.projects || [];
+          const newProjects = resData.data || [];
           if (page === 1) {
             setProjects(newProjects);
           } else {
@@ -85,14 +105,16 @@ const ProfileDetails = () => {
           }
           const totalPr = response?.data?.meta?.total;
           setTotalProjecs(totalPr);
-          setUserInformatin(resData?.data?.userData);
+          // setUserInformatin(resData?.data?.userData);
         }
       }
 
       setIsLoading(false);
     }
-    fetchLatestProjects();
-  }, [username, filters, page]);
+    if(userInformatin.username){
+      fetchLatestProjects();
+    }
+  }, [userInformatin,filters, page]);
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -133,27 +155,12 @@ const ProfileDetails = () => {
                             <span className="follow_st">
                               {/* <Link to="/">0 follower</Link>. &nbsp;
                               <Link to="/">0 following</Link> */}
-                              <span className='user_title'>0 follower</span> &nbsp;&nbsp;
-                              <span className='user_title'>0 following</span>
+                              <span className='user_title'>{userInformatin?.followerCount} follower</span> &nbsp;&nbsp;
+                              <span className='user_title'>{userInformatin?.followingCount} following</span>
                             </span>
                             {
                               userInfo?.username !== getUserName?.username && (
-                                <div className="profile_buttons">
-                                  <button type='button' className="btn btn-dark no-shadow">
-                                    <FaBell />
-                                    Notify
-                                  </button>
-                                  <button type='button' className="btn btn-gray">
-                                    <FaWifi />
-                                    Follow
-                                  </button>
-                                  <button type='button' className="btn_more_bar">
-                                    <HiDotsVertical />
-                                  </button>
-                                  {/* <button className="btn_more_bar" >
-                                <HiDotsVertical />
-                              </button> */}
-                                </div>
+                               <OperationButtons defaultDataObject={{ username: getUserName?.username, isNotify: userInformatin?.isNotify, isFollow: userInformatin?.isFollow }} />
                               )
                             }
                           </div>
