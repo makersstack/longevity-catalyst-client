@@ -56,7 +56,7 @@ const AllProject = () => {
             } else {
                 const resData = response?.data;
                 if (resData?.success) {
-                    const newProjects = resData.data.projects || [];
+                    const newProjects = resData.data || [];
                     if (page === 1) {
                         setProjects(newProjects);
                     } else {
