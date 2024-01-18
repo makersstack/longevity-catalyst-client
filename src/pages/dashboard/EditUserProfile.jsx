@@ -121,7 +121,7 @@ const EditUserProfile = () => {
 
         if (isValid) {
             setIsLoading(true);
-            const response = await authApi.updateUser(userInfo.username, formData);
+            const response = await authApi.updateUser(userInfo?.username, formData);
             const getError = response.error;
             if (getError) {
                 toast.error(getError.data.message);
@@ -132,6 +132,7 @@ const EditUserProfile = () => {
                     toast.success(data.message);
                     setUserInfo(response.data.data);
                     setResetPreview(true);
+                    navigate(`/${userInfo?.username}`);
                 } else {
                     toast.error("Something went wrong");
                 }
