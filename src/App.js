@@ -12,7 +12,7 @@ const App = () => {
     <BrowserRouter>
       <LoadingProvider>
         <Header />
-          <AppRoutes/>
+        <AppRoutes />
         <Footer />
       </LoadingProvider>
     </BrowserRouter>

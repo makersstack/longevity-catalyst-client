@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/header.css';
 import { avatersFor } from '../../constants/avaters';
+import { ENUM_USER_ROLE } from '../../constants/role';
 import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
 import HeaderSearch from '../ui/HeaderSearch';
@@ -126,7 +127,9 @@ const Header = () => {
   }, [isLoggedIn, setIsLoading, userInfo]);
 
   const avatarSrc = isLoggedIn ? (userInfo?.profileImage || avatersFor.user) : null;
+
   const hideButton = location.pathname === '/dashboard/project/add';
+
   return (
     <header>
       <div className='container'>
@@ -204,7 +207,7 @@ const Header = () => {
             {
               isLoggedIn ? <>
                 {
-                  !hideButton && (
+                  userInfo?.role !== ENUM_USER_ROLE.REGULARUSER && !hideButton && (
                     <Link to={'/dashboard/project/add'} className='btn btn-dark'>
                       Add Project
                     </Link>
@@ -222,14 +225,19 @@ const Header = () => {
                     <div className="dropdown-content">
                       <div className="user_dropdown_menu">
                         <div className="user_dropdown_menu_itme">
-                          <Link to='/dashboard/project/add' >
+                          <Link to='/dashboard/home' >
                             <span className='al_menu_icon'> <LuBarChart2 /></span>
                             <span>Dashboard</span>
                           </Link>
-                          <Link to='/dashboard/home' >
-                            <span className='al_menu_icon'> <LuBarChart2 /></span>
-                            <span>Add Project</span>
-                          </Link>
+                          {
+                            userInfo.role !== ENUM_USER_ROLE.REGULARUSER && (
+                              <Link to='/dashboard/project/add' >
+                                <span className='al_menu_icon'> <LuBarChart2 /></span>
+                                <span>Add Project</span>
+                              </Link>
+                            )
+                          }
+
                           <Link to={`/${userInfo?.username}`}>
                             <span className='al_menu_icon'> <FaRegUser /> </span>
                             <span>Profile</span>

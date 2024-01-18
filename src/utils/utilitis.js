@@ -12,6 +12,7 @@ export const decodeProjectLink = (encodedId) => {
     return null; // Return null or handle the error as per your requirement
   }
 };
+
 // password validation
 const isPasswordValid = (password) => {
   return /^(?=.*[A-Z])(?=.*\d)(?=.*[@#$%])[A-Za-z\d@#$%]{8,}$/.test(password);
@@ -37,3 +38,4 @@ export const scrollToSection = (sectionId) => {
     });
   }
 };
+
