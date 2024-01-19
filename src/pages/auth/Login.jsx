@@ -134,13 +134,13 @@ const Login = () => {
                             <h4>Log In</h4>
                             <p>Welcome back! Please enter your details.</p>
                             <div className="auth_box padding_top-30">
-                                <label htmlFor="username">Username*</label>
+                                <label htmlFor="username">Username or email*</label>
                                 <input
                                     className={errorMsg.username ? 'border-warring' : ''}
                                     type="text"
                                     name="username"
                                     id="username"
-                                    placeholder="Username"
+                                    placeholder="Username or email"
 
                                 />
                                 {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}

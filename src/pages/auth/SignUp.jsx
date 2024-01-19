@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import validator from 'validator';
 import { authApi } from '../../api';
 import '../../assets/styles/authPages.css';
 import AuthHeader from '../../components/auth/AuthHeader';
@@ -65,7 +66,13 @@ const SignUp = () => {
             }));
             isValid = false;
         }
-
+        if (!validator.isEmail(formDataObject.email)) {
+            setErrorMsg(prevErrorMsg => ({
+                ...prevErrorMsg,
+                email: 'Enter valid Email!',
+            }));
+            isValid = false;
+        }
         if (formDataObject.email.length === 0) {
             setErrorMsg(prevErrorMsg => ({
                 ...prevErrorMsg,
@@ -156,7 +163,7 @@ const SignUp = () => {
             } finally {
                 setIsLoading(false);
             }
-        } 
+        }
 
     }
 

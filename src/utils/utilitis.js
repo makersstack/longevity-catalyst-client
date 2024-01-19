@@ -37,3 +37,14 @@ export const scrollToSection = (sectionId) => {
     });
   }
 };
+
+export const generateUniqueId = (title, id) => {
+  const timestamp = new Date().getTime();
+  const words = title.split(' ');
+  const firstFourWords = words.slice(0, 10);
+  const lowercaseWords = firstFourWords.map(word => word.toLowerCase());
+  
+  const concatenatedString = lowercaseWords.join('-') + '-' + timestamp + id;
+
+  return concatenatedString;
+};

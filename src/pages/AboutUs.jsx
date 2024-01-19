@@ -11,6 +11,7 @@ const AboutUs = () => {
     document.title = "About Us - Longevity Catalyst";
   }, []);
   ScrollToTop();
+ 
   return (
     <>
       {/* ST:- About Banner section */}

@@ -1,12 +1,35 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
+import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import validator from 'validator';
 import logo from '../../assets/images/logo.png';
 import '../../assets/styles/footer.css';
+import subscriptionRequest from '../../services/subscription';
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
   const currentYear = new Date().getFullYear();
 
+  const handleSubscribe = async () => {
+    try {
+      if (!email || !email.trim()) {
+        toast.error('Email address is required');
+        return;
+      }
+      if (!validator.isEmail(email)) {
+        toast.error('Invalid email address');
+      }
+      await subscriptionRequest(email);
+      setEmail('');
+    } catch (error) {
+      console.error('Subscription failed');
+    }
+  }
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    handleSubscribe();
+  };
   return (
     <>
       <footer>
@@ -35,13 +58,15 @@ const Footer = () => {
               {/* top right */}
               <div className="footer_top_right">
                 <h3 className="footer_title">Stay up to date</h3>
-                <form className="subcribe_form" action="#" method="post">
+                <form className="subcribe_form" onSubmit={handleFormSubmit}>
                   <input
-                    type="text"
+                    type="email"
                     name="search_text"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                  <button type="button" className="btn btn-over-dark">
+                  <button type="submit" className="btn btn-over-dark">
                     Subscribe
                   </button>
                 </form>

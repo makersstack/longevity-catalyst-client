@@ -33,26 +33,14 @@ const Dashboard = () => {
                             <button className='dasMenuBtn' onClick={handelDashMenu}>
                                 <AiOutlineMenuUnfold />
                             </button>
-                            <h3 className="title">User Dashboard</h3>
+                            <h3 className="title">Dashboard</h3>
                         </div>
                         <div className="main_dashboard_content">
                             <div className="confiramation_options">
-                                <div className="single_confiramation">
-                                    <div className="email_confirmation">
-                                        <img src="/assets/img/emailIcon.svg" alt="emailIcon" />
-                                        <h4>Confirm Your Email</h4>
-                                        <p>We have sent email to <span>{userInfo?.email}</span>, to confirm the validity of our email address. After receicing the email follow the link provided to complete you registration</p>
-                                        {/* <button className='btn btn-dark'>Verify</button> */}
-                                        <p className='info_small'>If you not got any mail <button type='button'>Resend Confirmation mail</button></p>
-                                    </div>
+                                <div className='dashboard_image'>
+                                    <img src='/assets/img/welcome.svg' alt="About Banner" />
                                 </div>
-                                {/* <div className="single_confiramation">
-                                    <div className="email_confirmation">
-                                        <img src="/assets/img/profile_update.svg" alt="profileUpdate" />
-                                        <h4>Update your profile info</h4>
-                                        <button onClick={handelUpdateProfile} className='btn btn-dark'>Update</button>
-                                    </div>
-                                </div> */}
+                                <h3>Welcome {userInfo?.full_name}</h3>
                             </div>
                         </div>
                     </div>
