@@ -15,9 +15,12 @@ const Newsletter = () => {
       }
       if (!validator.isEmail(email)) {
         toast.error('Invalid email address');
+        return false;
+      } else {
+        await subscriptionRequest(email);
+        setEmail('');
       }
-      await subscriptionRequest(email);
-      setEmail('');
+
     } catch (error) {
       console.error('Subscription failed');
     }
