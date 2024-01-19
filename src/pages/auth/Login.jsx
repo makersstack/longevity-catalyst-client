@@ -17,7 +17,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { handleLoginSuccess } = useAuth();
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/user/dashboard';
+    const from = location.state?.from?.pathname || '/dashboard/home';
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);

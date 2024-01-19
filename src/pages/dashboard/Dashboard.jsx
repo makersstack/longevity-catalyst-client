@@ -18,9 +18,7 @@ const Dashboard = () => {
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
-    // const handelUpdateProfile = () => {
-    //     navigate("/dashboard/profile/update");
-    // }
+
     return (
         <section className="full_widht_auth_section">
             <div className="container">

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { ENUM_USER_ROLE } from "../constants/role";
 import { IfAuthCheck, RequireAuth } from "../middleware/AuthMiddleware";
 import AboutUs from "../pages/AboutUs";
 import FAQ from "../pages/FAQ";
@@ -30,13 +31,16 @@ const AppRoutes = () => {
         <Route path="/sign-up/:type" element={<SignUp />} />
       </Route>
 
-      <Route element={<RequireAuth />}>
+      <Route element={<RequireAuth allowedRoles={[ENUM_USER_ROLE.REGULARUSER, ENUM_USER_ROLE.CONTRIBUTOR, ENUM_USER_ROLE.RESEARCHER]} />}>
         <Route path="/dashboard/home" element={<Dashboard />} />
+        <Route path="/dashboard/profile/update" element={<EditUserProfile />} />
+        <Route path="/dashboard/password/change" element={<PasswordChange />} />
+      </Route>
+
+      <Route element={<RequireAuth allowedRoles={[ENUM_USER_ROLE.CONTRIBUTOR, ENUM_USER_ROLE.RESEARCHER]} />}>
         <Route path="/dashboard/project/all" element={<AllProject />} />
         <Route path="/dashboard/project/add" element={<AddProject />} />
         <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
-        <Route path="/dashboard/profile/update" element={<EditUserProfile />} />
-        <Route path="/dashboard/password/change" element={<PasswordChange />} />
       </Route>
 
       <Route path="/404" element={<PageNotFound showInfoText={'404 Page not Found'} />} />

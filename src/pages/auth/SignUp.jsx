@@ -24,7 +24,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/user/dashboard');
+            navigate('/dashboard/home');
         }
     }, [navigate, isLoggedIn]);
 
