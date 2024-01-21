@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../api';
-import CheckBoxButton from '../../components/common/CheckBoxButton';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { authApi, skillApi } from '../../api';
 import DargFileAttech from '../../components/common/DargFileAttech';
 import ImageTagWithFallback from '../../components/common/ImageTagWithFallback';
 import Loader from '../../components/ui/Loader';
@@ -27,12 +28,6 @@ const EditUserProfile = () => {
         navigate('/dashboard/home');
     }
     const { userInfo, setUserInfo } = useAuth();
-    const SkillCheckBox = [
-        { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
-        { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },
-        { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling', planClass: 'input-plan' },
-
-    ];
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
     const mes = {};
@@ -73,13 +68,75 @@ const EditUserProfile = () => {
     }
 
 
+    // Skill Selection
+
+    const [skillOptions, setSkillOptions] = useState([]);
+    // const [defaultValues, setDefaultValues] = useState([]);
+    const animatedComponents = makeAnimated();
+ 
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                const skOptionData = response?.data?.data || [];
+
+                if (isMounted) {
+                    const transformedData = skOptionData.map(skill => ({
+                        value: skill.id,
+                        label: skill.skillName
+                    }));
+                    setSkillOptions(transformedData);
+                    // const defaultValues = getDefaultValueLogic(transformedData);
+
+                    // Update the Select component with the new default values
+                    console.log(userInfo?.Skills);
+                    // setDefaultValues(userInfo?.Skills);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false; // Update isMounted flag on unmount
+            // Any cleanup if needed (e.g., clearing timeouts/intervals)
+        };
+    }, [userInfo]);
+    const defaultValues = userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || [];
+
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectValue, setSelectValue] = useState(defaultValues);
+
+    // useEffect(() => {
+    //     setSelectValue(userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || []);
+    // }, [userInfo]);
+
+    const handleSelectChange = (selectedOptions) => {
+        setSelectedValues(selectedOptions);
+    };
+
+    useEffect(() => {
+        setSelectValue(selectedValues.map((option) => option.value));
+    }, [selectedValues]);
+
+
+
 
     const handelProfileSubmit = async (e) => {
         e.preventDefault();
 
         setIsLoading(true);
         setErrorMsg({});
+        // console.log(defaultValues);
         const formData = new FormData(e.target);
+        // inject the skill data 
+        formData.append('skills', JSON.stringify(selectValue));
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -131,7 +188,10 @@ const EditUserProfile = () => {
             formDataObject.profileImage = '';
         }
         delete formDataObject.profileImage;
+        // console.log(formData);
 
+        // isValid = false;
+        // setIsLoading(false);
         if (isValid) {
             setIsLoading(true);
             const response = await authApi.updateUser(userInfo?.username, formData);
@@ -145,7 +205,8 @@ const EditUserProfile = () => {
                     toast.success(data.message);
                     setUserInfo(response.data.data);
                     setResetPreview(true);
-                    navigate(`/${userInfo?.username}`);
+
+                    // navigate(`/${userInfo?.username}`);
                 } else {
                     toast.error("Something went wrong");
                 }
@@ -154,6 +215,22 @@ const EditUserProfile = () => {
             setIsLoading(false);
         }
     }
+
+    // const skillDataList = [
+    //     { value: 'ocean', label: 'Ocean', color: '#00B8D9',  },
+    //     { value: 'blue', label: 'Blue', color: '#0052CC',  },
+    //     { value: 'purple', label: 'Purple', color: '#5243AA' },
+    //     { value: 'red', label: 'Red', color: '#FF5630',  },
+    //     { value: 'orange', label: 'Orange', color: '#FF8B00' },
+    //     { value: 'yellow', label: 'Yellow', color: '#FFC400' },
+    //     { value: 'green', label: 'Green', color: '#36B37E' },
+    //     { value: 'forest', label: 'Forest', color: '#00875A' },
+    //     { value: 'slate', label: 'Slate', color: '#253858' },
+    //     { value: 'silver', label: 'Silver', color: '#666666' },
+    //   ];
+
+
+
 
     return (
         <>
@@ -215,11 +292,11 @@ const EditUserProfile = () => {
                                         {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
                                     </div>
                                 </div>
-                                 {/* <!-- Single Input --> */}
-                                 <div className="form_control list_input_box">
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control list_input_box">
                                     <div className='list_lebel'>
                                         <label htmlFor="username">
-                                           Username
+                                            Username
                                         </label>
                                     </div>
                                     <div className='list_input'>
@@ -246,11 +323,26 @@ const EditUserProfile = () => {
                                                 </label>
                                             </div>
                                             <div className='list_input'>
+                                                <Select
+                                                    closeMenuOnSelect={false}
+                                                    components={animatedComponents}
+                                                    isMulti
+                                                    options={skillOptions}
+                                                    defaultValue={defaultValues}
+                                                    // value={selectedValues}  // Use 'value' prop to control the selected values
+                                                    onChange={handleSelectChange}  // Handle selection changes
+                                                />
+                                                {errorMsg.skill && <div className='error-msg'>{errorMsg.skill}</div>}
+                                            </div>
+
+
+
+                                            {/* <div className='list_input'>
                                                 {
                                                     SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk} />)
                                                 }
                                                 {errorMsg.skill && <div className='error-msg'>{errorMsg.skill}</div>}
-                                            </div>
+                                            </div> */}
 
                                         </div>
 

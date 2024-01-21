@@ -56,15 +56,15 @@ export const customStyles = {
 
 
 
-export const headerSelectOptions = [
-  { value: 'explore', label: 'Explore' },
-  { value: 'ct_1', label: 'Machine Learning' },
-  { value: 'ct_2', label: 'Blockchain Technology' },
-  { value: 'ct_3', label: 'Mobile App Development' },
-  { value: 'ct_4', label: 'Data Science' },
-  { value: 'ct_5', label: 'Cybersecurity' },
-  { value: 'ct_6', label: 'Smart Home Automation' },
-];
+// export const headerSelectOptions = [
+//   { value: 'explore', label: 'Explore' },
+//   { value: 'ct_1', label: 'Machine Learning' },
+//   { value: 'ct_2', label: 'Blockchain Technology' },
+//   { value: 'ct_3', label: 'Mobile App Development' },
+//   { value: 'ct_4', label: 'Data Science' },
+//   { value: 'ct_5', label: 'Cybersecurity' },
+//   { value: 'ct_6', label: 'Smart Home Automation' },
+// ];
 
 const CustomSelect = ({ setSelectValue }) => {
   const handelChangeSelect = (event) => {
