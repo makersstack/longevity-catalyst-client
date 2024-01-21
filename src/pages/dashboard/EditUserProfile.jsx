@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '../../api';
-import CheckBoxButton from '../../components/common/CheckBoxButton';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { authApi, skillApi } from '../../api';
 import DargFileAttech from '../../components/common/DargFileAttech';
 import ImageTagWithFallback from '../../components/common/ImageTagWithFallback';
-import TextEditor from '../../components/common/TextEditor';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { avatersFor } from '../../constants/avaters';
+import { ENUM_USER_ROLE } from '../../constants/role';
 import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/routeChange';
@@ -27,12 +28,6 @@ const EditUserProfile = () => {
         navigate('/dashboard/home');
     }
     const { userInfo, setUserInfo } = useAuth();
-    const SkillCheckBox = [
-        { id: 1, inputName: 'python', labelText: 'Python', planClass: 'input-plan' },
-        { id: 2, inputName: 'machine-learning', labelText: 'Machine learning', planClass: 'input-plan' },
-        { id: 3, inputName: 'molecular-modeling', labelText: 'Molecular modeling', planClass: 'input-plan' },
-
-    ];
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
     const mes = {};
@@ -55,8 +50,82 @@ const EditUserProfile = () => {
     }
 
 
-    const [bioText, setBioText] = useState('');
+    // const [bioText, setBioText] = useState('');
     const [profilePic, setProfilePic] = useState({});
+
+    const [showBioChar, setShowBioChar] = useState(275);
+    const [showBioCharMsg, setShowBioCharMsg] = useState(`${showBioChar} characters left`);
+
+    const handelBioKeyUping = (e) => {
+        const { value } = e.target;
+        const bioLength = value.length;
+        setShowBioChar(275 - bioLength);
+        if (showBioChar < 0) {
+            setShowBioCharMsg(`<span class="error-msg">Over Characters. Max 275 Characters</span>`);
+        } else {
+            setShowBioCharMsg(`${showBioChar} characters left`);
+        }
+    }
+
+
+    // Skill Selection
+
+    const [skillOptions, setSkillOptions] = useState([]);
+    // const [defaultValues, setDefaultValues] = useState([]);
+    const animatedComponents = makeAnimated();
+ 
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                const skOptionData = response?.data?.data || [];
+
+                if (isMounted) {
+                    const transformedData = skOptionData.map(skill => ({
+                        value: skill.id,
+                        label: skill.skillName
+                    }));
+                    setSkillOptions(transformedData);
+                    // const defaultValues = getDefaultValueLogic(transformedData);
+
+                    // Update the Select component with the new default values
+                    console.log(userInfo?.Skills);
+                    // setDefaultValues(userInfo?.Skills);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false; // Update isMounted flag on unmount
+            // Any cleanup if needed (e.g., clearing timeouts/intervals)
+        };
+    }, [userInfo]);
+    const defaultValues = userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || [];
+
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectValue, setSelectValue] = useState(defaultValues);
+
+    // useEffect(() => {
+    //     setSelectValue(userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || []);
+    // }, [userInfo]);
+
+    const handleSelectChange = (selectedOptions) => {
+        setSelectedValues(selectedOptions);
+    };
+
+    useEffect(() => {
+        setSelectValue(selectedValues.map((option) => option.value));
+    }, [selectedValues]);
+
+
 
 
     const handelProfileSubmit = async (e) => {
@@ -64,8 +133,10 @@ const EditUserProfile = () => {
 
         setIsLoading(true);
         setErrorMsg({});
+        // console.log(defaultValues);
         const formData = new FormData(e.target);
-        formData.append('bio', bioText);
+        // inject the skill data 
+        formData.append('skills', JSON.stringify(selectValue));
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -117,8 +188,10 @@ const EditUserProfile = () => {
             formDataObject.profileImage = '';
         }
         delete formDataObject.profileImage;
+        // console.log(formData);
 
-
+        // isValid = false;
+        // setIsLoading(false);
         if (isValid) {
             setIsLoading(true);
             const response = await authApi.updateUser(userInfo?.username, formData);
@@ -132,7 +205,8 @@ const EditUserProfile = () => {
                     toast.success(data.message);
                     setUserInfo(response.data.data);
                     setResetPreview(true);
-                    navigate(`/${userInfo?.username}`);
+
+                    // navigate(`/${userInfo?.username}`);
                 } else {
                     toast.error("Something went wrong");
                 }
@@ -141,6 +215,22 @@ const EditUserProfile = () => {
             setIsLoading(false);
         }
     }
+
+    // const skillDataList = [
+    //     { value: 'ocean', label: 'Ocean', color: '#00B8D9',  },
+    //     { value: 'blue', label: 'Blue', color: '#0052CC',  },
+    //     { value: 'purple', label: 'Purple', color: '#5243AA' },
+    //     { value: 'red', label: 'Red', color: '#FF5630',  },
+    //     { value: 'orange', label: 'Orange', color: '#FF8B00' },
+    //     { value: 'yellow', label: 'Yellow', color: '#FFC400' },
+    //     { value: 'green', label: 'Green', color: '#36B37E' },
+    //     { value: 'forest', label: 'Forest', color: '#00875A' },
+    //     { value: 'slate', label: 'Slate', color: '#253858' },
+    //     { value: 'silver', label: 'Silver', color: '#666666' },
+    //   ];
+
+
+
 
     return (
         <>
@@ -193,7 +283,6 @@ const EditUserProfile = () => {
                                         <input
                                             className={errorMsg.email ? 'border-warring' : ''}
                                             type="email"
-                                            name="email"
                                             id="email"
                                             placeholder="Email address"
                                             readOnly
@@ -203,23 +292,63 @@ const EditUserProfile = () => {
                                         {errorMsg.email && <div className='error-msg'>{errorMsg.email}</div>}
                                     </div>
                                 </div>
-                                <hr className='inputhr' />
-                                {/* Single Input  */}
+                                {/* <!-- Single Input --> */}
                                 <div className="form_control list_input_box">
                                     <div className='list_lebel'>
-                                        <label htmlFor="skill">
-                                            Skills
+                                        <label htmlFor="username">
+                                            Username
                                         </label>
                                     </div>
                                     <div className='list_input'>
-                                        {
-                                            SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk} />)
-                                        }
-                                        {errorMsg.skill && <div className='error-msg'>{errorMsg.skill}</div>}
+                                        <input
+                                            className={errorMsg.username ? 'border-warring' : ''}
+                                            type="username"
+                                            id="email"
+                                            placeholder="username"
+                                            readOnly
+                                            disabled
+                                            value={userInfo?.username}
+                                        />
+                                        {errorMsg.username && <div className='error-msg'>{errorMsg.username}</div>}
                                     </div>
-
                                 </div>
-                                {/* Single Input  */}
+                                <hr className='inputhr' />
+                                {
+                                    userInfo?.role === ENUM_USER_ROLE.CONTRIBUTOR && (
+
+                                        <div className="form_control list_input_box">
+                                            <div className='list_lebel'>
+                                                <label htmlFor="skill">
+                                                    Skills
+                                                </label>
+                                            </div>
+                                            <div className='list_input'>
+                                                <Select
+                                                    closeMenuOnSelect={false}
+                                                    components={animatedComponents}
+                                                    isMulti
+                                                    options={skillOptions}
+                                                    defaultValue={defaultValues}
+                                                    // value={selectedValues}  // Use 'value' prop to control the selected values
+                                                    onChange={handleSelectChange}  // Handle selection changes
+                                                />
+                                                {errorMsg.skill && <div className='error-msg'>{errorMsg.skill}</div>}
+                                            </div>
+
+
+
+                                            {/* <div className='list_input'>
+                                                {
+                                                    SkillCheckBox.map(sk => <CheckBoxButton key={sk.id} checkData={sk} />)
+                                                }
+                                                {errorMsg.skill && <div className='error-msg'>{errorMsg.skill}</div>}
+                                            </div> */}
+
+                                        </div>
+
+                                    )
+                                }
+
                                 <div className="form_control list_input_box">
                                     <div className='list_lebel'>
                                         <label htmlFor="bio">
@@ -228,8 +357,16 @@ const EditUserProfile = () => {
                                         <small>Write a short introduction.</small>
                                     </div>
                                     <div className='list_input'>
-                                        <TextEditor defaultContent={userInfo?.bio} setBioText={setBioText} />
-                                        <p className='input_hint'>275 characters left</p>
+                                        <textarea
+                                            name="bio"
+                                            onChange={handelBioKeyUping}
+                                            defaultValue={userInfo?.UserDetail?.bio}
+                                            id="bio"
+                                            rows="6"
+                                            placeholder="I'm a Product Designer based in Dhaka, Bangladesh. I specialize in UX/UI design, brand strategy, and Webflow development."
+                                        ></textarea>
+                                        {/* <p className='input_hint'>275 characters left</p> */}
+                                        <div className='input_hint' dangerouslySetInnerHTML={{ __html: showBioCharMsg }} />
                                     </div>
                                     {errorMsg.bio && <div className='error-msg'>{errorMsg.bio}</div>}
                                 </div>
@@ -254,21 +391,102 @@ const EditUserProfile = () => {
                                 <div className="form_control list_input_box">
                                     <div className='list_lebel'>
                                         <label htmlFor="company">
-                                            Company
+                                            Work At
+                                        </label>
+                                    </div>
+                                    <div className='list_input'>
+                                        <input
+                                            className={errorMsg.company ? 'border-warring' : ''}
+                                            type="text"
+                                            name="company"
+                                            id="company"
+                                            placeholder="Company Name"
+                                            defaultValue={userInfo?.UserDetail?.company}
+                                        />
+                                        {errorMsg.company && <div className='error-msg'>{errorMsg.company}</div>}
+                                    </div>
+                                </div>
+
+
+
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control list_input_box">
+                                    <div className='list_lebel'>
+                                        <label htmlFor="lives_in">
+                                            Lives in
+                                        </label>
+                                    </div>
+                                    <div className='list_input'>
+                                        <input
+                                            className={errorMsg.lives_in ? 'border-warring' : ''}
+                                            type="text"
+                                            name="lives_in"
+                                            id="lives_in"
+                                            placeholder="New York"
+                                            defaultValue={userInfo?.UserDetail?.lives_in}
+                                        />
+                                        {errorMsg.lives_in && <div className='error-msg'>{errorMsg.lives_in}</div>}
+                                    </div>
+                                </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control list_input_box">
+                                    <div className='list_lebel'>
+                                        <label htmlFor="home_state">
+                                            Home state
+                                        </label>
+                                    </div>
+                                    <div className='list_input'>
+                                        <input
+                                            className={errorMsg.home_state ? 'border-warring' : ''}
+                                            type="text"
+                                            name="home_state"
+                                            id="home_state"
+                                            placeholder="Brazil"
+                                            defaultValue={userInfo?.UserDetail?.home_state}
+                                        />
+                                        {errorMsg.home_state && <div className='error-msg'>{errorMsg.home_state}</div>}
+                                    </div>
+                                </div>
+
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control list_input_box">
+                                    <div className='list_lebel'>
+                                        <label htmlFor="home_state">
+                                            Github
                                         </label>
                                     </div>
                                     <div className='list_input'>
                                         <input
                                             className={errorMsg.github ? 'border-warring' : ''}
                                             type="text"
-                                            name="company"
-                                            id="company"
-                                            placeholder="http://gitthub.com"
-                                            defaultValue={userInfo?.company}
+                                            name="github"
+                                            id="github"
+                                            placeholder="https://github.com/username"
+                                            defaultValue={userInfo?.UserDetail?.github}
                                         />
                                         {errorMsg.github && <div className='error-msg'>{errorMsg.github}</div>}
                                     </div>
                                 </div>
+                                {/* <!-- Single Input --> */}
+                                <div className="form_control list_input_box">
+                                    <div className='list_lebel'>
+                                        <label htmlFor="portfolio">
+                                            Protfolio
+                                        </label>
+                                    </div>
+                                    <div className='list_input'>
+                                        <input
+                                            className={errorMsg.portfolio ? 'border-warring' : ''}
+                                            type="text"
+                                            name="portfolio"
+                                            id="portfolio"
+                                            placeholder="https://www.protfolio.com"
+                                            defaultValue={userInfo?.UserDetail?.portfolio}
+                                        />
+                                        {errorMsg.portfolio && <div className='error-msg'>{errorMsg.portfolio}</div>}
+                                    </div>
+                                </div>
+
                                 <hr className='inputhr' />
 
                                 <div className="form_submit al_submit_button">
