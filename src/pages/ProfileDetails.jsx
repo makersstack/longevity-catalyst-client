@@ -14,6 +14,7 @@ import ProjectCardSkeleton from '../components/project/ProjectCardSkeleton';
 import { avatersFor } from '../constants/avaters';
 import { topFilterOptionsPage1 } from '../data/filterData';
 import useAuth from '../hooks/useAuth';
+import formatNumber from '../utils/NumberCountFormate';
 import dateTimeHel from '../utils/dateTimeHel';
 import ScrollToTop from '../utils/routeChange';
 import PageNotFound from './PageNotFound';
@@ -155,8 +156,8 @@ const ProfileDetails = () => {
                             <span className="follow_st">
                               {/* <Link to="/">0 follower</Link>. &nbsp;
                               <Link to="/">0 following</Link> */}
-                              <span className='user_title'>{userInformatin?.followerCount} follower</span> &nbsp;&nbsp;
-                              <span className='user_title'>{userInformatin?.followingCount} following</span>
+                              <span className='user_title'>{ userInformatin?.followerCount ? formatNumber(userInformatin?.followerCount): 0} follower</span> &nbsp;&nbsp;
+                              <span className='user_title'>{ userInformatin?.followingCount ? formatNumber(userInformatin?.followingCount) : 0} following</span>
                             </span>
                             {
                               userInfo?.username !== getUserName?.username && (
@@ -225,7 +226,7 @@ const ProfileDetails = () => {
                                   </div>
                                   <p>
                                     <span>Content View</span>
-                                    <b>{userInformatin?.content_view_count ? userInformatin?.content_view_count : 0}</b>
+                                    <b>{userInformatin?.content_view_count ? formatNumber(userInformatin?.content_view_coun) : 0}</b>
                                   </p>
                                 </li>
                            
