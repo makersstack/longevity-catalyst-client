@@ -38,6 +38,7 @@ const ProjectDetails = () => {
     };
 
     fetchSingleProject();
+
   }, [projectId, setLoading]);
 
   return (
@@ -176,6 +177,7 @@ const ProjectDetails = () => {
                       <div className="input_box">
                         <h4> Keywords : </h4>
                         <div className="input_box_keywords">
+                          
                           {
                             JSON.parse(projectData?.project_keywords).map((key, index) => (
                               <p className='show_ct' key={index}>{key}</p>
