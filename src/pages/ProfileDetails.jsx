@@ -111,10 +111,10 @@ const ProfileDetails = () => {
 
       setIsLoading(false);
     }
-    if(userInformatin.username){
+    if (userInformatin.username) {
       fetchLatestProjects();
     }
-  }, [userInformatin,filters, page]);
+  }, [userInformatin, filters, page]);
   const handleLoadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
@@ -160,7 +160,7 @@ const ProfileDetails = () => {
                             </span>
                             {
                               userInfo?.username !== getUserName?.username && (
-                               <OperationButtons defaultDataObject={{ username: getUserName?.username, isNotify: userInformatin?.isNotify, isFollow: userInformatin?.isFollow }} />
+                                <OperationButtons defaultDataObject={{ username: getUserName?.username, isNotify: userInformatin?.isNotify, isFollow: userInformatin?.isFollow }} />
                               )
                             }
                           </div>
@@ -176,47 +176,71 @@ const ProfileDetails = () => {
                         </div>
 
                         <div className="side_bar_card_body">
+                          {
+                            userInformatin?.UserDetail && userInformatin?.UserDetail?.bio !== null && (
+                              <>
+                                <div dangerouslySetInnerHTML={{ __html: userInformatin?.UserDetail?.bio }} />
+                                <span className="divider"></span>
+                              </>
+                            )
+                          }
 
-                          <div dangerouslySetInnerHTML={{ __html: userInformatin?.bio }} />
-
-
-                          <span className="divider"></span>
                           <ul>
-                            <li>
-                              <div className="icon_box">
-                                <CiLocationOn />
-                              </div>
-                              <p>
-                                <span>Lives in</span>
-                                <b>New York</b>
-                              </p>
-                            </li>
-                            <li>
-                              <div className="icon_box">
-                                <IoHomeOutline />
-                              </div>
-                              <p>
-                                <span>Home state</span>
-                                <b>Brazil</b>
-                              </p>
-                            </li>
-                            <li>
-                              <div className="icon_box">
-                                <IoEyeOutline />
-                              </div>
-                              <p>
-                                <span>Content View</span>
-                                <b>3.5M</b>
-                              </p>
-                            </li>
-                            {userInformatin?.company && (
+
+                            {
+                              userInformatin?.UserDetail && userInformatin?.UserDetail?.lives_in !== null && (
+
+                                <li>
+                                  <div className="icon_box">
+                                    <CiLocationOn />
+                                  </div>
+                                  <p>
+                                    <span>Lives in</span>
+                                    <b>{userInformatin?.UserDetail?.lives_in}</b>
+                                  </p>
+                                </li>
+                              )
+                            }
+
+                            {
+                              userInformatin?.UserDetail && userInformatin?.UserDetail?.home_state !== null && (
+                                <li>
+                                  <div className="icon_box">
+                                    <IoHomeOutline />
+                                  </div>
+                                  <p>
+                                    <span>Home state</span>
+                                    <b>{userInformatin?.UserDetail?.home_state}</b>
+                                  </p>
+                                </li>
+                              )
+
+                            }
+
+
+                           
+                                <li>
+                                  <div className="icon_box">
+                                    <IoEyeOutline />
+                                  </div>
+                                  <p>
+                                    <span>Content View</span>
+                                    <b>{userInformatin?.content_view_count ? userInformatin?.content_view_count : 0}</b>
+                                  </p>
+                                </li>
+                           
+
+
+
+
+                            {userInformatin?.UserDetail && userInformatin?.UserDetail?.company !== null && (
                               <li>
                                 <div className="icon_box">
                                   <FiBriefcase />
                                 </div>
                                 <p>
                                   <span> Work At </span>
-                                  <b>{userInformatin?.company}</b>
+                                  <b>{userInformatin?.UserDetail?.company}</b>
                                 </p>
                               </li>
                             )}
@@ -249,73 +273,91 @@ const ProfileDetails = () => {
                         </div>
                       </div>
 
-                      <div className="side_bar_card">
-                        <div className="input_box">
-                          <h4>Protfolio :</h4>
-                          <input
-                            id="se-p"
-                            type="text"
-                            disabled
-                            placeholder="https://www.protfolio.com"
-                          />
-                        </div>
-                      </div>
+                      {
+                        userInformatin?.UserDetail && userInformatin?.UserDetail?.portfolio !== null && (
+                          <div className="side_bar_card">
+                            <div className="input_box">
+                              <h4>Protfolio :</h4>
+                              <Link className='al_input_link' target='_blank' to={userInformatin?.UserDetail?.portfolio}>{userInformatin?.UserDetail?.portfolio}</Link>
+                            </div>
+                          </div>
+                        )
+                      }
 
-                      <div className="side_bar_card">
-                        <div className="input_box">
-                          <h4>Certification :</h4>
-                          <div className="side_sertification">
-                            <img
-                              src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
-                              alt=""
-                            />
-                            <div className="sertification_info">
-                              <div className="sertificaton_title">General Electric</div>
-                              <span>Nov 2018</span>
+                      {
+                        userInformatin?.UserDetail && userInformatin?.UserDetail?.github !== null && (
+                          <div className="side_bar_card">
+                            <div className="input_box">
+                              <h4>Github :</h4>
+                              <Link className='al_input_link' target='_blank' to={userInformatin?.UserDetail?.github}>{userInformatin?.UserDetail?.github}</Link>
                             </div>
                           </div>
-                          <div className="side_sertification">
-                            <img
-                              src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
-                              alt=""
-                            />
-                            <div className="sertification_info">
-                              <div className="sertificaton_title">General Electric</div>
-                              <span>Nov 2018</span>
+                        )
+                      }
+
+
+                      {
+                        userInformatin?.Certification && (
+                          <div className="side_bar_card">
+                            <div className="input_box">
+                              <h4>Certification :</h4>
+                              <div className="side_sertification">
+                                <img
+                                  src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
+                                  alt=""
+                                />
+                                <div className="sertification_info">
+                                  <div className="sertificaton_title">General Electric</div>
+                                  <span>Nov 2018</span>
+                                </div>
+                              </div>
+                              <div className="side_sertification">
+                                <img
+                                  src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
+                                  alt=""
+                                />
+                                <div className="sertification_info">
+                                  <div className="sertificaton_title">General Electric</div>
+                                  <span>Nov 2018</span>
+                                </div>
+                              </div>
+                              <div className="side_sertification">
+                                <img
+                                  src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
+                                  alt=""
+                                />
+                                <div className="sertification_info">
+                                  <div className="sertificaton_title">General Electric</div>
+                                  <span>Nov 2018</span>
+                                </div>
+                              </div>
+                              <div className="side_sertification">
+                                <img
+                                  src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
+                                  alt=""
+                                />
+                                <div className="sertification_info">
+                                  <div className="sertificaton_title">General Electric</div>
+                                  <span>Nov 2018</span>
+                                </div>
+                              </div>
+                              <div className="side_sertification">
+                                <img
+                                  src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
+                                  alt=""
+                                />
+                                <div className="sertification_info">
+                                  <div className="sertificaton_title">General Electric</div>
+                                  <span>Nov 2018</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="side_sertification">
-                            <img
-                              src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
-                              alt=""
-                            />
-                            <div className="sertification_info">
-                              <div className="sertificaton_title">General Electric</div>
-                              <span>Nov 2018</span>
-                            </div>
-                          </div>
-                          <div className="side_sertification">
-                            <img
-                              src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
-                              alt=""
-                            />
-                            <div className="sertification_info">
-                              <div className="sertificaton_title">General Electric</div>
-                              <span>Nov 2018</span>
-                            </div>
-                          </div>
-                          <div className="side_sertification">
-                            <img
-                              src="https://www.figma.com/file/VYUcSJ76YkqAwXSoS8xErM/image/99ce3e4e72e3d5f19e407f5857afebd8e36a535c?fuid=1228801612906942585"
-                              alt=""
-                            />
-                            <div className="sertification_info">
-                              <div className="sertificaton_title">General Electric</div>
-                              <span>Nov 2018</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        )
+                      }
+
+
+
                     </form>
                   </div>
                 </div>
