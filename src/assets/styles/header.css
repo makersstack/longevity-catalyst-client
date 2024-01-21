@@ -250,7 +250,7 @@ header {
 .notification_dateTime p {
   color: #949494;
   font-size: 12px;
-  line-height: 0.6;
+  line-height: 1.2;
   font-weight: 500;
   padding-top: 5px;
 }

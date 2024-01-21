@@ -25,8 +25,8 @@
 .about_banner_content,
 .about_banner_img {
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 50%;
-  flex: 0 0 50%;
+  -ms-flex: 0 0 calc(50% - 25px);
+  flex: 0 0 calc(50% - 25px);
 }
 
 .about_banner_img img {
@@ -43,7 +43,7 @@
   width: 100%;
   max-width: 588px;
 }
-.about_banner_content a {
+.about_banner_content {
   margin-top: 30px;
 }
 

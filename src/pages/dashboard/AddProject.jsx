@@ -501,10 +501,7 @@ const AddProject = () => {
                                         <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
 
                                     </div>
-
-
                                 </div>
-
 
 
                                 <div className="two_columns">
@@ -605,13 +602,12 @@ const AddProject = () => {
                                             Provide links to any relevant literature that may help your
                                             project match.
                                         </label>
-
                                         <ListInput type={'textarea'} alName={'relevant_literature_link'} getValue={relevant_literature_link} setValue={set_relevant_literature_link} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
                                     </div>
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control">
                                         <label htmlFor="other_included">
-                                            Anything else that should be included with your project’s
+                                            Anything else that should be included with your project's
                                             description?
                                         </label>
                                         <textarea

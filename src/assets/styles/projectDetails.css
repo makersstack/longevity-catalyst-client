@@ -14,11 +14,12 @@
 .project_show_left_box {
   flex: 0 0 66.66%;
   width: 100%;
+  padding: 20px;
+  overflow-x: hidden;
 }
 .show_project_details {
   flex: 0 0 66.66%;
   width: 100%;
-  max-width: 680px;
 }
 .submited_date {
   color: #6b6b6b;

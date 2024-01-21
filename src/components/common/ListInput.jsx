@@ -67,9 +67,9 @@ const ListInput = ({defaultValueArray, type, getValue, setValue, dots = false, i
         <div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', alignItems: 'baseline' }}>
                 {lists.map((keyword, index) => (
-                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', background: '#f0f0f0', padding: '5px', borderRadius: '5px',  ...(type === 'textarea' && { flexBasis: '100%' }) }}>
+                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', background: '#f0f0f0', padding: '5px', borderRadius: '5px',  ...(type === 'textarea' && { flexBasis: '100%' }) }} className='keywordText'>
 
-                        <span style={{ marginRight: '5px', display: 'flex', alignItems: 'baseline', }}>
+                        <span style={{ marginRight: '5px', display: 'flex', alignItems: 'baseline', }} className='keywordText_pragraph'>
                             {dots && <span style={{ transform: 'translateY(-2px)', marginRight: '5px', maxWidth: '5px', height: '5px', borderRadius: '50%', backgroundColor: 'black', display: 'inline-block', flex: '0 0 10px' }}></span>}
                             {keyword}</span>    
                         <button style={{ transform: 'translateY(3px)', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={(e) => handleRemoveKeyword(index, e)}>

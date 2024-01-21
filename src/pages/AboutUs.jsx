@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/about.css';
+import Tooltip from '../components/comment/Tooltip';
 import Newsletter from '../components/ui/Newsletter';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
@@ -11,7 +12,7 @@ const AboutUs = () => {
     document.title = "About Us - Longevity Catalyst";
   }, []);
   ScrollToTop();
- 
+
   return (
     <>
       {/* ST:- About Banner section */}
@@ -33,8 +34,11 @@ const AboutUs = () => {
               <p>
                 We operate as an IRS-approved 501(c)3 non-profit-- registered
                 under LessDeath Inc -- based in Santa Clara, California.
-              </p>
-              <Link to='/' className="btn btn-dark">Get In Touch</Link>
+              </p> 
+              <br /> 
+              <Tooltip text="Contact us for assistance!">
+                <Link to='/help' className="btn btn-dark">Get In Touch</Link>
+              </Tooltip>
             </div>
 
           </div>
