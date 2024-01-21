@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../src/assets/styles/home.css';
+import Tooltip from '../components/comment/Tooltip';
 import ProjectFeed from '../components/ui/ProjectFeed';
 import TradingProjectSlider from '../components/ui/TradingProjectSlider';
 import TrustSlider from '../components/ui/TrustSlider';
@@ -30,13 +31,17 @@ const Home = () => {
             </p>
             {
               isLoggedIn ? (
-                <button type='button' className="btn btn-dark btn-lg" onClick={() => scrollToSection('feedProjects')}>
-                  Get Started
-                </button>
+                <Tooltip text="Begin your journey!">
+                  <button type='button' className="btn btn-dark btn-lg" onClick={() => scrollToSection('feedProjects')}>
+                    Get Started
+                  </button>
+                </Tooltip>
               ) : (
-                <Link to='/login' className="btn btn-dark btn-lg">
-                  Get Started
-                </Link>
+                <Tooltip text="Begin your journey!">
+                  <Link to='/login?emsg=Please login to get started' className="btn btn-dark btn-lg">
+                    Get Started
+                  </Link>
+                </Tooltip>
               )
             }
           </div>

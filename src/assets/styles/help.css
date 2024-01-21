@@ -1,0 +1,18 @@
+/* helpPage.css */
+.content__header {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.content__header h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.content__header p {
+  color: #666;
+  font-size: 16px;
+}

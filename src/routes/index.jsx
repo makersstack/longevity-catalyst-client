@@ -9,12 +9,20 @@ import ProfileDetails from "../pages/ProfileDetails";
 import ProjectDetails from "../pages/ProjectDetails";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
+import CareersPage from "../pages/careers";
+import CookiesPage from "../pages/cookies";
 import AddProject from "../pages/dashboard/AddProject";
 import AllProject from "../pages/dashboard/AllProject";
 import Dashboard from "../pages/dashboard/Dashboard";
 import EditProject from "../pages/dashboard/EditProject";
 import EditUserProfile from "../pages/dashboard/EditUserProfile";
 import PasswordChange from "../pages/dashboard/PasswordChange";
+import FeaturesPage from "../pages/features";
+import HelpPage from "../pages/help";
+import OverviewPage from "../pages/overview";
+import PricingPage from "../pages/pricing";
+import PrivacyPage from "../pages/privacy";
+import TermsConditionPage from "../pages/terms";
 
 const AppRoutes = () => {
 
@@ -42,6 +50,14 @@ const AppRoutes = () => {
         <Route path="/dashboard/project/add" element={<AddProject />} />
         <Route path="/dashboard/project/edit/:projectId" element={<EditProject />} />
       </Route>
+      <Route path="/overview" element={<OverviewPage />} />
+      <Route path="/features" element={<FeaturesPage />} />
+      <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/careers" element={<CareersPage />} />
+      <Route path="/help" element={<HelpPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsConditionPage />} />
+      <Route path="/cookies" element={<CookiesPage />} />
 
       <Route path="/404" element={<PageNotFound showInfoText={'404 Page not Found'} />} />
       <Route path="*" element={<PageNotFound showInfoText={'Page not Found'} />} />

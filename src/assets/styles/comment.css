@@ -125,6 +125,9 @@
 .comment_card.replay_card .comment_card_footer,
 .comment_card.replay_card .comment_card_body {
   padding-left: 63px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 /* add comment form  */
 .add_comment_f_btns {
@@ -151,7 +154,7 @@
 }
 .details_block.commnet_add_box {
   width: 100%;
-  max-width: 680px;
+  /* max-width: 680px; */
 }
 .comment_card {
   margin-bottom: 50px;

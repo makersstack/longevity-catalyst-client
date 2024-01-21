@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { PiCheckThin } from 'react-icons/pi';
-import { Link, useParams } from 'react-router-dom';
+import Modal from 'react-responsive-modal';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { projectApi } from '../api';
 import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
 import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import ProjectDetailsSkeleton from '../components/skeleton/ProjectDetailsSkeleton';
+import DatePickerInput from '../components/ui/DatePickerInput';
 import { avatersFor } from '../constants/avaters';
+import useAuth from '../hooks/useAuth';
 import dateTimeHel from '../utils/dateTimeHel';
 import ScrollToTop from '../utils/routeChange';
 
@@ -14,12 +17,25 @@ const ProjectDetails = () => {
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams();
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn, userInfo } = useAuth();
+  console.log(userInfo);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedDate, setSelectedDate] = useState(new Date());
+  // const [selectedTime, setSelectedTime] = useState('12:00');
 
   useEffect(() => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
-
+  const navigate = useNavigate();
   ScrollToTop();
+
+  const handleMeeting = () => {
+    isLoggedIn ? setIsModalOpen(true) : navigate('/login?emsg=Please login to schedule a meeting');
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchSingleProject = async () => {
@@ -72,7 +88,19 @@ const ProjectDetails = () => {
                       <p>
                         {projectData?.project_desc}
                       </p>
-                      <Link to="#" className="btn btn-light head_btn">Schedule a Meeting</Link>
+                      <button type='button' className="btn btn-light head_btn" onClick={handleMeeting}>Schedule a Meeting</button>
+
+                      <Modal open={isModalOpen} onClose={closeModal} center closeOnEsc={false} closeOnOverlayClick={false}>
+                        <div className="meeting_modal">
+                          <h2 className='title'>Meeting Schedule Modal</h2>
+                          <p className='pragraph'>Modal content...</p>
+                          <DatePickerInput id='p_deadline' name='p_deadline' />
+                          <div className="meeting_modal_footer">
+                            <button type='button' className='btn btn-dark' onClick={closeModal}>Cancel</button>
+                            <button type='submit' className='btn btn-dark' onClick={closeModal}>Submit</button>
+                          </div>
+                        </div>
+                      </Modal>
                     </div>
                     {/* project details show */}
                     <div className="project_details_show">
@@ -261,8 +289,8 @@ const ProjectDetails = () => {
               </div>
             </div>
           </section>
-        ) 
-      )  }
+        )
+      )}
     </>
   );
 };

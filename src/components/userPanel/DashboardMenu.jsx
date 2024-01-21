@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/styles/dashboardMenu.css';
 import { avatersFor } from '../../constants/avaters';
 import useAuth from '../../hooks/useAuth';
+import Tooltip from '../comment/Tooltip';
 import ImageTagWithFallback from '../common/ImageTagWithFallback';
 import RanderNav from './RanderNav';
 
@@ -28,7 +29,14 @@ const DashboardMenu = ({ isActiveMenu }) => {
                     <button className='profile_text truncate-text' onClick={() => navigation(`/${userInfo?.username}`)}>
                         {userInfo.full_name || "Annette Black"}
                     </button>
-                    <p className='truncate-text'>{userInfo.email || ''}</p>
+                    {
+                        userInfo?.email && (
+                            <Tooltip text={userInfo?.email}>
+                                <p className='truncate-text'>{userInfo?.email}</p>
+                            </Tooltip>
+                        )
+                    }
+
                 </div>
             </div>
 
