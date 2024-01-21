@@ -156,8 +156,8 @@ const ProfileDetails = () => {
                             <span className="follow_st">
                               {/* <Link to="/">0 follower</Link>. &nbsp;
                               <Link to="/">0 following</Link> */}
-                              <span className='user_title'>{ userInformatin?.followerCount ? formatNumber(userInformatin?.followerCount): 0} follower</span> &nbsp;&nbsp;
-                              <span className='user_title'>{ userInformatin?.followingCount ? formatNumber(userInformatin?.followingCount) : 0} following</span>
+                              <span className='user_title'>{userInformatin?.followerCount ? formatNumber(userInformatin?.followerCount) : 0} follower</span> &nbsp;&nbsp;
+                              <span className='user_title'>{userInformatin?.followingCount ? formatNumber(userInformatin?.followingCount) : 0} following</span>
                             </span>
                             {
                               userInfo?.username !== getUserName?.username && (
@@ -219,17 +219,17 @@ const ProfileDetails = () => {
                             }
 
 
-                           
-                                <li>
-                                  <div className="icon_box">
-                                    <IoEyeOutline />
-                                  </div>
-                                  <p>
-                                    <span>Content View</span>
-                                    <b>{userInformatin?.content_view_count ? formatNumber(userInformatin?.content_view_coun) : 0}</b>
-                                  </p>
-                                </li>
-                           
+
+                            <li>
+                              <div className="icon_box">
+                                <IoEyeOutline />
+                              </div>
+                              <p>
+                                <span>Content View</span>
+                                <b>{userInformatin?.content_view_count ? formatNumber(userInformatin?.content_view_coun) : 0}</b>
+                              </p>
+                            </li>
+
 
 
 
@@ -261,18 +261,23 @@ const ProfileDetails = () => {
                         </div>
                       </div>
 
-                      <div className="side_bar_card">
-                        <div className="input_box">
-                          <h4>Skills : </h4>
-                          <div className="input_box_keywords">
-                            <p className='show_ct'>Python</p>
-                            <p className='show_ct'>Machine learning</p>
-                            <p className='show_ct'>Molecular modeling</p>
-                            <p className='show_ct'>Cheminformatics</p>
-                            <p className='show_ct'>Pharmacology</p>
+                      {
+                        userInformatin?.Skills && (
+                          <div className="side_bar_card">
+                            <div className="input_box">
+                              <h4>Skills : </h4>
+                              <div className="input_box_keywords">
+                                {
+                                  userInformatin?.Skills?.map((item, index) => (
+                                    <p className='show_ct' key={index}>{item.skillName}</p>
+                                  ))
+                                }
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        )
+                      }
+
 
                       {
                         userInformatin?.UserDetail && userInformatin?.UserDetail?.portfolio !== null && (
