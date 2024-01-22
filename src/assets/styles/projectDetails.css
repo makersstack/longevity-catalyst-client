@@ -171,3 +171,29 @@
     transform: rotate(360deg);
   }
 }
+@media screen and (max-width: 991px) {
+  .full_widht_project_details_area .project_details_wrapper {
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 576px) {
+  .project_show_section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+  .add_comment_btn {
+    padding: 12px 20px;
+    column-gap: 10px;
+    font-size: 1.6rem;
+  }
+  .block_title {
+    margin-bottom: 15px;
+  }
+  .head_btn {
+    font-size: 1.6rem;
+    padding: 12px 20px;
+  }
+  .details_block {
+    margin-bottom: 35px;
+  }
+}

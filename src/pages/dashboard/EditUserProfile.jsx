@@ -235,7 +235,7 @@ const EditUserProfile = () => {
     return (
         <>
             <Loader />
-            <section className="full_widht_auth_section">
+            <section className="full_widht_auth_section editUpdateSection">
                 <div className="container">
                     <div className="dashboard">
                         {/* <!-- Dashboard Menu --> */}
@@ -316,7 +316,7 @@ const EditUserProfile = () => {
                                 {
                                     userInfo?.role === ENUM_USER_ROLE.CONTRIBUTOR && (
 
-                                        <div className="form_control list_input_box">
+                                        <div className="form_control_skills list_input_box">
                                             <div className='list_lebel'>
                                                 <label htmlFor="skill">
                                                     Skills

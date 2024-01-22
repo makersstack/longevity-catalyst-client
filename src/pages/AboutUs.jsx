@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/about.css';
-import Tooltip from '../components/comment/Tooltip';
 import Newsletter from '../components/ui/Newsletter';
+import Tooltip from '../components/ui/Tooltip';
 import { data } from '../data/projectData';
 import { baseUrl } from '../globals';
 import ScrollToTop from '../utils/routeChange';

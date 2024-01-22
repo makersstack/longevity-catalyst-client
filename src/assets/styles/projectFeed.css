@@ -331,15 +331,43 @@
     justify-content: center;
     align-items: center;
   }
+  .full_widht_project_details_area .project_side_ber_container {
+    position: inherit;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: #fff;
+    display: block;
+  }
+  .full_widht_project_details_area .project_side_bar {
+    height: inherit;
+    overflow-x: inherit;
+    margin-top: 0px;
+    padding: 20px;
+  }
 }
 
 /* For 767px breakpoint and smaller */
 @media (max-width: 767px) {
-  .project_short_filter {
+  /* .project_short_filter {
     flex-wrap: wrap;
+  } */
+  .short_filter_button {
+    height: 45px;
+  }
+  .project_show_top_searchbar {
+    overflow-x: scroll;
+    margin-bottom: 25px;
   }
   .project_show_section .short_filter_button {
-    flex: 0 0 47%;
+    flex: inherit;
+  }
+  .project_short_filter {
+    background: transparent;
+    box-shadow: none;
+    padding: 5px 10px;
+    width: 740px;
+    padding-bottom: 0px;
   }
   .card_title {
     font-size: 20px;
@@ -348,6 +376,7 @@
   .card_body a {
     font-size: 15px;
     line-height: 24px;
+    display: block;
   }
   .card:not(:last-child) {
     margin-bottom: 30px;
@@ -356,8 +385,50 @@
     padding-top: 20px;
     padding-bottom: 50px;
   }
+  .full_widht_project_details_area .project_show_left_box {
+    padding: 15px 0;
+  }
+  .full_widht_project_details_area .project_side_ber_container {
+    padding: 15px 0;
+  }
 }
 
 /* For 576px breakpoint and smaller */
 @media (max-width: 576px) {
+  .project_effective_button {
+    font-size: 13px;
+    gap: 2px;
+    padding: 3px 5px;
+  }
+  .post_user_fet button {
+    font-size: 15px;
+  }
+  .card {
+    border-radius: 15px;
+    padding: 25px 15px;
+  }
+  .card:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .card_body .al_project_learn_more {
+    font-size: 15px;
+  }
+  .card_text {
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
+  .post_auth_info {
+    align-items: flex-start;
+  }
+  .card_title {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .container {
+    padding: 0px 15px;
+  }
+  .profile-image {
+    width: 35px;
+    height: 35px;
+  }
 }

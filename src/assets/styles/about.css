@@ -186,6 +186,11 @@
 /* RESPONSIVE CSS   */
 /* --------------------------------- */
 /* For 991px breakpoint and smaller */
+@media (max-width: 1200px) {
+  .about_banner_content {
+    margin-top: 0px;
+  }
+}
 @media (max-width: 991px) {
   .full_width_about_banner_section {
     padding-top: 50px;
@@ -208,22 +213,23 @@
   }
   .about_banner_content h2 {
     margin-bottom: 20px;
-    font-size: 36px;
+    font-size: 32px;
   }
   .about_banner_img img {
     max-width: 588px;
   }
   .about_banner_content p {
     margin: 0 auto;
+    font-size: 16px;
   }
   .about_banner_img {
     margin-top: 20px;
   }
   .team_member_box {
-    -ms-grid-columns: 1fr 31px 1fr;
+    -ms-grid-columns: 1fr 20px 1fr;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 31px;
-    grid-row-gap: 31px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
   }
 }
 
@@ -259,10 +265,22 @@
 /* For 576px breakpoint and smaller */
 @media (max-width: 576px) {
   .team_member_box {
-    margin-top: 25px;
+    margin-top: 40px;
   }
   .team_member_img {
     width: 65px;
     height: 65px;
+  }
+  .why_choice_us_boxes,
+  .team_member_box {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+  .signle_choice_us,
+  .single_team_member {
+    max-width: 450px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
   }
 }

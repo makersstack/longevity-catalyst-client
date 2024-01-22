@@ -227,9 +227,11 @@ const ProfileShow = ({ rating }) => {
                       <p className='vote_count'><BiSolidUpvote /> 5 Upvoted</p>
                     </div>
                   </div>
-                  <TopFilterButtons options={topFilterOptionsByUser}
-                    selectedOption={selectedTopOption}
-                    onOptionChange={handleTopOptionChange} />
+                  <div className='project_show_top_searchbar'>
+                    <TopFilterButtons options={topFilterOptionsByUser}
+                      selectedOption={selectedTopOption}
+                      onOptionChange={handleTopOptionChange} />
+                  </div>
                   {/* project show container */}
                   <div className="project_show_cash">
                     {filteredProjects.length !== 0 && (

@@ -176,10 +176,17 @@
   line-height: 20px;
   transition: 0.3s;
 }
-
 .show_more_button:hover {
   color: #777;
 }
 .comment_card.replay_card {
   margin-bottom: 0;
+}
+@media screen and (max-width: 576px) {
+  .comment_card {
+    margin-bottom: 35px;
+  }
+  .comment_card_body {
+    margin-top: 10px;
+  }
 }

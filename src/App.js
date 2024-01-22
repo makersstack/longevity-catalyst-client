@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './assets/styles/global.css';
 import Footer from './components/common/Footer';
 import Header from './components/common/Header';
+import ScrollToTopButton from './components/ui/ScrollToTopButton';
 import { LoadingProvider } from './contexts/LoadingContext';
 import AppRoutes from './routes';
 
@@ -13,6 +14,7 @@ const App = () => {
       <LoadingProvider>
         <Header />
         <AppRoutes />
+        <ScrollToTopButton />
         <Footer />
       </LoadingProvider>
     </BrowserRouter>

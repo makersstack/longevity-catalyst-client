@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "react-datepicker/dist/react-datepicker.css";
 import { PiCheckThin } from 'react-icons/pi';
 import Modal from 'react-responsive-modal';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +8,6 @@ import '../assets/styles/projectDetails.css';
 import CommentBox from '../components/comment/CommentBox';
 import ImageTagWithFallback from '../components/common/ImageTagWithFallback';
 import ProjectDetailsSkeleton from '../components/skeleton/ProjectDetailsSkeleton';
-import DatePickerInput from '../components/ui/DatePickerInput';
 import { avatersFor } from '../constants/avaters';
 import useAuth from '../hooks/useAuth';
 import dateTimeHel from '../utils/dateTimeHel';
@@ -17,12 +17,10 @@ const ProjectDetails = () => {
   const [projectData, setProjectData] = useState(null);
   const { projectId } = useParams();
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn, userInfo } = useAuth();
-  console.log(userInfo);
+  const { isLoggedIn } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [selectedDate, setSelectedDate] = useState(new Date());
   // const [selectedTime, setSelectedTime] = useState('12:00');
-
   useEffect(() => {
     document.title = 'Project Details - Longevity Catalyst';
   }, []);
@@ -36,6 +34,7 @@ const ProjectDetails = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
 
   useEffect(() => {
     const fetchSingleProject = async () => {
@@ -94,8 +93,11 @@ const ProjectDetails = () => {
                       <Modal open={isModalOpen} onClose={closeModal} center closeOnEsc={false} closeOnOverlayClick={false}>
                         <div className="meeting_modal">
                           <h2 className='title'>Meeting Schedule Modal</h2>
-                          <p className='pragraph'>Modal content...</p>
-                          <DatePickerInput id='p_deadline' name='p_deadline' />
+                          <p className='pragraph'>Modal content </p>
+                          <div className="form_control">
+                            <input type="number" placeholder='Enter your date and time' />
+                          </div>
+
                           <div className="meeting_modal_footer">
                             <button type='button' className='btn btn-dark' onClick={closeModal}>Cancel</button>
                             <button type='submit' className='btn btn-dark' onClick={closeModal}>Submit</button>
@@ -205,7 +207,7 @@ const ProjectDetails = () => {
                       <div className="input_box">
                         <h4> Keywords : </h4>
                         <div className="input_box_keywords">
-                          
+
                           {
                             JSON.parse(projectData?.project_keywords).map((key, index) => (
                               <p className='show_ct' key={index}>{key}</p>
