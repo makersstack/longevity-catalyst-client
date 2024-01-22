@@ -5,7 +5,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2';
 import '../../assets/styles/datePicker.css';
 
-const DatePickerInput = ({id,name}) => {
+const DatePickerInput = ({ id, name }) => {
     const [startDate, setStartDate] = useState(null);
 
     return (
@@ -51,8 +51,8 @@ const DatePickerInput = ({id,name}) => {
                             alignItems: 'center',
                             gap: '5px'
                         }}>
-                            <h5 style={{fontWeight: 600 }}>{monthNames[date.getMonth()]}</h5>
-                            <h5 style={{fontWeight: 600 }}>{date.getFullYear()}</h5>
+                            <h5 style={{ fontWeight: 600 }}>{monthNames[date.getMonth()]}</h5>
+                            <h5 style={{ fontWeight: 600 }}>{date.getFullYear()}</h5>
 
                         </div>
                         <div style={{

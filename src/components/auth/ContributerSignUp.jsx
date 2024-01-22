@@ -1,29 +1,10 @@
 /* eslint-disable no-undef */
-import React, { useEffect, useState } from 'react';
-import { HiCheck } from 'react-icons/hi';
+import React, { useState } from 'react';
 import { RiEyeCloseFill, RiEyeFill } from 'react-icons/ri';
-import skillApi from '../../api/skillApi';
 import DargFileAttech from '../common/DargFileAttech';
 
-const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
-    const [skillCheckBox, setSkillCheckBox] = useState([]);
+const ContributerSignUp = ({ errorMsg, setProfilePic }) => {
 
-    useEffect(() => {
-        const fetchSkills = async () => {
-            const response = await skillApi.getAllSkills();
-            const skills = response.data.data;
-
-            // Set the fetched skills to state
-            setSkillCheckBox(skills);
-        };
-        fetchSkills();
-    }, []);
-
-    // For pass the skills
-    const handleCheckboxChange = (e) => {
-        const isChecked = e.target.checked;
-        setSkillValues(isChecked)
-    };
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = (type) => {
         switch (type) {
@@ -96,31 +77,6 @@ const ContributerSignUp = ({ errorMsg, setProfilePic, setSkillValues }) => {
                 </div>
                 {errorMsg.password && <div className='error-msg'>{errorMsg.password}</div>}
             </div>
-
-            {
-                skillCheckBox.length > 0 && (
-                    <div className="auth_box">
-                        <label>Skills</label>
-                        {
-                            skillCheckBox.map((checkData) => (
-                                <label key={checkData.id} className={`plan basic-plan`} htmlFor={`ch-${checkData.id}-${checkData.id}`}>
-                                    <input type="checkbox" name={`skillId_${checkData.id}`} id={`ch-${checkData.id}-${checkData.id}`} onChange={handleCheckboxChange} />
-                                    <div className="plan-content">
-                                        <div className="plan-details">
-                                            <div className="plan-checked-icon">
-                                                <span className=' check_icon '>
-                                                    < HiCheck />
-                                                </span>
-                                            </div>
-                                            <p>{checkData.skillName}</p>
-                                        </div>
-                                    </div>
-                                </label>
-                            ))
-                        }
-                    </div>
-                )
-            }
 
             <div className="auth_box">
                 <label htmlFor="company">Company / Institution</label>

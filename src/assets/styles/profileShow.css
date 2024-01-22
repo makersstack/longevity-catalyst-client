@@ -15,6 +15,8 @@
   position: inherit;
   background: initial;
   display: block;
+  position: relative;
+  z-index: 1;
 }
 .contributer_page_wrapper .project_show_container {
   flex: 0 0 60%;
@@ -235,5 +237,54 @@
   }
   .contributer_page_wrapper .al_resFilterBtn {
     display: none;
+  }
+  .contributer_page_wrapper .project_side_bar {
+    border-radius: 10px;
+    padding: 25px 20px;
+  }
+  .side_bar_card {
+    margin-bottom: 20px;
+  }
+  .side_bar_card {
+    padding: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .profile_user_info h3 {
+    font-size: 16px;
+  }
+  .profile_user_info img {
+    width: 70px;
+    height: 70px;
+  }
+  .input_box h4 {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .show_ct {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 576px) {
+  .input_box h4 {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .input_box:not(:last-child) {
+    margin-bottom: 25px;
+  }
+  .profile_user_info h3 {
+    font-size: 16px;
+  }
+  .profile_user_info img {
+    width: 60px;
+    height: 60px;
+  }
+  .contributer_page_wrapper .project_side_ber_container {
+    padding: 10px 0;
+  }
+  .contributer_page_wrapper .project_side_bar {
+    padding: 20px 15px;
   }
 }

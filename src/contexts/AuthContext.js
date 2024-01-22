@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { authApi } from '../api';
 import { authKey } from '../constants/storageKey';
 import { removeUserInfo } from '../services/auth.service';
@@ -14,19 +14,27 @@ const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState(null);
 
     const fetchUserInfo = useCallback(async (accessToken) => {
-        const { userId } = decodedToken(accessToken);
-        const response = await authApi.getUserProfile(userId);
-        setUserInfo(response.data.data);
+        try {
+            const { userId } = decodedToken(accessToken);
+            const response = await authApi.getUserProfile(userId);
+            setUserInfo(response?.data?.data);
+        } catch (error) {
+            console.error(error);
+        }
     }, []);
 
     const handleLoginSuccess = useCallback(({ accessToken }) => {
-        setIsLoggedIn(true);
-        setToLocalStorage(authKey, accessToken);
-        fetchUserInfo(accessToken);
+        try {
+            setIsLoggedIn(true);
+            setToLocalStorage(authKey, accessToken);
+            fetchUserInfo(accessToken);
+        } catch (error) {
+            console.error(error);
+        }
     }, [fetchUserInfo]);
 
     const handleLogout = useCallback(async () => {
-        logoutRequest();
+        await logoutRequest();
         setIsLoggedIn(false);
         removeUserInfo(authKey);
         setUserInfo(null);
@@ -43,13 +51,13 @@ const AuthProvider = ({ children }) => {
         }
     }, [fetchUserInfo]);
 
-    const authContextValue = {
+    const authContextValue = useMemo(() => ({
         isLoggedIn,
         handleLoginSuccess,
         handleLogout,
         userInfo,
         setUserInfo
-    };
+    }), [handleLoginSuccess, handleLogout, isLoggedIn, userInfo]);
 
     return (
         <AuthContext.Provider value={authContextValue} >

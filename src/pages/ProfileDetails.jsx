@@ -361,21 +361,18 @@ const ProfileDetails = () => {
                           </div>
                         )
                       }
-
-
-
                     </form>
                   </div>
                 </div>
 
                 <div className="project_show_container">
-
-                  <TopFilterButtons options={topFilterOptionsPage1}
-                    selectedOption={selectedTopOption}
-                    onOptionChange={handleTopOptionChange}
-                    handelSideBarButton={handelSideBarButton}
-                  />
-
+                  <div className='project_show_top_searchbar'>
+                    <TopFilterButtons options={topFilterOptionsPage1}
+                      selectedOption={selectedTopOption}
+                      onOptionChange={handleTopOptionChange}
+                      handelSideBarButton={handelSideBarButton}
+                    />
+                  </div>
                   <div className="project_show_cash">
                     {projects.length !== 0 && (
                       projects.map((project) => (

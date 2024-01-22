@@ -84,6 +84,15 @@
 
 /* For 767px breakpoint and smaller */
 @media (max-width: 767px) {
+  .add_project_head h3.title {
+    font-size: 20px;
+  }
+  .dasMenuBtn {
+    font-size: 17px;
+  }
+  .add_project_head {
+    gap: 7px;
+  }
 }
 
 /* For 576px breakpoint and smaller */
@@ -91,5 +100,22 @@
   .two_columns {
     flex-direction: column;
     margin-bottom: 20px;
+  }
+  .add_project_form .list_input_box,
+  .add_project_head .list_input_box {
+    flex-direction: column;
+  }
+  .add_project_form .list_input_pass,
+  .add_project_form .list_input,
+  .list_input_pass {
+    width: 100%;
+    gap: 5px;
+  }
+  .upload_avater_withOld {
+    flex-direction: column;
+    row-gap: 15px;
+  }
+  .add_project_form {
+    padding: 20px 15px;
   }
 }

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../../src/assets/styles/home.css';
-import Tooltip from '../components/comment/Tooltip';
 import ProjectFeed from '../components/ui/ProjectFeed';
+import Tooltip from '../components/ui/Tooltip';
 import TradingProjectSlider from '../components/ui/TradingProjectSlider';
 import TrustSlider from '../components/ui/TrustSlider';
 import useAuth from '../hooks/useAuth';
