@@ -1,10 +1,12 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { BiSolidBadge } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
-import { FaAward } from "react-icons/fa";
+import { FaAward, FaFirstdraft } from "react-icons/fa";
 import { FaArrowTrendUp } from "react-icons/fa6";
-import { MdOutlineLightMode } from "react-icons/md";
+import { MdOutlineLightMode, MdOutlinePendingActions, MdPublic } from "react-icons/md";
+import { RiGitRepositoryPrivateFill } from "react-icons/ri";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { ENUM_PROJECT_STATUS } from "../constants/projectConst";
 
 // Sidebar filter
 export const requirdSkillCheckData = [
@@ -61,4 +63,11 @@ export const topFilterOptionsByUser = [
   { label: 'Badge', icon: <BiSolidBadge />, value: 'mostView' },
   { label: 'Trust', icon: <VscWorkspaceTrusted />, value: 'top' },
   { label: 'Appreciated', icon: <AiOutlineHeart />, value: 'rising' },
+];
+
+export const topFilterOptionsMyProject = [
+  { label: ENUM_PROJECT_STATUS.PUBLIC, icon: <MdPublic  />, value: ENUM_PROJECT_STATUS.PUBLIC },
+  { label: ENUM_PROJECT_STATUS.DRAFT, icon: <FaFirstdraft />, value: ENUM_PROJECT_STATUS.DRAFT },
+  { label: ENUM_PROJECT_STATUS.PENDING, icon: <MdOutlinePendingActions />, value: ENUM_PROJECT_STATUS.PENDING },
+  { label: ENUM_PROJECT_STATUS.PRIVATE, icon: <RiGitRepositoryPrivateFill />, value: ENUM_PROJECT_STATUS.PRIVATE },
 ];

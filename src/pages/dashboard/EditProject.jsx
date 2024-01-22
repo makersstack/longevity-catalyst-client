@@ -2,13 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate, useParams } from 'react-router-dom';
-import { projectApi } from '../../api';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { projectApi, skillApi } from '../../api';
 import categoryApi from '../../api/categoryApi';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DatePickerInput from '../../components/ui/DatePickerInput';
 import Loader from '../../components/ui/Loader';
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
+import { ENUM_PROJECT_STATUS } from '../../constants/projectConst';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 import useAuth from '../../hooks/useAuth';
 import useCheckedOptions from '../../hooks/useCheckedOptions';
@@ -51,13 +54,11 @@ const EditProject = () => {
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
 
-    // useEffect(() => {
-    //     if (Object.keys(errorMsg).length !== 0) {
-    //         if (formRef.current) {
-    //             formRef.current.scrollIntoView({ behavior: 'smooth' });
-    //         }
-    //     }
-    // }, [errorMsg]);
+    const handleFormCancel = (event) => {
+        event.preventDefault();
+        navigate('/dashboard/home');
+    }
+
 
 
     const handleInputChange = (event) => {
@@ -107,8 +108,81 @@ const EditProject = () => {
         }));
     }
 
+
+
+
+    // Skill Selection
+
+    const [skillOptions, setSkillOptions] = useState([]);
+    const animatedComponents = makeAnimated();
+
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                const skOptionData = response?.data?.data || [];
+
+                if (isMounted) {
+                    const transformedData = skOptionData.map(skill => ({
+                        value: skill.id,
+                        label: skill.skillName
+                    }));
+                    setSkillOptions(transformedData);
+
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false; // Update isMounted flag on unmount
+            // Any cleanup if needed (e.g., clearing timeouts/intervals)
+        };
+    }, [userInfo]);
+
+
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectValue, setSelectValue] = useState([]);
+
+
+
+
+    const handleSelectChange = (selectedOptions) => {
+        setSelectedValues(selectedOptions);
+    };
+
+    useEffect(() => {
+        setSelectValue(selectedValues.map((option) => option.value));
+    }, [selectedValues]);
+
+
+    useEffect(() => {
+        if (projectData?.required_skill_list) {
+            if (skillOptions && skillOptions.length > 0) {
+                const getSkillids = JSON.parse(projectData?.required_skill_list);
+                const filteredSkills = skillOptions.filter(skill => getSkillids.includes(skill.value));
+                const defaultValuesFE = filteredSkills.map(skill => ({
+                    value: skill.value,
+                    label: skill.label
+                }));
+                setSelectedValues(defaultValuesFE);
+            }
+        }
+    }, [projectData, skillOptions]);
+
+
+
+
+
     const [project_keywords, set_project_keywords] = useState({});
-    const [required_skill_list, set_required_skill_list] = useState({});
+    // const [required_skill_list, set_required_skill_list] = useState({});
     const [expected_cost, set_expected_cost] = useState({});
     const [final_deliverable_details, set_final_deliverable_details] = useState({});
     const [relevant_literature_link, set_relevant_literature_link] = useState({});
@@ -130,7 +204,6 @@ const EditProject = () => {
 
     // set the default project data 
     const [project_keywords_default, set_project_keywords_default] = useState([]);
-    const [required_skill_list_default, set_required_skill_list_default] = useState([]);
     const [expected_cost_default, set_expected_cost_default] = useState([]);
     const [final_deliverable_details_default, set_final_deliverable_details_default] = useState([]);
     const [relevant_literature_link_default, set_relevant_literature_link_default] = useState([]);
@@ -165,9 +238,7 @@ const EditProject = () => {
         if (projectData?.project_keywords) {
             set_project_keywords_default(JSON.parse(projectData?.project_keywords));
         }
-        if (projectData?.required_skill_list) {
-            set_required_skill_list_default(JSON.parse(projectData?.required_skill_list));
-        }
+
         if (projectData?.expected_cost) {
             set_expected_cost_default(JSON.parse(projectData?.expected_cost));
         }
@@ -177,7 +248,6 @@ const EditProject = () => {
         if (projectData?.relevant_literature_link) {
             set_relevant_literature_link_default(JSON.parse(projectData?.relevant_literature_link));
         }
-
         setOnsiteOptionDefault(projectData?.onsite_work);
         setProjectTypeOptionDefault(projectData?.projecType);
         setProjectNatureOptionnDefault(projectData?.projectNature);
@@ -194,13 +264,14 @@ const EditProject = () => {
         setErrorMsg({});
         const formData = new FormData(event.target);
         // After Submit Validation 
+        formData.append('status', ENUM_PROJECT_STATUS.PUBLIC);
         // Pushing other data into form data 
         if (project_keywords.lists.length !== 0) {
             formData.append('project_keywords', JSON.stringify(project_keywords.lists));
         }
-        if (required_skill_list.lists.length !== 0) {
-            formData.append('required_skill_list', JSON.stringify(required_skill_list.lists));
-        }
+
+        formData.append('required_skill_list', JSON.stringify(selectValue));
+
         if (expected_cost.lists.length !== 0) {
             formData.append('expected_cost', JSON.stringify(expected_cost.lists));
         }
@@ -330,8 +401,9 @@ const EditProject = () => {
             }
         };
 
-        fetchData(); 
+        fetchData();
     }, []);
+
 
     return (
         <>
@@ -601,7 +673,21 @@ const EditProject = () => {
                                         >List the skills that this project will require.
                                         </label>
 
-                                        <ListInput defaultValueArray={required_skill_list_default} type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                        {/* <ListInput defaultValueArray={required_skill_list_default} type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." /> */}
+
+
+                                        <div>
+                                            <Select
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={skillOptions}
+                                                defaultValue={selectedValues}
+                                                value={selectedValues}  // Use 'value' prop to control the selected values
+                                                onChange={handleSelectChange}  // Handle selection changes
+                                            />
+                                        </div>
+
 
                                     </div>
 
@@ -730,7 +816,9 @@ const EditProject = () => {
                                 </div>
                                 <hr className='inputhr' />
                                 <div className="form_submit al_submit_button">
-
+                                    <button className="btn btn-submit btn-light" onClick={handleFormCancel}>
+                                        Cancel
+                                    </button>
                                     <button type="submit" className="btn btn-submit btn-dark">
                                         Update
                                     </button>

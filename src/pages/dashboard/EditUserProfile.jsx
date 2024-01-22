@@ -71,7 +71,6 @@ const EditUserProfile = () => {
     // Skill Selection
 
     const [skillOptions, setSkillOptions] = useState([]);
-    // const [defaultValues, setDefaultValues] = useState([]);
     const animatedComponents = makeAnimated();
  
 
@@ -90,11 +89,6 @@ const EditUserProfile = () => {
                         label: skill.skillName
                     }));
                     setSkillOptions(transformedData);
-                    // const defaultValues = getDefaultValueLogic(transformedData);
-
-                    // Update the Select component with the new default values
-                    console.log(userInfo?.Skills);
-                    // setDefaultValues(userInfo?.Skills);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -104,8 +98,7 @@ const EditUserProfile = () => {
         fetchData();
 
         return () => {
-            isMounted = false; // Update isMounted flag on unmount
-            // Any cleanup if needed (e.g., clearing timeouts/intervals)
+            isMounted = false; 
         };
     }, [userInfo]);
     const defaultValues = userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || [];
@@ -113,9 +106,7 @@ const EditUserProfile = () => {
     const [selectedValues, setSelectedValues] = useState([]);
     const [selectValue, setSelectValue] = useState(defaultValues);
 
-    // useEffect(() => {
-    //     setSelectValue(userInfo?.Skills.map(skill => ({ value: skill.id, label: skill.skillName })) || []);
-    // }, [userInfo]);
+   
 
     const handleSelectChange = (selectedOptions) => {
         setSelectedValues(selectedOptions);
@@ -133,7 +124,6 @@ const EditUserProfile = () => {
 
         setIsLoading(true);
         setErrorMsg({});
-        // console.log(defaultValues);
         const formData = new FormData(e.target);
         // inject the skill data 
         formData.append('skills', JSON.stringify(selectValue));
@@ -188,10 +178,7 @@ const EditUserProfile = () => {
             formDataObject.profileImage = '';
         }
         delete formDataObject.profileImage;
-        // console.log(formData);
-
-        // isValid = false;
-        // setIsLoading(false);
+        
         if (isValid) {
             setIsLoading(true);
             const response = await authApi.updateUser(userInfo?.username, formData);
@@ -215,21 +202,6 @@ const EditUserProfile = () => {
             setIsLoading(false);
         }
     }
-
-    // const skillDataList = [
-    //     { value: 'ocean', label: 'Ocean', color: '#00B8D9',  },
-    //     { value: 'blue', label: 'Blue', color: '#0052CC',  },
-    //     { value: 'purple', label: 'Purple', color: '#5243AA' },
-    //     { value: 'red', label: 'Red', color: '#FF5630',  },
-    //     { value: 'orange', label: 'Orange', color: '#FF8B00' },
-    //     { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-    //     { value: 'green', label: 'Green', color: '#36B37E' },
-    //     { value: 'forest', label: 'Forest', color: '#00875A' },
-    //     { value: 'slate', label: 'Slate', color: '#253858' },
-    //     { value: 'silver', label: 'Silver', color: '#666666' },
-    //   ];
-
-
 
 
     return (
