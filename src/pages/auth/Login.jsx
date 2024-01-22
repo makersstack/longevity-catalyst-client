@@ -11,7 +11,6 @@ import SignupModal from '../../components/ui/SignupModal';
 import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/routeChange';
-
 const Login = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const { setIsLoading } = useLoading();
@@ -103,7 +102,7 @@ const Login = () => {
                 } else {
                     if (response?.data?.success) {
                         handleLoginSuccess({ accessToken: response.data.data.accessToken });
-                        
+
                         navigate(from, { replace: true });
                         toast.success("Sign In Successfully Done !");
                     } else {
