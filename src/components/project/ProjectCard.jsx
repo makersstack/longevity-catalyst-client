@@ -44,7 +44,7 @@ const ProjectCard = ({ project, othersOperationData }) => {
                             {project?.User?.full_name}
                         </button>
                         <div className="post-features">
-                            <MdPublic /> Public <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
+                            <MdPublic /> {project?.status} <span></span> {dateTimeHel.calculateDurationFromNow(project.createdAt)}
                         </div>
                     </div>
                 </div>

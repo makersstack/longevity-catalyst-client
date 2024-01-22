@@ -1167,6 +1167,14 @@ input:disabled {
 .scroll-to-top-button:hover {
   opacity: 0.8;
 }
+.visibility_modal .modal_body {
+  display: inline-block;
+  column-count: 2;
+  width: 100%;
+  padding: 15px 0;
+  padding-left: 90px !important;
+}
+
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */
