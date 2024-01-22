@@ -3,15 +3,20 @@ import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
-import { projectApi } from '../../api';
+import makeAnimated from 'react-select/animated';
+import { projectApi, skillApi } from '../../api';
 import ListInput from '../../components/common/ListInput';
 import RadioButton from '../../components/common/RadioButton';
 import DatePickerInput from "../../components/ui/DatePickerInput";
 import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import { ProjectHardDeadlineOption, expectedTimeProjectOption, haveProjectBudgetOption, onsiteOption, projectExperienceOption, projectNatureOption, projectTypeOption, readyToStartOption } from '../../data/projectData';
 
+import Modal from 'react-responsive-modal';
+import Select from 'react-select';
 import categoryApi from '../../api/categoryApi';
+import logo from '../../assets/images/logo.png';
 import Loader from '../../components/ui/Loader';
+import { ENUM_PROJECT_STATUS } from '../../constants/projectConst';
 import useAuth from '../../hooks/useAuth';
 import useLoading from '../../hooks/useLoading';
 import ScrollToTop from '../../utils/routeChange';
@@ -21,26 +26,37 @@ const AddProject = () => {
         document.title = "Add Project - Longevity Catalyst";
     }, []);
 
+    const navigate = useNavigate();
     const { setIsLoading } = useLoading();
     const { userInfo } = useAuth();
-
-    const navigate = useNavigate();
     ScrollToTop();
     const mes = {};
     const [errorMsg, setErrorMsg] = useState(mes);
     const formRef = useRef(null);
 
-    // useEffect(() => {
-    //     if (Object.keys(errorMsg).length !== 0) {
-    //         if (formRef.current) {
-    //             formRef.current.scrollIntoView({ behavior: 'smooth' });
-    //         }
-    //     }
-    // }, [errorMsg]);
 
-    const handleFormCancel = () => {
-        navigate('/dashboard/home');
+    // modal opeting and closing
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [visibilityValue, setVisibilityValue] = useState(ENUM_PROJECT_STATUS.PUBLIC);
+    const handleFormCancel = (event) => {
+        event.preventDefault();
+        setIsModalOpen(!isModalOpen);
+
     }
+    const closeModal = () => {
+        setIsModalOpen(false);
+        navigate('/dashboard/home');
+    };
+
+    const handleSubmitVisibility = (event) => {
+        event.preventDefault();
+        setIsModalOpen(false);
+        handelProjectSubmit(event,ENUM_PROJECT_STATUS.DRAFT);
+    }
+
+
+
+    // end modal 
     const handleInputChange = (event) => {
 
         if ('alname' in event.target.dataset) {
@@ -85,7 +101,7 @@ const AddProject = () => {
     }
 
     const [project_keywords, set_project_keywords] = useState({});
-    const [required_skill_list, set_required_skill_list] = useState({});
+    // const [required_skill_list, set_required_skill_list] = useState({});
     const [expected_cost, set_expected_cost] = useState({});
     const [final_deliverable_details, set_final_deliverable_details] = useState({});
     const [relevant_literature_link, set_relevant_literature_link] = useState({});
@@ -102,18 +118,76 @@ const AddProject = () => {
 
     };
 
-    const handelProjectSubmit = async (event) => {
+
+    // Skill Selection
+
+    const [skillOptions, setSkillOptions] = useState([]);
+    // const [defaultValues, setDefaultValues] = useState([]);
+    const animatedComponents = makeAnimated();
+
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchData = async () => {
+            try {
+                const response = await skillApi.getAllSkills();
+                const skOptionData = response?.data?.data || [];
+
+                if (isMounted) {
+                    const transformedData = skOptionData.map(skill => ({
+                        value: skill.id,
+                        label: skill.skillName
+                    }));
+                    setSkillOptions(transformedData);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [userInfo]);
+
+
+    const [selectedValues, setSelectedValues] = useState([]);
+    const [selectValue, setSelectValue] = useState([]);
+
+
+
+    const handleSelectChange = (selectedOptions) => {
+        setSelectedValues(selectedOptions);
+    };
+
+    useEffect(() => {
+        setSelectValue(selectedValues.map((option) => option.value));
+    }, [selectedValues]);
+
+
+
+
+
+    const handelProjectSubmit = async (event,statusVal) => {
         event.preventDefault();
         setErrorMsg({});
-        const formData = new FormData(event.target);
+        const formData = new FormData(formRef.current);
         // After Submit Validation 
+
+        formData.append('required_skill_list', JSON.stringify(selectValue));
+        formData.append('status', statusVal);
+
+
         // Pushing other data into form data 
         if (project_keywords.lists.length !== 0) {
             formData.append('project_keywords', JSON.stringify(project_keywords.lists));
         }
-        if (required_skill_list.lists.length !== 0) {
-            formData.append('required_skill_list', JSON.stringify(required_skill_list.lists));
-        }
+
+
         if (expected_cost.lists.length !== 0) {
             formData.append('expected_cost', JSON.stringify(expected_cost.lists));
         }
@@ -131,77 +205,82 @@ const AddProject = () => {
 
         // validation 
         let isValid = true;
-        if (formDataObject.project_name.length < 25 || formDataObject.project_name.length > 50) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                project_name: 'Project name should be 25 to 50 characters long.',
-            }));
-            isValid = false;
-        }
-        if (formDataObject.affiliation.length === 0) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                affiliation: 'Affiliation is Required!',
-            }));
-            isValid = false;
-        }
-        if (formDataObject.project_desc.length < 40) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                project_desc: 'Project Description must be at least 40 characters!',
-            }));
-            isValid = false;
-        }
-        if (!('project_keywords' in formDataObject)) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                project_keywords: 'Project Keywords is Required!',
-            }));
-            isValid = false;
-        }
-        if (!('projecType' in formDataObject)) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                projecType: 'Project Type is Required !',
-            }));
-            isValid = false;
-        }
-        if (!('projectExperience' in formDataObject)) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                projectExperience: 'Project Experience is Required!',
-            }));
-            isValid = false;
-        }
-        if (!('hardDeadline' in formDataObject)) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                hardDeadline: 'Project hard deadline is Required!',
-            }));
-            isValid = false;
-        }
-        if (!('haveProjectBudget' in formDataObject)) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                haveProjectBudget: 'Project Budget is Required!',
-            }));
-            isValid = false;
-        }
-        if (formDataObject.primary_category.trim().length === 0) {
-            setErrorMsg(prevErrorMsg => ({
-                ...prevErrorMsg,
-                primary_category: ' Primary Category is Required!',
-            }));
-            isValid = false;
-        }
 
-        if (!isValid) {
-            if (formRef.current) {
-                formRef.current.scrollIntoView({ behavior: 'smooth' });
+        if (formDataObject.status !== 'Draft') {
+
+            if (formDataObject.project_name.length < 25 || formDataObject.project_name.length > 50) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    project_name: 'Project name should be 25 to 50 characters long.',
+                }));
+                isValid = false;
+            }
+            if (formDataObject.affiliation.length === 0) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    affiliation: 'Affiliation is Required!',
+                }));
+                isValid = false;
+            }
+            if (formDataObject.project_desc.length < 40) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    project_desc: 'Project Description must be at least 40 characters!',
+                }));
+                isValid = false;
+            }
+            if (!('project_keywords' in formDataObject)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    project_keywords: 'Project Keywords is Required!',
+                }));
+                isValid = false;
+            }
+            if (!('projecType' in formDataObject)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    projecType: 'Project Type is Required !',
+                }));
+                isValid = false;
+            }
+            if (!('projectExperience' in formDataObject)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    projectExperience: 'Project Experience is Required!',
+                }));
+                isValid = false;
+            }
+            if (!('hardDeadline' in formDataObject)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    hardDeadline: 'Project hard deadline is Required!',
+                }));
+                isValid = false;
+            }
+            if (!('haveProjectBudget' in formDataObject)) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    haveProjectBudget: 'Project Budget is Required!',
+                }));
+                isValid = false;
+            }
+            if (formDataObject.primary_category.trim().length === 0) {
+                setErrorMsg(prevErrorMsg => ({
+                    ...prevErrorMsg,
+                    primary_category: ' Primary Category is Required!',
+                }));
+                isValid = false;
+            }
+
+            if (!isValid) {
+                if (formRef.current) {
+                    formRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         }
 
         if (isValid) {
+
             try {
                 setIsLoading(true);
                 const response = await projectApi.createProject(formDataObject)
@@ -222,6 +301,8 @@ const AddProject = () => {
             } finally {
                 setIsLoading(false);
             }
+
+
         }
     }
 
@@ -247,6 +328,8 @@ const AddProject = () => {
         fetchData();
     }, []);
 
+
+
     return (
         <>
             <Loader />
@@ -266,7 +349,7 @@ const AddProject = () => {
                                 <h3 className="title">Add Project</h3>
 
                             </div>
-                            <form onSubmit={handelProjectSubmit} ref={formRef} className="add_project_form" encType="multipart/form-data">
+                            <form onSubmit={(event) => handelProjectSubmit(event, ENUM_PROJECT_STATUS.PUBLIC)} ref={formRef} className="add_project_form" encType="multipart/form-data" >
                                 <div className="two_columns">
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control">
@@ -372,7 +455,7 @@ const AddProject = () => {
                                             <span>*</span>
                                         </label>
                                         <select name="primary_category" id="primary_category" onChange={handleInputChange}>
-                                            <option value="">Select</option>
+
                                             {
                                                 primaryCateOption.map(singleData => <option key={singleData.id} value={singleData.id}>{singleData.category_name}</option>)
                                             }
@@ -498,7 +581,19 @@ const AddProject = () => {
                                         >List the skills that this project will require.
                                         </label>
 
-                                        <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
+                                        {/* <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." /> */}
+
+                                        <div>
+                                            <Select
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={skillOptions}
+                                                // value={selectedValues}  // Use 'value' prop to control the selected values
+                                                onChange={handleSelectChange}  // Handle selection changes
+                                            />
+                                        </div>
+                                        {errorMsg.required_skill_list && <div className='error-msg'>{errorMsg.required_skill_list}</div>}
 
                                     </div>
 
@@ -625,19 +720,39 @@ const AddProject = () => {
                                 </div>
                                 <hr className='inputhr' />
                                 <div className="form_submit al_submit_button">
-                                    <button type="reset" className="btn btn-submit btn-light" onClick={handleFormCancel}>
+                                    <button className="btn btn-submit btn-light" onClick={handleFormCancel}>
                                         Cancel
                                     </button>
-                                    <button type="submit" className="btn btn-submit btn-dark">
+                                    <button type="submit" className="btn btn-submit btn-dark" >
                                         Submit
                                     </button>
-
                                 </div>
+
                             </form>
+
                         </div>
                     </div>
                 </div>
             </section>
+
+            <Modal open={isModalOpen} onClose={closeModal} center closeOnEsc={false} closeOnOverlayClick={false}>
+                <div className="meeting_modal visibility_modal">
+                    <div className="modal_head">
+                        <img src={logo} alt="logo" />
+                        <h2 className='modal_title' style={{ padding: '0' }}>Save Project as Draft</h2>
+
+                    </div>
+                    <p className='pragraph' style={{ padding: '25px', textAlign: 'justify' }}>Saving your project as a draft allows you to store your progress without publishing it publicly. You can continue working on it later and publish it when you're ready. Drafts are not visible to others until you choose to publish them.
+                    </p>
+
+
+
+                    <div className="meeting_modal_footer">
+                        <button type='button' className='btn btn-dark' onClick={closeModal}>Cancel</button>
+                        <button type='submit' onClick={handleSubmitVisibility} className='btn btn-dark'>Submit</button>
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 };

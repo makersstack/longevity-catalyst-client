@@ -7,20 +7,20 @@ import DashboardMenu from '../../components/userPanel/DashboardMenu';
 import useAuth from '../../hooks/useAuth';
 import ScrollToTop from '../../utils/routeChange';
 // import calculateDurationFromNow from '../../utils/durationCalculate';
+import TopFilterButtons from '../../components/filter/TopFilterButtons';
 import ProjectCard from '../../components/project/ProjectCard';
 import ProjectCardSkeleton from '../../components/project/ProjectCardSkeleton';
+import { topFilterOptionsMyProject } from '../../data/filterData';
 
 const AllProject = () => {
     useEffect(() => {
         document.title = "My Projects - Longevity Catalyst";
     }, []);
     ScrollToTop();
-
     const { userInfo } = useAuth();
     const userName = userInfo?.username;
 
     const [isActiveMenu, setIsActiveMenu] = useState(false);
-    // const [isUserFound, setIsUserFound] = useState(false);
     const handelDashMenu = () => {
         setIsActiveMenu(!isActiveMenu);
     }
@@ -30,7 +30,7 @@ const AllProject = () => {
     const [page, setPage] = useState(1);
     const [moreCount, setMoreCount] = useState(0);
     const [totalProjecs, setTotalProjecs] = useState(0);
-    const [filters] = useState({
+    const [filters, setFilters] = useState({
         search: '',
         textsearch: '',
         selectedCategory: '',
@@ -39,7 +39,27 @@ const AllProject = () => {
         selectedRequiredSkills: [],
         selectedFundingStatus: '',
         selectedLanguage: '',
+        status: '',
     });
+
+
+    const [selectedTopOption, setSelectedTopOption] = useState('status');
+    const [isSideBarActive, setSideBarActive] = useState(false);
+    const [reFetch, setReFetch] = useState(false);
+    const handleTopOptionChange = (value) => {
+        setSelectedTopOption(value);
+        const filterType = 'status';
+
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterType]: value,
+        }));
+    };
+
+    const handelSideBarButton = (e) => {
+        e.preventDefault();
+        setSideBarActive(!isSideBarActive);
+    }
 
 
     useEffect(() => {
@@ -71,7 +91,7 @@ const AllProject = () => {
 
         }
         fetchLatestProjects();
-    }, [userName, page, filters]);
+    }, [userName, page, filters,reFetch]);
 
     useEffect(() => {
         setMoreCount(totalProjecs - projects.length);
@@ -81,11 +101,11 @@ const AllProject = () => {
     const handleLoadMore = () => {
         setPage((prevPage) => prevPage + 1);
     };
-  
+
     //   delete operation 
     const DeleteProject = async (projectId) => {
         try {
-            setProjects([]);
+            // setProjects([]);
             setIsLoading(true);
             if (!projectId) {
                 throw new Error('Project ID not provided');
@@ -95,9 +115,16 @@ const AllProject = () => {
             if (deleteSt?.success) {
                 if (response?.data?.data?.id) {
                     const updateProjectData = projects.filter(project => project.id !== response?.data?.data?.id);
-                    // setProjects(updateProjectData);
+                    setProjects(updateProjectData);
+                    if(updateProjectData.length < 1){
+                        setPage(1);
+                        setReFetch(true);
+                      
+                        console.log(updateProjectData.length);
+                        // fetchLatestProjects();
+                    }
                 }
-              
+
             }
             // Do others 
         } catch (error) {
@@ -127,6 +154,13 @@ const AllProject = () => {
                                 <h3 className="title">All Projects  </h3>
                             </div>
                             <div className='dashboard_all_projectBody'>
+
+                                <TopFilterButtons options={topFilterOptionsMyProject}
+                                    selectedOption={selectedTopOption}
+                                    onOptionChange={handleTopOptionChange}
+                                    handelSideBarButton={handelSideBarButton}
+                                />
+
                                 <div className="project_show_cash">
                                     {/* Render project cards */}
                                     {projects.length !== 0 && (

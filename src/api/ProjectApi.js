@@ -57,7 +57,6 @@ export const projectApi = {
         return `${key}=${encodeURIComponent(value)}`;
       })
       .join('&');
-
     const { page, limit } = paginationOptions;
 
     const paginationQuery = `page=${page}&limit=${limit}`;

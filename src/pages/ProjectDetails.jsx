@@ -91,20 +91,21 @@ const ProjectDetails = () => {
                   </div>
                 )} */}
                       {/* single block */}
-                      {projectData?.final_deliverable_details && (
+                      {projectData?.final_deliverable_details && projectData?.final_deliverable_details.length > 0 && (
                         <div className="details_block">
                           <h5 className="block_title">Description of Final Deliverable :</h5>
                           <ul>
-                            {
-                              JSON.parse(projectData?.final_deliverable_details).map((det, index) => (
-                                <li key={index}>
-                                  {det}
-                                </li>
+                            {Array.isArray(JSON.parse(projectData.final_deliverable_details)) ? (
+                              JSON.parse(projectData.final_deliverable_details).map((det, index) => (
+                                <li key={index}>{det}</li>
                               ))
-                            }
+                            ) : (
+                              <li>No final deliverable details available</li>
+                            )}
                           </ul>
                         </div>
                       )}
+
 
                       {/* single block */}
                       {projectData?.relevant_link && (
@@ -119,7 +120,7 @@ const ProjectDetails = () => {
                       )}
 
                       {/* single block */}
-                      {projectData?.relevant_literature_link && (
+                      {projectData?.relevant_literature_link && projectData?.relevant_literature_link.length > 0 && (
                         <div className="details_block">
                           <h5 className="block_title">Links to Relevant Literature :</h5>
                           <ul>
@@ -174,17 +175,22 @@ const ProjectDetails = () => {
                         </div>
                       </div>
 
-                      <div className="input_box">
-                        <h4> Keywords : </h4>
-                        <div className="input_box_keywords">
-                          
-                          {
-                            JSON.parse(projectData?.project_keywords).map((key, index) => (
-                              <p className='show_ct' key={index}>{key}</p>
-                            ))
-                          }
-                        </div>
-                      </div>
+                      {
+                        projectData?.project_keywords && projectData?.project_keywords.length > 0 && (
+                          <div className="input_box">
+                            <h4> Keywords : </h4>
+                            <div className="input_box_keywords">
+
+                              {
+                                JSON.parse(projectData?.project_keywords).map((key, index) => (
+                                  <p className='show_ct' key={index}>{key}</p>
+                                ))
+                              }
+                            </div>
+                          </div>
+                        )
+                      }
+
 
                       <div className="input_box">
                         <h4> Onsite Requirement : </h4>
@@ -217,15 +223,15 @@ const ProjectDetails = () => {
                           <p className='show_ct'>{projectData?.Category.category_name ? projectData?.Category.category_name : 'N/A'}</p>
                         </div>
                       </div>
-                      {projectData?.required_skill_list && (
+                      {projectData?.skills && (
                         <div className="input_box required_skills">
                           <h4> Required Skills </h4>
                           <div className="required_skills_tags">
                             {
-                              JSON.parse(projectData?.required_skill_list).map((skill, index) => (
+                              projectData?.skills.map((skill, index) => (
                                 <div className="required_skill_single" key={index}>
                                   <PiCheckThin />
-                                  <p>{skill}</p>
+                                  <p>{skill.skillName}</p>
                                 </div>
                               ))
                             }
@@ -263,8 +269,8 @@ const ProjectDetails = () => {
               </div>
             </div>
           </section>
-        ) 
-      )  }
+        )
+      )}
     </>
   );
 };
