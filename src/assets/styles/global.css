@@ -1,11 +1,11 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
-*,
 *:after,
 *:before {
-  box-sizing: border-box;
+  box-sizing: inherit;
 }
 html {
   font-size: 62.5%;
@@ -40,10 +40,19 @@ h2,
 h3,
 h4,
 h5,
-h6,
+h6 {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
 p {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 ul {
   margin: 0;
@@ -59,6 +68,9 @@ input {
   font-size: inherit;
   border: none;
   outline: none;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 button {
   border: none;
@@ -546,12 +558,27 @@ input[type="radio"] {
   margin: 14px 0;
 }
 .truncate-text {
-  max-width: 100%; /* Set the maximum width of the <p> tag */
+  max-width: 190px; /* Set the maximum width of the <p> tag */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
+/* For meeting modal */
+.meeting_modal .title {
+  font-size: 24px;
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+.meeting_modal .pragraph {
+  padding-bottom: 20px;
+}
+.meeting_modal_footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 25px;
+  padding-top: 25px;
+}
 /* ------------------------------------------------------------------------------- */
 /* --- Custom Modal CSS --- */
 /* ------------------------------------------------------------------------------- */
@@ -670,7 +697,17 @@ input[type="radio"] {
 /* end global css  */
 
 /* Maker Shihab */
-
+.keywordText_pragraph,
+.keywordText {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+.form_control {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
 .form_control:not(:last-child) {
   padding-bottom: 20px;
 }
@@ -738,7 +775,7 @@ input[type="radio"] {
   margin-top: 5px;
 }
 .list_input {
-  flex: 0 0 70%;
+  flex: 0 0 calc(70% - 10px);
 }
 .inputhr {
   margin-bottom: 20px;
@@ -752,14 +789,10 @@ input:read-only:hover,
 input:disabled:hover,
 input:read-only,
 input:disabled {
-  /* Apply styles to all disabled input elements */
   pointer-events: none;
-  opacity: 0.6; /* Or any opacity value to visually indicate it's disabled */
-  /* Additional styles for appearance */
-  background-color: #f2f2f2; /* Change the background color */
-  color: #999; /* Change the text color */
-  border: 1px solid #ccc; /* Change the border */
-  /* Any other styles you want to apply */
+  background-color: #f2f2f2;
+  color: #9999997c;
+  border: 1px solid #ccc;
 }
 
 /* Add Project Page */
@@ -926,6 +959,10 @@ input:disabled {
 .al_add_comment_box {
   padding-top: 20px;
 }
+.al_add_comment_box textarea {
+  width: 100%;
+  resize: vertical;
+}
 /* For Header */
 .delete_modal_body {
   padding: 20px 15px;
@@ -997,15 +1034,17 @@ input:disabled {
 }
 .list_input_pass .password-toggle-btn {
   position: absolute;
-  top: 5px;
-  height: 35px;
-  width: 30px;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  right: 10px;
-  color: #344054b2;
+  right: 0;
+  border-radius: 0 8px 8px 0;
+  height: 100%;
+  color: #fff;
   font-size: 18px;
+  width: 44px;
+  background: #383838;
 }
 @keyframes spinning {
   0% {
@@ -1040,6 +1079,51 @@ input:disabled {
 }
 .project_more_btn {
   padding: 7px !important;
+}
+/* ToolTip */
+/* tooltip.css */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+.tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+/* ToolTip */
+/* Global Header */
+.content__header {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.content__header h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.content__header p {
+  color: #666;
+  font-size: 16px;
 }
 
 .visibility_modal .modal_body {

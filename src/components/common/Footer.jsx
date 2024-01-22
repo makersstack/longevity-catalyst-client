@@ -48,12 +48,12 @@ const Footer = () => {
                 </Link>
                 {/* footer menus */}
                 <ul>
-                  <li> <Link to='/'>Overview</Link></li>
-                  <li> <Link to='/'>Features</Link></li>
-                  <li> <Link to='/'>Pricing</Link></li>
-                  <li> <Link to='/'>Careers</Link></li>
-                  <li> <Link to='/'>Help</Link></li>
-                  <li> <Link to='/'>Privacy</Link></li>
+                  <li> <Link to='/overview'>Overview</Link></li>
+                  <li> <Link to='/features'>Features</Link></li>
+                  <li> <Link to='/pricing'>Pricing</Link></li>
+                  <li> <Link to='/careers'>Careers</Link></li>
+                  <li> <Link to='/help'>Help</Link></li>
+                  <li> <Link to='/privacy'>Privacy</Link></li>
                   <li> <Link to='/faqs'>FAQ's</Link></li>
                   <li> <Link to='/about'>About</Link></li>
                 </ul>
@@ -79,21 +79,21 @@ const Footer = () => {
             {/* footer bottom area */}
             <div className="footer_bottom_area">
               <p className="copyright_text">
-                © {currentYear} <Link to='/'>LC Limited</Link>. All rights reserved.
+                &copy;{currentYear} <Link to='/'>LC Limited</Link>. All rights reserved.
               </p>
               <ul>
                 <li>
-                  <Link to='/'>
+                  <Link to='/terms'>
                     Terms
                   </Link>
                 </li>
                 <li>
-                  <Link to='/'>
+                  <Link to='/privacy'>
                     Privacy
                   </Link>
                 </li>
                 <li>
-                  <Link to='/'>
+                  <Link to='/cookies'>
                     Cookies
                   </Link>
                 </li>

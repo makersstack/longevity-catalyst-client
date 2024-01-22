@@ -103,6 +103,7 @@
   color: #667085;
   padding-top: 20px;
   display: -webkit-box;
+  word-break: break-all;
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: 3;
@@ -228,6 +229,9 @@
   font-weight: 400;
   line-height: normal;
   transition: 0.3s;
+}
+.post-features p {
+  overflow: inherit;
 }
 .post-features a:hover {
   text-decoration: underline;
