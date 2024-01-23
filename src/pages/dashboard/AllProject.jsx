@@ -91,7 +91,7 @@ const AllProject = () => {
 
         }
         fetchLatestProjects();
-    }, [userName, page, filters,reFetch]);
+    }, [userName, page, filters, reFetch]);
 
     useEffect(() => {
         setMoreCount(totalProjecs - projects.length);
@@ -116,10 +116,10 @@ const AllProject = () => {
                 if (response?.data?.data?.id) {
                     const updateProjectData = projects.filter(project => project.id !== response?.data?.data?.id);
                     setProjects(updateProjectData);
-                    if(updateProjectData.length < 1){
+                    if (updateProjectData.length < 1) {
                         setPage(1);
                         setReFetch(true);
-                      
+
                         console.log(updateProjectData.length);
                         // fetchLatestProjects();
                     }
@@ -141,7 +141,7 @@ const AllProject = () => {
 
     return (
         <>
-            <section className="full_widht_auth_section">
+            <section className="full_widht_auth_section allProject_data">
                 <div className="container">
                     <div className="dashboard">
                         <DashboardMenu isActiveMenu={isActiveMenu} />
@@ -154,13 +154,13 @@ const AllProject = () => {
                                 <h3 className="title">All Projects  </h3>
                             </div>
                             <div className='dashboard_all_projectBody'>
-
-                                <TopFilterButtons options={topFilterOptionsMyProject}
-                                    selectedOption={selectedTopOption}
-                                    onOptionChange={handleTopOptionChange}
-                                    handelSideBarButton={handelSideBarButton}
-                                />
-
+                                <div className='project_show_top_searchbar'>
+                                    <TopFilterButtons options={topFilterOptionsMyProject}
+                                        selectedOption={selectedTopOption}
+                                        onOptionChange={handleTopOptionChange}
+                                        handelSideBarButton={handelSideBarButton}
+                                    />
+                                </div>
                                 <div className="project_show_cash">
                                     {/* Render project cards */}
                                     {projects.length !== 0 && (

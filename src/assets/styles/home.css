@@ -373,7 +373,21 @@
 /* RESPONSIVE CSS   */
 /* --------------------------------- */
 /* For 991px breakpoint and smaller */
+@media (max-width: 1200px) {
+  .project_side_ber_container {
+    padding: 10px;
+  }
+  .project_show_container {
+    padding: 10px;
+  }
+  .project_short_filter {
+    margin-bottom: 20px;
+  }
+}
 @media (max-width: 991px) {
+  .project_show_container {
+    width: 100%;
+  }
   .full_width_banner_section {
     padding-top: 60px;
   }
@@ -401,4 +415,17 @@
 
 /* For 576px breakpoint and smaller */
 @media (max-width: 576px) {
+  .full_width_trading_project_section {
+    padding-bottom: 35px;
+  }
+  .trading_project_box .slick-slider {
+    padding-bottom: 10px;
+  }
+  .full_width_trading_project_section .slick-dots li button::before {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  .project_short_filter {
+    gap: 10px;
+  }
 }

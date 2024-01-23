@@ -6,8 +6,8 @@
 }
 .dashboard_menu_profile {
   display: flex;
-  align-items: center;
-  column-gap: 15px;
+  align-items: flex-start;
+  column-gap: 10px;
   padding: 10px;
   padding-top: 25px;
   border-bottom: 1px solid #eaecf0;
@@ -94,6 +94,9 @@
 }
 
 @media (max-width: 991px) {
+  .dashboard {
+    position: relative;
+  }
   .al_des_menu_mob {
     display: none;
   }
@@ -103,6 +106,17 @@
   }
   .dashboard_menu.activemenu {
     display: block;
+    position: absolute;
+    top: 63px;
+    left: 0;
+    max-width: 100%;
+    width: 100%;
+    opacity: 1;
+    visibility: visible;
+    height: calc(100% - 63px);
+    z-index: 9;
+    background: #fff;
+    border-radius: 0px 0px 8px 8px;
   }
 }
 

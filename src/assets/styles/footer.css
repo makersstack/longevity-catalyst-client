@@ -56,7 +56,9 @@ footer ul li a:hover {
   justify-content: space-between;
   align-items: center;
   align-content: center;
-  margin-top: 7rem;
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #363636;
 }
 .footer_bottom_area ul {
   display: flex;
@@ -64,11 +66,16 @@ footer ul li a:hover {
   align-content: center;
   align-items: center;
   gap: 1rem;
+  column-gap: 15px;
+}
+.footer_bottom_area ul li a {
+  color: #aaa;
 }
 .copyright_text {
   color: #aaa;
   font-weight: 400;
   line-height: 24px;
+  font-size: 14px;
 }
 .copyright_text a {
   color: #aaa;
@@ -126,5 +133,11 @@ footer ul li a:hover {
 @media (max-width: 576px) {
   .footer_bottom_area {
     flex-direction: column-reverse;
+  }
+  .footer_bottom_area ul {
+    padding-bottom: 5px;
+  }
+  footer ul li a {
+    font-size: 1.5rem;
   }
 }

@@ -86,7 +86,7 @@ const ProjectFeed = () => {
 
   useEffect(() => {
     setMoreCount(totalProjecs - projects.length);
- 
+
 
   }, [totalProjecs, projects]);
 
@@ -114,7 +114,7 @@ const ProjectFeed = () => {
     } = filters;
     return projects.filter((project) => {
       if (selectedCategory && project.project_keywords !== selectedCategory) {
-        
+
       }
       return true;
     });
@@ -196,11 +196,13 @@ const ProjectFeed = () => {
         />
         {/* project show container */}
         <div className="project_show_container">
-          <TopFilterButtons options={topFilterOptionsPage1}
-            selectedOption={selectedTopOption}
-            onOptionChange={handleTopOptionChange}
-            handelSideBarButton={handelSideBarButton}
-          />
+          <div className='project_show_top_searchbar'>
+            <TopFilterButtons options={topFilterOptionsPage1}
+              selectedOption={selectedTopOption}
+              onOptionChange={handleTopOptionChange}
+              handelSideBarButton={handelSideBarButton}
+            />
+          </div>
           {/* project show container */}
           <div className="project_show_cash">
             {/* Render project cards */}
@@ -210,7 +212,7 @@ const ProjectFeed = () => {
                 <ProjectCard key={project.id} project={project} />
               ))
             )}
-            
+
             {!isLoading && filteredProjects.length === 0 && (
               <p>No projects found</p>
             )}

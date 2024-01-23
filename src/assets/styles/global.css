@@ -72,6 +72,13 @@ input {
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
+/* CSS */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 button {
   border: none;
   outline: none;
@@ -697,6 +704,18 @@ input[type="radio"] {
 /* end global css  */
 
 /* Maker Shihab */
+.form_control_skills {
+  margin-bottom: 15px;
+}
+.dashboard_menu_profile_title a {
+  display: block;
+  line-height: 1.2;
+  color: inherit;
+}
+.dashboard_menu_profile_title a:hover {
+  text-decoration: underline;
+  color: #000;
+}
 .keywordText_pragraph,
 .keywordText {
   overflow-x: hidden;
@@ -955,6 +974,7 @@ input:disabled {
 /* For Dashboard Fetch All Project by user */
 .dashboard_all_projectBody {
   padding: 20px;
+  min-height: 350px;
 }
 .al_add_comment_box {
   padding-top: 20px;
@@ -1092,11 +1112,12 @@ input:disabled {
   opacity: 0;
   position: absolute;
   bottom: 125%;
+  font-size: 14px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
   color: #fff;
-  padding: 8px;
+  padding: 4px 8px;
   border-radius: 4px;
   white-space: nowrap;
   transition: visibility 0s, opacity 0.3s ease-in-out;
@@ -1125,7 +1146,27 @@ input:disabled {
   color: #666;
   font-size: 16px;
 }
+/* Maker */
+/* ScrollToTopButton.css */
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 25px;
+  background-color: #2e2e2e;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  /* display: none; */
+  border-radius: 50%;
+  font-size: 18px;
+  height: 50px;
+  width: 50px;
+}
 
+.scroll-to-top-button:hover {
+  opacity: 0.8;
+}
 .visibility_modal .modal_body {
   display: inline-block;
   column-count: 2;
@@ -1133,7 +1174,9 @@ input:disabled {
   padding: 15px 0;
   padding-left: 90px !important;
 }
-
+.allProject_data .short_filter_button.al_resFilterBtn {
+  display: none !important;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */
@@ -1145,7 +1188,7 @@ input:disabled {
 /* For 991px breakpoint and smaller */
 @media (max-width: 991px) {
   h1 {
-    font-size: 50px;
+    font-size: 46px;
     line-height: 60px;
   }
   h2 {
@@ -1158,17 +1201,21 @@ input:disabled {
   }
   .section_padding {
     padding: 30px 0;
+    padding-top: 40px;
   }
   .btn-lg {
     padding: 14px 25px;
     font-size: 15px;
+  }
+  .others_menu {
+    padding-top: 15px;
   }
 }
 
 /* For 767px breakpoint and smaller */
 @media (max-width: 767px) {
   h1 {
-    font-size: 36px;
+    font-size: 32px;
     line-height: 45px;
   }
   h2 {
@@ -1190,19 +1237,97 @@ input:disabled {
   body {
     font-size: 14px;
   }
+  h1 {
+    font-size: 28px;
+    line-height: 40px;
+  }
   p {
-    font-size: 14px;
+    font-size: 15px;
+  }
+  h2 {
+    font-size: 24px;
+    line-height: 36px;
+  }
+  h3 {
+    font-size: 18px;
+    line-height: 1.5;
   }
   h5 {
     font-size: 16px;
     line-height: 28px;
   }
-
   .section_header {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
   }
   .section_header p {
     font-size: 16px;
     line-height: 24px;
+  }
+  .btn-lg {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  .post-features p {
+    font-size: 13px;
+  }
+  .inputhr {
+    margin-bottom: 10px;
+    margin-top: 0px;
+  }
+  .form_control:not(:last-child) {
+    padding-bottom: 15px;
+  }
+  .form_control label {
+    font-size: 14px;
+    /* padding-bottom: 0px; */
+  }
+  .editUpdateSection .form_control label {
+    padding-bottom: 0px;
+  }
+  .editUpdateSection .list_input_box {
+    gap: 5px;
+  }
+  .section_padding {
+    padding-bottom: 20px;
+  }
+  .socail_modal {
+    padding: 10px;
+  }
+  .react-responsive-modal-modal {
+    max-width: 450px;
+    padding: 20px 15px 15px 16px;
+  }
+  .socail_modal_list {
+    column-gap: 10px;
+    padding: 20px 0;
+  }
+}
+@media (max-width: 500px) {
+  .react-responsive-modal-modal {
+    max-width: 400px;
+    padding: 20px 15px 15px 16px;
+  }
+  .socail_modal_list button {
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+  }
+  .socail_modal_list_single span {
+    font-size: 12px;
+  }
+  .react-responsive-modal-closeButton svg {
+    font-size: 14px;
+    height: 20px;
+    width: 20px;
+  }
+  .react-responsive-modal-closeButton {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media (max-width: 450px) {
+  .react-responsive-modal-modal {
+    max-width: 350px;
+    padding: 20px 15px 15px 16px;
   }
 }
