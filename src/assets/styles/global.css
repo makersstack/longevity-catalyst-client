@@ -95,8 +95,19 @@ textarea {
   display: flex;
   justify-content: space-between;
 }
-.two_columns div {
+.two_columns .form_control {
   flex: 0 0 calc(50% - 15px);
+}
+
+.addProjectCtSelect .css-hlgwow {
+  flex-basis: calc(75% - 15px) !important;
+}
+.addProjectCtSelect .css-1jqq78o-placeholder {
+  flex-basis: calc(25% - 15px) !important;
+}
+.addProjectCtSelect .css-t3ipsp-control {
+  border-color: inherit !important;
+  box-shadow: none;
 }
 /* Some Extra for pre style */
 
@@ -727,6 +738,7 @@ input[type="radio"] {
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
+
 .form_control:not(:last-child) {
   padding-bottom: 20px;
 }
@@ -774,6 +786,11 @@ input[type="radio"] {
   border: 1px solid #d0d5dd;
   background: #fff;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+.form_control.adProjectFormControl {
+  overflow-x: inherit;
+  text-overflow: inherit;
+  word-wrap: inherit;
 }
 .form_subtitle {
   padding-bottom: 20px;

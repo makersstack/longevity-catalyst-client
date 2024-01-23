@@ -576,14 +576,14 @@ const AddProject = () => {
 
 
                                     {/* <!-- Single Input --> */}
-                                    <div className="form_control">
+                                    <div className="form_control adProjectFormControl">
                                         <label htmlFor="required_skill_list"
                                         >List the skills that this project will require.
                                         </label>
 
                                         {/* <ListInput type={'textarea'} alName={'required_skill_list'} getValue={required_skill_list} setValue={set_required_skill_list} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." /> */}
 
-                                        <div>
+                                        <div className='addProjectCtSelect'>
                                             <Select
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
