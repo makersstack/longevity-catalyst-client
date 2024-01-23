@@ -742,6 +742,7 @@ input[type="radio"] {
 .form_control:not(:last-child) {
   padding-bottom: 20px;
 }
+
 .form_control label {
   display: block;
   color: #344054b2;
@@ -833,6 +834,12 @@ input:disabled {
 
 /* Add Project Page */
 /* Maker Shihab */
+.extraTitleForBreaker {
+  padding-top: 50px;
+}
+.meeting_modal .modal_body {
+  padding: 0 20px;
+}
 /* For modal */
 
 .react-responsive-modal-modal {
@@ -1227,6 +1234,12 @@ input:disabled {
   .others_menu {
     padding-top: 15px;
   }
+  .extraTitleForBreaker {
+    padding-top: 40px;
+  }
+  .meeting_modal .modal_body {
+    padding: 0 10px;
+  }
 }
 
 /* For 767px breakpoint and smaller */
@@ -1318,6 +1331,10 @@ input:disabled {
     column-gap: 10px;
     padding: 20px 0;
   }
+  .extraTitleForBreaker {
+    padding-top: 20px;
+    font-size: 20px;
+  }
 }
 @media (max-width: 500px) {
   .react-responsive-modal-modal {
@@ -1340,6 +1357,10 @@ input:disabled {
   .react-responsive-modal-closeButton {
     width: 25px;
     height: 25px;
+  }
+  .extraTitleForBreaker {
+    padding-top: 15px;
+    font-size: 18px;
   }
 }
 @media (max-width: 450px) {

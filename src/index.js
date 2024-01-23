@@ -7,11 +7,11 @@ import AuthProvider from './contexts/AuthContext';
 
 ReactDOM.render(
   <ErrorBoundary>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <AuthProvider>
         <App />
       </AuthProvider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </ErrorBoundary>,
   document.getElementById('root')
 );

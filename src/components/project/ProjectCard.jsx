@@ -28,7 +28,6 @@ const ProjectCard = ({ project, othersOperationData }) => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
     return (
         <div className="card" key={project.id}>
             {/* card header */}
@@ -99,8 +98,8 @@ const ProjectCard = ({ project, othersOperationData }) => {
                     </Link>
                     {/* </button> */}
                     <div className="post-features">
-                        <p>{project.commentsCount} Comments</p> <span></span>
-                        <p>{project.sharesCount} Shares</p>
+                        <p>{project?.commentsCount} Comments</p>
+                        {/* <p>{project.sharesCount} Shares</p> */}
                     </div>
                 </div>
             </div>

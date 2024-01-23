@@ -38,14 +38,23 @@ const ProfileDetails = () => {
   const handelSideBarButton = (e) => {
     e.preventDefault();
   }
-  const handleTopOptionChange = (value) => {
+  // const handleTopOptionChange = (value) => {
+  //   setSelectedTopOption(value);
+  // };
+  const handletopFilter = (value) => {
     setSelectedTopOption(value);
+    const filterType = 'topFilter';
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
   };
+
 
   const [projects, setProjects] = useState([]);
   const [isUserFound, setIsUserFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [filters] = useState({
+  const [filters, setFilters] = useState({
     search: '',
     textsearch: '',
     selectedCategory: '',
@@ -55,6 +64,10 @@ const ProfileDetails = () => {
     selectedFundingStatus: '',
     selectedLanguage: '',
   });
+
+
+
+
   const [page, setPage] = useState(1);
   const [moreCount, setMoreCount] = useState(0);
   const [totalProjecs, setTotalProjecs] = useState(0);
@@ -369,7 +382,7 @@ const ProfileDetails = () => {
                   <div className='project_show_top_searchbar'>
                     <TopFilterButtons options={topFilterOptionsPage1}
                       selectedOption={selectedTopOption}
-                      onOptionChange={handleTopOptionChange}
+                      onOptionChange={handletopFilter}
                       handelSideBarButton={handelSideBarButton}
                     />
                   </div>
