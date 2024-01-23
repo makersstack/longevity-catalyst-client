@@ -3,6 +3,8 @@
 /* ------------------------------------------------------------------------------- */
 header {
   padding: 28px 0px;
+  position: relative;
+  z-index: 99999;
 }
 .header_wrapper {
   display: flex;
