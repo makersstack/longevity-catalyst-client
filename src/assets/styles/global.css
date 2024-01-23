@@ -1174,7 +1174,9 @@ input:disabled {
   padding: 15px 0;
   padding-left: 90px !important;
 }
-
+.allProject_data .short_filter_button.al_resFilterBtn {
+  display: none !important;
+}
 /* ----------------------------------- */
 /* RESPONSIVE CSS FOR GLOBAL  */
 /* --------------------------------- */

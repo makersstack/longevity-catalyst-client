@@ -44,6 +44,7 @@
 .full_widht_auth_section {
   padding-top: 20px;
   padding-bottom: 100px;
+  position: relative;
 }
 .have_auth_msg {
   text-align: center;
