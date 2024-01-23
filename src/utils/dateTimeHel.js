@@ -4,13 +4,20 @@ function calculateDurationFromNow(createdAt) {
   const duration = currentTime - createdAtTime;
 
   const years = Math.floor(duration / (1000 * 60 * 60 * 24 * 365));
-  const days = Math.floor((duration % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+  const remainingDurationAfterYears = duration % (1000 * 60 * 60 * 24 * 365);
+
+  const months = Math.floor(remainingDurationAfterYears / (1000 * 60 * 60 * 24 * 30));
+  const remainingDurationAfterMonths = remainingDurationAfterYears % (1000 * 60 * 60 * 24 * 30);
+
+  const days = Math.floor(remainingDurationAfterMonths / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((remainingDurationAfterMonths % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((remainingDurationAfterMonths % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((remainingDurationAfterMonths % (1000 * 60)) / 1000);
 
   if (years > 0) {
     return `${years} year${years > 1 ? 's' : ''} ago`;
+  } else if (months > 0) {
+    return `${months} month${months > 1 ? 's' : ''} ago`;
   } else if (days > 0) {
     return `${days} day${days > 1 ? 's' : ''} ago`;
   } else if (hours > 0) {
@@ -21,6 +28,7 @@ function calculateDurationFromNow(createdAt) {
     return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
   }
 }
+
 
 
 const formatDateToString = (dateString, options) => {
