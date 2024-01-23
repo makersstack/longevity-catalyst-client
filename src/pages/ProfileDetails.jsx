@@ -262,7 +262,7 @@ const ProfileDetails = () => {
                       </div>
 
                       {
-                        userInformatin?.Skills && (
+                        userInformatin?.Skills && userInformatin?.Skills.length > 0 && (
                           <div className="side_bar_card">
                             <div className="input_box">
                               <h4>Skills : </h4>
