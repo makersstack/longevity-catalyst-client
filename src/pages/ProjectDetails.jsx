@@ -94,8 +94,10 @@ const ProjectDetails = () => {
                         <div className="meeting_modal">
                           <h2 className='title'>Meeting Schedule Modal</h2>
                           <p className='pragraph'>Modal content </p>
-                          <div className="form_control">
-                            <input type="number" placeholder='Enter your date and time' />
+                          <div className="modal_body">
+                            <div className="form_control">
+                              <input type="number" placeholder='Enter your date and time' />
+                            </div>
                           </div>
 
                           <div className="meeting_modal_footer">

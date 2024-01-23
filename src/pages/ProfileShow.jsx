@@ -97,6 +97,15 @@ const ProfileShow = ({ rating }) => {
   const handleTopOptionChange = (value) => {
     setSelectedTopOption(value);
   };
+  const handletopFilter = (value) => {
+    console.log(value);
+    setSelectedTopOption(value);
+    const filterType = 'topFilter';
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  };
 
   // Sidebar Content
   function filterProjects(filters, projects) {
@@ -230,7 +239,7 @@ const ProfileShow = ({ rating }) => {
                   <div className='project_show_top_searchbar'>
                     <TopFilterButtons options={topFilterOptionsByUser}
                       selectedOption={selectedTopOption}
-                      onOptionChange={handleTopOptionChange} />
+                      onOptionChange={handletopFilter} />
                   </div>
                   {/* project show container */}
                   <div className="project_show_cash">

@@ -43,12 +43,13 @@
 .add_project_form {
   padding: 20px;
 }
-
+.dashboard_add_project .form_control {
+  padding-bottom: 20px;
+}
 .dasMenuBtn {
   font-size: 20px;
   display: none;
 }
-
 .upload_avater_withOld {
   display: flex;
   justify-content: flex-start;

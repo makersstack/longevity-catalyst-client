@@ -51,7 +51,7 @@ const AddProject = () => {
     const handleSubmitVisibility = (event) => {
         event.preventDefault();
         setIsModalOpen(false);
-        handelProjectSubmit(event,ENUM_PROJECT_STATUS.DRAFT);
+        handelProjectSubmit(event, ENUM_PROJECT_STATUS.DRAFT);
     }
 
 
@@ -102,7 +102,6 @@ const AddProject = () => {
 
     const [project_keywords, set_project_keywords] = useState({});
     // const [required_skill_list, set_required_skill_list] = useState({});
-    const [expected_cost, set_expected_cost] = useState({});
     const [final_deliverable_details, set_final_deliverable_details] = useState({});
     const [relevant_literature_link, set_relevant_literature_link] = useState({});
 
@@ -168,11 +167,19 @@ const AddProject = () => {
         setSelectValue(selectedValues.map((option) => option.value));
     }, [selectedValues]);
 
+    const [projectBudgetOptions, setProjectBudgetOptions] = useState('');
+    const [expectedCostBtn, setExpectedCostBtn] = useState(false);
+
+    useEffect(() => {
+        if (projectBudgetOptions === "I have a budget") {
+            setExpectedCostBtn(true);
+        } else {
+            setExpectedCostBtn(false);
+        }
+    }, [projectBudgetOptions]);
 
 
-
-
-    const handelProjectSubmit = async (event,statusVal) => {
+    const handelProjectSubmit = async (event, statusVal) => {
         event.preventDefault();
         setErrorMsg({});
         const formData = new FormData(formRef.current);
@@ -187,10 +194,6 @@ const AddProject = () => {
             formData.append('project_keywords', JSON.stringify(project_keywords.lists));
         }
 
-
-        if (expected_cost.lists.length !== 0) {
-            formData.append('expected_cost', JSON.stringify(expected_cost.lists));
-        }
         if (final_deliverable_details.lists.length !== 0) {
             formData.append('final_deliverable_details', JSON.stringify(final_deliverable_details.lists));
         }
@@ -467,7 +470,7 @@ const AddProject = () => {
 
                                 </div>
                                 {/* <!-- Form Sub Title Text --> */}
-                                <p className="form_subtitle">
+                                <p className="form_subtitle extraTitleForBreaker">
                                     Please provide your affiliation's address.
                                 </p>
                                 {/* <!-- Single Input --> */}
@@ -563,17 +566,9 @@ const AddProject = () => {
                                 <div className="two_columns">
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control">
-                                        <label >
-                                            How much experience will this project require? <span>*</span>
-                                        </label>
-
-                                        {
-                                            projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
-                                        }
-                                        {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
-
+                                        <label htmlFor="p_deadline"> What is your project deadline? </label>
+                                        <DatePickerInput id='p_deadline' name='p_deadline' />
                                     </div>
-
 
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control adProjectFormControl">
@@ -601,11 +596,18 @@ const AddProject = () => {
 
                                 <div className="two_columns">
                                     {/* <!-- Single Input --> */}
-                                    <div className="form_control">
-                                        <label htmlFor="p_deadline"> What is your project deadline? </label>
-                                        <DatePickerInput id='p_deadline' name='p_deadline' />
-                                    </div>
 
+                                    <div className="form_control">
+                                        <label >
+                                            How much experience will this project require? <span>*</span>
+                                        </label>
+
+                                        {
+                                            projectExperienceOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                        }
+                                        {errorMsg.projectExperience && <div className='error-msg'>{errorMsg.projectExperience}</div>}
+
+                                    </div>
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control">
                                         <label>
@@ -640,26 +642,14 @@ const AddProject = () => {
                                         </label>
 
                                         {
-                                            haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
+                                            haveProjectBudgetOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} onRadioChange={setProjectBudgetOptions} />)
                                         }
                                         {errorMsg.haveProjectBudget && <div className='error-msg'>{errorMsg.haveProjectBudget}</div>}
-
                                     </div>
 
                                 </div>
 
                                 <div className="two_columns">
-                                    {/* <!-- Single Input --> */}
-                                    <div className="form_control">
-                                        <label htmlFor="expected_cost"
-                                        >What is your budget or the expected cost of this project ?
-                                        </label>
-
-
-                                        <ListInput type={'textarea'} alName={'expected_cost'} getValue={expected_cost} setValue={set_expected_cost} onBlur={handleBlur} dots={true} placeholder="Write and press enter to listed.." />
-
-
-                                    </div>
                                     {/* <!-- Single Input --> */}
                                     <div className="form_control">
                                         <label >
@@ -668,8 +658,20 @@ const AddProject = () => {
                                         {
                                             readyToStartOption.map(singleData => <RadioButton key={singleData.key} radionData={singleData} />)
                                         }
-
                                     </div>
+                                    {/* <!-- Single Input --> */}
+                                    {
+                                        expectedCostBtn && (
+                                            <div className="form_control">
+                                                <label htmlFor="expected_cost"
+                                                >What is your budget or the expected cost of this project ?
+                                                </label>
+
+                                                <input name="expected_cost" id="expected_cost" placeholder="$0,000" />
+                                            </div>
+                                        )
+                                    }
+
                                 </div>
                                 <div className="two_columns">
                                     {/* <!-- Single Input --> */}

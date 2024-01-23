@@ -26,10 +26,18 @@ const ProjectFeed = () => {
 
   // Top Filter
   const [selectedTopOption, setSelectedTopOption] = useState('latest');
-
   const handleTopOptionChange = (value) => {
     setSelectedTopOption(value);
   };
+  const handletopFilter = (value) => {
+    setSelectedTopOption(value);
+    const filterType = 'topFilter';
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterType]: value,
+    }));
+  };
+
 
   const [filters, setFilters] = useState({
     search: '',
@@ -40,6 +48,8 @@ const ProjectFeed = () => {
     selectedRequiredSkills: [],
     selectedFundingStatus: '',
     selectedLanguage: '',
+    selectedTopOption: '',
+    topFilter: '',
   });
 
   useEffect(() => {
@@ -52,6 +62,7 @@ const ProjectFeed = () => {
           page,
           limit: 5,
         };
+
         const response = await projectApi.getAllProjects(filters, paginationOptions);
         const resSt = response?.data;
         if (resSt?.success) {
@@ -199,7 +210,7 @@ const ProjectFeed = () => {
           <div className='project_show_top_searchbar'>
             <TopFilterButtons options={topFilterOptionsPage1}
               selectedOption={selectedTopOption}
-              onOptionChange={handleTopOptionChange}
+              onOptionChange={handletopFilter}
               handelSideBarButton={handelSideBarButton}
             />
           </div>
